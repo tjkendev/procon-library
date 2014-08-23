@@ -30,7 +30,7 @@ typedef long long ll;
 typedef long double ld;
 typedef pair<int, int> P;
 //typedef pair<ll, ll> P;
-typedef <P, vector<P>, greater<P> > pvqueue;
+typedef priority_queue<P, vector<P>, greater<P> > pvqueue;
 
 int main() {
   return 0;
