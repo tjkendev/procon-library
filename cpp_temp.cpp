@@ -8,6 +8,7 @@
 #include<algorithm>
 #include<functional>
 #include<cstdio>
+#include<cstdlib>
 #include<cmath>
 using namespace std;
  
@@ -19,12 +20,17 @@ using namespace std;
 
 #define SP << " " <<
 #define COL << " : " <<
+#define ARR << " -> " <<
+#define PNT(STR) #STR
+#define POS(X,Y) "(" << X << ", " << Y << ")"
 #define DEB(A) cout << A << endl;
 #define DEBREP(i,n,val) for(int i=0; i<n; ++i) cout << val << " "; cout << endl;
 #define ALL(V) (V).begin(), (V).end()
 #define INF 1000000007
 #define EPS 1e-9
 
+typedef unsigned int uint;
+typedef unsigned long ulong;
 typedef unsigned long long ull;
 typedef long long ll;
 typedef long double ld;
