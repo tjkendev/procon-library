@@ -15,7 +15,10 @@ using namespace std;
 //#define min(a,b) (a>b?b:a)
 //#define max(a,b) (a>b?a:b)
 #define rep(i,n) for(int i=0; i<n; ++i)
+#define repr(i,n) for(int i=n-1; i>=n; --i)
 #define repl(i,s,n) for(int i=s; i<=n; ++i)
+#define replr(i,s,n) for(int i=n; i>=s; --i)
+#define repf(i,s,n,j) for(int i=s; i<=n; i+=j)
 #define repe(e,obj) for(auto e : obj)
 
 #define SP << " " <<
@@ -23,7 +26,7 @@ using namespace std;
 #define ARR << " -> " <<
 #define PNT(STR) #STR
 #define POS(X,Y) "(" << X << ", " << Y << ")"
-#define DEB(A) cout << A << endl;
+#define DEB(A) " (" << #A << ") " << A;
 #define DEBREP(i,n,val) for(int i=0; i<n; ++i) cout << val << " "; cout << endl;
 #define ALL(V) (V).begin(), (V).end()
 #define INF 1000000007
