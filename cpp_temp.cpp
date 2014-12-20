@@ -15,7 +15,7 @@ using namespace std;
 //#define min(a,b) (a>b?b:a)
 //#define max(a,b) (a>b?a:b)
 #define rep(i,n) for(int i=0; i<n; ++i)
-#define repr(i,n) for(int i=n-1; i>=n; --i)
+#define repr(i,n) for(int i=n-1; i>=0; --i)
 #define repl(i,s,n) for(int i=s; i<=n; ++i)
 #define replr(i,s,n) for(int i=n; i>=s; --i)
 #define repf(i,s,n,j) for(int i=s; i<=n; i+=j)
