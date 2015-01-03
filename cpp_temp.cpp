@@ -11,9 +11,11 @@
 #include<cstdlib>
 #include<cmath>
 using namespace std;
- 
-//#define min(a,b) (a>b?b:a)
-//#define max(a,b) (a>b?a:b)
+
+#define mind(a,b) (a>b?b:a)
+#define maxd(a,b) (a>b?a:b)
+#define absd(x) (x<0?-(x):x)
+#define pow2(x) ((x)*(x))
 #define rep(i,n) for(int i=0; i<n; ++i)
 #define repr(i,n) for(int i=n-1; i>=0; --i)
 #define repl(i,s,n) for(int i=s; i<=n; ++i)
@@ -23,13 +25,15 @@ using namespace std;
 
 #define SP << " " <<
 #define COL << " : " <<
+#define COM << ", " <<
 #define ARR << " -> " <<
-#define PNT(STR) #STR
+#define PNT(STR) cout << STR << endl
 #define POS(X,Y) "(" << X << ", " << Y << ")"
-#define DEB(A) " (" << #A << ") " << A;
-#define DEBREP(i,n,val) for(int i=0; i<n; ++i) cout << val << " "; cout << endl;
+#define DEB(A) " (" << #A << ") " << A
+#define DEBREP(i,n,val) for(int i=0; i<n; ++i) cout << val << " "; cout << endl
 #define ALL(V) (V).begin(), (V).end()
 #define INF 1000000007
+#define INFLL 10000000000000000007LL
 #define EPS 1e-9
 
 typedef unsigned int uint;
@@ -39,6 +43,9 @@ typedef long long ll;
 typedef long double ld;
 typedef pair<int, int> P;
 //typedef pair<ll, ll> P;
+typedef pair<P, int> PI;
+typedef pair<int, P> IP;
+typedef pair<P, P> PP;
 typedef priority_queue<P, vector<P>, greater<P> > pvqueue;
 
 int main() {
