@@ -30,7 +30,7 @@ class MaxFlow:
             flow += f
         return flow
 # Dinic algorithm
-import Queue
+import collections
 class Dinic:
     def __init__(self, n):
         self.n = n
@@ -43,15 +43,15 @@ class Dinic:
         self.g[v2].append([v1, cap2, len(self.g[v1])-1])
     def bfs(self, s):
         level = [-1]*self.n
-        que = Queue.Queue()
+        deq = collections.deque()
         level[s] = 0
-        que.put(s)
-        while not que.empty():
-            v = que.get()
+        deq.append(s)
+        while deq:
+            v = deq.popleft()
             for e in self.g[v]:
                 if e[1]>0 and level[e[0]]<0:
                     level[e[0]] = level[v] + 1
-                    que.put(e[0])
+                    deq.append(e[0])
         self.level = level
     def dfs(self, v, t, f):
         if v==t: return f
