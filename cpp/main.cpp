@@ -10,6 +10,8 @@
 #include<cstdio>
 #include<cstdlib>
 #include<cmath>
+#include<cassert>
+#include<ctime>
 using namespace std;
 
 #define mind(a,b) (a>b?b:a)
@@ -33,7 +35,7 @@ using namespace std;
 #define DEBREP(i,n,val) for(int i=0; i<n; ++i) cout << val << " "; cout << endl
 #define ALL(V) (V).begin(), (V).end()
 #define INF 1000000007
-#define INFLL 10000000000000000007LL
+#define INFLL 1000000000000000007LL
 #define EPS 1e-9
 
 typedef unsigned int uint;
@@ -41,10 +43,10 @@ typedef unsigned long ulong;
 typedef unsigned long long ull;
 typedef long long ll;
 typedef long double ld;
-typedef pair<int, int> P;
-//typedef pair<ll, ll> P;
-typedef pair<P, int> PI;
-typedef pair<int, P> IP;
+#define P_TYPE int
+typedef pair<P_TYPE, P_TYPE> P;
+typedef pair<P, P_TYPE> PI;
+typedef pair<P_TYPE, P> IP;
 typedef pair<P, P> PP;
 typedef priority_queue<P, vector<P>, greater<P> > pvqueue;
 
