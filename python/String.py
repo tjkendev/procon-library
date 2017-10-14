@@ -14,7 +14,7 @@ class SuffixArray:
         rank = [0]*(n+1); sa = [0]*(n+1)
         tmp = [0]*(n+1)
 
-        for i in xrange(n+1):
+        for i in range(n+1):
             sa[i] = i
             rank[i] = ord(s[i]) if i<n else -1
 
@@ -23,9 +23,9 @@ class SuffixArray:
         while k <= n:
             sa.sort(key=cmp_key)
             tmp[sa[0]] = 0
-            for i in xrange(1, n+1):
+            for i in range(1, n+1):
                 tmp[sa[i]] = tmp[sa[i-1]] + (cmp_key(sa[i-1])<cmp_key(sa[i]))
-            for i in xrange(n+1):
+            for i in range(n+1):
                 rank[i] = tmp[i]
             k *= 2
 
@@ -37,11 +37,11 @@ class SuffixArray:
         n = self.n; s = self.s; sa = self.sa
         lcp = [-1]*(n+1)
         rank = [0]*(n+1)
-        for i in xrange(n+1): rank[sa[i]] = i
+        for i in range(n+1): rank[sa[i]] = i
 
         h = 0
         lcp[0] = 0
-        for i in xrange(n):
+        for i in range(n):
             j = sa[rank[i] - 1]
             if h > 0: h -= 1
             while j+h < n and i+h < n and s[j+h]==s[i+h]:
@@ -79,9 +79,9 @@ def SuffixArray(s):
         SA = [0]*n
 
         t[-2] = 0; t[-1] = 1
-        for i in xrange(n-3, -1, -1):
+        for i in range(n-3, -1, -1):
             t[i] = 1 if s[i]<s[i+1] or (s[i]==s[i+1] and t[i+1]) else 0
-        for i in xrange(1, n):
+        for i in range(1, n):
             LMS[i] = 1 if t[i] and not t[i-1] else 0
 
         su = 0
@@ -94,8 +94,8 @@ def SuffixArray(s):
             bkts[k] = su
 
         for k in bkts: bkt[k] = bkts[k]
-        for i in xrange(n): SA[i] = -1
-        for i in xrange(1, n):
+        for i in range(n): SA[i] = -1
+        for i in range(1, n):
             if LMS[i]:
                 bkt[s[i]] -= 1
                 SA[bkt[s[i]]] = i
@@ -109,20 +109,20 @@ def SuffixArray(s):
                 SA[n1] = e
                 n1 += 1
 
-        for i in xrange(n1, n): SA[i] = -1
+        for i in range(n1, n): SA[i] = -1
         cnt = 0; prev = -1
-        for i in xrange(n1):
+        for i in range(n1):
             pos = SA[i]
-            for d in xrange(n):
+            for d in range(n):
                 if prev==-1 or s[pos+d]!=s[prev+d] or t[pos+d]!=t[prev+d]:
                     cnt += 1
                     prev = pos
                     break
                 elif LMS[pos+d] or LMS[prev+d]: break
-            pos /= 2
+            pos //= 2
             SA[n1+pos] = cnt-1
         j = n-1
-        for i in xrange(n-1, n1-1, -1):
+        for i in range(n-1, n1-1, -1):
             if SA[i]>=0:
                 SA[j] = SA[i]
                 j -= 1
@@ -130,18 +130,18 @@ def SuffixArray(s):
         if cnt<n1:
             SA[:n1] = SAIS(SA[-n1:], n1)
         else:
-            for i in xrange(n1): SA[SA[i-n1]] = i
+            for i in range(n1): SA[SA[i-n1]] = i
 
         for k in bkts: bkt[k] = bkts[k]
         j = 0
-        for i in xrange(1, n):
+        for i in range(1, n):
             if LMS[i]:
                 SA[j-n1] = i
                 j += 1
-        for i in xrange(n1): SA[i] = SA[SA[i]-n1]
-        for i in xrange(n1, n): SA[i] = -1
+        for i in range(n1): SA[i] = SA[SA[i]-n1]
+        for i in range(n1, n): SA[i] = -1
 
-        for i in xrange(n1-1, -1, -1):
+        for i in range(n1-1, -1, -1):
             j = SA[i]; SA[i] = -1
             bkt[s[j]] -= 1
             SA[bkt[s[j]]] = j
@@ -153,11 +153,11 @@ def SuffixArray(s):
 def LCP(s, n, sa):
     lcp = [-1]*(n+1)
     rank = [0]*(n+1)
-    for i in xrange(n+1): rank[sa[i]] = i
+    for i in range(n+1): rank[sa[i]] = i
 
     h = 0
     lcp[0] = 0
-    for i in xrange(n):
+    for i in range(n):
         j = sa[rank[i] - 1]
         if h > 0: h -= 1
         while j+h < n and i+h < n and s[j+h]==s[i+h]:
@@ -174,17 +174,17 @@ def SAIS(lst, num):
     l += 1
     res = [None] * l
     t = [1] * l
-    for i in xrange(l-2, -1, -1):
+    for i in range(l-2, -1, -1):
         t[i] = 1 if lst[i]<lst[i+1] or (lst[i]==lst[i+1] and t[i+1]) else 0
-    isLMS = [t[i-1]<t[i] for i in xrange(l)]
-    LMS = [i for i in xrange(1, l) if t[i-1]<t[i]]
+    isLMS = [t[i-1]<t[i] for i in range(l)]
+    LMS = [i for i in range(1, l) if t[i-1]<t[i]]
     LMSn = len(LMS)
 
     cbase = Counter(lst)
     count = cbase.copy()
     tmp = 0
     cstart = [0]*(num+1); cend = [0]*(num+1)
-    for key in xrange(num+1):
+    for key in range(num+1):
         cstart[key] = tmp
         count[key] += tmp
         cend[key] = tmp = count[key]
@@ -206,7 +206,7 @@ def SAIS(lst, num):
     pLMS = {}
     for e in res:
         if isLMS[e]:
-            for i in xrange(l):
+            for i in range(l):
                 if prev==-1 or lst[e+i]!=lst[prev+i]:
                     name += 1; prev = e
                     break
@@ -224,7 +224,7 @@ def SAIS(lst, num):
     res = [None]*l
     count = cbase
     tmp = 0
-    for key in xrange(num+1):
+    for key in range(num+1):
         cstart[key] = tmp
         count[key] += tmp
         cend[key] = tmp = count[key]
@@ -258,7 +258,7 @@ class RollingHash:
         self.base = base
         self.MOD = MOD
         self.h = h = [0]*(l + 1)
-        for i in xrange(l):
+        for i in range(l):
             h[i+1] = (h[i] * base + ord(s[i])) % MOD
     def get(self, l, r):
         MOD = self.MOD
@@ -271,10 +271,10 @@ def gen(a, b, num):
     result = set()
     while 1:
         while 1:
-            v = random.randint(a, b)/2*2+1
+            v = random.randint(a, b)//2*2+1
             if v not in result:
                 break
-        for x in xrange(3, int(math.sqrt(v))+1, 2):
+        for x in range(3, int(math.sqrt(v))+1, 2):
             if v % x == 0:
                 break
         else:
@@ -291,7 +291,7 @@ class RH():
         l = len(s)
         self.h = h = [0]*(l+1)
         tmp = 0
-        for i in xrange(l):
+        for i in range(l):
             num = ord(s[i])
             tmp = (tmp*base + num) % mod
             h[i+1] = tmp
