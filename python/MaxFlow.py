@@ -2,7 +2,7 @@
 class MaxFlow:
     def __init__(self, n):
         self.n = n
-        self.g = [[] for i in xrange(n)]
+        self.g = [[] for i in range(n)]
     def add_edge(self, fr, to, cap):
         self.g[fr].append([to, cap, len(self.g[to])])
         self.g[to].append([fr, 0, len(self.g[fr])-1])
@@ -34,7 +34,7 @@ import collections
 class Dinic:
     def __init__(self, n):
         self.n = n
-        self.g = [[] for i in xrange(n)]
+        self.g = [[] for i in range(n)]
     def add_edge(self, fr, to, cap):
         self.g[fr].append([to, cap, len(self.g[to])])
         self.g[to].append([fr, 0, len(self.g[fr])-1])
@@ -57,7 +57,7 @@ class Dinic:
         if v==t: return f
         es = self.g[v]
         level = self.level
-        for i in xrange(self.it[v], len(self.g[v])):
+        for i in range(self.it[v], len(self.g[v])):
             e = es[i]
             if e[1]>0 and level[v]<level[e[0]]:
                 d = self.dfs(e[0], t, min(f, e[1]))
@@ -90,21 +90,21 @@ class MinEdgeCover:
         self.dinic = dinic = Dinic(2+a+b)
         self.a = a; self.b = b
         self.fm = fm = {}; self.tm = tm = {}
-        for i in xrange(a):
+        for i in range(a):
             dinic.add_edge(0, 2+i, 1)
             fm[i] = dinic.g[0][-1]
-        for i in xrange(b):
+        for i in range(b):
             dinic.add_edge(2+a+i, 1, 1)
             tm[i] = dinic.g[2+a+i][-1]
     def add_edge(self, f, t):
         self.dinic.add_edge(2+f, 2+self.a+t, 1)
     def min_edge_cover(self):
         flow = self.dinic.max_flow(0, 1)
-        for i in xrange(self.a):
+        for i in range(self.a):
             cap = self.fm[i][1]
             if cap>0:
                 flow += 1
-        for i in xrange(self.b):
+        for i in range(self.b):
             cap = self.tm[i][1]
             if cap>0:
                 flow += 1
