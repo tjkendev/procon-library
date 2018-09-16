@@ -4,8 +4,8 @@ link:https://github.com/tjkendev[yaketake08]の競プロのためのテンプレ
 
 === python
 
-* link:./prime/index.html[素数判定法]
-* link:./union_find/index.html[Union-Find]
+* link:./python/prime/index.html[素数判定法]
+* link:./python/union_find/index.html[Union-Find]
 
 === C++
 

@@ -13,4 +13,4 @@ Union-Findでは以下の操作を行うことができる
 include::./python/union_find/union_find.py[]
 ----
 
-link:../index.html[戻る]
+link:../../index.html[戻る]

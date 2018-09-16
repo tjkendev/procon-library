@@ -18,4 +18,4 @@ include::./python/prime/fermat.py[]
 include::./python/prime/miller_rabin.py[]
 ----
 
-link:../index.html[戻る]
+link:../../index.html[戻る]
