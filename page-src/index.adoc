@@ -1,5 +1,7 @@
 == 競技プログラミングのライブラリ置き場
 
+link:https://github.com/tjkendev[yaketake08]の競プロのためのテンプレート/ライブラリ置き場です。
+
 === python
 
 * link:./prime/index.html[素数判定法]
