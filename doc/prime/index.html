@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>素数判定法</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/doc-src/stylesheet/github.css">
+
+<style>
+  .click .title { color: blue; }
+  .click {margin-top: 0.5em; margin-bottom: 0.5em;}
+  .openblock { margin-top: 1em; margin-bottom: 1em; }
+  .openblock>.box>.content { margin-top:1em;margin-bottom: 1em;margin-left:3em;margin-right:4em; }
+</style>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+
+
+
+var ready2;
+
+ready2 = function() {
+
+    $(document).ready(function(){
+
+        $('.openblock.click').click( function()  { $(this).find('.content').slideToggle('200'); } )
+        $('.openblock.click').find('.content').hide()
+
+
+        $('.listingblock.click').click( function()  { $(this).find('.content').slideToggle('200') }  )
+        $('.listingblock.click').find('.content').hide()
+
+    });
+
+}
+
+
+
+
+$(document).ready(ready2);
+$(document).on('page:load', ready2);
+
+
+</script>
+
+</head>
+
+
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_素数判定法">素数判定法</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_フェルマーテスト">フェルマーテスト</h3>
+<div class="paragraph">
+<p>巨大な数が素数であるかを判定する。</p>
+</div>
+<div class="paragraph">
+<p>カーマイケル数は判定が難しいため、ミラーラビン素数判定法を使うべき。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># -*- encoding: utf-8 -*-
+
+# フェルマーテスト
+# - カーマイケル数には弱い
+def fermat(k):
+    for t in xrange(1000):
+        a = randint(2, k-1)
+        if pow(a, k-1, k)!=1:
+            return 0
+    return 1</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ミラーラビン素数判定法">ミラーラビン素数判定法</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># -*- encoding: utf-8 -*-
+
+# ミラーラビン素数判定法
+def miller_rabin(n):
+    if n==2: return 1
+    if n==1 or n&amp;1==0: return 0
+    d = n-1
+    d /= d &amp; -d
+    for k in xrange(1000):
+        a = randint(1, n-1)
+        t = d
+        y = pow(a, t, n)
+        while t!=n-1 and y!=1 and y!=n-1:
+            y = y**2 % n
+            t &lt;&lt;= 1
+        if y!=n-1 and t&amp;1==0: return 0
+    return 1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href=../index.html>戻る</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2018-09-16 13:29:26 JST
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { extensions: ["mhchem.js"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+</body>
+</html>

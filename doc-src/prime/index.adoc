@@ -1,0 +1,21 @@
+== 素数判定法
+
+=== フェルマーテスト
+
+巨大な数が素数であるかを判定する。
+
+カーマイケル数の判定が難しいため、ミラーラビン素数判定法を使った方がよい。
+
+[source, python]
+----
+include::./python/prime/fermat.py[]
+----
+
+=== ミラーラビン素数判定法
+
+[source, python]
+----
+include::./python/prime/miller_rabin.py[]
+----
+
+link:../index.html[戻る]

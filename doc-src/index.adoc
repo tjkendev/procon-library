@@ -1,0 +1,12 @@
+== 競技プログラミングのライブラリ置き場
+
+=== python
+
+* link:./prime/index.html[素数判定法]
+* link:./union_find/index.html[Union-Find]
+
+=== C++
+
+=== JavaScript
+
+=== TypeScript
