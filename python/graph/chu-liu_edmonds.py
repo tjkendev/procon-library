@@ -1,12 +1,8 @@
-# -*- encoding: utf-8 -*-
-
 # Chu-Liu/Edmonds' Algorithm
 # 最小全域有向木を再帰的に求める
 # V: 頂点数, es: 辺集合, r: 根となる頂点番号
 # 辺１つ(s->tのコストw)は(s, t, w)のlistを持つ
 # 頂点は0..V-1
-# 解説付きコード
-# -> https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936
 def solve(V, es, r):
     mins = [(10**18, -1)]*V
     for s, t, w in es:

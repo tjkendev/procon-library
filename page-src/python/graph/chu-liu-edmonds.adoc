@@ -1,0 +1,23 @@
+= 最小全域有向木問題
+
+== 概要
+
+有向木$G = (V, E)$に対する最小全域木を求める問題
+
+== Chu-Liu/Edmonds' Algorithm
+
+解説を付けたコード:
+link:https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936[]
+
+計算量は$O(VE)$
+
+[source, python]
+----
+include::./python/graph/chu-liu_edmonds.py[]
+----
+
+=== Verified
+
+- AOJ: "GRL_2_B - Minimum-Cost Arborescence": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850894#1[source]
+
+link:../../index.html[戻る]
