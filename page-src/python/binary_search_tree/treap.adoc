@@ -1,4 +1,5 @@
 = Treap
+:title: {doctitle} - {pagetitle}
 
 == 概要
 

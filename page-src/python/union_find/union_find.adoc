@@ -1,4 +1,5 @@
 = Union-Find (素集合データ構造)
+:title: {doctitle} - {pagetitle}
 
 Union-Findでは以下の操作を行うことができる
 

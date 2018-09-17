@@ -1,4 +1,5 @@
 = 橋検出(with chain decompositions)
+:title: {doctitle} - {pagetitle}
 
 橋検出(Bridge-finding with chain decompositions)
 

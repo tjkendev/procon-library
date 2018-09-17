@@ -1,4 +1,5 @@
 = 最小全域有向木問題
+:title: {doctitle} - {pagetitle}
 
 == 概要
 

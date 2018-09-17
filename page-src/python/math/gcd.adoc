@@ -1,4 +1,5 @@
 = 最大公約数
+:title: {doctitle} - {pagetitle}
 
 最大公約数 (greatest common divisor, GCD)
 

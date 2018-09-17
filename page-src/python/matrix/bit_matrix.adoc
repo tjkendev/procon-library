@@ -1,4 +1,5 @@
 = ビット行列
+:title: {doctitle} - {pagetitle}
 
 == 概要
 

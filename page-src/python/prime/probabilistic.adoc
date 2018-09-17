@@ -1,4 +1,5 @@
 = 確率的素数判定
+:title: {doctitle} - {pagetitle}
 
 == フェルマーテスト
 
