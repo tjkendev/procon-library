@@ -1,8 +1,6 @@
 # gcd(greatest common divisor)
-
 def gcd(m, n):
-    if m<n: return gcd(n, m)
-    r = m%n
+    r = m % n
     return gcd(n, r) if r else n
 
 def extgcd(a, b):

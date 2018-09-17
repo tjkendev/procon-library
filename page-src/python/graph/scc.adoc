@@ -1,0 +1,20 @@
+= 強連結成分分解
+
+強連結成分分解(Strongly Connected Components)
+
+== 概要
+
+有向グラフ$G = (V, E)$における強連結の関係にある複数の頂点をひとまとまりにして分解する。
+
+計算量は$O(|V|)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/scc.py[]
+----
+
+***
+
+link:../../index.html[戻る]

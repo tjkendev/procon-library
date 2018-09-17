@@ -18,6 +18,6 @@ include::./python/graph/chu-liu_edmonds.py[]
 
 === Verified
 
-- AOJ: "GRL_2_B - Minimum-Cost Arborescence": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850894#1[source]
+- AOJ: "GRL_2_B - Minimum-Cost Arborescence": (Python2) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850894#1[source]
 
 link:../../index.html[戻る]

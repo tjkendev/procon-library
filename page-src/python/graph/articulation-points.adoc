@@ -1,0 +1,23 @@
+= 関節点検出
+
+関節点(articulation point)
+
+== 概要
+
+無向グラフ$G = (V, E)$における関節点(除去するとグラフが連結でなくなる頂点)を検出する。
+
+DFSでlowlinkを計算しながら関節点を求める。
+
+計算量は$O(|V|)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/articulation_points.py[]
+----
+
+
+***
+
+link:../../index.html[戻る]

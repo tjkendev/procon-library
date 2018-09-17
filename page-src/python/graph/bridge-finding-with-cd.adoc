@@ -1,0 +1,30 @@
+= 橋検出(with chain decompositions)
+
+橋検出(Bridge-finding with chain decompositions)
+
+== 概要
+
+グラフ$G = (V, E)$において橋(除去するとグラフが連結でなくなる辺)を検出する。
+
+計算量は$O(|V|)$
+
+== 実装
+
+橋検出して縮約したグラフを返す実装。
+多重辺にも対応できるようにしている。
+
+[source, python]
+----
+include::./python/graph/bridge-finding-with-cd.py[]
+----
+
+単純にグラフ内で橋となる辺(頂点のペア)を返す実装。
+
+[source, python]
+----
+include::./python/graph/bridge-finding-with-cd-simple.py[]
+----
+
+***
+
+link:../../index.html[戻る]

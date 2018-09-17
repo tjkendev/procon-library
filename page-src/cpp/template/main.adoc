@@ -1,0 +1,12 @@
+= C++実装テンプレート
+
+C++でコード書くときのテンプレート
+
+[source, cpp]
+----
+include::./cpp/template/main.cpp[]
+----
+
+***
+
+link:../../index.html[戻る]

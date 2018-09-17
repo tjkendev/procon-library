@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # Bridge-Finding with Chain Decompositions
 # 橋、二重辺連結成分分解
 # g: 隣接リスト, v: 頂点数, s: 探索開始地点

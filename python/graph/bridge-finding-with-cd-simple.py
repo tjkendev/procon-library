@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # 単純に橋となる辺を返す
 def bridge(G, N):
     result = set()

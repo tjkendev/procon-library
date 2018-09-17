@@ -1,0 +1,24 @@
+= Treap
+
+== 概要
+
+乱択アルゴリズムを用いた平衡2分探索木。
+平衡2分探索木の中では実装が簡単なアルゴリズム。
+
+木の高さは$O(\log N)$になる。
+
+== 実装
+
+[source, python]
+----
+include::./python/binary_search_tree/treap.py[]
+----
+
+=== Verified
+
+Pythonだと早くないため使うのは厳しい
+
+* (TLE) CSAcademy: "Squared Ends": (Python3) link:https://csacademy.com/submission/1404350/[source]
+
+***
+link:../../index.html[戻る]

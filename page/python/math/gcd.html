@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>確率的素数判定</title>
+<title>最大公約数</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
 
 <style>
@@ -53,80 +53,52 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>確率的素数判定</h1>
+<h1>最大公約数</h1>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_フェルマーテスト">フェルマーテスト</h2>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>巨大な数が素数であるかを判定する。</p>
-</div>
-<div class="paragraph">
-<p><a href=https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%83%9E%E3%82%A4%E3%82%B1%E3%83%AB%E6%95%B0>カーマイケル数</a> の判定が難しいため、ミラーラビン素数判定法を使った方がよい。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># フェルマーテスト
-import random
-def fermat(k):
-    for _ in xrange(1000):
-        a = random.randint(2, k-1)
-        if pow(a, k-1, k)!=1:
-            return 0
-    return 1</code></pre>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_verified">Verified</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>(WA) yukicoder: "No.308 素数は通れません": (Python2) <a href=https://yukicoder.me/submissions/61897>source</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>カーマイケル数で落ちてWA</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
+<p>最大公約数 (greatest common divisor, GCD)</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_ミラーラビン素数判定法">ミラーラビン素数判定法</h2>
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>2つの数 \(a, b\) について、\(a = a'g\), \(b = b'g\) (\(a', b'\) は互いに素)となるような\(g = gcd(a, b)\)を計算する。</p>
+</div>
+<div class="paragraph">
+<p>拡張されたGCDでは、 \(ax + by = g\) となるような \(x, y, g\) を計算する。</p>
+</div>
+<div class="paragraph">
+<p>また、最小公倍数(least common multiple, LCM)は \(\displaystyle \frac{ab}{gcd(a, b)}\) で計算する。</p>
+</div>
+<div class="paragraph">
+<p>GCDはPythonの標準パッケージに含まれている。
+(Python2であれば<code>fractions.gcd()</code>、Python3であれば<code>fractions.gcd()</code>もしくは<code>math.gcd()</code>)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># ミラーラビン素数判定法
-import random
-def miller_rabin(n):
-    if n==2: return 1
-    if n==1 or n&amp;1==0: return 0
-    d = n-1
-    d /= d &amp; -d
-    for _ in range(1000):
-        a = random.randint(1, n-1)
-        t = d
-        y = pow(a, t, n)
-        while t!=n-1 and y!=1 and y!=n-1:
-            y = y**2 % n
-            t &lt;&lt;= 1
-        if y!=n-1 and t&amp;1==0: return 0
-    return 1</code></pre>
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># gcd(greatest common divisor)
+def gcd(m, n):
+    r = m % n
+    return gcd(n, r) if r else n
+
+def extgcd(a, b):
+    if b:
+        d, y, x = extgcd(b, a%b)
+        y -= (a/b)*x
+        return d, x, y
+    else:
+        return a, 1, 0</code></pre>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_verified_2">Verified</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>yukicoder: "No.308 素数は通れません": (Python2) <a href=https://yukicoder.me/submissions/61936>source</a></p>
-</li>
-</ul>
 </div>
 <hr>
 <div class="paragraph">
@@ -135,10 +107,9 @@ def miller_rabin(n):
 </div>
 </div>
 </div>
-</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-17 22:44:42 JST
+Last updated 2018-09-17 23:14:30 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

@@ -1,19 +1,32 @@
 = 競技プログラミングのライブラリ置き場
 
-link:https://github.com/tjkendev[yaketake08] の競プロのためのテンプレート/ライブラリ置き場です。
+link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ライブラリ置き場
 
 == Python
 
 === 数学
 
+* link:./python/math/gcd.html[最大公約数]
 * link:./python/prime/probabilistic.html[確率的素数判定法]
 
 === 集合
 
 * link:./python/union_find/union_find.html[Union-Find]
 
+=== 二分木
+
+* link:./python/binary_search_tree/treap.html[Treap]
+
+=== Convex Hull Trick
+
+* link:./python/convex_hull_trick/li_chao_tree.html[Li Chao (Segment) Tree]
+* link:./python/convex_hull_trick/binary_search_tree.html[平衡二分探索木を用いたCHT]
+
 === グラフ
 
+* link:./python/graph/scc.html[強連結成分分解]
+* link:./python/graph/bridge-finding-with-cd.html[橋検出(with chain decompositions)]
+* link:./python/graph/articulation-points.html[関節点検出]
 * link:./python/graph/chu-liu-edmonds.html[最小全域有向木]
 
 === フロー
@@ -21,7 +34,14 @@ link:https://github.com/tjkendev[yaketake08] の競プロのためのテンプ�
 * link:./python/max_flow/max_flow.html[最大流問題]
 * link:./python/min_cost_flow/min_cost_flow.html[最小費用流問題]
 
+=== 行列・数列
+
+* link:./python/matrix/bit_matrix.html[ビット行列]
+
 == C++
+
+=== テンプレート
+* link:./cpp/template/main.html[実装テンプレート]
 
 == JavaScript
 

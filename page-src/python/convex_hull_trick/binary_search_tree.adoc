@@ -1,0 +1,28 @@
+= 平衡二分探索木を用いたConvex Hull Trick
+
+== 概要
+
+平衡二分探索木を用いてConvex Hull Trickを行う。
+
+最小値をとり得る$x$が存在する直線$y = ax + b$を傾き降順で管理し、$x = k$で最小値を取る直線を二分探索で求める。
+
+Pythonには標準で平衡二分探索木がないため、自力で実装する必要がある。(そして平衡二分探索木は処理が重いためつらい)
+
+計算量は$O((N + Q) \log N)$
+
+== 実装
+
+link:../binary_search_tree/treao.html[Treap] を用いた実装。
+
+[source, python]
+----
+include::./python/convex_hull_trick/cht_with_treap.py[]
+----
+
+=== Verified
+
+* (TLE) CSAcademy: "Squared Ends": (Python3) link:https://csacademy.com/submission/1404350/[source]
+
+***
+
+link:../../index.html[戻る]

@@ -38,4 +38,6 @@ Pythonが遅いのもあり、基本こちらを使った方がよい。
 include::./python/max_flow/dinic.py[]
 ----
 
+***
+
 link:../../index.html[戻る]

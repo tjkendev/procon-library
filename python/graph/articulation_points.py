@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 # 関節点(Articulation Points)
 def get_articulation_points(G, N, start=0):
     v_min = [0]*N; order = [None]*N

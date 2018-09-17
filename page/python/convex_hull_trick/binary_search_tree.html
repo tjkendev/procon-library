@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>最小全域有向木問題</title>
+<title>平衡二分探索木を用いたConvex Hull Trick</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
 
 <style>
@@ -53,84 +53,86 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>最小全域有向木問題</h1>
+<h1>平衡二分探索木を用いたConvex Hull Trick</h1>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>有向木\(G = (V, E)\)に対する最小全域木を求める問題</p>
+<p>平衡二分探索木を用いてConvex Hull Trickを行う。</p>
+</div>
+<div class="paragraph">
+<p>最小値をとり得る\(x\)が存在する直線\(y = ax + b\)を傾き降順で管理し、\(x = k\)で最小値を取る直線を二分探索で求める。</p>
+</div>
+<div class="paragraph">
+<p>Pythonには標準で平衡二分探索木がないため、自力で実装する必要がある。(そして平衡二分探索木は処理が重いためつらい)</p>
+</div>
+<div class="paragraph">
+<p>計算量は\(O((N + Q) \log N)\)</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_chu_liuedmonds_algorithm">Chu-Liu/Edmonds' Algorithm</h2>
+<h2 id="_実装">実装</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>解説を付けたコード:
-<a href=https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936>https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936</a></p>
-</div>
-<div class="paragraph">
-<p>計算量は\(O(VE)\)</p>
+<p><a href=../binary_search_tree/treao.html>Treap</a> を用いた実装。</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Chu-Liu/Edmonds' Algorithm
-# 最小全域有向木を再帰的に求める
-# V: 頂点数, es: 辺集合, r: 根となる頂点番号
-# 辺１つ(s-&gt;tのコストw)は(s, t, w)のlistを持つ
-# 頂点は0..V-1
-def solve(V, es, r):
-    mins = [(10**18, -1)]*V
-    for s, t, w in es:
-        mins[t] = min(mins[t], (w, s))
-    mins[r] = (-1, -1)
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Convex Hull Trick: O((N + Q)logN) with Treap
+class ConvexHullTrick:
+    def __init__(self):
+        self.A = Treap()
+        self.B = {}
 
-    group = [0]*V
-    comp = [0]*V
-    cnt = 0
+    def check(self, a1, a2, a3):
+        B = self.B
+        b1 = B[a1]; b2 = B[a2]; b3 = B[a3]
+        return (a2-a1)*(b3-b2) &gt;= (b2-b1)*(a3-a2)
 
-    used = [0]*V
-    for v in range(V):
-        if not used[v]:
-            chain = []
-            cur = v
-            while cur!=-1 and not used[cur]:
-                chain.append(cur)
-                used[cur] = 1
-                cur = mins[cur][1]
-            if cur!=-1:
-                cycle = 0
-                for e in chain:
-                    group[e] = cnt
-                    if e==cur:
-                        cycle = 1
-                        comp[cnt] = 1
-                    if not cycle:
-                        cnt += 1
-                if cycle:
-                    cnt += 1
-            else:
-                for e in chain:
-                    group[e] = cnt
-                    cnt += 1
-
-    if cnt == V:
-        return sum(map(lambda x:x[0], mins)) + 1
-
-    res = sum(mins[v][0] for v in range(V) if v!=r and comp[group[v]])
-
-    n_es = []
-    for s, t, w in es:
-        gs = group[s]; gt = group[t]
-        if gs == gt:
-            continue
-        if comp[gt]:
-            n_es.append((gs, gt, w - mins[t][0]))
+    def add(self, a, b):
+        B = self.B; A = self.A
+        if a in B:
+            if B[a] &lt; b:
+                return
+            B[a] = b
+            cur = A.find_node(a)
         else:
-            n_es.append((gs, gt, w))
-    return res + solve(cnt, n_es, group[r])</code></pre>
+            B[a] = b
+            node = A.find_node(a)
+            if node and node[6]:
+                a3 = node[6][0]; a1 = node[0]
+                # a1 &gt;= a &gt;= a3
+                if a1 &gt;= a &gt;= a3 and self.check(a1, a, a3):
+                    del B[a]
+                    return
+                cur = A.insert(a)
+            else:
+                cur = A.insert(a)
+        if cur and cur[6]:
+            p = cur[6]
+            while p and p[6] and p[7] and self.check(p[7][0], p[0], p[6][0]):
+                v = p[0]; p = p[6]; A.remove(v)
+                del B[v]
+        if cur and cur[7]:
+            p = cur[7]
+            while p and p[6] and p[7] and self.check(p[7][0], p[0], p[6][0]):
+                v = p[0]; p = p[7]; A.remove(v)
+                del B[v]
+
+    def empty(self):
+        return not self.B
+
+    def get(self, x):
+        B = self.B
+        calc = lambda a: a*x + B[a]
+        if len(B) == 1:
+            a, = B
+            return calc(a)
+        a = self.A.find_min(calc)
+        return calc(a)</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -138,10 +140,11 @@ def solve(V, es, r):
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "GRL_2_B - Minimum-Cost Arborescence": (Python2) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850894#1>source</a></p>
+<p>(TLE) CSAcademy: "Squared Ends": (Python3) <a href=https://csacademy.com/submission/1404350/>source</a></p>
 </li>
 </ul>
 </div>
+<hr>
 <div class="paragraph">
 <p><a href=../../index.html>戻る</a></p>
 </div>
@@ -151,7 +154,7 @@ def solve(V, es, r):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-17 22:43:47 JST
+Last updated 2018-09-17 22:37:41 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
