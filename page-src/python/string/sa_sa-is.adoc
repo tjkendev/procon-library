@@ -1,0 +1,26 @@
+= Suffix Array (SA-IS)
+:title: {doctitle} - {pagetitle}
+
+SA-IS(Suffix Array - Induced Sorting)によるSuffix Arrayの計算
+
+== 概要
+
+SA-ISでは、バケットソートをベースにしたInduced SortによってSuffix Arrayをほぼ線形で計算する。
+
+== 実装
+
+Suffix Arrayとして早いはずだけど、実装が重いのか遅い...
+
+[source, python]
+----
+include::./python/string/sa_sa-is.py[]
+----
+
+== 参考ページ
+
+- link:http://shogo82148.github.io/homepage/memo/algorithm/suffix-array/[Shogo Computing Laboratory - 接尾辞配列(Suffix Array)]
+- link:http://sile.hatenablog.jp/entry/20101213/1292190698[sileのブログ - SA-IS: SuffixArray線形構築]
+
+***
+link:../../index.html[戻る]
+

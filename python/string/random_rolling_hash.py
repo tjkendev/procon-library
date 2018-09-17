@@ -33,8 +33,11 @@ class RH():
         return (self.h[r] - self.h[l] + self.mod) * pow(self.rev, l, self.mod) % self.mod
 class RRH():
     def __init__(self, s, num=10):
+        # 2 ~ 1000の間の乱数でnum個のハッシュをとる
         param = (2, 10**3, num)
         MOD = 10**9+7
         self.rhs = [RH(s, p, MOD) for p in gen(*param)]
     def calc(self, l, r):
         return [rh.calc(l, r) for rh in self.rhs]
+
+# usage: RRH("abcd")

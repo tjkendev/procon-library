@@ -1,4 +1,13 @@
 # SA-IS (O(nlogn))
+# usage: SAIS(*chr_compression(<string>))
+
+# 文字コード値に0, 1, 2, ...の値に振り直す
+def chr_compression(s):
+    uniq = list(set(s))
+    uniq.sort()
+    return map({e: i+1 for i, e in enumerate(uniq)}.__getitem__, s), len(uniq)
+
+# 返り値はSuffix Array
 from collections import Counter
 def SAIS(lst, num):
     l = len(lst)
@@ -76,12 +85,9 @@ def SAIS(lst, num):
             res[cend[lst[e-1]]] = e-1
 
     return res
-def chr_compression(s):
-    uniq = list(set(s))
-    uniq.sort()
-    return map({e: i+1 for i, e in enumerate(uniq)}.__getitem__, s), len(uniq)
-# usage: SAIS(*chr_compression(<string>))
 
+# Longest Common Prefix
+# (文字列s, 文字列長n, Suffix Array)を引数として与える
 def LCP(s, n, sa):
     lcp = [-1]*(n+1)
     rank = [0]*(n+1)

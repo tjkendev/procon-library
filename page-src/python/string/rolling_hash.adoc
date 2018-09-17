@@ -1,0 +1,24 @@
+= Rolling Hash
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+Rolling Hashは文字列のハッシュによって文字列比較を高速に行う。
+
+ハッシュは衝突する可能性もある。衝突させにくくするには、複数のハッシュを計算して比較する等をすればよい。
+
+== 実装
+
+[source, python]
+----
+include::./python/string/rolling_hash.py[]
+----
+
+Rolling HashはHack可能なコンテストで使うと、ハッシュが衝突する入力で落とされる可能性がある。それに対応するため、乱数を使って狙って衝突させにくくした実装。
+[source, python]
+----
+include::./python/string/random_rolling_hash.py[]
+----
+
+***
+link:../../index.html[戻る]

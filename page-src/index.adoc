@@ -1,7 +1,7 @@
 :title: メインページ - {pagetitle}
 = {pagetitle}
 
-link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ライブラリ置き場
+link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ライブラリ等の置き場
 
 == Python
 
@@ -38,6 +38,11 @@ link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ラ
 === 行列・数列
 
 * link:./python/matrix/bit_matrix.html[ビット行列]
+
+=== 文字列
+
+* link:./python/string/rolling_hash.html[Rolling Hash]
+* link:./python/string/sa_sa-is.html[Suffix Array (SA-IS)]
 
 == C++
 
