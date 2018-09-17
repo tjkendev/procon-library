@@ -7,7 +7,7 @@ Li-Chao (Segment) Treeはセグメント木を用いてConvex Hull Trickを行�
 
 詳細はこちら(ブログ): link:http://smijake3.hatenablog.com/entry/2018/06/16/144548[Li Chao Treeのメモ]
 
-直線を管理するセグメント木は$O(\log N)$、線分を管理するセグメント木は$O(\log^2 N)$になる。
+直線を管理するセグメント木は一回の追加とクエリ処理が$O(\log N)$、線分を管理するセグメント木は一回の追加が$O(\log^2 N)$で一回のクエリ処理が$O(\log N)$になる。
 
 == 実装
 
