@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>最小全域有向木問題 - yaketake08の競プロ実装置き場</title>
+<title>Aho-Corasick Algorithm - yaketake08の競プロ実装置き場</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
 
 <style>
@@ -53,92 +53,86 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>最小全域有向木問題</h1>
+<h1>Aho-Corasick Algorithm</h1>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>有向木\(G = (V, E)\)に対する最小全域木を求める問題</p>
+<p>文字列探索アルゴリズム。</p>
+</div>
+<div class="paragraph">
+<p>ある文字列\(T\)について、\(N\)個の文字列\(s_1, s_2, ..., s_N\)の中からマッチする(最長の)文字列を線形に探索することができる。</p>
+</div>
+<div class="paragraph">
+<p>計算量は\(O(|T| + \sum_i |s_i|)\)</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_chu_liuedmonds_algorithm">Chu-Liu/Edmonds' Algorithm</h2>
+<h2 id="_実装">実装</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>解説を付けたコード:
-<a href=https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936>https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936</a></p>
-</div>
-<div class="paragraph">
-<p>計算量は\(O(VE)\)</p>
-</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Chu-Liu/Edmonds' Algorithm
-# 最小全域有向木を再帰的に求める
-# V: 頂点数, es: 辺集合, r: 根となる頂点番号
-# 辺１つ(s-&gt;tのコストw)は(s, t, w)のlistを持つ
-# 頂点は0..V-1
-def solve(V, es, r):
-    mins = [(10**18, -1)]*V
-    for s, t, w in es:
-        mins[t] = min(mins[t], (w, s))
-    mins[r] = (-1, -1)
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># この実装のnodeの説明
+#
+# node[0] ~ node[25]:
+#     'a' ~ 'z'が来た時の次のnode (failure関数の遷移先も含まれる)
+# node[-3] (node[27]):
+#     いずれかの文字の終端であるかを示す(1 = 終端である)
+# node[-2] (node[28]):
+#     このnodeが何文字目に位置するかを表す
+# node[-1] (node[29]):
+#     このnodeでfailureした時の遷移先
 
-    group = [0]*V
-    comp = [0]*V
-    cnt = 0
+from collections import deque
+base = ord('a')
+root = [None]*30
+root[-2] = 0; root[-3] = 0
 
-    used = [0]*V
-    for v in range(V):
-        if not used[v]:
-            chain = []
-            cur = v
-            while cur!=-1 and not used[cur]:
-                chain.append(cur)
-                used[cur] = 1
-                cur = mins[cur][1]
-            if cur!=-1:
-                cycle = 0
-                for e in chain:
-                    group[e] = cnt
-                    if e==cur:
-                        cycle = 1
-                        comp[cnt] = 1
-                    if not cycle:
-                        cnt += 1
-                if cycle:
-                    cnt += 1
+# 文字列sの追加
+def add(s):
+    node = root
+    for c in s:
+        code = ord(c) - base
+        child = node[code]
+        if not child:
+            node[code] = child = [None]*30
+            child[-2] = node[-2] + 1
+            child[-3] = 0
+        node = child
+    node[-3] = 1
+
+# BFSでfailure関数のリンクを構築
+def suffix():
+    que = deque([root])
+    while que:
+        v = que.popleft()
+        for i in range(26):
+            if not v[i]:
+                if v[-1]:
+                    v[i] = v[-1][i]
+                else:
+                    v[i] = root[i] or root
+                continue
+            if v[-1]:
+                v[i][-1] = v[-1][i]
             else:
-                for e in chain:
-                    group[e] = cnt
-                    cnt += 1
-
-    if cnt == V:
-        return sum(map(lambda x:x[0], mins)) + 1
-
-    res = sum(mins[v][0] for v in range(V) if v!=r and comp[group[v]])
-
-    n_es = []
-    for s, t, w in es:
-        gs = group[s]; gt = group[t]
-        if gs == gt:
-            continue
-        if comp[gt]:
-            n_es.append((gs, gt, w - mins[t][0]))
-        else:
-            n_es.append((gs, gt, w))
-    return res + solve(cnt, n_es, group[r])</code></pre>
+                v[i][-1] = root
+            que.append(v[i])
+    root[-1] = root</code></pre>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_verified">Verified</h3>
+<div class="paragraph">
+<p>Pythonだと重くてつらい</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "GRL_2_B - Minimum-Cost Arborescence": (Python2) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850894#1>source</a></p>
+<p>(TLE) AtCoder: "JAG Practice Contest for ACM-ICPC Asia Regional 2017 - H問題: Separate String": (PyPy3) <a href=https://jag2017autumn.contest.atcoder.jp/submissions/1799538>source</a></p>
 </li>
 </ul>
 </div>
@@ -151,7 +145,10 @@ def solve(V, es, r):
 <div class="ulist">
 <ul>
 <li>
-<p><a href=http://ti2236.hatenablog.com/entry/2012/12/07/175841>Chu-Liu/Edmonds のアルゴリズム - 情報科学と人口知能のノート</a></p>
+<p><a href=http://d.hatena.ne.jp/naoya/20090405/aho_corasick>Aho Corasick法 - naoyaのはてなダイアリー</a></p>
+</li>
+<li>
+<p><a href=http://algoogle.hadrori.jp/algorithm/aho-corasick.html>Aho-Corasick法 - Algoogle</a></p>
 </li>
 </ul>
 </div>
@@ -164,7 +161,7 @@ def solve(V, es, r):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-19 01:15:16 JST
+Last updated 2018-09-19 01:13:41 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

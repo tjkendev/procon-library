@@ -15,3 +15,6 @@ pages:
 	$(CMD) -b $(FORMAT) -R $(SRC) -D $(DST) $(TARGET) -B $(BASE) \
 		-a pagetitle=$(TITLE) -a source-highlighter=$(HIGHLIGHTER) \
 		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(STYLESDIR)
+
+clean:
+	rm -r $(DST)

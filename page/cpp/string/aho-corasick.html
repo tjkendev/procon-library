@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>Aho-Corasick Algorithm - yaketake08の競プロ実装置き場</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
+
+<style>
+  .click .title { color: blue; }
+  .click {margin-top: 0.5em; margin-bottom: 0.5em;}
+  .openblock { margin-top: 1em; margin-bottom: 1em; }
+  .openblock>.box>.content { margin-top:1em;margin-bottom: 1em;margin-left:3em;margin-right:4em; }
+</style>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+
+
+
+var ready2;
+
+ready2 = function() {
+
+    $(document).ready(function(){
+
+        $('.openblock.click').click( function()  { $(this).find('.content').slideToggle('200'); } )
+        $('.openblock.click').find('.content').hide()
+
+
+        $('.listingblock.click').click( function()  { $(this).find('.content').slideToggle('200') }  )
+        $('.listingblock.click').find('.content').hide()
+
+    });
+
+}
+
+
+
+
+$(document).ready(ready2);
+$(document).on('page:load', ready2);
+
+
+</script>
+
+</head>
+
+
+<body class="article">
+<div id="header">
+<h1>Aho-Corasick Algorithm</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>文字列探索アルゴリズム。</p>
+</div>
+<div class="paragraph">
+<p>ある文字列\(T\)について、\(N\)個の文字列\(s_1, s_2, ..., s_N\)の中からマッチする(最長の)文字列を線形に探索することができる。</p>
+</div>
+<div class="paragraph">
+<p>計算量は\(O(|T| + \sum_i |s_i|)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href=../../python/string/aho-corasick.html>Python版</a> がベース</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define NN 30
+
+struct TrieNode {
+  TrieNode(int size) : sz(size), cnt(0) {
+    for(int i = 0; i &lt; NN; ++i) next[i] = nullptr;
+    suffix = nullptr;
+  }
+  TrieNode *next[NN];
+  TrieNode *suffix;
+  int sz, cnt;
+};
+
+TrieNode *root = new TrieNode(0);
+
+void add(string s) {
+  TrieNode *node = root;
+  for(int i = 0; i &lt; s.length(); ++i) {
+    int code = s[i] - 'a';
+    if(!node-&gt;next[code]) {
+      node = node-&gt;next[code] = new TrieNode(node-&gt;sz + 1);
+    } else {
+      node = node-&gt;next[code];
+    }
+  }
+  node-&gt;cnt = 1;
+}
+
+void suffix() {
+  queue&lt;TrieNode*&gt; que;
+  que.push(root);
+  while(!que.empty()) {
+    TrieNode* v = que.front(); que.pop();
+    for(int i = 0; i&lt; NN; ++i) {
+      if(v-&gt;next[i] &amp;&amp; v-&gt;sz &lt; v-&gt;next[i]-&gt;sz) {
+        if(v-&gt;suffix) {
+          v-&gt;next[i]-&gt;suffix = v-&gt;suffix-&gt;next[i];
+        } else {
+          v-&gt;next[i]-&gt;suffix = root;
+        }
+        que.push(v-&gt;next[i]);
+      } else {
+        if(v-&gt;suffix) {
+          v-&gt;next[i] = v-&gt;suffix-&gt;next[i];
+        } else {
+          if(root-&gt;next[i]) {
+            v-&gt;next[i] = root-&gt;next[i];
+          } else {
+            v-&gt;next[i] = root;
+          }
+        }
+      }
+    }
+  }
+  root-&gt;suffix = root;
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "JAG Practice Contest for ACM-ICPC Asia Regional 2017 - H問題: Separate String": <a href=https://jag2017autumn.contest.atcoder.jp/submissions/1799531>source</a></p>
+</li>
+</ul>
+</div>
+<hr>
+<div class="paragraph">
+<p><a href=../../index.html>戻る</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2018-09-19 01:12:08 JST
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { extensions: ["mhchem.js"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+</body>
+</html>

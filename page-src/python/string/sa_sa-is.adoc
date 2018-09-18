@@ -18,8 +18,8 @@ include::./python/string/sa_sa-is.py[]
 
 == 参考ページ
 
-- link:http://shogo82148.github.io/homepage/memo/algorithm/suffix-array/[Shogo Computing Laboratory - 接尾辞配列(Suffix Array)]
-- link:http://sile.hatenablog.jp/entry/20101213/1292190698[sileのブログ - SA-IS: SuffixArray線形構築]
+- link:http://shogo82148.github.io/homepage/memo/algorithm/suffix-array/[接尾辞配列(Suffix Array) - Shogo Computing Laboratory]
+- link:http://sile.hatenablog.jp/entry/20101213/1292190698[SA-IS: SuffixArray線形構築 - sileのブログ]
 
 ***
 link:../../index.html[戻る]

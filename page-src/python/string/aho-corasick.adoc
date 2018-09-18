@@ -1,0 +1,32 @@
+= Aho-Corasick Algorithm
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+文字列探索アルゴリズム。
+
+ある文字列$T$について、$N$個の文字列$s_1, s_2, ..., s_N$の中からマッチする(最長の)文字列を線形に探索することができる。
+
+計算量は$O(|T| + \sum_i |s_i|)$
+
+== 実装
+
+[source, python]
+----
+include::./python/string/aho-corasick.py[]
+----
+
+=== Verified
+
+Pythonだと重くてつらい
+
+* (TLE) AtCoder: "JAG Practice Contest for ACM-ICPC Asia Regional 2017 - H問題: Separate String": (PyPy3) link:https://jag2017autumn.contest.atcoder.jp/submissions/1799538[source]
+
+== 参考ページ
+
+- link:http://d.hatena.ne.jp/naoya/20090405/aho_corasick[Aho Corasick法 - naoyaのはてなダイアリー]
+- link:http://algoogle.hadrori.jp/algorithm/aho-corasick.html[Aho-Corasick法 - Algoogle]
+
+***
+
+link:../../index.html[戻る]
