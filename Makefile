@@ -9,7 +9,7 @@ TARGET := '**/*.adoc'
 HIGHLIGHTER := highlightjs
 STYLESHEET := ./stylesheet/github.css
 STYLESDIR := https://tjkendev.github.io/procon-library/page-src/
-TITLE := 'yaketake08の競プロ実装置き場'
+TITLE := 'yaketake08の実装コードメモ'
 
 pages:
 	$(CMD) -b $(FORMAT) -R $(SRC) -D $(DST) $(TARGET) -B $(BASE) \
