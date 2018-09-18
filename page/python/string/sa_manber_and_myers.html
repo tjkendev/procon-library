@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>強連結成分分解 - yaketake08の競プロ実装置き場</title>
+<title>Suffix Array (Manber and Myers Algorithm) - yaketake08の競プロ実装置き場</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
 
 <style>
@@ -53,24 +53,15 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>強連結成分分解</h1>
+<h1>Suffix Array (Manber and Myers Algorithm)</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>強連結成分分解(Strongly Connected Components)</p>
-</div>
-</div>
-</div>
 <div class="sect1">
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>有向グラフ\(G = (V, E)\)における強連結の関係にある複数の頂点をひとまとまりにして分解する。</p>
-</div>
-<div class="paragraph">
-<p>計算量は\(O(|V|)\)</p>
+<p>ダブリングしながら、Suffix Arrayを計算する。
+計算量は\(O(N \log^2 N)\)</p>
 </div>
 </div>
 </div>
@@ -78,72 +69,58 @@ $(document).on('page:load', ready2);
 <h2 id="_実装">実装</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>解説コメント付き: <a href=https://gist.github.com/tjkendev/1ce0c38486c18a180f83623d74436a5c>https://gist.github.com/tjkendev/1ce0c38486c18a180f83623d74436a5c</a></p>
+<p>蟻本ベース実装</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// 強連結成分分解(Strongly Connected Component)
-// int scc(): 結果は割り当てられた番号の数
-// v: 頂点(0..v-1)
-// g: 各頂点の出る辺, rg: 各頂点の逆辺
-// group: 結果(閉路に１つの番号が割り当てられる)
-#define V 10003
-int v;
-vector&lt;int&gt; g[V];
-vector&lt;int&gt; rg[V];
-int group[V];
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Suffix Array (Manber &amp; Myers) : O(n(logn)^2)
+class SuffixArray:
+    def __init__(self, s):
+        self.s = s
+        self.n = len(s)
 
-vector&lt;int&gt; ord;
-bool used[V];
-void dfs(int s) {
-  used[s] = true;
-  rep(i, g[s].size()) {
-    int t = g[s][i];
-    if(!used[t]) {
-      dfs(t);
-    }
-  }
-  ord.push_back(s);
-}
+    # Suffix Array
+    def suffix(self):
+        s = self.s; n = self.n
+        rank = [0]*(n+1); sa = [0]*(n+1)
+        tmp = [0]*(n+1)
 
-void rdfs(int s, int col) {
-  group[s] = col;
-  used[s] = true;
-  rep(i, rg[s].size()) {
-    int t = rg[s][i];
-    if(!used[t]) {
-      rdfs(t, col);
-    }
-  }
-}
+        for i in range(n+1):
+            sa[i] = i
+            rank[i] = ord(s[i]) if i&lt;n else -1
 
-int scc() {
-  rep(i, v) used[i] = false;
-  rep(i, v) {
-    if(!used[i]) dfs(i);
-  }
-  rep(i, v) used[i] = false;
-  assert(ord.size() == v);
-  int cnt = 0;
-  repr(i, v) {
-    int s = ord[i];
-    if(!used[s]) rdfs(s, cnt++);
-  }
-  return cnt;
-}</code></pre>
+        k = 1
+        cmp_key = lambda e: (rank[e], rank[e+k] if e+k&lt;=n else -1)
+        while k &lt;= n:
+            sa.sort(key=cmp_key)
+            tmp[sa[0]] = 0
+            for i in range(1, n+1):
+                tmp[sa[i]] = tmp[sa[i-1]] + (cmp_key(sa[i-1])&lt;cmp_key(sa[i]))
+            for i in range(n+1):
+                rank[i] = tmp[i]
+            k *= 2
+
+        self.sa = sa
+        return sa
+
+    # LCP Array
+    def lcp(self):
+        n = self.n; s = self.s; sa = self.sa
+        lcp = [-1]*(n+1)
+        rank = [0]*(n+1)
+        for i in range(n+1): rank[sa[i]] = i
+
+        h = 0
+        lcp[0] = 0
+        for i in range(n):
+            j = sa[rank[i] - 1]
+            if h &gt; 0: h -= 1
+            while j+h &lt; n and i+h &lt; n and s[j+h]==s[i+h]:
+                h += 1
+            lcp[rank[i] - 1] = h
+        self.lcp = lcp
+        return lcp</code></pre>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_verified">Verified</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>AOJ: "GRL_3_C: Connected Components - Strongly Connected Components": <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867905#1>source</a></p>
-</li>
-<li>
-<p>AOJ: "2598: Website Tour": <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867998>source</a></p>
-</li>
-</ul>
 </div>
 <hr>
 <div class="paragraph">
@@ -152,10 +129,9 @@ int scc() {
 </div>
 </div>
 </div>
-</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-18 23:04:18 JST
+Last updated 2018-09-18 22:59:31 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

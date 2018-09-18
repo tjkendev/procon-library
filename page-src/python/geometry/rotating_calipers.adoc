@@ -1,0 +1,30 @@
+= 最遠点対 (キャリパー法)
+:title: {doctitle} - {pagetitle}
+
+
+== 概要
+
+2次元平面の$N$個の点が与えられた時、最遠点対(最も遠い頂点のペア)の距離を計算する。
+
+キャリパー法 (Rotating Calipers)では、一度凸包を求め、求めた凸多角形を回転しながら走査し、最遠点となる頂点ペアを求める。
+
+計算量は$O(N \log N)$
+
+== 実装
+
+蟻本ベース実装
+
+link:./graham_scan.html[凸包] と合わせて使う
+
+[source, python]
+----
+include::./python/geometry/rotating_calipers.py[]
+----
+
+=== Verified
+
+- AOJ: "CGL_4_B: Convex Polygon - Diameter of a Convex Polygon": (Python2) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1894359#1[source]
+
+***
+
+link:../../index.html[戻る]

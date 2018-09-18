@@ -13,7 +13,7 @@ Pythonには標準で平衡二分探索木がないため、自力で実装す�
 
 == 実装
 
-link:../binary_search_tree/treao.html[Treap] を用いた実装。
+link:../binary_search_tree/treap.html[Treap] を用いた実装。
 
 [source, python]
 ----

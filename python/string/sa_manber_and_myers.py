@@ -1,8 +1,4 @@
-#
-# Suffix Array
-#
-
-# Manber & Myers : O(n(logn)^2)
+# Suffix Array (Manber & Myers) : O(n(logn)^2)
 class SuffixArray:
     def __init__(self, s):
         self.s = s

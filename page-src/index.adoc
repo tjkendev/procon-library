@@ -10,6 +10,12 @@ link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ラ
 * link:./python/math/gcd.html[最大公約数]
 * link:./python/prime/probabilistic.html[確率的素数判定法]
 
+=== 幾何
+
+* link:./python/geometry/graham_scan.html[凸包(Graham Scan)]
+* link:./python/geometry/rotating_calipers.html[最遠点対(キャリパー法)]
+* link:./python/geometry/closest_pair.html[最近点対(分割統治法)]
+
 === 集合
 
 * link:./python/union_find/union_find.html[Union-Find]
@@ -17,6 +23,10 @@ link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ラ
 === 二分木
 
 * link:./python/binary_search_tree/treap.html[Treap]
+
+=== 区間クエリ
+
+* link:./python/range_query/bit.html[Binary Indexed Tree]
 
 === Convex Hull Trick
 
@@ -42,6 +52,7 @@ link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ラ
 === 文字列
 
 * link:./python/string/rolling_hash.html[Rolling Hash]
+* link:./python/string/sa_manber_and_myers.html[Suffix Array (Manber and Myers Algorithm)]
 * link:./python/string/sa_sa-is.html[Suffix Array (SA-IS)]
 
 ***
