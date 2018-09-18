@@ -1,0 +1,26 @@
+= 強連結成分分解
+:title: {doctitle} - {pagetitle}
+
+強連結成分分解(Strongly Connected Components)
+
+== 概要
+
+有向グラフ$G = (V, E)$における強連結の関係にある複数の頂点をひとまとまりにして分解する。
+
+計算量は$O(|V|)$
+
+== 実装
+解説コメント付き: https://gist.github.com/tjkendev/1ce0c38486c18a180f83623d74436a5c
+
+[source, cpp]
+----
+include::./cpp/graph/scc.cpp[]
+----
+
+=== Verified
+
+- AOJ: "GRL_3_C: Connected Components - Strongly Connected Components": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867905#1[source]
+
+***
+
+link:../../index.html[戻る]

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>強連結成分分解 - yaketake08の競プロ実装置き場</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
+
+<style>
+  .click .title { color: blue; }
+  .click {margin-top: 0.5em; margin-bottom: 0.5em;}
+  .openblock { margin-top: 1em; margin-bottom: 1em; }
+  .openblock>.box>.content { margin-top:1em;margin-bottom: 1em;margin-left:3em;margin-right:4em; }
+</style>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+
+
+
+var ready2;
+
+ready2 = function() {
+
+    $(document).ready(function(){
+
+        $('.openblock.click').click( function()  { $(this).find('.content').slideToggle('200'); } )
+        $('.openblock.click').find('.content').hide()
+
+
+        $('.listingblock.click').click( function()  { $(this).find('.content').slideToggle('200') }  )
+        $('.listingblock.click').find('.content').hide()
+
+    });
+
+}
+
+
+
+
+$(document).ready(ready2);
+$(document).on('page:load', ready2);
+
+
+</script>
+
+</head>
+
+
+<body class="article">
+<div id="header">
+<h1>強連結成分分解</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>強連結成分分解(Strongly Connected Components)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>有向グラフ\(G = (V, E)\)における強連結の関係にある複数の頂点をひとまとまりにして分解する。</p>
+</div>
+<div class="paragraph">
+<p>計算量は\(O(|V|)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>解説コメント付き: <a href=https://gist.github.com/tjkendev/1ce0c38486c18a180f83623d74436a5c>https://gist.github.com/tjkendev/1ce0c38486c18a180f83623d74436a5c</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// 強連結成分分解(Strongly Connected Component)
+// int scc(): 結果は割り当てられた番号の数
+// v: 頂点(0..v-1)
+// g: 各頂点の出る辺, rg: 各頂点の逆辺
+// group: 結果(閉路に１つの番号が割り当てられる)
+#define V 10003
+int v;
+vector&lt;int&gt; g[V];
+vector&lt;int&gt; rg[V];
+int group[V];
+
+vector&lt;int&gt; ord;
+bool used[V];
+void dfs(int s) {
+  used[s] = true;
+  rep(i, g[s].size()) {
+    int t = g[s][i];
+    if(!used[t]) {
+      dfs(t);
+    }
+  }
+  ord.push_back(s);
+}
+
+void rdfs(int s, int col) {
+  group[s] = col;
+  used[s] = true;
+  rep(i, rg[s].size()) {
+    int t = rg[s][i];
+    if(!used[t]) {
+      rdfs(t, col);
+    }
+  }
+}
+
+int scc() {
+  rep(i, v) used[i] = false;
+  rep(i, v) {
+    if(!used[i]) dfs(i);
+  }
+  rep(i, v) used[i] = false;
+  assert(ord.size() == v);
+  int cnt = 0;
+  repr(i, v) {
+    int s = ord[i];
+    if(!used[s]) rdfs(s, cnt++);
+  }
+  return cnt;
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_3_C: Connected Components - Strongly Connected Components": <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867905#1>source</a></p>
+</li>
+</ul>
+</div>
+<hr>
+<div class="paragraph">
+<p><a href=../../index.html>戻る</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2018-09-18 21:46:30 JST
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { extensions: ["mhchem.js"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+</body>
+</html>

@@ -44,12 +44,28 @@ link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ラ
 * link:./python/string/rolling_hash.html[Rolling Hash]
 * link:./python/string/sa_sa-is.html[Suffix Array (SA-IS)]
 
+***
+
 == C++
+
+実装は基本的に実装テンプレートをベースに実装してます。
 
 === テンプレート
 
 * link:./cpp/template/main.html[実装テンプレート]
 
+=== グラフ
+
+* link:./cpp/graph/scc.html[強連結成分分解]
+
+=== フロー
+
+* link:./cpp/max_flow/dinic.html[最大流問題 (Dinic's Algorithm)]
+
+***
+
 == JavaScript
+
+***
 
 == TypeScript

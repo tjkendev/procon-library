@@ -3,8 +3,6 @@
 // v: 頂点(0..v-1)
 // g: 各頂点の出る辺, rg: 各頂点の逆辺
 // group: 結果(閉路に１つの番号が割り当てられる)
-// コード解説
-// -> https://gist.github.com/tjkendev/1ce0c38486c18a180f83623d74436a5c
 #define V 10003
 int v;
 vector<int> g[V];
@@ -49,4 +47,3 @@ int scc() {
   }
   return cnt;
 }
-

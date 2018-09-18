@@ -1,0 +1,23 @@
+= 最大流問題 (Dinic's Algorithm)
+:title: {doctitle} - {pagetitle}
+
+Dinic's Algorithm (Maximum flow problem)
+
+== 概要
+
+最大流問題を解くDinic's Algorithmの実装。
+
+合わせて、辺の容量増加と容量減少にも対応できる実装が含まれる。
+
+== 実装
+
+蟻本ベース実装
+
+[source, cpp]
+----
+include::./cpp/max_flow/dinic.cpp[]
+----
+
+***
+
+link:../../index.html[戻る]
