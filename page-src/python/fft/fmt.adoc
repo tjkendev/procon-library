@@ -1,0 +1,32 @@
+= Fast Modulo Transform
+:title: {doctitle} - {pagetitle}
+
+Fast Modulo Transform (FMT, 高速剰余変換), Number Theoretical Transform (NTT, 数論変換)
+
+== 概要
+
+ある程度の解説(ブログ): link:http://smijake3.hatenablog.com/entry/2017/01/04/042136[ATC001 - C問題: 高速フーリエ変換 (FMT解法)]
+
+mod $P$上で $\omega^i \not = 1$ $(0 < i < N)$, $\omega^N = 1$ となるような $\omega, P, N$ を用いて計算する。
+この時、 $P = A \times N + 1$ を満たす。
+
+順変換では $\displaystyle f_k = \sum_{i=0}^{N-1} a_i \omega^{ik}$ (mod $P$) を計算し、
+
+逆変換では $\displaystyle a_i = \frac{1}{N} \sum_{k=0}^{N-1} f_k \omega^{-ik}$ (mod $P$) を計算する。
+
+計算量は $O(N \log N)$
+
+== 実装
+
+[source, python]
+----
+include::./python/fft/fmt.py[]
+----
+
+=== Verified
+
+* AtCoder: "AtCoder Typical Contest 001 - C問題: 高速フーリエ変換": (Python2) link:https://atc001.contest.atcoder.jp/submissions/1051733[source]
+
+***
+
+link:../../index.html[戻る]

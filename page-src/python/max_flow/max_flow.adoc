@@ -41,7 +41,7 @@ include::./python/max_flow/dinic.py[]
 
 === Verified
 
-* AtCoder: "ARC085 - E問題: MUL": (Python3) link:https://beta.atcoder.jp/contests/arc085/submissions/2451765[source]
+* AtCoder: "AtCoder Regular Contest 085 - E問題: MUL": (Python3) link:https://beta.atcoder.jp/contests/arc085/submissions/2451765[source]
 
 ***
 

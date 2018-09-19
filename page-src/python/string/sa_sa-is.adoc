@@ -16,6 +16,10 @@ Suffix Arrayとして早いはずだけど、実装が重いのか遅い...
 include::./python/string/sa_sa-is.py[]
 ----
 
+=== Verified
+
+- (TLE) AtCoder: "AtCoder Regular Contest 050 - D問題: Suffix Concat": (PyPy2) link:https://arc050.contest.atcoder.jp/submissions/684198[source]
+
 == 参考ページ
 
 - link:http://shogo82148.github.io/homepage/memo/algorithm/suffix-array/[接尾辞配列(Suffix Array) - Shogo Computing Laboratory]

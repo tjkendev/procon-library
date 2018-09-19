@@ -11,7 +11,6 @@ def kdTree(P):
         axis = depth % 2
 
         if r - l >= 3:
-            M = len(P)
             med = l + (r-l)//2
             a0, a1, a2 = P[med-1:med+2]
             if a0 <= a1 <= a2:

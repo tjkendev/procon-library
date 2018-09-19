@@ -49,6 +49,10 @@ link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ラ
 
 * link:./python/matrix/bit_matrix.html[ビット行列]
 
+=== 高速フーリエ変換
+
+* link:./python/fft/fmt.html[Fast Modulo Transform]
+
 === 文字列
 
 * link:./python/string/rolling_hash.html[Rolling Hash]
