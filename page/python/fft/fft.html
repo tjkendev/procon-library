@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>関節点検出 - yaketake08の実装コードメモ</title>
+<title>Fast Fourier Transform - yaketake08の実装コードメモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/page-src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,13 +56,13 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>関節点検出</h1>
+<h1>Fast Fourier Transform</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>関節点(articulation point)</p>
+<p>Fast Fourier Transform (FFT, 高速フーリエ変換)</p>
 </div>
 </div>
 </div>
@@ -70,13 +70,16 @@ $(document).on('page:load', ready2);
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>無向グラフ\(G = (V, E)\)における関節点(除去するとグラフが連結でなくなる頂点)を検出する。</p>
+<p>高速フーリエ変換は以下の離散フーリエ変換(逆変換)を 計算量 \(O(N \log N)\) で行うアルゴリズムである。</p>
 </div>
 <div class="paragraph">
-<p>DFSでlowlinkを計算しながら関節点を求める。</p>
+<p>順変換: \(\displaystyle F(t) = \sum_{x=0}^{N-1} f(x) e^{-i \frac{2 \pi t x}{N}}\)</p>
 </div>
 <div class="paragraph">
-<p>計算量は\(O(|V|)\)</p>
+<p>逆変換: \(\displaystyle f(x) = \sum_{t=0}^{N-1} F(t) e^{i \frac{2 \pi t x}{N}}\)</p>
+</div>
+<div class="paragraph">
+<p>Pythonは標準で複素数をサポートしているため、簡単に実装できる。</p>
 </div>
 </div>
 </div>
@@ -85,35 +88,87 @@ $(document).on('page:load', ready2);
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># 関節点(Articulation Points)
-def get_articulation_points(G, N, start=0):
-    v_min = [0]*N; order = [None]*N
-    result = []; count = 0
-    def dfs(v, prev):
-        nonlocal count
-        r_min = order[v] = count # 到達時にラベル
-        fcnt = 0; p_art = 0
-        count += 1
-        for w in G[v]:
-            if w == prev:
-                continue
-            if order[w] is None:
-                ret = dfs(w, v)
-                # 子の頂点が到達できたのが、自身のラベル以上の頂点のみ
-                # =&gt; 頂点vは関節点
-                p_art |= (order[v] &lt;= ret)
-                r_min = min(r_min, ret)
-                fcnt += 1
-            else:
-                r_min = min(r_min, order[w])
-        p_art |= (r_min == order[v] and len(G[v]) &gt; 1)
-        if (prev == -1 and fcnt &gt; 1) or (prev != -1 and p_art):
-            # 頂点startの場合は、二箇所以上の子頂点を調べたら自身は関節点
-            result.append(v)
-        return r_min
-    dfs(start, -1)
-    return result</code></pre>
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import cmath
+pi = cmath.pi
+exp = cmath.exp
+
+# このFFTに与えるNは2**kにする
+# 順変換・逆変換に与えるlistのサイズもNにする
+N = 2**(n-1).bit_length()
+
+def make_exp_t(N, base):
+    exp_t = {0: 1}
+    temp = N
+    while temp:
+        exp_t[temp] = exp(base / temp)
+        temp &gt;&gt;= 1
+    return exp_t
+
+fft_exp_t = make_exp_t(N, -2j*pi)
+ifft_exp_t = make_exp_t(N, 2j*pi)
+
+def fft_dfs(f, s, N, st, exp_t):
+    if N==2:
+        a = f[s]; b = f[s+st]
+        return [a+b, a-b]
+    N2 = N//2; st2 = st*2
+    F0 = fft_dfs(f, s   , N2, st2, exp_t)
+    F1 = fft_dfs(f, s+st, N2, st2, exp_t)
+    w = exp_t[N]; wk = 1.0
+    for k in range(N2):
+        U = F0[k]; V = wk * F1[k]
+        F0[k] = U + V
+        F1[k] = U - V
+        wk *= w
+    F0.extend(F1)
+    return F0
+
+def fft(f, N):
+    if N==1:
+        return f
+    return fft_dfs(f, 0, N, 1, fft_exp_t)
+
+def ifft(F, N):
+    if N==1:
+        return F
+    f = fft_dfs(F, 0, N, 1, ifft_exp_t)
+    for i in range(N):
+        f[i] /= N
+    return f
+
+# F = fft(f, N)
+# G = fft(g, N)
+# FG = [a * b for a, b in zip(F, G)]
+# fg = ifft(FG, N)</code></pre>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="paragraph">
+<p>浮動小数点での計算なので、誤差に注意が必要</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Typical Contest 001 - C問題: 高速フーリエ変換": (Python3) <a href=https://atc001.contest.atcoder.jp/submissions/3231601>source</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_外部ライブラリ">外部ライブラリ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>環境で<code>numpy</code>モジュールがサポートされていれば<code>fft.fft</code>と<code>fft.ifft</code>を使えば簡単にFFTできる。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Typical Contest 001 - C問題: 高速フーリエ変換": (Python2) <a href=https://atc001.contest.atcoder.jp/submissions/1242734>source</a></p>
+</li>
+</ul>
 </div>
 <hr>
 <div class="paragraph">
@@ -124,7 +179,7 @@ def get_articulation_points(G, N, start=0):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-18 00:00:25 JST
+Last updated 2018-09-21 00:08:37 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

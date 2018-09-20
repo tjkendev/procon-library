@@ -1,0 +1,38 @@
+= Fast Fourier Transform
+:title: {doctitle} - {pagetitle}
+
+Fast Fourier Transform (FFT, 高速フーリエ変換)
+
+== 概要
+
+高速フーリエ変換は以下の離散フーリエ変換(逆変換)を 計算量 $O(N \log N)$ で行うアルゴリズムである。
+
+順変換: $\displaystyle F(t) = \sum_{x=0}^{N-1} f(x) e^{-i \frac{2 \pi t x}{N}}$
+
+逆変換: $\displaystyle f(x) = \sum_{t=0}^{N-1} F(t) e^{i \frac{2 \pi t x}{N}}$
+
+Pythonは標準で複素数をサポートしているため、簡単に実装できる。
+
+
+== 実装
+
+[source, python]
+----
+include::./python/fft/fft.py[]
+----
+
+=== Verified
+
+浮動小数点での計算なので、誤差に注意が必要
+
+* AtCoder: "AtCoder Typical Contest 001 - C問題: 高速フーリエ変換": (Python3) link:https://atc001.contest.atcoder.jp/submissions/3231601[source]
+
+== 外部ライブラリ
+
+環境で``numpy``モジュールがサポートされていれば``fft.fft``と``fft.ifft``を使えば簡単にFFTできる。
+
+* AtCoder: "AtCoder Typical Contest 001 - C問題: 高速フーリエ変換": (Python2) link:https://atc001.contest.atcoder.jp/submissions/1242734[source]
+
+***
+
+link:../../index.html[戻る]

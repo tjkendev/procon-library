@@ -1,0 +1,29 @@
+= Randomized Binary Search Tree
+:title: {doctitle} - {pagetitle}
+
+Randomized Binary Search Tree
+
+== 概要
+
+遅延評価付きの永続型平衡二分木。
+
+詳しくは link:https://www.slideshare.net/chokudai/arc030[ARC030のD問題の解説] を読むと良い
+
+一回のクエリ処理は$O(\log N)$
+
+== 実装
+
+[source, python]
+----
+include::./python/binary_search_tree/randomized_binary_search_tree.py[]
+----
+
+=== Verified
+
+Pythonにとっては重い
+
+* (TLE) AtCoder: "AtCoder Regular Contest 030 - D問題: グラフではない": (PyPy3) link:https://beta.atcoder.jp/contests/arc030/submissions/2182996[source]
+
+***
+
+link:../../index.html[戻る]

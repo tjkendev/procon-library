@@ -1,0 +1,29 @@
+= ダイクストラ法
+:title: {doctitle} - {pagetitle}
+
+ダイクストラ法(Dijkstra's Algorithm)
+
+== 概要
+
+単一始点最短経路問題を解くアルゴリズム。到達するまでのコストが小さい方からコストを伝搬させていく。
+
+Pythonでは標準の ``heapq`` モジュールの ``heappush`` と ``heappop`` を使えば実現できる。
+
+``queue``モジュールに``PriorityQueue``が存在するが、こっちは同期するようにブロッキングがサポートされてて遅いので注意。
+
+計算量は$O((E + V) \log V)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/dijkstra.py[]
+----
+
+=== Verified
+
+* AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850601#1[source]
+
+***
+
+link:../../index.html[戻る]

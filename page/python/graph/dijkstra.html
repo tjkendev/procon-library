@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>凸包 (Graham Scan) - yaketake08の実装コードメモ</title>
+<title>ダイクストラ法 - yaketake08の実装コードメモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/page-src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,36 +56,56 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>凸包 (Graham Scan)</h1>
+<h1>ダイクストラ法</h1>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>ダイクストラ法(Dijkstra&#8217;s Algorithm)</p>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>凸包をGraham Scanで求める</p>
+<p>単一始点最短経路問題を解くアルゴリズム。到達するまでのコストが小さい方からコストを伝搬させていく。</p>
 </div>
 <div class="paragraph">
-<p>計算量は\(O(N \log N)\)</p>
+<p>Pythonでは標準の <code>heapq</code> モジュールの <code>heappush</code> と <code>heappop</code> を使えば実現できる。</p>
 </div>
+<div class="paragraph">
+<p><code>queue</code>モジュールに<code>PriorityQueue</code>が存在するが、こっちは同期するようにブロッキングがサポートされてて遅いので注意。</p>
+</div>
+<div class="paragraph">
+<p>計算量は\(O((E + V) \log V)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">def cross(a, b, c):
-    return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
-def convex_hull(ps):
-    qs = []
-    n = len(ps)
-    for p in ps:
-        while len(qs)&gt;1 and cross(qs[-1], qs[-2], p) &gt; 0:
-            qs.pop()
-        qs.append(p)
-    t = len(qs)
-    for i in range(n-2, -1, -1):
-        p = ps[i]
-        while len(qs)&gt;t and cross(qs[-1], qs[-2], p) &gt; 0:
-            qs.pop()
-        qs.append(p)
-    return qs</code></pre>
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># V: 頂点数
+# g[v] = {(w, cost)}:
+#     頂点vから遷移可能な頂点(w)とそのコスト(cost)
+# r: 始点の頂点
+
+from heapq import heappush, heappop
+INF = 10**10
+dist = [INF]*V
+que = [(0,r)]
+dist[r] = 0
+while que:
+    c, v = heappop(que)
+    if dist[v] &lt; c:
+        continue
+    for t, cost in g[v]:
+        if dist[v] + cost &lt; dist[t]:
+            dist[t] = dist[v] + cost
+            heappush(que, (dist[t], t))</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -93,7 +113,7 @@ def convex_hull(ps):
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "CGL_4_A: Convex Polygon - Convex Hull": (Python2) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1894281#1>source</a></p>
+<p>AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850601#1>source</a></p>
 </li>
 </ul>
 </div>
@@ -107,7 +127,7 @@ def convex_hull(ps):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-18 23:19:21 JST
+Last updated 2018-09-20 21:29:33 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

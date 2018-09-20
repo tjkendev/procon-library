@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>強連結成分分解 - yaketake08の実装コードメモ</title>
+<title>Randomized Binary Search Tree - yaketake08の実装コードメモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/page-src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,13 +56,13 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>強連結成分分解</h1>
+<h1>Randomized Binary Search Tree</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>強連結成分分解(Strongly Connected Components)</p>
+<p>Randomized Binary Search Tree</p>
 </div>
 </div>
 </div>
@@ -70,81 +70,96 @@ $(document).on('page:load', ready2);
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>有向グラフ\(G = (V, E)\)における強連結の関係にある複数の頂点をひとまとまりにして分解する。</p>
+<p>遅延評価付きの永続型平衡二分木。</p>
 </div>
 <div class="paragraph">
-<p>計算量は\(O(|V|)\)</p>
+<p>詳しくは <a href=https://www.slideshare.net/chokudai/arc030>ARC030のD問題の解説</a> を読むと良い</p>
+</div>
+<div class="paragraph">
+<p>一回のクエリ処理は\(O(\log N)\)</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_実装">実装</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>解説コメント付き: <a href=https://gist.github.com/tjkendev/1ce0c38486c18a180f83623d74436a5c>https://gist.github.com/tjkendev/1ce0c38486c18a180f83623d74436a5c</a></p>
-</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// 強連結成分分解(Strongly Connected Component)
-// int scc(): 結果は割り当てられた番号の数
-// v: 頂点(0..v-1)
-// g: 各頂点の出る辺, rg: 各頂点の逆辺
-// group: 結果(閉路に１つの番号が割り当てられる)
-#define V 10003
-int v;
-vector&lt;int&gt; g[V];
-vector&lt;int&gt; rg[V];
-int group[V];
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Randomized Binary Search Tree
+from collections import namedtuple
+Node = namedtuple('Node', ['l', 'r', 'v', 'sum', 'lazy', 'c'])
+def new_node(l = None, r = None, v = 0, lazy = 0, Node=Node):
+    sz = 1 + n_count(l) + n_count(r)
+    return Node(l, r, v, v + lazy*sz + n_sum(l) + n_sum(r), lazy, sz)
 
-vector&lt;int&gt; ord;
-bool used[V];
-void dfs(int s) {
-  used[s] = true;
-  rep(i, g[s].size()) {
-    int t = g[s][i];
-    if(!used[t]) {
-      dfs(t);
-    }
-  }
-  ord.push_back(s);
-}
+def n_add(node, lazy):
+    if not node:
+        return None
+    return node._replace(lazy=node.lazy+lazy, sum=node.sum + lazy * node.c)
 
-void rdfs(int s, int col) {
-  group[s] = col;
-  used[s] = true;
-  rep(i, rg[s].size()) {
-    int t = rg[s][i];
-    if(!used[t]) {
-      rdfs(t, col);
-    }
-  }
-}
+def n_count(node):
+    return node.c if node else 0
 
-int scc() {
-  rep(i, v) used[i] = false;
-  rep(i, v) {
-    if(!used[i]) dfs(i);
-  }
-  rep(i, v) used[i] = false;
-  assert(ord.size() == v);
-  int cnt = 0;
-  repr(i, v) {
-    int s = ord[i];
-    if(!used[s]) rdfs(s, cnt++);
-  }
-  return cnt;
-}</code></pre>
+def n_sum(node):
+    return node.sum if node else 0
+
+import random
+random.seed()
+# aとbのどっちかを親にしてノードを生成
+def merge(a, b, randint=random.randint):
+    if not (a and b):
+        return a if a else b
+    # a=(Al, Ar), b = (Bl, Br)
+    if randint(1-n_count(b), n_count(a)) &gt; 0:
+        # aを親にする
+        # (Al, (Ar, b)) を生成して返す
+        if not a.lazy:
+            return new_node(a.l, merge(a.r, b), a.v, 0)
+        p = n_add(a.l, a.lazy)
+        q = merge(n_add(a.r, a.lazy), b)
+        return new_node(p, q, a.v + a.lazy, 0)
+    # bを親にする
+    # ((a, Bl), Br) を生成して返す
+    if not b.lazy:
+        return new_node(merge(a, b.l), b.r, b.v, 0)
+    p = merge(a, n_add(b.l, b.lazy))
+    q = n_add(b.r, b.lazy)
+    return new_node(p, q, b.v + b.lazy, 0)
+
+# (A, B)を子に持つnodeを[0, k) [k, n)に分割
+def split(node, k):
+    if not k:
+        # k == 0 --&gt; [0, 0)は"None"
+        return None, node
+    if n_count(node) &lt;= k:
+        # |node|≧k --&gt; [0, k) はnode全体
+        return node, None
+    if k &lt;= n_count(node.l):
+        # Aをa, bに分割
+        # a = [0, k) b = [k, |A|)
+        a, b = split(node.l, k)
+        # (b, B)を持つノードqを生成
+        q = new_node(b, node.r, node.v, node.lazy)
+        # &lt;a, q&gt; を返す
+        return (n_add(a, node.lazy), q) if node.lazy else (a, q)
+    # Bをa, bに分割
+    # a = [0, k-|A|-1), b = [k-|A|-1, |B|) になる
+    a, b = split(node.r, k - n_count(node.l) - 1)
+    # (A, a)を持つノードpを生成
+    p = new_node(node.l, a, node.v, node.lazy)
+    # &lt;p, b&gt; を返す
+    return (p, n_add(b, node.lazy)) if node.lazy else (p, b)</code></pre>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_verified">Verified</h3>
+<div class="paragraph">
+<p>Pythonにとっては重い</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "GRL_3_C: Connected Components - Strongly Connected Components": <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867905#1>source</a></p>
-</li>
-<li>
-<p>AOJ: "2598: Website Tour": <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867998>source</a></p>
+<p>(TLE) AtCoder: "AtCoder Regular Contest 030 - D問題: グラフではない": (PyPy3) <a href=https://beta.atcoder.jp/contests/arc030/submissions/2182996>source</a></p>
 </li>
 </ul>
 </div>
@@ -158,7 +173,7 @@ int scc() {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-18 23:04:18 JST
+Last updated 2018-09-20 01:20:04 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

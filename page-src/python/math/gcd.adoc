@@ -12,7 +12,7 @@
 
 また、最小公倍数(least common multiple, LCM)は $\displaystyle \frac{ab}{gcd(a, b)}$ で計算する。
 
-GCDはPythonの標準パッケージに含まれている。
+GCDはPythonの標準モジュールに含まれている。
 (Python2であれば``fractions.gcd()``、Python3であれば``fractions.gcd()``もしくは``math.gcd()``)
 
 == 実装

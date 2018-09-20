@@ -1,0 +1,16 @@
+button.copy-btn {
+  background-color: #f8f8f8;
+  border: 2px solid #aaa;
+  color: #333;
+  border-radius: 4px;
+  margin: 3px;
+  padding: 2px 16px;
+}
+
+button.copy-btn:hover {
+  background-color: white;
+}
+
+button.copy-btn:active {
+  transform: translateY(1px);
+}

@@ -5,6 +5,8 @@ link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ラ
 
 == Python
 
+Python2で書いてたプログラムは、基本Python3用に書き直してます。
+
 === 数学
 
 * link:./python/math/gcd.html[最大公約数]
@@ -23,6 +25,7 @@ link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ラ
 === 二分木
 
 * link:./python/binary_search_tree/treap.html[Treap]
+* link:./python/binary_search_tree/randomized_binary_search_tree.html[Randomized Binary Search Tree]
 
 === 区間クエリ
 
@@ -35,6 +38,7 @@ link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ラ
 
 === グラフ
 
+* link:./python/graph/dijkstra.html[ダイクストラ法]
 * link:./python/graph/scc.html[強連結成分分解]
 * link:./python/graph/bridge-finding-with-cd.html[橋検出(with chain decompositions)]
 * link:./python/graph/articulation-points.html[関節点検出]
@@ -51,6 +55,7 @@ link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ラ
 
 === 高速フーリエ変換
 
+* link:./python/fft/fft.html[Fast Fourier Transform]
 * link:./python/fft/fmt.html[Fast Modulo Transform]
 
 === 文字列

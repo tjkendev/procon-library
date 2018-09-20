@@ -7,6 +7,9 @@
 <meta name="generator" content="Asciidoctor 1.5.7.1">
 <title>最大公約数 - yaketake08の実装コードメモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/page-src/javascript/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/custom.css">
 
 <style>
   .click .title { color: blue; }
@@ -76,7 +79,7 @@ $(document).on('page:load', ready2);
 <p>また、最小公倍数(least common multiple, LCM)は \(\displaystyle \frac{ab}{gcd(a, b)}\) で計算する。</p>
 </div>
 <div class="paragraph">
-<p>GCDはPythonの標準パッケージに含まれている。
+<p>GCDはPythonの標準モジュールに含まれている。
 (Python2であれば<code>fractions.gcd()</code>、Python3であれば<code>fractions.gcd()</code>もしくは<code>math.gcd()</code>)</p>
 </div>
 </div>
@@ -109,7 +112,7 @@ def extgcd(a, b):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-18 00:01:24 JST
+Last updated 2018-09-21 00:51:36 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
