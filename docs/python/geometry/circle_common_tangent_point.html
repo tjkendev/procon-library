@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>円の共通接線の接点 - 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/srcjavascript/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/srcstylesheet/custom.css">
+
+<style>
+  .click .title { color: blue; }
+  .click {margin-top: 0.5em; margin-bottom: 0.5em;}
+  .openblock { margin-top: 1em; margin-bottom: 1em; }
+  .openblock>.box>.content { margin-top:1em;margin-bottom: 1em;margin-left:3em;margin-right:4em; }
+</style>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+
+
+
+var ready2;
+
+ready2 = function() {
+
+    $(document).ready(function(){
+
+        $('.openblock.click').click( function()  { $(this).find('.content').slideToggle('200'); } )
+        $('.openblock.click').find('.content').hide()
+
+
+        $('.listingblock.click').click( function()  { $(this).find('.content').slideToggle('200') }  )
+        $('.listingblock.click').find('.content').hide()
+
+    });
+
+}
+
+
+
+
+$(document).ready(ready2);
+$(document).on('page:load', ready2);
+
+
+</script>
+
+</head>
+
+
+<body class="article">
+<div id="header">
+<h1>円の共通接線の接点</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>円1: 中心\((x_1, y_1)\) 半径\(r_1\) と 円2: 中心\((x_2, y_2)\) 半径\(r_2\) の2つの円がなす共通接線の接点を求める。</p>
+</div>
+<div class="paragraph">
+<p>今回は円1の方の共通内接線(最大2本)と共通外接線(最大2本)の接点を計算する。</p>
+</div>
+<div class="sect2">
+<h3 id="_具体的計算">具体的計算</h3>
+<div class="paragraph">
+<p>2つの円の中心間の距離を\(r_0\)とし、
+\(d_x = x_2 - x_1\), \(d_y = y_2 - y_1\) とした時、接点を</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(\displaystyle \left( \begin{array}{c} x_1 \\ y_2 \end{array} \right) + \frac{r_1}{r_0} R(\theta) \left( \begin{array}{c} d_x \\ d_y \end{array} \right)\)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>として考える (\(R(\theta)\)は\(2 \times 2\)の回転行列)</p>
+</div>
+<div class="paragraph">
+<p>この時、</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>共通内接線の場合は \(\displaystyle |\cos \theta| = \frac{|r_1 - r_2|}{r_0}\)</p>
+</li>
+<li>
+<p>共通外接線の場合は \(\displaystyle |\cos \theta| = \frac{r_1 + r_2}{r_0}\)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>を満たす。(実際に図を書いてみると確認できる)</p>
+</div>
+<div class="paragraph">
+<p>この時 \(|\cos \theta| > 1\) の場合は接線が存在しない。また、\(|\cos \theta| = 1\) の場合は接線が1本のみ存在する。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>AOJ: "CGL_7_G: Circles - Common Tangent"で提出した実装のPython3版</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">x1, y1, r1 = map(int, input().split())
+x2, y2, r2 = map(int, input().split())
+
+from math import sqrt
+
+def solve(x1, y1, r1, x2, y2, r2):
+    result = []
+    xd = x2 - x1; yd = y2 - y1
+
+    rr0 = xd**2 + yd**2
+    r0 = sqrt(rr0)
+    if (r1 - r2)**2 &lt;= rr0:
+        # 共通外接線
+        cv = r1 - r2
+        if rr0 == (r1 - r2)**2:
+            # 円が内接する場合 =&gt; 共通外接線は1本
+            result.append((x1 + r1*cv*xd/rr0, y1 + r1*cv*yd/rr0))
+        else:
+            sv = sqrt(rr0 - cv**2)
+            # (x1, y1) + r1/r0*R(±θ)(x2 - x1, y2 - y1)
+            result.append((x1 + r1*(cv*xd - sv*yd)/rr0, y1 + r1*(sv*xd + cv*yd)/rr0))
+            result.append((x1 + r1*(cv*xd + sv*yd)/rr0, y1 + r1*(-sv*xd + cv*yd)/rr0))
+    if (r1 + r2)**2 &lt;= rr0:
+        # 共通内接線
+        cv = r1 + r2
+        if rr0 == (r1 + r2)**2:
+            # 円が外接する場合 =&gt; 共通内接線は1本
+            result.append((x1 + r1*cv*xd/rr0, y1 + r1*cv*yd/rr0))
+        else:
+            sv = sqrt(rr0 - cv**2)
+            # (x1, y1) + r1/r0*R(±θ)(x2 - x1, y2 - y1)
+            result.append((x1 + r1*(cv*xd - sv*yd)/rr0, y1 + r1*(sv*xd + cv*yd)/rr0))
+            result.append((x1 + r1*(cv*xd + sv*yd)/rr0, y1 + r1*(-sv*xd + cv*yd)/rr0))
+    return result
+
+result = sorted(solve(x1, y1, r1, x2, y2, r2))
+if result:
+    print("\n".join("%.08f %.08f" % p for p in result))</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "CGL_7_G: Circles - Common Tangent": (Python2) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416636#1>source</a></p>
+</li>
+</ul>
+</div>
+<hr>
+<div class="paragraph">
+<p><a href=../../index.html>戻る</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2018-09-22 15:38:22 JST
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { extensions: ["mhchem.js"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+</body>
+</html>

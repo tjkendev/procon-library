@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>橋検出(with chain decompositions) - 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/srcjavascript/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/srcstylesheet/custom.css">
+
+<style>
+  .click .title { color: blue; }
+  .click {margin-top: 0.5em; margin-bottom: 0.5em;}
+  .openblock { margin-top: 1em; margin-bottom: 1em; }
+  .openblock>.box>.content { margin-top:1em;margin-bottom: 1em;margin-left:3em;margin-right:4em; }
+</style>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+
+
+
+var ready2;
+
+ready2 = function() {
+
+    $(document).ready(function(){
+
+        $('.openblock.click').click( function()  { $(this).find('.content').slideToggle('200'); } )
+        $('.openblock.click').find('.content').hide()
+
+
+        $('.listingblock.click').click( function()  { $(this).find('.content').slideToggle('200') }  )
+        $('.listingblock.click').find('.content').hide()
+
+    });
+
+}
+
+
+
+
+$(document).ready(ready2);
+$(document).on('page:load', ready2);
+
+
+</script>
+
+</head>
+
+
+<body class="article">
+<div id="header">
+<h1>橋検出(with chain decompositions)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>橋検出(Bridge-finding with chain decompositions)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>グラフ\(G = (V, E)\)において橋(除去するとグラフが連結でなくなる辺)を検出する。</p>
+</div>
+<div class="paragraph">
+<p>計算量は\(O(|V|)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>橋検出して縮約したグラフを返す実装。
+多重辺にも対応できるようにしている。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Bridge-Finding with Chain Decompositions
+# 橋、二重辺連結成分分解
+# g: 隣接リスト, v: 頂点数, s: 探索開始地点
+#
+# DFS木を求めながら橋を見つけ、グラフを縮約していく
+def bridge_finding(G, N, start=0):
+    fin = [False] * N
+    v_cnts = [0] * N
+    used = [False] * N
+    bG = [[] for i in range(N)] # 縮約後のグラフ
+    bV = [[] for i in range(N)] # 各ノードに縮約される元頂点
+    def dfs(v, prev, edges, conts):
+        cur_c = prev_c = 0
+        used[v] = True
+        conts.append(v)
+        for w in G[v]:
+            if used[w]:
+                if w==prev:
+                    # (v, prev)の多重辺対応
+                    if prev_c == 1:
+                        v_cnts[prev] -= 1
+                        cur_c += 1
+                    prev_c += 1
+                elif not fin[w]:
+                    v_cnts[w] -= 1
+                    cur_c += 1
+            else:
+                w_edges = []; w_conts = []
+                ret = dfs(w, v, w_edges, w_conts)
+                if ret &gt; 0:
+                    edges += w_edges
+                    conts += w_conts
+                else:
+                    # (v, w)は橋
+                    bG[w] = w_edges
+                    for u in w_edges:
+                        bG[u].append(w)
+                    bV[w] = w_conts
+                    edges.append(w)
+                cur_c += ret
+        fin[v] = True
+        cur_c += v_cnts[v]
+        return cur_c
+    dfs(start, -1, bG[start], bV[start])
+    for u in bG[start]:
+        bG[u].append(start)
+    return bG#, bV</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>単純にグラフ内で橋となる辺(頂点のペア)を返す実装。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># 単純に橋となる辺を返す
+def bridge(G, N):
+    result = set()
+    label = [None]*N
+    gen = 0
+    cost = [0]*N
+    def dfs(u, p):
+        nonlocal gen
+        res = 0
+        for v in G[u]:
+            if v == p:
+                continue
+            if label[v] is not None:
+                if label[v] &lt; label[u]:
+                    cost[v] += 1
+                    res += 1
+            else:
+                label[v] = gen; gen += 1
+                r = dfs(v, u)
+                if r == 0:
+                    result.add((u, v) if u &lt; v else (v, u))
+                res += r
+        res -= cost[u]
+        return res
+    for v in range(N):
+        if not label[v]:
+            label[v] = gen; gen += 1
+            r = dfs(v, -1)
+            assert r == 0, r
+    return result</code></pre>
+</div>
+</div>
+<hr>
+<div class="paragraph">
+<p><a href=../../index.html>戻る</a></p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2018-09-18 00:00:29 JST
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { extensions: ["mhchem.js"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>Binary Indexed Tree - 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/srcjavascript/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/srcstylesheet/custom.css">
+
+<style>
+  .click .title { color: blue; }
+  .click {margin-top: 0.5em; margin-bottom: 0.5em;}
+  .openblock { margin-top: 1em; margin-bottom: 1em; }
+  .openblock>.box>.content { margin-top:1em;margin-bottom: 1em;margin-left:3em;margin-right:4em; }
+</style>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+
+
+
+var ready2;
+
+ready2 = function() {
+
+    $(document).ready(function(){
+
+        $('.openblock.click').click( function()  { $(this).find('.content').slideToggle('200'); } )
+        $('.openblock.click').find('.content').hide()
+
+
+        $('.listingblock.click').click( function()  { $(this).find('.content').slideToggle('200') }  )
+        $('.listingblock.click').find('.content').hide()
+
+    });
+
+}
+
+
+
+
+$(document).ready(ready2);
+$(document).on('page:load', ready2);
+
+
+</script>
+
+</head>
+
+
+<body class="article">
+<div id="header">
+<h1>Binary Indexed Tree</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Binary Indexed Tree (Fenwick Tree) は、部分和と要素の更新のクエリを行う木構造である。</p>
+</div>
+<div class="paragraph">
+<p>配列 \(a_1, a_2, ..., a_N\)を管理するBITは以下のクエリを1回\(O(\log N)\)で処理できる。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>部分和 \(a_1 + a_2 + ... + a_i\) を求める</p>
+</li>
+<li>
+<p>\(a_i\)に\(x\)を加える</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_1次元bit">1次元BIT</h3>
+<div class="paragraph">
+<p>\(Q\)個のクエリを処理する場合の計算量は\(O(Q \log N)\)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Binary Indexed Tree (Fenwick Tree)
+class BIT:
+    def __init__(self, n):
+        self.n = n
+        self.data = [0]*(n+1)
+        self.el = [0]*(n+1)
+    def sum(self, i):
+        s = 0
+        while i &gt; 0:
+            s += self.data[i]
+            i -= i &amp; -i
+        return s
+    def add(self, i, x):
+        # assert i &gt; 0
+        self.el[i] += x
+        while i &lt;= self.n:
+            self.data[i] += x
+            i += i &amp; -i
+    def get(self, i, j=None):
+        if j is None:
+            return self.el[i]
+        return self.sum(j) - self.sum(i)</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2次元bit">2次元BIT</h3>
+<div class="paragraph">
+<p>BITは2次元以上に拡張することができる。</p>
+</div>
+<div class="paragraph">
+<p>\(H \times W\)の2次元BITにおいて、\(Q\)個のクエリを処理する場合の計算量は\(O(Q \log W \log H)\)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Binary Index Tree (2-dimension)
+class BIT2:
+    # H*W
+    def __init__(self, h, w):
+        self.w = w
+        self.h = h
+        self.data = [{} for i in xrange(h+1)]
+
+    # O(logH*logW)
+    def sum(self, i, j):
+        s = 0
+        data = self.data
+        while i &gt; 0:
+            el = data[i]
+            k = j
+            while k &gt; 0:
+                s += el.get(k, 0)
+                k -= k &amp; -k
+            i -= i &amp; -i
+        return s
+
+    # O(logH*logW)
+    def add(self, i, j, x):
+        w = self.w; h = self.h
+        data = self.data
+        while i &lt;= h:
+            el = data[i]
+            k = j
+            while k &lt;= w:
+                el[k] = el.get(k, 0) + x
+                k += k &amp; -k
+            i += i &amp; -i
+
+    # [x0, x1) x [y0, y1)
+    def range_sum(self, x0, x1, y0, y1):
+        return self.sum(x1, y1) - self.sum(x1, y0) - self.sum(x0, y1) + self.sum(x0, y0)</code></pre>
+</div>
+</div>
+<hr>
+<div class="paragraph">
+<p><a href=../../index.html>戻る</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2018-09-19 00:12:00 JST
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { extensions: ["mhchem.js"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+</body>
+</html>

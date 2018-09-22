@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>平衡二分探索木を用いたConvex Hull Trick - 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/srcjavascript/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/srcstylesheet/custom.css">
+
+<style>
+  .click .title { color: blue; }
+  .click {margin-top: 0.5em; margin-bottom: 0.5em;}
+  .openblock { margin-top: 1em; margin-bottom: 1em; }
+  .openblock>.box>.content { margin-top:1em;margin-bottom: 1em;margin-left:3em;margin-right:4em; }
+</style>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+
+
+
+var ready2;
+
+ready2 = function() {
+
+    $(document).ready(function(){
+
+        $('.openblock.click').click( function()  { $(this).find('.content').slideToggle('200'); } )
+        $('.openblock.click').find('.content').hide()
+
+
+        $('.listingblock.click').click( function()  { $(this).find('.content').slideToggle('200') }  )
+        $('.listingblock.click').find('.content').hide()
+
+    });
+
+}
+
+
+
+
+$(document).ready(ready2);
+$(document).on('page:load', ready2);
+
+
+</script>
+
+</head>
+
+
+<body class="article">
+<div id="header">
+<h1>平衡二分探索木を用いたConvex Hull Trick</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>平衡二分探索木を用いてConvex Hull Trickを行う。</p>
+</div>
+<div class="paragraph">
+<p>最小値をとり得る\(x\)が存在する直線\(y = ax + b\)を傾き降順で管理し、\(x = k\)で最小値を取る直線を二分探索で求める。</p>
+</div>
+<div class="paragraph">
+<p>Pythonには標準で平衡二分探索木がないため、自力で実装する必要がある。(そして平衡二分探索木は処理が重いためつらい)</p>
+</div>
+<div class="paragraph">
+<p>計算量は\(O((N + Q) \log N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href=../binary_search_tree/treap.html>Treap</a> を用いた実装。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Convex Hull Trick: O((N + Q)logN) with Treap
+class ConvexHullTrick:
+    def __init__(self):
+        self.A = Treap()
+        self.B = {}
+
+    def check(self, a1, a2, a3):
+        B = self.B
+        b1 = B[a1]; b2 = B[a2]; b3 = B[a3]
+        return (a2-a1)*(b3-b2) &gt;= (b2-b1)*(a3-a2)
+
+    def add(self, a, b):
+        B = self.B; A = self.A
+        if a in B:
+            if B[a] &lt; b:
+                return
+            B[a] = b
+            cur = A.find_node(a)
+        else:
+            B[a] = b
+            node = A.find_node(a)
+            if node and node[6]:
+                a3 = node[6][0]; a1 = node[0]
+                # a1 &gt;= a &gt;= a3
+                if a1 &gt;= a &gt;= a3 and self.check(a1, a, a3):
+                    del B[a]
+                    return
+                cur = A.insert(a)
+            else:
+                cur = A.insert(a)
+        if cur and cur[6]:
+            p = cur[6]
+            while p and p[6] and p[7] and self.check(p[7][0], p[0], p[6][0]):
+                v = p[0]; p = p[6]; A.remove(v)
+                del B[v]
+        if cur and cur[7]:
+            p = cur[7]
+            while p and p[6] and p[7] and self.check(p[7][0], p[0], p[6][0]):
+                v = p[0]; p = p[7]; A.remove(v)
+                del B[v]
+
+    def empty(self):
+        return not self.B
+
+    def get(self, x):
+        B = self.B
+        calc = lambda a: a*x + B[a]
+        if len(B) == 1:
+            a, = B
+            return calc(a)
+        a = self.A.find_min(calc)
+        return calc(a)</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>(TLE) CSAcademy: "Squared Ends": (Python3) <a href=https://csacademy.com/submission/1404350/>source</a></p>
+</li>
+</ul>
+</div>
+<hr>
+<div class="paragraph">
+<p><a href=../../index.html>戻る</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2018-09-19 00:05:30 JST
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { extensions: ["mhchem.js"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>線分同士の交差判定 - 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/srcjavascript/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/srcstylesheet/custom.css">
+
+<style>
+  .click .title { color: blue; }
+  .click {margin-top: 0.5em; margin-bottom: 0.5em;}
+  .openblock { margin-top: 1em; margin-bottom: 1em; }
+  .openblock>.box>.content { margin-top:1em;margin-bottom: 1em;margin-left:3em;margin-right:4em; }
+</style>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+
+
+
+var ready2;
+
+ready2 = function() {
+
+    $(document).ready(function(){
+
+        $('.openblock.click').click( function()  { $(this).find('.content').slideToggle('200'); } )
+        $('.openblock.click').find('.content').hide()
+
+
+        $('.listingblock.click').click( function()  { $(this).find('.content').slideToggle('200') }  )
+        $('.listingblock.click').find('.content').hide()
+
+    });
+
+}
+
+
+
+
+$(document).ready(ready2);
+$(document).on('page:load', ready2);
+
+
+</script>
+
+</head>
+
+
+<body class="article">
+<div id="header">
+<h1>線分同士の交差判定</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>線分\(P_0-P_1\)と線分\(Q_0-Q_1\)が交差しているかを\(O(1)\)で判定する。
+外積と内積を用いて以下のように判定できる。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>外積を用いて、以下の2つの外積の積を計算</p>
+<div class="ulist">
+<ul>
+<li>
+<p>\(O_0 = |(P_1 - P_0) \times (Q_0 - P_0)| |(P_1 - P_0) \times (Q_1 - P_0)|\)</p>
+</li>
+<li>
+<p>\(O_1 = |(Q_1 - Q_0) \times (P_0 - Q_0)| |(Q_1 - Q_0) \times (P_1 - Q_0)|\)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>\(O_0 \le 0\) かつ \(O_1 \le 0\) であり、 \(O_0 < 0\) もしくは \(O_1 < 0\) である場合は交差</p>
+</li>
+<li>
+<p>\(O_0 = O_1 = 0\)である場合は \(P_0 = (1, 0), P_1 = (2, 0), Q_0 = (3, 0), Q_1 = (4, 0)\)のように線分が一直線上に並んでいるため、さらに内積を用いて判定</p>
+<div class="ulist">
+<ul>
+<li>
+<p>\(P_0\)と\(P_1\)の距離\(A\) と 内積 \(I_0 = (P_1 - P_0) \cdot (Q_0 - P_0)\), \(I_1 = (P_1 - P_0) \cdot (Q_1 - P_0)\)を計算</p>
+</li>
+<li>
+<p>区間\([0, A^2\)]と区間\([I_0, I_1\)]が重なるかを判定 (重なっていれば交差)</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>AOJ: "CGL_2_B: Segments/Lines - Intersection"で提出した実装</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># 線分同士の交点判定
+def dot3(O, A, B):
+    ox, oy = O; ax, ay = A; bx, by = B
+    return (ax - ox) * (bx - ox) + (ay - oy) * (by - oy)
+def cross3(O, A, B):
+    ox, oy = O; ax, ay = A; bx, by = B
+    return (ax - ox) * (by - oy) - (bx - ox) * (ay - oy)
+def dist2(A, B):
+    ax, ay = A; bx, by = B
+    return (ax - bx) ** 2 + (ay - by) ** 2
+def is_intersection(P0, P1, Q0, Q1):
+    C0 = cross3(P0, P1, Q0)
+    C1 = cross3(P0, P1, Q1)
+    D0 = cross3(Q0, Q1, P0)
+    D1 = cross3(Q0, Q1, P1)
+    if C0 == C1 == 0:
+        E0 = dot3(P0, P1, Q0)
+        E1 = dot3(P0, P1, Q1)
+        if not E0 &lt; E1:
+            E0, E1 = E1, E0
+        return E0 &lt;= dist2(P0, P1) and 0 &lt;= E1
+    return C0 * C1 &lt;= 0 and D0 * D1 &lt;= 0
+for q in range(int(input())):
+    x0, y0, x1, y1, x2, y2, x3, y3 = map(int, input().split())
+    print(+is_intersection((x0, y0), (x1, y1), (x2, y2), (x3, y3)))</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "CGL_2_B: Segments/Lines - Intersection": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2647106#1>source</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考ページ">参考ページ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href=https://ja.wikipedia.org/wiki/%E5%A4%9A%E8%A7%92%E5%BD%A2>多角形 - Wikipedia</a></p>
+</li>
+</ul>
+</div>
+<hr>
+<div class="paragraph">
+<p><a href=../../index.html>戻る</a></p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2018-09-22 14:55:25 JST
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { extensions: ["mhchem.js"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+</body>
+</html>
