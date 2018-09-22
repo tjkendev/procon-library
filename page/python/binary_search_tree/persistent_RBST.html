@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>Randomized Binary Search Tree - yaketake08の実装コードメモ</title>
+<title>永続RBST - yaketake08の実装コードメモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/page-src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,13 +56,13 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>Randomized Binary Search Tree</h1>
+<h1>永続RBST</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Randomized Binary Search Tree</p>
+<p>永続RBST (Persistent Randomized Binary Search Tree)</p>
 </div>
 </div>
 </div>
@@ -70,19 +70,19 @@ $(document).on('page:load', ready2);
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>遅延評価付きの永続型平衡二分木。</p>
+<p>乱数を使った平衡二分木であるRandomized Binary Search Treeのデータを永続化したもの。</p>
 </div>
 <div class="paragraph">
-<p>詳しくは <a href=https://www.slideshare.net/chokudai/arc030>ARC030のD問題の解説</a> を読むと良い</p>
-</div>
-<div class="paragraph">
-<p>一回のクエリ処理は\(O(\log N)\)</p>
+<p>詳しくは <a href=https://www.slideshare.net/chokudai/arc030>ARC030のD問題の解説</a></p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_実装">実装</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>遅延評価付きの永続型平衡二分木の実装。</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Randomized Binary Search Tree
@@ -173,7 +173,7 @@ def split(node, k):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-20 01:20:04 JST
+Last updated 2018-09-22 13:10:29 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

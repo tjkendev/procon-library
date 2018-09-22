@@ -1,0 +1,36 @@
+= 最大フロー (Dinic's Algorithm)
+:title: {doctitle} - {pagetitle}
+
+最大フロー問題を解くアルゴリズムの１つ Dinic's Algorithm
+
+== 概要
+
+最大流問題は、有向グラフ$G = (V, E)$の各辺$e \in E$に容量$c(u, v)$がついており、このグラフ上のsourceからsinkへ流せる流量を求める問題である。
+
+最大フロー最小カット定理が成り立つため、最小カット問題も解くことができる。
+
+=== Dinic's Algorithm
+
+Ford-Fulkerson algorithmよりも早い最大流アルゴリズム。
+以下の処理をフローを流しきるまで繰り返す。
+
+1. BFSでsourceから各頂点までの距離($level$)を計算
+2. DFSで、sourceからの距離が遠くなるようなパスを見つけ、フローを流す
+
+計算量は$O(V^2E)$
+
+== 実装
+
+蟻本ベース実装
+
+[source, python]
+----
+include::./python/max_flow/dinic.py[]
+----
+
+=== Verified
+
+* AtCoder: "AtCoder Regular Contest 085 - E問題: MUL": (Python3) link:https://beta.atcoder.jp/contests/arc085/submissions/2451765[source]
+
+***
+link:../../index.html[戻る]

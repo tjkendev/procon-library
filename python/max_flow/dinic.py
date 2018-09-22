@@ -1,4 +1,4 @@
-# Dinic algorithm
+# Dinic's algorithm
 import collections
 class Dinic:
     def __init__(self, n):

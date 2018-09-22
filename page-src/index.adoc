@@ -25,7 +25,7 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 === 二分木
 
 * link:./python/binary_search_tree/treap.html[Treap]
-* link:./python/binary_search_tree/randomized_binary_search_tree.html[Randomized Binary Search Tree]
+* link:./python/binary_search_tree/persistent_RBST.html[永続RBST]
 
 === 区間クエリ
 
@@ -46,7 +46,8 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 
 === フロー
 
-* link:./python/max_flow/max_flow.html[最大流問題]
+* link:./python/max_flow/ford-fulkerson.html[最大フロー (Ford-Fulkerson Algorithm)]
+* link:./python/max_flow/dinic.html[最大フロー (Dinic's Algorithm)]
 * link:./python/min_cost_flow/min_cost_flow.html[最小費用流問題]
 
 === 行列・数列

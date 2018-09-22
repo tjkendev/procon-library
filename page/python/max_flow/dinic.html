@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>最大流問題 - yaketake08の実装コードメモ</title>
+<title>最大フロー (Dinic's Algorithm) - yaketake08の実装コードメモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/page-src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,9 +56,16 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>最大流問題</h1>
+<h1>最大フロー (Dinic&#8217;s Algorithm)</h1>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>最大フロー問題を解くアルゴリズムの１つ Dinic&#8217;s Algorithm</p>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
@@ -68,61 +75,8 @@ $(document).on('page:load', ready2);
 <div class="paragraph">
 <p>最大フロー最小カット定理が成り立つため、最小カット問題も解くことができる。</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_ford_fulkerson_algorithm">Ford-Fulkerson algorithm</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>sourceからsinkへのパスを片っ端から探し、そのパスに流せる限り流す。</p>
-</div>
-<div class="paragraph">
-<p>流すフローを\(F\)とすると、計算量は\(O(EF)\)になる。</p>
-</div>
-<div class="paragraph">
-<p>Pythonだと遅いため使いにくい。
-蟻本ベース実装</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Ford-Fulkerson algorithm
-class MaxFlow:
-    def __init__(self, n):
-        self.n = n
-        self.g = [[] for i in range(n)]
-    def add_edge(self, fr, to, cap):
-        self.g[fr].append([to, cap, len(self.g[to])])
-        self.g[to].append([fr, 0, len(self.g[fr])-1])
-    def add_multi_edge(self, v1, v2, cap1, cap2):
-        self.g[v1].append([v2, cap1, len(self.g[v2])])
-        self.g[v2].append([v1, cap2, len(self.g[v1])-1])
-    def dfs(self, v, t, f):
-        if v==t: return f
-        used = self.used
-        used[v] = True
-        for e in self.g[v]:
-            if not used[e[0]] and e[1]&gt;0:
-                d = self.dfs(e[0], t, min(f, e[1]))
-                if d&gt;0:
-                    e[1] -= d
-                    self.g[e[0]][e[2]][1] += d
-                    return d
-        return 0
-    def max_flow(self, s, t):
-        flow = 0
-        while True:
-            self.used = [0]*self.n
-            f = self.dfs(s, t, 10**9+7)
-            if f==0: break
-            flow += f
-        return flow</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_dinic_algorithm">Dinic algorithm</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_dinics_algorithm">Dinic&#8217;s Algorithm</h3>
 <div class="paragraph">
 <p>Ford-Fulkerson algorithmよりも早い最大流アルゴリズム。
 以下の処理をフローを流しきるまで繰り返す。</p>
@@ -140,9 +94,14 @@ class MaxFlow:
 <div class="paragraph">
 <p>計算量は\(O(V^2E)\)</p>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Pythonが遅いのもあり、基本こちらを使った方がよい。
-蟻本ベース実装</p>
+<p>蟻本ベース実装</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -219,7 +178,7 @@ class Dinic:
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-20 00:41:30 JST
+Last updated 2018-09-22 13:05:17 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
