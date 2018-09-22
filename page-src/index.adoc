@@ -14,6 +14,12 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 
 === 幾何
 
+* link:./python/geometry/polygon_area.html[多角形の面積]
+* link:./python/geometry/segment_line_intersection.html[線分同士の交差判定]
+* link:./python/geometry/line_cross_point.html[直線の交点]
+* link:./python/geometry/circle_line_cross_point.html[直線と円の交点]
+* link:./python/geometry/circle_cross_point.html[円同士の交点]
+* link:./python/geometry/circle_common_tangent_point.html[円の共通接線の接点]
 * link:./python/geometry/graham_scan.html[凸包(Graham Scan)]
 * link:./python/geometry/rotating_calipers.html[最遠点対(キャリパー法)]
 * link:./python/geometry/closest_pair.html[最近点対(分割統治法)]

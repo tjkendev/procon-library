@@ -9,7 +9,7 @@ TARGET := '**/*.adoc'
 HIGHLIGHTER := highlightjs
 STYLESHEET := ./stylesheet/github.css
 SRCDIR := 'https://tjkendev.github.io/procon-library/page-src/'
-TITLE := 'yaketake08の実装コードメモ'
+TITLE := '実装メモ'
 
 # for local debug
 CUR := '$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))'

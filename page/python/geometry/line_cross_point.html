@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>確率的素数判定 - 実装メモ</title>
+<title>直線の交点 - 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/page-src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,31 +56,65 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>確率的素数判定</h1>
+<h1>直線の交点</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_フェルマーテスト">フェルマーテスト</h2>
+<h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>フェルマーテスト (Fermat primality test)</p>
+<p>点\((x_0, y_0)\)と点\((x_1, y_1)\)を通る直線1と点\((x_2, y_2)\)と点\((x_3, y_3)\)を通る直線2の交点を求める。</p>
 </div>
 <div class="paragraph">
-<p>巨大な数が素数であるかを判定する。</p>
+<p>直線1上の点\((x, y) = (x_0, y_0) + s(x_1 - x_0, y_1 - y_0)\)の中で、直線2と交わる時の\(s\)を計算して交点を求める。</p>
 </div>
 <div class="paragraph">
-<p><a href=https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%83%9E%E3%82%A4%E3%82%B1%E3%83%AB%E6%95%B0>カーマイケル数</a> の判定が難しいため、ミラーラビン素数判定法を使った方がよい。</p>
+<p>線分同士の交点を計算する場合、線分の交差判定を行った上で直線とみなして交点を計算すればよい。</p>
+</div>
+<div class="sect2">
+<h3 id="_具体的計算">具体的計算</h3>
+<div class="paragraph">
+<p>\(d_{x0} = x_1 - x_0\), \(d_{y0} = y_1 - y_0\),
+\(d_{x1} = x_3 - x_2\), \(d_{y1} = y_3 - y_2\) とした時、</p>
+</div>
+<div class="paragraph">
+<p>\(\displaystyle s = \frac{(y_0 - y_2) d_{x1} - (x_0 - x_2) d_{x1}}{d_{x0} d_{y1} - d_{y0} d_{x1}}\)</p>
+</div>
+<div class="paragraph">
+<p>を満たす。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>AOJ: "CGL_2_C: Segments/Lines - Cross Point"の実装</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># フェルマーテスト
-import random
-def fermat(k):
-    for _ in xrange(1000):
-        a = random.randint(2, k-1)
-        if pow(a, k-1, k)!=1:
-            return 0
-    return 1</code></pre>
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">def solve(x0, y0, x1, y1, x2, y2, x3, y3):
+    dx0 = x1 - x0
+    dy0 = y1 - y0
+    dx1 = x3 - x2
+    dy1 = y3 - y2
+
+    s = (y0-y2)*dx1 - (x0-x2)*dy1
+    sm = dx0*dy1 - dy0*dx1
+    if s &lt; 0:
+        s = -s
+        sm = -sm
+    if s == 0:
+        x = x0
+        y = y0
+    else:
+        x = x0 + s*dx0/sm
+        y = y0 + s*dy0/sm
+    return x, y
+
+for t in range(int(input())):
+    print("%.09f %.09f" % solve(*map(int, input().split())))</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -88,52 +122,8 @@ def fermat(k):
 <div class="ulist">
 <ul>
 <li>
-<p>(WA) yukicoder: "No.308 素数は通れません": (Python2) <a href=https://yukicoder.me/submissions/61897>source</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>カーマイケル数で落ちてWA</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_ミラーラビン素数判定法">ミラーラビン素数判定法</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>ミラーラビン素数判定法 (Miller-Rabin primality test)</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># ミラーラビン素数判定法
-import random
-def miller_rabin(n):
-    if n==2: return 1
-    if n==1 or n&amp;1==0: return 0
-    d = n-1
-    d /= d &amp; -d
-    for _ in range(1000):
-        a = random.randint(1, n-1)
-        t = d
-        y = pow(a, t, n)
-        while t!=n-1 and y!=1 and y!=n-1:
-            y = y**2 % n
-            t &lt;&lt;= 1
-        if y!=n-1 and t&amp;1==0: return 0
-    return 1</code></pre>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_verified_2">Verified</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>yukicoder: "No.308 素数は通れません": (Python2) <a href=https://yukicoder.me/submissions/61936>source</a></p>
+<p>AOJ: "CGL_2_C: Segments/Lines - Cross Point": (Python3) link:
+<a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3148979#1>source</a></p>
 </li>
 </ul>
 </div>
@@ -147,7 +137,7 @@ def miller_rabin(n):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-22 13:14:13 JST
+Last updated 2018-09-22 16:07:21 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

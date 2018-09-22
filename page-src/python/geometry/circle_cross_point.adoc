@@ -1,0 +1,38 @@
+= 円同士の交点
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+円1: 中心$(x_1, y_1)$ 半径$r_1$ と 円2: 中心$(x_2, y_2)$ 半径$r_2$ の2つの円について交点を計算する。
+
+円1と円の交点のうちの1点がなす角$\theta$の $\cos \theta$ と $\sin \theta$ の値を計算し、交点の座標を求める。
+
+=== 具体的計算
+
+2つの円の中心同士の距離を$r_0$とし、なす角$\theta$を計算
+
+* $\displaystyle \cos \theta = \frac{r_0^2 + r_1^2 - r_2^2}{2 r_0 r_1}$
+* $\displaystyle \sin \theta = \sqrt{1 - \cos^2 \theta} = \frac{\sqrt{4 r_0^2 r_1^2 - (r_0^2 + r_1^2 - r_2^2)^2}}{2 r_0 r_1}$
+
+そして、$d_x = x_2 - x_1$, $d_y = y_2 - y_1$ とすると、2つの交点は、
+
+* $\displaystyle \left( \begin{array}{c} x_1 \\ y_2 \end{array} \right) + \frac{r_1}{r_0} R(\theta) \left( \begin{array}{c} d_x \\ d_y \end{array} \right)$
+* $\displaystyle \left( \begin{array}{c} x_1 \\ y_2 \end{array} \right) + \frac{r_1}{r_0} R(-\theta) \left( \begin{array}{c} d_x \\ d_y \end{array} \right)$
+
+で計算できる ($R(\theta)$は$2 \times 2$の回転行列)
+
+== 実装
+
+AOJ: "CGL_7_E: Circles - Cross Points of Circles"で提出した実装のPython3版
+
+[source, python]
+----
+include::./python/geometry/circle_cross_point.py[]
+----
+
+=== Verified
+
+- AOJ: "CGL_7_E: Circles - Cross Points of Circles": (Python2) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416434#1[source]
+
+***
+link:../../index.html[戻る]

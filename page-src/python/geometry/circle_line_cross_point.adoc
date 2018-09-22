@@ -1,0 +1,36 @@
+= 直線と円の交点
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+2点$(x_1, y_1), (x_2, y_2)$を通る直線と円: 中心$(c_x, c_y)$ 半径$r$との交点を計算する。
+
+$d_x = x_2 - x_1$, $d_y = y_2 - y_1$とする。
+
+直線を通る点を $(x, y) = (x_1, y_1) + s(d_x, d_y)$ とした時、$(x - c_x)^2 + (y - c_y)^2 = r^2$ となる $s$ を求める。
+
+=== 具体的計算
+
+$(x - c_x)^2 + (y - c_y)^2 = r^2$を変形すると、 $X = x_1 - c_x$, $Y = y_1 - c_y$ とした時に、
+
+$(d_x^2 + d_y^2) s^2 -2 (d_x X + d_y Y) s + (X^2 + Y^2 - r^2) = 0$
+
+が得られるため、この$s$の解を計算する。
+
+そして、この$s$から交点$(x, y)$を求める。
+
+== 実装
+
+AOJ: "CGL_7_D: Circles - Cross Points of a Circle and a Line"で提出した実装のPython3版
+
+[source, python]
+----
+include::./python/geometry/circle_line_cross_point.py[]
+----
+
+=== Verified
+
+* AOJ: "CGL_7_D: Circles - Cross Points of a Circle and a Line": (Python2) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416269#1[source]
+
+***
+link:../../index.html[戻る]

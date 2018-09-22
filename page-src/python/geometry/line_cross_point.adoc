@@ -1,0 +1,37 @@
+= 直線の交点
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+点$(x_0, y_0)$と点$(x_1, y_1)$を通る直線1と点$(x_2, y_2)$と点$(x_3, y_3)$を通る直線2の交点を求める。
+
+直線1上の点$(x, y) = (x_0, y_0) + s(x_1 - x_0, y_1 - y_0)$の中で、直線2と交わる時の$s$を計算して交点を求める。
+
+
+線分同士の交点を計算する場合、線分の交差判定を行った上で直線とみなして交点を計算すればよい。
+
+=== 具体的計算
+
+$d_{x0} = x_1 - x_0$, $d_{y0} = y_1 - y_0$,
+$d_{x1} = x_3 - x_2$, $d_{y1} = y_3 - y_2$ とした時、
+
+$\displaystyle s = \frac{(y_0 - y_2) d_{x1} - (x_0 - x_2) d_{x1}}{d_{x0} d_{y1} - d_{y0} d_{x1}}$
+
+を満たす。
+
+== 実装
+
+AOJ: "CGL_2_C: Segments/Lines - Cross Point"の実装
+
+[source, python]
+----
+include::./python/geometry/line_cross_point.py[]
+----
+
+=== Verified
+
+- AOJ: "CGL_2_C: Segments/Lines - Cross Point": (Python3) link:
+http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3148979#1[source]
+
+***
+link:../../index.html[戻る]

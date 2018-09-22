@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>確率的素数判定 - 実装メモ</title>
+<title>線分同士の交差判定 - 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/page-src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/page-src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,31 +56,84 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>確率的素数判定</h1>
+<h1>線分同士の交差判定</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_フェルマーテスト">フェルマーテスト</h2>
+<h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>フェルマーテスト (Fermat primality test)</p>
+<p>線分\(P_0-P_1\)と線分\(Q_0-Q_1\)が交差しているかを\(O(1)\)で判定する。
+外積と内積を用いて以下のように判定できる。</p>
 </div>
-<div class="paragraph">
-<p>巨大な数が素数であるかを判定する。</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>外積を用いて、以下の2つの外積の積を計算</p>
+<div class="ulist">
+<ul>
+<li>
+<p>\(O_0 = |(P_1 - P_0) \times (Q_0 - P_0)| |(P_1 - P_0) \times (Q_1 - P_0)|\)</p>
+</li>
+<li>
+<p>\(O_1 = |(Q_1 - Q_0) \times (P_0 - Q_0)| |(Q_1 - Q_0) \times (P_1 - Q_0)|\)</p>
+</li>
+</ul>
 </div>
+</li>
+<li>
+<p>\(O_0 \le 0\) かつ \(O_1 \le 0\) であり、 \(O_0 < 0\) もしくは \(O_1 < 0\) である場合は交差</p>
+</li>
+<li>
+<p>\(O_0 = O_1 = 0\)である場合は \(P_0 = (1, 0), P_1 = (2, 0), Q_0 = (3, 0), Q_1 = (4, 0)\)のように線分が一直線上に並んでいるため、さらに内積を用いて判定</p>
+<div class="ulist">
+<ul>
+<li>
+<p>\(P_0\)と\(P_1\)の距離\(A\) と 内積 \(I_0 = (P_1 - P_0) \cdot (Q_0 - P_0)\), \(I_1 = (P_1 - P_0) \cdot (Q_1 - P_0)\)を計算</p>
+</li>
+<li>
+<p>区間\([0, A^2\)]と区間\([I_0, I_1\)]が重なるかを判定 (重なっていれば交差)</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p><a href=https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%83%9E%E3%82%A4%E3%82%B1%E3%83%AB%E6%95%B0>カーマイケル数</a> の判定が難しいため、ミラーラビン素数判定法を使った方がよい。</p>
+<p>AOJ: "CGL_2_B: Segments/Lines - Intersection"で提出した実装</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># フェルマーテスト
-import random
-def fermat(k):
-    for _ in xrange(1000):
-        a = random.randint(2, k-1)
-        if pow(a, k-1, k)!=1:
-            return 0
-    return 1</code></pre>
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># 線分同士の交点判定
+def dot3(O, A, B):
+    ox, oy = O; ax, ay = A; bx, by = B
+    return (ax - ox) * (bx - ox) + (ay - oy) * (by - oy)
+def cross3(O, A, B):
+    ox, oy = O; ax, ay = A; bx, by = B
+    return (ax - ox) * (by - oy) - (bx - ox) * (ay - oy)
+def dist2(A, B):
+    ax, ay = A; bx, by = B
+    return (ax - bx) ** 2 + (ay - by) ** 2
+def is_intersection(P0, P1, Q0, Q1):
+    C0 = cross3(P0, P1, Q0)
+    C1 = cross3(P0, P1, Q1)
+    D0 = cross3(Q0, Q1, P0)
+    D1 = cross3(Q0, Q1, P1)
+    if C0 == C1 == 0:
+        E0 = dot3(P0, P1, Q0)
+        E1 = dot3(P0, P1, Q1)
+        if not E0 &lt; E1:
+            E0, E1 = E1, E0
+        return E0 &lt;= dist2(P0, P1) and 0 &lt;= E1
+    return C0 * C1 &lt;= 0 and D0 * D1 &lt;= 0
+for q in range(int(input())):
+    x0, y0, x1, y1, x2, y2, x3, y3 = map(int, input().split())
+    print(+is_intersection((x0, y0), (x1, y1), (x2, y2), (x3, y3)))</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -88,14 +141,7 @@ def fermat(k):
 <div class="ulist">
 <ul>
 <li>
-<p>(WA) yukicoder: "No.308 素数は通れません": (Python2) <a href=https://yukicoder.me/submissions/61897>source</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>カーマイケル数で落ちてWA</p>
-</li>
-</ul>
-</div>
+<p>AOJ: "CGL_2_B: Segments/Lines - Intersection": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2647106#1>source</a></p>
 </li>
 </ul>
 </div>
@@ -103,37 +149,12 @@ def fermat(k):
 </div>
 </div>
 <div class="sect1">
-<h2 id="_ミラーラビン素数判定法">ミラーラビン素数判定法</h2>
+<h2 id="_参考ページ">参考ページ</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>ミラーラビン素数判定法 (Miller-Rabin primality test)</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># ミラーラビン素数判定法
-import random
-def miller_rabin(n):
-    if n==2: return 1
-    if n==1 or n&amp;1==0: return 0
-    d = n-1
-    d /= d &amp; -d
-    for _ in range(1000):
-        a = random.randint(1, n-1)
-        t = d
-        y = pow(a, t, n)
-        while t!=n-1 and y!=1 and y!=n-1:
-            y = y**2 % n
-            t &lt;&lt;= 1
-        if y!=n-1 and t&amp;1==0: return 0
-    return 1</code></pre>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_verified_2">Verified</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>yukicoder: "No.308 素数は通れません": (Python2) <a href=https://yukicoder.me/submissions/61936>source</a></p>
+<p><a href=https://ja.wikipedia.org/wiki/%E5%A4%9A%E8%A7%92%E5%BD%A2>多角形 - Wikipedia</a></p>
 </li>
 </ul>
 </div>
@@ -144,10 +165,9 @@ def miller_rabin(n):
 </div>
 </div>
 </div>
-</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-22 13:14:13 JST
+Last updated 2018-09-22 14:55:25 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

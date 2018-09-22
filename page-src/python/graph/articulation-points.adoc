@@ -18,6 +18,10 @@ DFSでlowlinkを計算しながら関節点を求める。
 include::./python/graph/articulation_points.py[]
 ----
 
+== 参考ページ
+
+* link:http://kagamiz.hatenablog.com/entry/2013/10/05/005213[橋と関節点, lowlink - Lilliput Steps]
+
 
 ***
 
