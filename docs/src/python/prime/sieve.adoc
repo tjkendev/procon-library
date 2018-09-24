@@ -1,0 +1,48 @@
+= 素数を求める篩法
+
+== 概要
+
+エラトステネスの篩等の篩法を用いることで、$N$以下の全ての素数を見つけることができる。
+
+== エラトステネスの篩
+
+エラトステネスの篩 (Sieve of Eratosthenes)
+
+計算量は $O(N \log \log N)$
+
+=== 実装
+
+[source, python]
+----
+include::./python/prime/sieve_of_eratosthenes.py[]
+----
+
+==== Verified
+
+- AOJ: "0009 - Prime Number": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3151236#1[source]
+
+== アトキンの篩
+
+アトキンの篩 (Sieve of Atkin)
+
+計算量は $O( N / \log \log N)$
+
+=== 実装
+
+[source, python]
+----
+include::./python/prime/sieve_of_atkin.py[]
+----
+
+==== Verified
+
+- AOJ: "0009 - Prime Number": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3152102[source]
+
+== 参考ページ
+
+* link:https://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n[Fastest way to list all primes below N - stack overflow]
+* link:https://en.wikipedia.org/wiki/Sieve_of_Atkin[Sieve of Atkin - Wikipedia]
+* link:https://stackoverflow.com/questions/2398894/why-is-my-implementation-of-the-sieve-of-atkin-overlooking-numbers-close-to-the[Why is my implementation of the Sieve of Atkin overlooking numbers close to the specified limit? - stack overflow]
+
+***
+link:../../index.html[戻る]

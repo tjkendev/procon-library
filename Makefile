@@ -1,5 +1,7 @@
 .PHONY: docs docs-local clean
 
+BASEPATH = https://tjkendev.github.io/procon-library/
+
 CMD := asciidoctor-latex
 FMT := html
 SRC := ./docs/src
@@ -9,14 +11,14 @@ BASE := ./
 TARGET := '**/*.adoc'
 HIGHLIGHTER := highlightjs
 STYLESHEET := ./stylesheet/github.css
-SRCDIR := 'https://tjkendev.github.io/procon-library/src'
+SRCDIR := '$(BASEPATH)src'
 TITLE := '実装メモ'
 
 
 # for local debug
-CUR := '$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))'
+CUR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 DST-LOCAL := ./docs-local
-SRCDIR-LOCAL := $(CUR)/docs/src/
+SRCDIR-LOCAL := '$(CUR)/docs/src/'
 
 docs:
 	$(CMD) -b $(FMT) -R $(SRC) -D $(DST) $(TARGET) -B $(BASE) \

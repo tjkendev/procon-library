@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>素数を求める篩法</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
+
+<style>
+  .click .title { color: blue; }
+  .click {margin-top: 0.5em; margin-bottom: 0.5em;}
+  .openblock { margin-top: 1em; margin-bottom: 1em; }
+  .openblock>.box>.content { margin-top:1em;margin-bottom: 1em;margin-left:3em;margin-right:4em; }
+</style>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+
+
+
+var ready2;
+
+ready2 = function() {
+
+    $(document).ready(function(){
+
+        $('.openblock.click').click( function()  { $(this).find('.content').slideToggle('200'); } )
+        $('.openblock.click').find('.content').hide()
+
+
+        $('.listingblock.click').click( function()  { $(this).find('.content').slideToggle('200') }  )
+        $('.listingblock.click').find('.content').hide()
+
+    });
+
+}
+
+
+
+
+$(document).ready(ready2);
+$(document).on('page:load', ready2);
+
+
+</script>
+
+</head>
+
+
+<body class="article">
+<div id="header">
+<h1>素数を求める篩法</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>エラトステネスの篩等の篩法を用いることで、\(N\)以下の全ての素数を見つけることができる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_エラトステネスの篩">エラトステネスの篩</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>エラトステネスの篩 (Sieve of Eratosthenes)</p>
+</div>
+<div class="paragraph">
+<p>計算量は \(O(N \log \log N)\)</p>
+</div>
+<div class="sect2">
+<h3 id="_実装">実装</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from math import sqrt
+M = 10**6
+p = [1]*(M+1)
+p[0] = p[1] = 0
+for x in range(2, int(sqrt(M))+1):
+    if p[x]:
+        for y in range(x*x, M+1, x):
+            p[y] = 0</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_verified">Verified</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "0009 - Prime Number": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3151236#1>source</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_アトキンの篩">アトキンの篩</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>アトキンの篩 (Sieve of Atkin)</p>
+</div>
+<div class="paragraph">
+<p>計算量は \(O( N / \log \log N)\)</p>
+</div>
+<div class="sect2">
+<h3 id="_実装_2">実装</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">M = 10**6
+
+p = [0]*(M+60)
+sM = M**0.5
+for x in range(1, int(sM/2)+1):
+    v = 4*x*x + 1; y = 8
+    while v &lt;= M:
+        if v % 12 != 9: # v % 12 in [1, 5]
+            p[v] ^= 1
+        v += y; y += 8
+for x in range(1, int(sM/3**0.5)+1, 2):
+    v = 3*x*x + 4; y = 12
+    while v &lt;= M:
+        if v % 12 == 7:
+            p[v] ^= 1
+        v += y; y += 8
+for x in range(2, int(sM/2**0.5)+1):
+    v = 2*x*(x+1)-1; y = 4*x-8
+    while 0 &lt;= y and v &lt;= M:
+        if v % 12 == 11:
+            p[v] ^= 1
+        v += y; y -= 8
+
+for n in range(5, int(sM)+1):
+    if p[n]:
+        for z in range(n*n, M, n*n):
+            p[z] = 0
+p[2] = p[3] = 1</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_verified_2">Verified</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "0009 - Prime Number": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3152102>source</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考ページ">参考ページ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href=https://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n>Fastest way to list all primes below N - stack overflow</a></p>
+</li>
+<li>
+<p><a href=https://en.wikipedia.org/wiki/Sieve_of_Atkin>Sieve of Atkin - Wikipedia</a></p>
+</li>
+<li>
+<p><a href=https://stackoverflow.com/questions/2398894/why-is-my-implementation-of-the-sieve-of-atkin-overlooking-numbers-close-to-the>Why is my implementation of the Sieve of Atkin overlooking numbers close to the specified limit? - stack overflow</a></p>
+</li>
+</ul>
+</div>
+<hr>
+<div class="paragraph">
+<p><a href=../../index.html>戻る</a></p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2018-09-24 16:06:20 JST
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { extensions: ["mhchem.js"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+</body>
+</html>
