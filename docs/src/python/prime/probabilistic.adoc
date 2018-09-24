@@ -7,7 +7,7 @@
 
 巨大な数が素数であるかを判定する。
 
-link:https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%83%9E%E3%82%A4%E3%82%B1%E3%83%AB%E6%95%B0[カーマイケル数] の判定が難しいため、ミラーラビン素数判定法を使った方がよい。
+link:https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%83%9E%E3%82%A4%E3%82%B1%E3%83%AB%E6%95%B0[カーマイケル数] を誤って素数と判定してしまう。
 
 [source, python]
 ----

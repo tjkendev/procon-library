@@ -27,9 +27,5 @@ include::./python/geometry/segment_line_intersection.py[]
 
 - AOJ: "CGL_2_B: Segments/Lines - Intersection": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2647106#1[source]
 
-== 参考ページ
-
-* link:https://ja.wikipedia.org/wiki/%E5%A4%9A%E8%A7%92%E5%BD%A2[多角形 - Wikipedia]
-
 ***
 link:../../index.html[戻る]
