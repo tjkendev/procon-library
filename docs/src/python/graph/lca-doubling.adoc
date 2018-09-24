@@ -1,0 +1,27 @@
+= 最小共通祖先 (ダブリング)
+:title: {doctitle} - {pagetitle}
+
+最小共通祖先 (Lowest Common Ancestor, LCA)
+
+== 概要
+
+根付きグラフ$G$のある頂点$u, v$について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。
+
+ダブリングを使ったアルゴリズムでは、各頂点について$2^K$回($0 \le K \le \lceil \log N \rceil$)親に遡った時の頂点を計算しておく。
+LCAを求める際は、$u, v$のそれぞれの祖先のうち、共通祖先となる頂点と共通祖先でない頂点の境目を2分探索で見つけて求める。
+
+前計算の計算量は $O(N \log N)$ となり、各LCAを求めるのに $O(\log N)$ かかる。
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/lca-doubling.py[]
+----
+
+=== Verified
+
+* AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3152550#1[source]
+
+***
+link:../../index.html[戻る]

@@ -1,4 +1,5 @@
 = 素数を求める篩法
+:title: {doctitle} - {pagetitle}
 
 == 概要
 

@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>確率的素数判定 - 実装メモ</title>
+<title>最小共通祖先 (ダブリング) - 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,31 +56,82 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>確率的素数判定</h1>
+<h1>最小共通祖先 (ダブリング)</h1>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_フェルマーテスト">フェルマーテスト</h2>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>フェルマーテスト (Fermat primality test)</p>
+<p>最小共通祖先 (Lowest Common Ancestor, LCA)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>根付きグラフ\(G\)のある頂点\(u, v\)について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。</p>
 </div>
 <div class="paragraph">
-<p>巨大な数が素数であるかを判定する。</p>
+<p>ダブリングを使ったアルゴリズムでは、各頂点について\(2^K\)回(\(0 \le K \le \lceil \log N \rceil\))親に遡った時の頂点を計算しておく。
+LCAを求める際は、\(u, v\)のそれぞれの祖先のうち、共通祖先となる頂点と共通祖先でない頂点の境目を2分探索で見つけて求める。</p>
 </div>
 <div class="paragraph">
-<p><a href=https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%83%9E%E3%82%A4%E3%82%B1%E3%83%AB%E6%95%B0>カーマイケル数</a> の判定が難しいため、ミラーラビン素数判定法を使った方がよい。</p>
+<p>前計算の計算量は \(O(N \log N)\) となり、各LCAを求めるのに \(O(\log N)\) かかる。</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># フェルマーテスト
-import random
-def fermat(k):
-    for _ in xrange(1000):
-        a = random.randint(2, k-1)
-        if pow(a, k-1, k)!=1:
-            return 0
-    return 1</code></pre>
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># N: 頂点数
+# G[v]: 頂点vの子頂点 (親頂点は含まない)
+#
+# - construct
+# prv[u] = v: 頂点uの一つ上の祖先頂点v
+# - lca
+# kprv[k][u] = v: 頂点uの2^k個上の祖先頂点v
+# depth[u]: 頂点uの深さ (根頂点は0)
+
+LV = (N-1).bit_length()
+def construct(prv):
+    kprv = [prv]
+    S = prv
+    for k in range(LV):
+        T = [0]*N
+        for i in range(N):
+            if S[i] is None:
+                continue
+            T[i] = S[S[i]]
+        kprv.append(T)
+        S = T
+    return kprv
+
+def lca(u, v, kprv, depth):
+    dd = depth[v] - depth[u]
+    if dd &lt; 0:
+        u, v = v, u
+        dd = -dd
+
+    # assert depth[u] &lt;= depth[v]
+    for k in range(LV+1):
+        if dd &amp; 1:
+            v = kprv[k][v]
+        dd &gt;&gt;= 1
+
+    # assert depth[u] == depth[v]
+    if u == v:
+        return u
+
+    for k in range(LV-1, -1, -1):
+        pu = kprv[k][u]; pv = kprv[k][v]
+        if pu != pv:
+            u = pu; v = pv
+
+    # assert kprv[0][u] == kprv[0][v]
+    return kprv[0][u]</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -88,68 +139,7 @@ def fermat(k):
 <div class="ulist">
 <ul>
 <li>
-<p>(WA) yukicoder: "No.308 素数は通れません": (Python2) <a href=https://yukicoder.me/submissions/61897>source</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>カーマイケル数で落ちてWA</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_ミラーラビン素数判定法">ミラーラビン素数判定法</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>ミラーラビン素数判定法 (Miller-Rabin primality test)</p>
-</div>
-<div class="paragraph">
-<p>異なる \(k\) 個の乱数で素数判定を行った場合、誤って素数と判定してしまう平均確率は \(4^{-k}\) になる。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># ミラーラビン素数判定法
-import random
-def miller_rabin(n, t):
-    if n==2: return 1
-    if n==1 or n&amp;1==0: return 0
-    d = n-1
-    d /= d &amp; -d
-    for _ in range(t):
-        a = random.randint(1, n-1)
-        t = d
-        y = pow(a, t, n)
-        while t!=n-1 and y!=1 and y!=n-1:
-            y = y**2 % n
-            t &lt;&lt;= 1
-        if y!=n-1 and t&amp;1==0: return 0
-    return 1</code></pre>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_verified_2">Verified</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>yukicoder: "No.308 素数は通れません": (Python2) <a href=https://yukicoder.me/submissions/61936>source</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_参考ページ">参考ページ</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href=https://ja.wikipedia.org/wiki/%E3%83%9F%E3%83%A9%E3%83%BC%E2%80%93%E3%83%A9%E3%83%93%E3%83%B3%E7%B4%A0%E6%95%B0%E5%88%A4%E5%AE%9A%E6%B3%95>ミラー-ラビン素数判定法 - Wikipedia</a></p>
+<p>AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3152550#1>source</a></p>
 </li>
 </ul>
 </div>
@@ -160,9 +150,10 @@ def miller_rabin(n, t):
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-24 23:56:33 JST
+Last updated 2018-09-24 20:23:43 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

@@ -10,7 +10,7 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 === 数学
 
 * link:./python/math/gcd.html[最大公約数]
-* link:./python/prime/sieve.html[素数を求める篩法]
+* link:./python/prime/sieve.html[素数を求める篩(ふるい)法]
 * link:./python/prime/probabilistic.html[確率的素数判定法]
 
 === 幾何
@@ -50,6 +50,8 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 * link:./python/graph/bridge-finding-with-cd.html[橋検出(with chain decompositions)]
 * link:./python/graph/articulation-points.html[関節点検出]
 * link:./python/graph/chu-liu-edmonds.html[最小全域有向木]
+* link:./python/graph/lca-doubling.html[最小共通祖先 (ダブリング)]
+* link:./python/graph/lca-segment-tree.html[最小共通祖先 (セグメント木)]
 
 === フロー
 

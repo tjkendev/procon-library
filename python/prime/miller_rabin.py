@@ -1,11 +1,11 @@
 # ミラーラビン素数判定法
 import random
-def miller_rabin(n):
+def miller_rabin(n, t):
     if n==2: return 1
     if n==1 or n&1==0: return 0
     d = n-1
     d /= d & -d
-    for _ in range(1000):
+    for _ in range(t):
         a = random.randint(1, n-1)
         t = d
         y = pow(a, t, n)
