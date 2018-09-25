@@ -63,7 +63,7 @@ $(document).on('page:load', ready2);
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Binary Indexed Tree (Fenwick Tree) は、部分和と要素の更新のクエリを行う木構造である。</p>
+<p>Binary Indexed Tree (BIT, Fenwick Tree) は、部分和と要素の更新のクエリを行う木構造である。</p>
 </div>
 <div class="paragraph">
 <p>配列 \(a_1, a_2, ..., a_N\)を管理するBITは以下のクエリを1回\(O(\log N)\)で処理できる。</p>
@@ -75,6 +75,19 @@ $(document).on('page:load', ready2);
 </li>
 <li>
 <p>\(a_i\)に\(x\)を加える</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>このBITは、以下の操作が行えるデータ構造とも見なすこともできる</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(a_i\) の値を求める</p>
+</li>
+<li>
+<p>\(a_i, a_{i+1}, ..., a_{N}\) に\(x\)を加える</p>
 </li>
 </ul>
 </div>
@@ -173,7 +186,7 @@ class BIT2:
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-19 00:12:00 JST
+Last updated 2018-09-25 08:53:45 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

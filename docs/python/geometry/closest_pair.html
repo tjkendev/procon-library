@@ -124,6 +124,8 @@ def cp_rec(ps, i, n):
             d = min(d, sqrt(dx**2 + dy**2))
         b.append(q)
     return d, qs
+
+# ps: ソートした二次元座標のlist
 def closest_pair(ps):
     n = len(ps)
     return cp_rec(ps, 0, n)[0]</code></pre>

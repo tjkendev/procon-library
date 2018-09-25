@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>最小共通祖先 (ダブリング) - 実装メモ</title>
+<title>最小共通祖先 (Heavy-Light Decomposition) - 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,16 +56,9 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>最小共通祖先 (ダブリング)</h1>
+<h1>最小共通祖先 (Heavy-Light Decomposition)</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>最小共通祖先 (Lowest Common Ancestor, LCA)</p>
-</div>
-</div>
-</div>
 <div class="sect1">
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
@@ -73,11 +66,21 @@ $(document).on('page:load', ready2);
 <p>根付き木\(T\)のある頂点\(u, v\)について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。</p>
 </div>
 <div class="paragraph">
-<p>ダブリングを使ったアルゴリズムでは、各頂点について\(2^K\)回(\(0 \le K \le \lceil \log N \rceil\))親に遡った時の頂点を計算しておく。
-LCAを求める際は、\(u, v\)のそれぞれの祖先のうち、共通祖先となる頂点と共通祖先でない頂点の境目を2分探索で見つけて求める。</p>
+<p>Heavy-Light Decomposition(HLD, HL分解)を使ったアルゴリズムでは、HL分解で縮約した木の頂点を遡ってLCAを求める。</p>
+</div>
+<div class="sect2">
+<h3 id="_具体的計算">具体的計算</h3>
+<div class="paragraph">
+<p>HL分解することで、元の木\(T\)は高さ\(O(\log N)\)の木\(T'\)に縮約される。また、縮約された頂点は、高さが浅い順に並んだ頂点の列を持つ。
+この縮約処理は計算量 \(O(N)\) になる。</p>
 </div>
 <div class="paragraph">
-<p>前計算の計算量は \(O(N \log N)\) となり、各LCAを求めるのに \(O(\log N)\) かかる。</p>
+<p>頂点\(u, v\)のLCAを求める際は、この木\(T'\)の頂点を1つずつ遡って同じ頂点に到達するまで遡る。この計算は\(O(\log N)\)になる。
+また、同じ頂点に到達した後、縮約前の頂点列の中からLCAとなる頂点を計算するが、これは\(O(1)\)で計算できる。</p>
+</div>
+<div class="paragraph">
+<p>よって、1回のクエリ全体の計算量は\(O(\log N)\)になる。</p>
+</div>
 </div>
 </div>
 </div>
@@ -88,50 +91,78 @@ LCAを求める際は、\(u, v\)のそれぞれの祖先のうち、共通祖先
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># N: 頂点数
 # G[v]: 頂点vの子頂点 (親頂点は含まない)
-#
-# - construct
-# prv[u] = v: 頂点uの一つ上の祖先頂点v
-# - lca
-# kprv[k][u] = v: 頂点uの2^k個上の祖先頂点v
-# depth[u]: 頂点uの深さ (根頂点は0)
 
-LV = (N-1).bit_length()
-def construct(prv):
-    kprv = [prv]
-    S = prv
-    for k in range(LV):
-        T = [0]*N
-        for i in range(N):
-            if S[i] is None:
+from collections import deque
+
+# === HLD計算処理
+# 各頂点の、heavy-pathで繋ぐ1つの子頂点を決定
+H = [0]*N
+prv = [None]*N
+def dfs(v):
+    s = 1; heavy = None; m = 0
+    for w in G[v]:
+        prv[w] = v
+        c = dfs(w)
+        if m &lt; c:
+            heavy = w
+            m = c
+        s += c
+    H[v] = heavy
+    return s
+dfs(0)
+
+
+# グラフGをheavy-pathに沿って縮約
+SS = []   # SS[k] = [v, ...]: k番目に縮約した頂点にまとめた頂点の列
+D = []    # D[k] = d: k番目に縮約した頂点の深さd
+L = [0]*N # L[i] = k: 縮約前の頂点v_iが属する縮約後の頂点番号k
+I = [0]*N # I[i] = pos: 縮約前の頂点v_iが縮約後の列で存在する位置
+que = deque([(0, 0)])
+while que:
+    v, d = que.popleft()
+    S = []
+    k = len(SS)
+    while v is not None:
+        I[v] = len(S)
+        S.append(v)
+        L[v] = k
+        h = H[v]
+        for w in G[v]:
+            if h == w:
                 continue
-            T[i] = S[S[i]]
-        kprv.append(T)
-        S = T
-    return kprv
+            que.append((w, d+1))
+        v = h
+    SS.append(S)
+    D.append(d)
 
-def lca(u, v, kprv, depth):
-    dd = depth[v] - depth[u]
+# HLDを元にした LCAのクエリ処理
+def query(u, v):
+    lu = L[u]; lv = L[v]
+    dd = D[lv] - D[lu]
     if dd &lt; 0:
-        u, v = v, u
+        lu, lv = lv, lu
+        v, u = u, v
         dd = -dd
 
-    # assert depth[u] &lt;= depth[v]
-    for k in range(LV+1):
-        if dd &amp; 1:
-            v = kprv[k][v]
-        dd &gt;&gt;= 1
+    # assert D[lu] &lt; D[lv]
 
-    # assert depth[u] == depth[v]
-    if u == v:
-        return u
+    # 高さ合わせ
+    for _ in range(dd):
+        v = prv[SS[lv][0]]
+        lv = L[v]
 
-    for k in range(LV-1, -1, -1):
-        pu = kprv[k][u]; pv = kprv[k][v]
-        if pu != pv:
-            u = pu; v = pv
+    # assert D[lu] == D[lv]
 
-    # assert kprv[0][u] == kprv[0][v]
-    return kprv[0][u]</code></pre>
+    # 同じ頂点に到達するまで1つずつ遡る
+    while lu != lv:
+        u = prv[SS[lu][0]]
+        lu = L[u]
+
+        v = prv[SS[lv][0]]
+        lv = L[v]
+
+    # 縮約後の頂点が持つ列の中で、uとvの内、前にいる方をLCAとして返す
+    return u if I[u] &lt; I[v] else v</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -139,7 +170,20 @@ def lca(u, v, kprv, depth):
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3152550#1>source</a></p>
+<p>AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3154691#1>source</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考ページ">参考ページ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href=http://math314.hateblo.jp/entry/2014/06/24/220107>Heavy-Light Decomposition - math314のブログ</a></p>
 </li>
 </ul>
 </div>
@@ -150,10 +194,9 @@ def lca(u, v, kprv, depth):
 </div>
 </div>
 </div>
-</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-25 23:47:15 JST
+Last updated 2018-09-25 23:57:23 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

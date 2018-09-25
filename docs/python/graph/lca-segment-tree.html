@@ -63,7 +63,7 @@ $(document).on('page:load', ready2);
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>根付きグラフ\(G\)のある頂点\(u, v\)について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。</p>
+<p>根付き木\(T\)のある頂点\(u, v\)について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。</p>
 </div>
 <div class="paragraph">
 <p>セグメント木を使ったアルゴリズムでは、Euler tour techniqueを用いてLCAを計算する。</p>
@@ -74,7 +74,7 @@ $(document).on('page:load', ready2);
 <p>蟻本ベースの説明</p>
 </div>
 <div class="paragraph">
-<p>DFSでグラフ\(G\)を根から探索した際の頂点の訪問順を並べた列\(S = (v_0, v_1, ..., v_{M-1})\)を求め、これをセグメント木に載せる。
+<p>DFSでグラフ\(T\)を根から探索した際の頂点の訪問順を並べた列\(S = (v_0, v_1, ..., v_{M-1})\)を求め、これをセグメント木に載せる。
 また、頂点\(v\)の根からの深さ\(depth_v\)と、頂点\(v\)がこの列に最初に出現した位置\(F_v\)も計算しておく。</p>
 </div>
 <div class="paragraph">
@@ -163,7 +163,7 @@ def query(u, v):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-24 21:50:43 JST
+Last updated 2018-09-25 23:47:07 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
