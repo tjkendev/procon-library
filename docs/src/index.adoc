@@ -52,6 +52,8 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 * link:./python/graph/chu-liu-edmonds.html[最小全域有向木]
 * link:./python/graph/lca-doubling.html[最小共通祖先 (ダブリング)]
 * link:./python/graph/lca-segment-tree.html[最小共通祖先 (セグメント木)]
+* link:./python/graph/lca-dst.html[最小共通祖先 (Disjoint Sparse Table)]
+* link:./python/graph/lca-sqrt.html[最小共通祖先 (平方分割)]
 * link:./python/graph/lca-hld.html[最小共通祖先 (Heavy-Light Decomposition)]
 
 === フロー

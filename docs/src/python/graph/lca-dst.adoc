@@ -1,0 +1,28 @@
+= 最小共通祖先 (Disjoint Sparse Table)
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+根付き木$T$のある頂点$u, v$について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。
+
+Disjoint Sparse Tableを使ったアルゴリズムでは、セグメント木と同様にEuler tour techniqueを用いてLCAを計算する。
+
+構築の計算量は $O(N \log N)$ となり、1回のクエリは $O(1)$ となる。
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/lca-dst.py[]
+----
+
+=== Verified
+
+* AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3154806#1[source]
+
+== 参考ページ
+
+* link:https://discuss.codechef.com/questions/117696/tutorial-disjoint-sparse-table?page=1[[Tutorial\] Disjoint Sparse Table - CodeChef Discussion]
+
+***
+link:../../index.html[戻る]

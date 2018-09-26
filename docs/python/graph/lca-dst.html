@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>多角形の面積 - 実装メモ</title>
+<title>最小共通祖先 (Disjoint Sparse Table) - 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,37 +56,82 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>多角形の面積</h1>
+<h1>最小共通祖先 (Disjoint Sparse Table)</h1>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>多角形の面積を計算する。</p>
+<p>根付き木\(T\)のある頂点\(u, v\)について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。</p>
 </div>
 <div class="paragraph">
-<p>多角形の面積を求める公式が存在し、\(N\)個の点\(\mathbf{p_i} = (x_i, y_i)\)から成る多角形の面積\(S\)は以下の式で計算できる。</p>
+<p>Disjoint Sparse Tableを使ったアルゴリズムでは、セグメント木と同様にEuler tour techniqueを用いてLCAを計算する。</p>
 </div>
 <div class="paragraph">
-<p>\(\displaystyle S = \frac{1}{2} \left| \sum_{k=1}^n \mathbf{p_k} \times \mathbf{p_{k+1}} \right| = \frac{1}{2} \left| \sum_{k=1}^n x_k y_{k+1} - x_{k+1} y_k \right|\)</p>
-</div>
-<div class="paragraph">
-<p>ただし \(\mathbf{p_{n+1}} = \mathbf{p_1}\)</p>
+<p>構築の計算量は \(O(N \log N)\) となり、1回のクエリは \(O(1)\) となる。</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_実装">実装</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>AOJ: "CGL_3_A: Polygon - Area"で提出した実装のPython3版</p>
-</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">n = int(input())
-p = [list(map(int, input().split())) for i in range(n)]
-print(abs(sum(p[i][0]*p[i-1][1] - p[i][1]*p[i-1][0] for i in range(n))) / 2.)</code></pre>
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># N: 頂点数
+# G[v]: 頂点vの子頂点 (親頂点は含まない)
+
+# Euler Tour Technique
+S = []
+F = [0]*N
+depth = [0]*N
+def dfs(v, d):
+    F[v] = len(S)
+    depth[v] = d
+    S.append(v)
+    for w in G[v]:
+        dfs(w, d+1)
+        S.append(v)
+dfs(0, 0)
+
+# Disjoint Sparse Tableの構築
+INF = (N, None)
+
+LV = (2*N-1).bit_length()
+N0 = 2**LV
+table = [[None]*N0 for i in range(LV)]
+
+S0 = [INF]*N0
+for i, v in enumerate(S):
+    S0[i] = (depth[v], v)
+
+sz = N0; hf = N0 &gt;&gt; 1
+for k in range(LV):
+    table_k = table[k]
+    for i in range(hf, N0, sz):
+        table_k[i-1] = r = S0[i-1]
+        for j in range(i-2, i-hf-1, -1):
+            table_k[j] = r = min(S0[j], r)
+
+        table_k[i] = r = S0[i]
+        for j in range(i+1, i+hf):
+            table_k[j] = r = min(S0[j], r)
+    sz &gt;&gt;= 1; hf &gt;&gt;= 1
+
+# LCAの計算
+def query(u, v):
+    if u == v:
+        return u
+    fu = F[u]; fv = F[v]
+    if fu &gt; fv:
+        fu, fv = fv, fu
+
+    k2 = (fu ^ fv).bit_length()
+    table_l = table[LV - k2]
+    ans = table_l[fu]
+    if fv &amp; ((1 &lt;&lt; k2) - 1):
+        ans = min(ans, table_l[fv])
+    return ans[1]</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -94,7 +139,7 @@ print(abs(sum(p[i][0]*p[i-1][1] - p[i][1]*p[i-1][0] for i in range(n))) / 2.)</c
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "CGL_3_A: Polygon - Area": (Python2) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1894030#1>source</a></p>
+<p>AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3154806#1>source</a></p>
 </li>
 </ul>
 </div>
@@ -107,7 +152,7 @@ print(abs(sum(p[i][0]*p[i-1][1] - p[i][1]*p[i-1][0] for i in range(n))) / 2.)</c
 <div class="ulist">
 <ul>
 <li>
-<p><a href=https://ja.wikipedia.org/wiki/%E5%A4%9A%E8%A7%92%E5%BD%A2>多角形 - Wikipedia</a></p>
+<p><a href=https://discuss.codechef.com/questions/117696/tutorial-disjoint-sparse-table?page=1>[Tutorial] Disjoint Sparse Table - CodeChef Discussion</a></p>
 </li>
 </ul>
 </div>
@@ -120,7 +165,7 @@ print(abs(sum(p[i][0]*p[i-1][1] - p[i][1]*p[i-1][0] for i in range(n))) / 2.)</c
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-26 21:29:07 JST
+Last updated 2018-09-26 01:09:22 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

@@ -7,7 +7,7 @@
 
 多角形の面積を求める公式が存在し、$N$個の点$\mathbf{p_i} = (x_i, y_i)$から成る多角形の面積$S$は以下の式で計算できる。
 
-$\displaystyle S = \frac{1}{2} \sum_{k=1}^n \mathbf{p_k} \times \mathbf{p_{k+1}} = \frac{1}{2} \left| \sum_{k=1}^n x_k y_{k+1} - x_{k+1} y_k \right|$
+$\displaystyle S = \frac{1}{2} \left| \sum_{k=1}^n \mathbf{p_k} \times \mathbf{p_{k+1}} \right| = \frac{1}{2} \left| \sum_{k=1}^n x_k y_{k+1} - x_{k+1} y_k \right|$
 
 ただし $\mathbf{p_{n+1}} = \mathbf{p_1}$
 
