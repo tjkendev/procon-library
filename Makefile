@@ -12,7 +12,7 @@ TARGET := '**/*.adoc'
 HIGHLIGHTER := highlightjs
 STYLESHEET := ./stylesheet/github.css
 SRCDIR := '$(BASEPATH)src'
-TITLE := '実装メモ'
+TITLE := "yaketake08's 実装メモ"
 
 
 # for local debug

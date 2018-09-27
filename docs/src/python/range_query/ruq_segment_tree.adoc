@@ -1,0 +1,36 @@
+= Range Update Query (セグメント木)
+:title: {doctitle} - {pagetitle}
+
+Range Update Query (RUQ)
+
+== 概要
+
+以下の処理が行えるセグメント木の実装
+
+- $a_l, a_{l+1}, ..., a_{r-1}$ の値を $x$ に更新
+- $a_i$ の現在の値を計算
+
+=== 計算方法
+
+セグメント木で各区間において、その区間全体が更新された時刻$t$とその値$x$のtuple値$(t, x)$を持つ。
+
+時刻$t$に区間$[l, r)$を値$x$で更新する際は、区間$[l, r)$を覆う最小個数の区間をtuple値$(t, x)$で更新する。
+この更新1クエリの計算量は $O(\log N)$ になる。
+
+$a_i$ の値を取得する際は、 $i$を含む全ての区間$[l, r)$のtuple値をチェックし、最も$t$が大きいtuple値$(t, x)$を求め、
+その$x$を現在の値とする。
+この取得クエリの計算量は $O(\log N)$ になる。
+
+== 実装
+
+[source, python]
+----
+include::./python/range_query/ruq_segment_tree.py[]
+----
+
+=== Verified
+
+* AOJ: "Range Query - Range Update Query (RUQ)": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158554#1[source]
+
+***
+link:../../index.html[戻る]

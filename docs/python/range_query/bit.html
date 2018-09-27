@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>Binary Indexed Tree - 実装メモ</title>
+<title>Binary Indexed Tree - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -94,10 +94,8 @@ $(document).on('page:load', ready2);
 </div>
 </div>
 <div class="sect1">
-<h2 id="_実装">実装</h2>
+<h2 id="_実装1次元bit">実装(1次元BIT)</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_1次元bit">1次元BIT</h3>
 <div class="paragraph">
 <p>\(Q\)個のクエリを処理する場合の計算量は\(O(Q \log N)\)</p>
 </div>
@@ -127,9 +125,42 @@ class BIT:
         return self.sum(j) - self.sum(i)</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>クラスを使わない単純な実装</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># N: クエリ処理する列のサイズ
+
+data = [0]*(N+1)
+def add(k, x):
+    while k &lt;= N:
+        data[k] += x
+        k += k &amp; -k
+
+def get(k):
+    s = 0
+    while k:
+        s += data[k]
+        k -= k &amp; -k
+    return s</code></pre>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_2次元bit">2次元BIT</h3>
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "DSL_2_E: Range Query - Range Add Query (RAQ)": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158466#1>source</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_2次元bit">実装 (2次元BIT)</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>BITは2次元以上に拡張することができる。</p>
 </div>
@@ -183,10 +214,9 @@ class BIT2:
 </div>
 </div>
 </div>
-</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-25 08:53:45 JST
+Last updated 2018-09-27 23:47:06 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

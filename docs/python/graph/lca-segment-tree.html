@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>最小共通祖先 (セグメント木) - 実装メモ</title>
+<title>最小共通祖先 (セグメント木) - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -85,7 +85,7 @@ $(document).on('page:load', ready2);
 \(depth_{v_i}\)が最小となるような\(i\)を求め、\(v_i\)をLCAとする。</p>
 </div>
 <div class="paragraph">
-<p>前計算は計算量 \(O(N)\) となり、LCAは各クエリごとに \(O(\log N)\) となる。</p>
+<p>前計算は計算量 \(O(N)\) となり、各クエリごとに \(O(\log N)\) となる。</p>
 </div>
 </div>
 </div>
@@ -163,7 +163,7 @@ def query(u, v):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-25 23:47:07 JST
+Last updated 2018-09-27 01:23:25 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

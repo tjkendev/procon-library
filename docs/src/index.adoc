@@ -37,6 +37,8 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 === 区間クエリ
 
 * link:./python/range_query/bit.html[Binary Indexed Tree]
+* link:./python/range_query/rmq_segment_tree.html[Range Minimum Query (セグメント木)]
+* link:./python/range_query/ruq_segment_tree.html[Range Update Query (セグメント木)]
 
 === Convex Hull Trick
 
@@ -66,10 +68,11 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 
 * link:./python/matrix/bit_matrix.html[ビット行列]
 
-=== 高速フーリエ変換
+=== 多項式/高速フーリエ変換
 
 * link:./python/fft/fft.html[Fast Fourier Transform]
 * link:./python/fft/fmt.html[Fast Modulo Transform]
+* link:./python/polynomial/lagrange-polynomial.html[ラグランジュ補完]
 
 === 文字列
 

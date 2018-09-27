@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>最大公約数 - yaketake08's 実装メモ</title>
+<title>Range Minimum Query (セグメント木) - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,13 +56,13 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>最大公約数</h1>
+<h1>Range Minimum Query (セグメント木)</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>最大公約数 (greatest common divisor, GCD)</p>
+<p>Range Minimum Query (RMQ)</p>
 </div>
 </div>
 </div>
@@ -70,38 +70,73 @@ $(document).on('page:load', ready2);
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>2つの数 \(a, b\) について、\(a = a'g\), \(b = b'g\) (\(a', b'\) は互いに素)となるような\(g = gcd(a, b)\)を計算する。</p>
+<p>以下の処理が行えるセグメント木の実装</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(a_i\) の値を \(x\) に更新</p>
+</li>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の最小値を求める</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>拡張されたGCDでは、 \(ax + by = g\) となるような \(x, y, g\) を計算する。</p>
-</div>
-<div class="paragraph">
-<p>また、最小公倍数(least common multiple, LCM)は \(\displaystyle \frac{ab}{gcd(a, b)}\) で計算する。</p>
-</div>
-<div class="paragraph">
-<p>GCDはPythonの標準モジュールに含まれている。
-(Python2であれば<code>fractions.gcd()</code>、Python3であれば<code>fractions.gcd()</code>もしくは<code>math.gcd()</code>)</p>
+<p>セグメント木の最も基本的な形。</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_実装">実装</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>再帰的なセグメント木計算は、Pythonでは遅い(場合によってはTLEする)ので、再帰しない形で計算している。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>参考: <a href=http://d.hatena.ne.jp/komiyam/20131202/1385992406>Segment Treeをちょっと高速化したい - komiyamの日記</a></p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># gcd(greatest common divisor)
-def gcd(m, n):
-    r = m % n
-    return gcd(n, r) if r else n
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># N: 処理する区間の長さ
+N0 = 2**(N-1).bit_length()
+INF = 2**31-1
+data = [INF]*(2*N0)
+# a_k の値を x に更新
+def update(k, x):
+    k += N0-1
+    data[k] = x
+    while k &gt;= 0:
+        k = (k - 1) // 2
+        data[k] = min(data[2*k+1], data[2*k+2])
+# 区間[l, r)の最小値
+def query(l, r):
+    L = l + N0; R = r + N0
+    s = INF
+    while L &lt; R:
+        if R &amp; 1:
+            R -= 1
+            s = min(s, data[R-1])
 
-def extgcd(a, b):
-    if b:
-        d, y, x = extgcd(b, a%b)
-        y -= (a/b)*x
-        return d, x, y
-    else:
-        return a, 1, 0</code></pre>
+        if L &amp; 1:
+            s = min(s, data[L-1])
+            L += 1
+        L &gt;&gt;= 1; R &gt;&gt;= 1
+    return s</code></pre>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "Range Query - Range Minimum Query (RMQ)": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158592#1>source</a></p>
+</li>
+</ul>
 </div>
 <hr>
 <div class="paragraph">
@@ -110,9 +145,10 @@ def extgcd(a, b):
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-21 00:51:36 JST
+Last updated 2018-09-28 00:17:11 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

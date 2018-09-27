@@ -1,0 +1,36 @@
+= ラグランジュ補完
+:title: {doctitle} - {pagetitle}
+
+ラグランジュ補完 (Lagrange Polynomial)
+
+== 概要
+
+$N$個の点$(x_0, y_0), (x_1, y_1), ..., (x_{N-1}, y_{N-1})$を通る多項式を求める。
+
+$\displaystyle g_i(x) = \frac{(x - x_0) \ldots (x - x_{i-1})(x - x_{i+1}) \ldots (x - x_{N-1})}{(x_i - x_0) \ldots (x_i - x_{i-1})(x_i - x_{i+1}) \ldots (x_i - x_{N-1})}$
+
+として、
+
+$\displaystyle f(x) = \sum_{i=0}^{N-1} y_i g_i(x)$
+
+とする。
+
+すると、 $g_i(x_j) = 0$ $(i \not = j)$, $g_i(x_i) = 1$ より、 $f(x_i) = y_i g_i(x_i) = y_i$ を満たす。
+
+== 実装
+
+[source, python]
+----
+include::./python/polynomial/lagrange-polynomial.py[]
+----
+
+=== Verified
+
+* AOJ: "1328: Find the Outlier": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3156519#1[source]
+
+== 参考ページ
+
+* link:https://ja.wikipedia.org/wiki/%E3%83%A9%E3%82%B0%E3%83%A9%E3%83%B3%E3%82%B8%E3%83%A5%E8%A3%9C%E9%96%93[ラグランジュ補完 - Wikipedia]
+
+***
+link:../../index.html[戻る]

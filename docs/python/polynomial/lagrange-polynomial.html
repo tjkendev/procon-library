@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>最大公約数 - yaketake08's 実装メモ</title>
+<title>ラグランジュ補完 - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,13 +56,13 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>最大公約数</h1>
+<h1>ラグランジュ補完</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>最大公約数 (greatest common divisor, GCD)</p>
+<p>ラグランジュ補完 (Lagrange Polynomial)</p>
 </div>
 </div>
 </div>
@@ -70,17 +70,22 @@ $(document).on('page:load', ready2);
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>2つの数 \(a, b\) について、\(a = a'g\), \(b = b'g\) (\(a', b'\) は互いに素)となるような\(g = gcd(a, b)\)を計算する。</p>
+<p>\(N\)個の点\((x_0, y_0), (x_1, y_1), ..., (x_{N-1}, y_{N-1})\)を通る多項式を求める。</p>
 </div>
 <div class="paragraph">
-<p>拡張されたGCDでは、 \(ax + by = g\) となるような \(x, y, g\) を計算する。</p>
+<p>\(\displaystyle g_i(x) = \frac{(x - x_0) \ldots (x - x_{i-1})(x - x_{i+1}) \ldots (x - x_{N-1})}{(x_i - x_0) \ldots (x_i - x_{i-1})(x_i - x_{i+1}) \ldots (x_i - x_{N-1})}\)</p>
 </div>
 <div class="paragraph">
-<p>また、最小公倍数(least common multiple, LCM)は \(\displaystyle \frac{ab}{gcd(a, b)}\) で計算する。</p>
+<p>として、</p>
 </div>
 <div class="paragraph">
-<p>GCDはPythonの標準モジュールに含まれている。
-(Python2であれば<code>fractions.gcd()</code>、Python3であれば<code>fractions.gcd()</code>もしくは<code>math.gcd()</code>)</p>
+<p>\(\displaystyle f(x) = \sum_{i=0}^{N-1} y_i g_i(x)\)</p>
+</div>
+<div class="paragraph">
+<p>とする。</p>
+</div>
+<div class="paragraph">
+<p>すると、 \(g_i(x_j) = 0\) \((i \not = j)\), \(g_i(x_i) = 1\) より、 \(f(x_i) = y_i g_i(x_i) = y_i\) を満たす。</p>
 </div>
 </div>
 </div>
@@ -89,19 +94,47 @@ $(document).on('page:load', ready2);
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># gcd(greatest common divisor)
-def gcd(m, n):
-    r = m % n
-    return gcd(n, r) if r else n
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># ラグランジュ補完の多項式の係数計算
+def build(X, Y):
+    A = []
+    for x in X:
+        res = 1
+        for xi in X:
+            if x == xi:
+                continue
+            res *= x - xi
+        A.append(Y[x] / res)
+    return A
 
-def extgcd(a, b):
-    if b:
-        d, y, x = extgcd(b, a%b)
-        y -= (a/b)*x
-        return d, x, y
-    else:
-        return a, 1, 0</code></pre>
+# 係数の値からf(x)の値を計算
+def calc(X, A, x):
+    base = 1
+    for xi in X:
+        base *= i - xi
+    return sum(base / (i - x) * a for x, a in zip(X, A))</code></pre>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "1328: Find the Outlier": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3156519#1>source</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考ページ">参考ページ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href=https://ja.wikipedia.org/wiki/%E3%83%A9%E3%82%B0%E3%83%A9%E3%83%B3%E3%82%B8%E3%83%A5%E8%A3%9C%E9%96%93>ラグランジュ補完 - Wikipedia</a></p>
+</li>
+</ul>
 </div>
 <hr>
 <div class="paragraph">
@@ -112,7 +145,7 @@ def extgcd(a, b):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-21 00:51:36 JST
+Last updated 2018-09-27 01:07:26 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
