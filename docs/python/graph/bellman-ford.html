@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>Range Update Query (セグメント木) - yaketake08's 実装メモ</title>
+<title>全点対最短経路(ベルマンフォード法) - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,13 +56,13 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>Range Update Query (セグメント木)</h1>
+<h1>全点対最短経路(ベルマンフォード法)</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Range Update Query (RUQ)</p>
+<p>ベルマンフォード法 (Bellman-Ford Algorithm)</p>
 </div>
 </div>
 </div>
@@ -70,32 +70,13 @@ $(document).on('page:load', ready2);
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>以下のクエリが処理できるセグメント木の実装</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の値を \(x\) に更新</p>
-</li>
-<li>
-<p>\(a_i\) の現在の値を計算</p>
-</li>
-</ul>
-</div>
-<div class="sect2">
-<h3 id="_計算方法">計算方法</h3>
-<div class="paragraph">
-<p>セグメント木で各区間において、その区間全体が更新された時刻\(t\)とその値\(x\)のtuple値\((t, x)\)を持つ。</p>
+<p>重み付きグラフ\(G = (V, E)\)の始点\(v_s\)から終点\(v_t\)への最短経路を求める。</p>
 </div>
 <div class="paragraph">
-<p>時刻\(t\)に区間\([l, r)\)を値\(x\)で更新する際は、区間\([l, r)\)を覆う最小個数の区間をtuple値\((t, x)\)で更新する。
-この更新1クエリの計算量は \(O(\log N)\) になる。</p>
+<p>辺のコストに負が含まれていても正しく動き、負閉路も検出することができる。</p>
 </div>
 <div class="paragraph">
-<p>\(a_i\) の値を取得する際は、 \(i\)を含む全ての区間\([l, r)\)のtuple値をチェックし、最も\(t\)が大きいtuple値\((t, x)\)を求め、
-その\(x\)を現在の値とする。
-この取得クエリの計算量は \(O(\log N)\) になる。</p>
-</div>
+<p>計算量は \(O(|V||E|)\)</p>
 </div>
 </div>
 </div>
@@ -104,36 +85,25 @@ $(document).on('page:load', ready2);
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># N: 処理する区間の長さ
-
-N0 = 2**(N-1).bit_length()
-data = [None]*(2*N0)
-INF = (-1, 2**31-1)
-# 区間[l, r+1)の値をvに書き換える
-# vは(t, value)という値にする (新しい値ほどtは大きくなる)
-def update(l, r, v):
-    L = l + N0; R = r + N0
-    while L &lt; R:
-        if R &amp; 1:
-            R -= 1
-            data[R-1] = v
-
-        if L &amp; 1:
-            data[L-1] = v
-            L += 1
-        L &gt;&gt;= 1; R &gt;&gt;= 1
-# a_iの現在の値を取得
-def _query(k):
-    k += N0-1
-    s = INF
-    while k &gt;= 0:
-        if data[k]:
-            s = max(s, data[k])
-        k = (k - 1) // 2
-    return s
-# これを呼び出す
-def query(k):
-    return _query(k)[1]</code></pre>
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># V: グラフの頂点数
+# r: 始点
+# G[v] = [(w, cost), ...]: 頂点vからコストcostで到達できる頂点w
+INF = 10**18
+dist = [INF] * V
+dist[r] = 0
+update = 1
+for _ in range(V):
+    update = 0
+    for v, e in enumerate(G):
+        for t, cost in e:
+            if dist[v] != INF and dist[v] + cost &lt; dist[t]:
+                dist[t] = dist[v] + cost
+                update = 1
+    if not update:
+        break
+else:
+    # 負閉路検出処理
+    ...</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -141,7 +111,7 @@ def query(k):
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "DSL_2_D: Range Query - Range Update Query (RUQ)": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158554#1>source</a></p>
+<p>AOJ: "GRL_1_B: Shortest Path - Single Source Shortest Path (Negative Edges)": (Python2) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850625#1>source</a></p>
 </li>
 </ul>
 </div>
@@ -155,7 +125,7 @@ def query(k):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-28 01:38:22 JST
+Last updated 2018-09-29 00:09:25 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

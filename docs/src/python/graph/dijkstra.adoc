@@ -1,7 +1,7 @@
-= ダイクストラ法
+= 全点対最短経路(ダイクストラ法)
 :title: {doctitle} - {pagetitle}
 
-ダイクストラ法(Dijkstra's Algorithm)
+ダイクストラ法 (Dijkstra's Algorithm)
 
 == 概要
 

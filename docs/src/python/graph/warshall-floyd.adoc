@@ -1,0 +1,24 @@
+= 全点対最短経路(ワーシャルフロイド法)
+:title: {doctitle} - {pagetitle}
+
+ワーシャルフロイド法 (Warshall-Floyd Algorithm)
+
+== 概要
+
+グラフ$G = (V, E)$の全てのペア$(v, w)$間の最短経路コストを求める。
+
+計算量は $O(|V|^3)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/warshall-floyd.py[]
+----
+
+=== Verified
+
+* AOJ: "GRL_1_C: Shortest Path - All Pairs Shortest Path": (Python2) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850668#1[source]
+
+***
+link:../../index.html[戻る]

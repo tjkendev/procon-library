@@ -48,7 +48,9 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 
 === グラフ
 
-* link:./python/graph/dijkstra.html[ダイクストラ法]
+* link:./python/graph/warshall-floyd.html[全点対最短経路(ワーシャルフロイド法)]
+* link:./python/graph/bellman-ford.html[単一始点最短経路(ベルマンフォード法)]
+* link:./python/graph/dijkstra.html[単一始点最短経路(ダイクストラ法)]
 * link:./python/graph/scc.html[強連結成分分解]
 * link:./python/graph/bridge-finding-with-cd.html[橋検出(with chain decompositions)]
 * link:./python/graph/articulation-points.html[関節点検出]
