@@ -85,7 +85,7 @@ $(document).on('page:load', ready2);
 <div class="sect2">
 <h3 id="_計算方法">計算方法</h3>
 <div class="paragraph">
-<p>セグメント木で各区間において、その区間全体が更新された時刻\(t\)とその値\(x\)のtuple値\((t, x)\)を持つ。</p>
+<p>セグメント木で各区間\([l, r)\)において、その区間全体が更新された時刻\(t\)とその値\(x\)のtuple値\((t, x)\)を持つ。</p>
 </div>
 <div class="paragraph">
 <p>時刻\(t\)に区間\([l, r)\)を値\(x\)で更新する際は、区間\([l, r)\)を覆う最小個数の区間をtuple値\((t, x)\)で更新する。
@@ -155,7 +155,7 @@ def query(k):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-28 01:38:22 JST
+Last updated 2018-09-29 00:25:54 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

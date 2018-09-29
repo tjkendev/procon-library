@@ -12,7 +12,7 @@ Range Sum Query and Range Add Query (RSQ and RAQ)
 
 === 具体的計算
 
-蟻本ベースの説明で、Binary Indexed Treeを2つ用いた実装。
+蟻本ベースの説明footnote:[プログラミングコンテストチャレンジブック [第2版\] p.163]で、Binary Indexed Treeを2つ用いた実装。
 
 $P_i = p_1 + ... + p_i$, $Q_i = q_1 + ... + q_i$ として、
 $a_1, ..., a_i$ の和 $S_i$ を $P_i * i + Q_i$ と表すことを考える。

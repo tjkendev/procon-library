@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>RMQ and RUQ (遅延伝搬セグメント木) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
+
+<style>
+  .click .title { color: blue; }
+  .click {margin-top: 0.5em; margin-bottom: 0.5em;}
+  .openblock { margin-top: 1em; margin-bottom: 1em; }
+  .openblock>.box>.content { margin-top:1em;margin-bottom: 1em;margin-left:3em;margin-right:4em; }
+</style>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+
+
+
+var ready2;
+
+ready2 = function() {
+
+    $(document).ready(function(){
+
+        $('.openblock.click').click( function()  { $(this).find('.content').slideToggle('200'); } )
+        $('.openblock.click').find('.content').hide()
+
+
+        $('.listingblock.click').click( function()  { $(this).find('.content').slideToggle('200') }  )
+        $('.listingblock.click').find('.content').hide()
+
+    });
+
+}
+
+
+
+
+$(document).ready(ready2);
+$(document).on('page:load', ready2);
+
+
+</script>
+
+</head>
+
+
+<body class="article">
+<div id="header">
+<h1>RMQ and RUQ (遅延伝搬セグメント木)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Range Minimum Query and Range Update Query (RMQ and RUQ)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下のクエリが処理できる遅延伝搬セグメント木の実装</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の値を \(x\) に更新</p>
+</li>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の内の最小値を求める</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_具体的計算">具体的計算</h3>
+<div class="paragraph">
+<p>遅延伝搬セグメント木(Segment Tree with Lazy Propagation)の実装では、
+各区間Iには区間の値value[\(I\)]と遅延させている値lazy[\(I\)]を持たせる。</p>
+</div>
+<div class="sect3">
+<h4 id="_区間更新">区間更新</h4>
+<div class="paragraph">
+<p>区間\(I = [l, r)\)の値更新処理では、以下を行う。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>更新する区間が含まれる全ての区間で遅延させている値lazyをトップダウンに伝搬</p>
+<div class="ulist">
+<ul>
+<li>
+<p>伝搬させる区間は \(2 \lceil \log N \rceil\) 個以下</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>区間\(I\)に含まれる(最小個の)区間の値を全て更新</p>
+<div class="ulist">
+<ul>
+<li>
+<p>value[\(I\)] = lazy[\(I\)] = x</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>更新する区間を含む全ての区間の値valueをボトムアップに更新</p>
+<div class="ulist">
+<ul>
+<li>
+<p>遅延値を伝搬した1の区間を更新する</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>1回の区間更新の計算量は \(O(\log N)\)</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_最小値計算">最小値計算</h4>
+<div class="paragraph">
+<p>区間\(I = [l, r)\)内の最小値計算は、以下のように行う。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>2の計算で参照する区間が含まれる全ての区間で遅延させている値lazyをトップダウンに伝搬</p>
+<div class="ulist">
+<ul>
+<li>
+<p>伝搬させる区間は \(2 \lceil \log N \rceil\) 個以下</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>区間\(I\)に含まれる(最小個の)区間から最小値を求める</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>1回の最小値の計算量は \(O(\log N)\)</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>高速化のために非再帰で実装している。
+いろいろ試したけど、伝搬対象の区間を列挙してから計算するのが手軽だった。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>参考: <a href=http://d.hatena.ne.jp/komiyam/20131202/1385992406>Segment Treeをちょっと高速化したい - komiyamの日記</a></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># N: 処理する区間の長さ
+
+INF = 2**31-1
+
+LV = (N-1).bit_length()
+N0 = 2**LV
+data = [INF]*(2*N0)
+lazy = [None]*(2*N0)
+
+# 伝搬対象の区間を求める
+def gindex(l, r):
+    L = (l + N0) &gt;&gt; 1; R = (r + N0) &gt;&gt; 1
+    lc = 0 if l &amp; 1 else (L &amp; -L).bit_length()
+    rc = 0 if r &amp; 1 else (R &amp; -R).bit_length()
+    for i in range(LV):
+        if rc &lt;= i:
+            yield R
+        if L &lt; R and lc &lt;= i:
+            yield L
+        L &gt;&gt;= 1; R &gt;&gt;= 1
+
+# 遅延伝搬処理
+def propagates(*ids):
+    for i in reversed(ids):
+        v = lazy[i-1]
+        if v is None:
+            continue
+        lazy[2*i-1] = data[2*i-1] = lazy[2*i] = data[2*i] = v
+        lazy[i-1] = None
+
+# 区間[l, r)をxで更新
+def update(l, r, x):
+    *ids, = gindex(l, r)
+    propagates(*ids)
+
+    L = N0 + l; R = N0 + r
+    while L &lt; R:
+        if R &amp; 1:
+            R -= 1
+            lazy[R-1] = data[R-1] = x
+        if L &amp; 1:
+            lazy[L-1] = data[L-1] = x
+            L += 1
+        L &gt;&gt;= 1; R &gt;&gt;= 1
+    for i in ids:
+        data[i-1] = min(data[2*i-1], data[2*i])
+
+# 区間[l, r)内の最小値を求める
+def query(l, r):
+    propagates(*gindex(l, r))
+    L = N0 + l; R = N0 + r
+
+    s = INF
+    while L &lt; R:
+        if R &amp; 1:
+            R -= 1
+            s = min(s, data[R-1])
+        if L &amp; 1:
+            s = min(s, data[L-1])
+            L += 1
+        L &gt;&gt;= 1; R &gt;&gt;= 1
+    return s</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "DSL_2_F: Range Query - RMQ and RUQ": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3161105#1>source</a></p>
+</li>
+</ul>
+</div>
+<hr>
+<div class="paragraph">
+<p><a href=../../index.html>戻る</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2018-09-30 02:48:11 JST
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { extensions: ["mhchem.js"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+</body>
+</html>

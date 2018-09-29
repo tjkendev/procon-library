@@ -40,6 +40,9 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 * link:./python/range_query/rmq_segment_tree.html[Range Minimum Query (セグメント木)]
 * link:./python/range_query/ruq_segment_tree.html[Range Update Query (セグメント木)]
 * link:./python/range_query/rsq_raq_bit.html[RSQ and RAQ (BIT)]
+* link:./python/range_query/rmq_ruq_segment_tree_lp.html[RMQ and RUQ (遅延伝搬セグメント木)]
+* link:./python/range_query/rmq_raq_segment_tree_lp.html[RMQ and RAQ (遅延伝搬セグメント木)]
+* link:./python/range_query/rsq_ruq_segment_tree_lp.html[RSQ and RUQ (遅延伝搬セグメント木)]
 
 === Convex Hull Trick
 
