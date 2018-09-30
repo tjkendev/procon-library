@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>凸包 (Graham Scan) - yaketake08's 実装メモ</title>
+<title>中国余剰定理 - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,38 +56,85 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>凸包 (Graham Scan)</h1>
+<h1>中国余剰定理</h1>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>中国余剰定理 (Chinese remainder theorem)</p>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>凸包をGraham Scanで求める</p>
+<p>未知の\(A\)について、</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(A \equiv X_i\) (mod \(Y_i\)) (\(i = 1, 2, ..., N\))</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>計算量は\(O(N \log N)\)</p>
+<p>となる\(X_i\)が分かっている時に、</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(A \equiv X\)  (mod \(\text{LCM}(Y_1, Y_2, ..., Y_N)\))</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>となる、一意の\(X\)を計算する。</p>
+</div>
+<div class="paragraph">
+<p>計算量は \(O(N)\)</p>
+</div>
+<div class="sect2">
+<h3 id="_具体的計算">具体的計算</h3>
+<div class="paragraph">
+<p>\(A \equiv a\) (mod \(P\)) と \(A \equiv b\) (mod \(Q\)) から \(A \equiv c\) (mod LCM(\(P\), \(Q\))) の値を計算する。</p>
+</div>
+<div class="paragraph">
+<p>\(g = \text{gcd}(P, Q)\) として、</p>
+</div>
+<div class="paragraph">
+<p>\(P x + Q y = g\) となる \(x, y\) を拡張ユークリッドの互除法で求める。</p>
+</div>
+<div class="paragraph">
+<p>(ここで、 \(\displaystyle \frac{Q y}{g} \equiv 1 (\text{mod } \frac{P}{g})\), \(\displaystyle \frac{P x}{g} \equiv 1 (\text{mod } \frac{Q}{g}\)) が成り立つことを利用して)</p>
+</div>
+<div class="paragraph">
+<p>\(\displaystyle c = a \frac{Q y}{g} + b \frac{P x}{g}\) (mod LCM(\(P\), \(Q\))) とする。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">def cross(a, b, c):
-    return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">def extgcd(a, b):
+    if b:
+        d, y, x = extgcd(b, a % b)
+        y -= (a // b) * x
+        return d, x, y
+    return a, 1, 0
 
-# ps = [(x, y), ...]: ソートされた座標list
-def convex_hull(ps):
-    qs = []
-    n = len(ps)
-    for p in ps:
-        while len(qs)&gt;1 and cross(qs[-1], qs[-2], p) &gt; 0:
-            qs.pop()
-        qs.append(p)
-    t = len(qs)
-    for i in range(n-2, -1, -1):
-        p = ps[i]
-        while len(qs)&gt;t and cross(qs[-1], qs[-2], p) &gt; 0:
-            qs.pop()
-        qs.append(p)
-    return qs</code></pre>
+# V = [(X_i, Y_i), ...]: X_i (mod Y_i)
+def remainder(V):
+    x = 0; d = 1
+    for X, Y in V:
+        g, a, b = extgcd(d, Y)
+        x, d = (Y*b*x + d*a*X) // g, d*(Y // g)
+        x %= d
+    return x, d</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -95,7 +142,7 @@ def convex_hull(ps):
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "CGL_4_A: Convex Polygon - Convex Hull": (Python2) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1894281#1>source</a></p>
+<p>yukicoder: "No. 187 中華風 (Hard)": (Python3) <a href=https://yukicoder.me/submissions/288619>source</a></p>
 </li>
 </ul>
 </div>
@@ -109,7 +156,7 @@ def convex_hull(ps):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-18 23:19:21 JST
+Last updated 2018-09-30 19:18:27 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

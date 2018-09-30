@@ -91,6 +91,12 @@ $(document).on('page:load', ready2);
 </li>
 </ul>
 </div>
+<div class="sect2">
+<h3 id="_二分探索">二分探索</h3>
+<div class="paragraph">
+<p>\(a_1 + a_2 + ... + a_i \le x\) となる最大の\(i\)は \(O(\log N)\) で計算できる。</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -143,7 +149,19 @@ def get(k):
     while k:
         s += data[k]
         k -= k &amp; -k
-    return s</code></pre>
+    return s
+
+# 二分探索
+N0 = 2**(N-1).bit_length()
+def lower_bound(x):
+    w = i = 0
+    k = N0
+    while k:
+        if i+k &lt;= N and w + data[i+k] &lt;= x:
+            w += data[i+k]
+            i += k
+        k &gt;&gt;= 1
+    return i+1</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -152,6 +170,9 @@ def get(k):
 <ul>
 <li>
 <p>AOJ: "DSL_2_E: Range Query - Range Add Query (RAQ)": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158466#1>source</a></p>
+</li>
+<li>
+<p>AtCoder: "Japan Alumni Group Summer Camp 2017 Day 1 - B問題: リス": (PyPy3) <a href=https://beta.atcoder.jp/contests/jag2017summer-day1/submissions/2559566>source</a></p>
 </li>
 </ul>
 </div>
@@ -207,6 +228,18 @@ class BIT2:
         return self.sum(x1, y1) - self.sum(x1, y0) - self.sum(x0, y1) + self.sum(x0, y0)</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考ページ">参考ページ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href=http://hos.ac/slides/20140319_bit.pdf>Binary Indexed Tree のはなし</a></p>
+</li>
+</ul>
+</div>
 <hr>
 <div class="paragraph">
 <p><a href=../../index.html>戻る</a></p>
@@ -216,7 +249,7 @@ class BIT2:
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-27 23:47:06 JST
+Last updated 2018-09-30 20:20:57 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
