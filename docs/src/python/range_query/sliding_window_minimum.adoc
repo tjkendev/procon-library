@@ -1,0 +1,29 @@
+= Sliding Window Minimum
+:title: {doctitle} - {pagetitle}
+
+Sliding Window Minimum Algorithm
+
+== 概要
+
+以下の問題を解く実装
+
+* 長さ$N$の数列$A$
+* 数列$A$における、連続$K$個の($N-K+1$個の)各部分列について、最小値を計算
+
+蟻本footnote:[プログラミングコンテストチャレンジブック [第2版\] p.300]に解説がある。dequeを用いて計算できる。
+
+計算量は $O(N)$
+
+== 実装
+
+[source, python]
+----
+include::./python/range_query/sliding_window_minimum.py[]
+----
+
+=== Verified
+
+* AOJ: "DSL_3_D: Sliding Window - Sliding Minimum Elements": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3161784#1[source]
+
+***
+link:../../index.html[戻る]

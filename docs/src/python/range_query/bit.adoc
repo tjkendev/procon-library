@@ -15,6 +15,10 @@ Binary Indexed Tree (BIT, Fenwick Tree) は、部分和と要素の更新のク�
 - $a_i$ の値を求める
 - $a_i, a_{i+1}, ..., a_{N}$ に$x$を加える
 
+=== 二分探索
+
+$a_1 + a_2 + ... + a_i \le x$ となる最大の$i$は $O(\log N)$ で計算できる。
+
 == 実装(1次元BIT)
 
 $Q$個のクエリを処理する場合の計算量は$O(Q \log N)$
@@ -34,6 +38,7 @@ include::./python/range_query/bit-simple.py[]
 === Verified
 
 * AOJ: "DSL_2_E: Range Query - Range Add Query (RAQ)": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158466#1[source]
+* AtCoder: "Japan Alumni Group Summer Camp 2017 Day 1 - B問題: リス": (PyPy3) link:https://beta.atcoder.jp/contests/jag2017summer-day1/submissions/2559566[source]
 
 == 実装 (2次元BIT)
 
@@ -45,6 +50,10 @@ $H \times W$の2次元BITにおいて、$Q$個のクエリを処理する場合�
 ----
 include::./python/range_query/bit2.py[]
 ----
+
+== 参考ページ
+
+- link:http://hos.ac/slides/20140319_bit.pdf[Binary Indexed Tree のはなし]
 
 ***
 link:../../index.html[戻る]

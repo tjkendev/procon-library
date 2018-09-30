@@ -1,7 +1,7 @@
 :title: メインページ - {pagetitle}
 = {pagetitle}
 
-link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ライブラリ等の置き場
+link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ライブラリ、知識等の置き場
 
 == Python
 
@@ -10,6 +10,8 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 === 数学
 
 * link:./python/math/gcd.html[最大公約数]
+* link:./python/math/chinese-remainder.html[中国余剰定理]
+* 素因数分解
 * link:./python/prime/sieve.html[素数を求める篩(ふるい)法]
 * link:./python/prime/probabilistic.html[確率的素数判定]
 
@@ -32,7 +34,11 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 === 二分木
 
 * link:./python/binary_search_tree/treap.html[Treap]
+* Randomized Binary Search Tree
 * link:./python/binary_search_tree/persistent_RBST.html[永続RBST]
+* 赤黒木
+* AVL木
+* Splay木
 
 === 区間クエリ
 
@@ -43,6 +49,7 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 * link:./python/range_query/rmq_ruq_segment_tree_lp.html[RMQ and RUQ (遅延伝搬セグメント木)]
 * link:./python/range_query/rmq_raq_segment_tree_lp.html[RMQ and RAQ (遅延伝搬セグメント木)]
 * link:./python/range_query/rsq_ruq_segment_tree_lp.html[RSQ and RUQ (遅延伝搬セグメント木)]
+* link:./python/range_query/sliding_window_minimum.html[Sliding Window Minimum]
 
 === Convex Hull Trick
 
@@ -52,11 +59,15 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 === グラフ
 
 * link:./python/graph/warshall-floyd.html[全点対最短経路(ワーシャルフロイド法)]
+* 単一始点最短経路(BFS)
+* 単一始点最短経路(0-1-BFS)
 * link:./python/graph/bellman-ford.html[単一始点最短経路(ベルマンフォード法)]
 * link:./python/graph/dijkstra.html[単一始点最短経路(ダイクストラ法)]
 * link:./python/graph/scc.html[強連結成分分解]
 * link:./python/graph/bridge-finding-with-cd.html[橋検出(with chain decompositions)]
 * link:./python/graph/articulation-points.html[関節点検出]
+* 最小全域木 (Kruskal法)
+* 最小全域木 (Prim法)
 * link:./python/graph/chu-liu-edmonds.html[最小全域有向木]
 * link:./python/graph/lca-doubling.html[最小共通祖先 (ダブリング)]
 * link:./python/graph/lca-segment-tree.html[最小共通祖先 (セグメント木)]
@@ -73,6 +84,7 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 === 行列・数列
 
 * link:./python/matrix/bit_matrix.html[ビット行列]
+* きたまさ法
 
 === 多項式/高速フーリエ変換
 
@@ -110,9 +122,3 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 * link:./cpp/string/aho-corasick.html[Aho-Corasick Algorithm]
 
 ***
-
-== JavaScript
-
-***
-
-== TypeScript

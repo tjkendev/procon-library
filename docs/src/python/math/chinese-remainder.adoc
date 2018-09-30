@@ -1,0 +1,44 @@
+= 中国余剰定理
+:title: {doctitle} - {pagetitle}
+
+中国余剰定理 (Chinese remainder theorem)
+
+== 概要
+
+未知の$A$について、
+
+- $A \equiv X_i$ (mod $Y_i$) ($i = 1, 2, ..., N$)
+
+となる$X_i$が分かっている時に、
+
+- $A \equiv X$  (mod $\text{LCM}(Y_1, Y_2, ..., Y_N)$)
+
+となる、一意の$X$を計算する。
+
+計算量は $O(N)$
+
+=== 具体的計算
+
+$A \equiv a$ (mod $P$) と $A \equiv b$ (mod $Q$) から $A \equiv c$ (mod LCM($P$, $Q$)) の値を計算する。
+
+$g = \text{gcd}(P, Q)$ として、
+
+$P x + Q y = g$ となる $x, y$ を拡張ユークリッドの互除法で求める。
+
+(ここで、 $\displaystyle \frac{Q y}{g} \equiv 1 (\text{mod } \frac{P}{g})$, $\displaystyle \frac{P x}{g} \equiv 1 (\text{mod } \frac{Q}{g}$) が成り立つことを利用して)
+
+$\displaystyle c = a \frac{Q y}{g} + b \frac{P x}{g}$ (mod LCM($P$, $Q$)) とする。
+
+== 実装
+
+[source, python]
+----
+include::./python/math/chinese-remainder.py[]
+----
+
+=== Verified
+
+* yukicoder: "No. 187 中華風 (Hard)": (Python3) link:https://yukicoder.me/submissions/288619[source]
+
+***
+link:../../index.html[戻る]

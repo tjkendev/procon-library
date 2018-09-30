@@ -18,6 +18,10 @@ Dinic's Algorithm (Maximum flow problem)
 include::./cpp/max_flow/dinic.cpp[]
 ----
 
+=== Verified
+
+* AOJ: "2313: Box Witch": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1779017[source]
+
 ***
 
 link:../../index.html[戻る]
