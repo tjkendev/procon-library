@@ -1,0 +1,26 @@
+= 最小全域木 (クラスカル法)
+:title: {doctitle} - {pagetitle}
+
+クラスカル法 (Kruskal's Algorithm)
+
+== 概要
+
+グラフ$G$上の最小全域木(Minimum Spanning Tree)を求める。
+
+クラスカル法では、コストが小さい辺から、連結でない頂点同士を繋いでいくことで、最小全域木を求める。
+
+計算量は $O(|E| \log |V|)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/min_st_kruskal.py[]
+----
+
+=== Verified
+
+* AOJ: "ALDS1_12_A: Graph II - Minimum Spanning Tree": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3164895#1[source]
+
+***
+link:../../index.html[戻る]

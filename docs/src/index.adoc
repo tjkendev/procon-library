@@ -66,8 +66,8 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 * link:./python/graph/scc.html[強連結成分分解]
 * link:./python/graph/bridge-finding-with-cd.html[橋検出(with chain decompositions)]
 * link:./python/graph/articulation-points.html[関節点検出]
-* 最小全域木 (Kruskal法)
-* 最小全域木 (Prim法)
+* link:./python/graph/min_st_kruskal.html[最小全域木 (クラスカル法)]
+* link:./python/graph/min_st_prim.html[最小全域木 (プリム法)]
 * link:./python/graph/chu-liu-edmonds.html[最小全域有向木]
 * link:./python/graph/lca-doubling.html[最小共通祖先 (ダブリング)]
 * link:./python/graph/lca-segment-tree.html[最小共通祖先 (セグメント木)]
@@ -79,7 +79,7 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 
 * link:./python/max_flow/ford-fulkerson.html[最大フロー (Ford-Fulkerson Algorithm)]
 * link:./python/max_flow/dinic.html[最大フロー (Dinic's Algorithm)]
-* link:./python/min_cost_flow/min_cost_flow.html[最小費用流問題]
+* link:./python/min_cost_flow/min_cost_flow.html[最小費用流問題 (Primal Dual Algorithm)]
 
 === 行列・数列
 

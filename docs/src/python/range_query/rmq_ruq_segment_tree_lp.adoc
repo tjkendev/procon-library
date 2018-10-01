@@ -20,7 +20,7 @@ Range Minimum Query and Range Update Query (RMQ and RUQ)
 区間$I = [l, r)$の値更新処理では、以下を行う。
 
 1. 更新する区間が含まれる全ての区間で遅延させている値lazyをトップダウンに伝搬
-    - 伝搬させる区間は $2 \lceil \log N \rceil$ 個以下
+    - 伝搬させる区間は $2 \lceil \log N \rceil + 1$ 個以下
 2. 区間$I$に含まれる(最小個の)区間の値を全て更新
     - value[$I$] = lazy[$I$] = x
 3. 更新する区間を含む全ての区間の値valueをボトムアップに更新

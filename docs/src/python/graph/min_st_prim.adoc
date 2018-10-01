@@ -1,0 +1,28 @@
+= 最小全域木 (プリム法)
+:title: {doctitle} - {pagetitle}
+
+クラスカル法 (Prim's Algorithm)
+
+== 概要
+
+グラフ$G$上の最小全域木(Minimum Spanning Tree)を求める。
+
+プリム法では、グラフ$G$の1頂点からなる木から始め、
+木に含まれる頂点と木に含まれない頂点を繋ぐ辺のうち、一番コストが小さい辺が繋ぐ(木に含まれない方の)頂点を木に追加する、
+ことを繰り返すことで最小全域木を求める。
+
+計算量はPriority Queueを使うことで $O(|E| \log |V|)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/min_st_prim.py[]
+----
+
+=== Verified
+
+* AOJ: "ALDS1_12_A: Graph II - Minimum Spanning Tree": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3164895#1[source]
+
+***
+link:../../index.html[戻る]
