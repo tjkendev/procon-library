@@ -1,0 +1,25 @@
+= トポロジカルソート
+:title: {doctitle} - {pagetitle}
+
+トポロジカルソート(Topological sort)
+
+== 概要
+
+トポロジカルソートは、DAGなグラフ$G = (V, E)$のトポロジカル順序を求める。
+
+Kahn's Algorithmでの実装。計算量は $O(|V| + |E|)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/topological_sort.py[]
+----
+
+=== Verified
+
+* AOJ: "GRL_4_B: Path/Cycle - Topological Sort": (Python2) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1852406#1[source]
+
+***
+
+link:../../index.html[戻る]

@@ -1,0 +1,23 @@
+= 木の直径
+:title: {doctitle} - {pagetitle}
+
+木の直径(diameter of a tree)
+
+== 概要
+
+木$T$の直径をなすパスの両端の頂点$u, v$とその長さ$d$を求める。
+
+1回目のBFSで一方の頂点$u$を見つけ、2回目のBFSでもう一方の頂点$v$を見つける。
+
+計算量は $O(N)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/tree_diameter.py[]
+----
+
+***
+
+link:../../index.html[戻る]

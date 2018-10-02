@@ -63,6 +63,8 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 * 単一始点最短経路(0-1-BFS)
 * link:./python/graph/bellman-ford.html[単一始点最短経路(ベルマンフォード法)]
 * link:./python/graph/dijkstra.html[単一始点最短経路(ダイクストラ法)]
+* link:./python/graph/tree_diameter.html[木の直径]
+* link:./python/graph/topological_sort.html[トポロジカルソート]
 * link:./python/graph/scc.html[強連結成分分解]
 * link:./python/graph/bridge-finding-with-cd.html[橋検出(with chain decompositions)]
 * link:./python/graph/articulation-points.html[関節点検出]

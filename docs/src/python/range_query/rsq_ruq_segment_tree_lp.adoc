@@ -35,7 +35,7 @@ Range Sum Query and Range Update Query (RSQ and RUQ)
 
 1. 2の計算で参照する区間が含まれる全ての区間で遅延させている値lazyをトップダウンに伝搬
     - 自身が持っているlazy値を半分ずつ左右に値を代入していく
-    - 伝搬させる区間は $2 \lceil \log N \rceil$ 個以下
+    - 伝搬させる区間は $2 \lceil \log N \rceil + 1$ 個以下
 2. 区間$I$に含まれる(最小個の)区間の和を求める
 
 1回の最小値の計算量は $O(\log N)$
