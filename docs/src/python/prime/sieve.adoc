@@ -9,7 +9,9 @@
 
 エラトステネスの篩 (Sieve of Eratosthenes)
 
-計算量は $O(N \log \log N)$
+=== 計算量
+
+$O(N \log \log N)$
 
 === 実装
 
@@ -26,7 +28,9 @@ include::./python/prime/sieve_of_eratosthenes.py[]
 
 アトキンの篩 (Sieve of Atkin)
 
-計算量は $O( N / \log \log N)$
+=== 計算量
+
+$O( N / \log \log N)$
 
 === 実装
 

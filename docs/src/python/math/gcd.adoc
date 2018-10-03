@@ -15,6 +15,10 @@
 GCDはPythonの標準モジュールに含まれている。
 (Python2であれば``fractions.gcd()``、Python3であれば``fractions.gcd()``もしくは``math.gcd()``)
 
+== 計算量
+
+$N = \max(a, b)$ とすると $O(\log N)$
+
 == 実装
 
 [source, python]

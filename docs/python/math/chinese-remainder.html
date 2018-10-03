@@ -92,9 +92,6 @@ $(document).on('page:load', ready2);
 <div class="paragraph">
 <p>となる、一意の\(X\)を計算する。</p>
 </div>
-<div class="paragraph">
-<p>計算量は \(O(N)\)</p>
-</div>
 <div class="sect2">
 <h3 id="_具体的計算">具体的計算</h3>
 <div class="paragraph">
@@ -107,11 +104,19 @@ $(document).on('page:load', ready2);
 <p>\(P x + Q y = g\) となる \(x, y\) を拡張ユークリッドの互除法で求める。</p>
 </div>
 <div class="paragraph">
-<p>(ここで、 \(\displaystyle \frac{Q y}{g} \equiv 1 (\text{mod } \frac{P}{g})\), \(\displaystyle \frac{P x}{g} \equiv 1 (\text{mod } \frac{Q}{g}\)) が成り立つことを利用して)</p>
+<p>そして、(\(\displaystyle \frac{Q y}{g} \equiv 1 (\text{mod } \frac{P}{g})\), \(\displaystyle \frac{P x}{g} \equiv 1 (\text{mod } \frac{Q}{g}\)) が成り立つことを利用して)</p>
 </div>
 <div class="paragraph">
 <p>\(\displaystyle c = a \frac{Q y}{g} + b \frac{P x}{g}\) (mod LCM(\(P\), \(Q\))) とする。</p>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(\displaystyle O(N \log \max_i(Y_i))\)</p>
 </div>
 </div>
 </div>
@@ -156,7 +161,7 @@ def remainder(V):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-30 19:18:27 JST
+Last updated 2018-10-03 08:52:11 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

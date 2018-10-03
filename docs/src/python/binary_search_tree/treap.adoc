@@ -8,6 +8,10 @@
 
 木の高さは$O(\log N)$になる。
 
+== 計算量
+
+各クエリ $O(\log N)$
+
 == 実装
 
 [source, python]
@@ -20,6 +24,11 @@ include::./python/binary_search_tree/treap.py[]
 Pythonだと早くないため使うのは厳しい
 
 * (TLE) CSAcademy: "Squared Ends": (Python3) link:https://csacademy.com/submission/1404350/[source]
+
+== 参考ページ
+
+* link:https://www.slideshare.net/iwiwi/2-12188757[プログラミングコンテストでのデータ構造 2　～平衡二分探索木編～]
+
 
 ***
 link:../../index.html[戻る]

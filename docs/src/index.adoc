@@ -11,7 +11,7 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 
 * link:./python/math/gcd.html[最大公約数]
 * link:./python/math/chinese-remainder.html[中国余剰定理]
-* 素因数分解
+* link:./python/prime/factorize.html[素因数分解]
 * link:./python/prime/sieve.html[素数を求める篩(ふるい)法]
 * link:./python/prime/probabilistic.html[確率的素数判定]
 

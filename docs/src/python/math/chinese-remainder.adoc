@@ -15,8 +15,6 @@
 
 となる、一意の$X$を計算する。
 
-計算量は $O(N)$
-
 === 具体的計算
 
 $A \equiv a$ (mod $P$) と $A \equiv b$ (mod $Q$) から $A \equiv c$ (mod LCM($P$, $Q$)) の値を計算する。
@@ -25,9 +23,13 @@ $g = \text{gcd}(P, Q)$ として、
 
 $P x + Q y = g$ となる $x, y$ を拡張ユークリッドの互除法で求める。
 
-(ここで、 $\displaystyle \frac{Q y}{g} \equiv 1 (\text{mod } \frac{P}{g})$, $\displaystyle \frac{P x}{g} \equiv 1 (\text{mod } \frac{Q}{g}$) が成り立つことを利用して)
+そして、($\displaystyle \frac{Q y}{g} \equiv 1 (\text{mod } \frac{P}{g})$, $\displaystyle \frac{P x}{g} \equiv 1 (\text{mod } \frac{Q}{g}$) が成り立つことを利用して)
 
 $\displaystyle c = a \frac{Q y}{g} + b \frac{P x}{g}$ (mod LCM($P$, $Q$)) とする。
+
+== 計算量
+
+$\displaystyle O(N \log \max_i(Y_i))$
 
 == 実装
 

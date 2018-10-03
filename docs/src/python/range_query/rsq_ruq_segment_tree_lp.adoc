@@ -23,11 +23,10 @@ Range Sum Query and Range Update Query (RSQ and RUQ)
     - 自身が持っているlazy値を半分ずつ左右に値を代入していく
     - 伝搬させる区間は $2 \lceil \log N \rceil + 1$ 個以下
 2. 区間$I$に含まれる(最小個の)区間の値を全て更新
+    - 更新する区間は高々 $2 \lceil \log N \rceil - 2$個
     - value[$I$] = lazy[$I$] = x * (区間の長さ)
 3. 更新する区間を含む全ての区間の値valueをボトムアップに更新
     - 遅延値を伝搬した1の区間の値を、左右の区間の和で更新
-
-1回の区間更新の計算量は $O(\log N)$
 
 ==== 合計計算
 
@@ -37,8 +36,12 @@ Range Sum Query and Range Update Query (RSQ and RUQ)
     - 自身が持っているlazy値を半分ずつ左右に値を代入していく
     - 伝搬させる区間は $2 \lceil \log N \rceil + 1$ 個以下
 2. 区間$I$に含まれる(最小個の)区間の和を求める
+    - 確認する区間は高々 $2 \lceil \log N \rceil - 2$個
 
-1回の最小値の計算量は $O(\log N)$
+== 計算量
+
+- 区間更新: $O(\log N)$
+- 最小値計算: $O(\log N)$
 
 == 実装
 

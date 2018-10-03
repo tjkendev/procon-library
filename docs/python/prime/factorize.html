@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>Sliding Window Minimum - yaketake08's 実装メモ</title>
+<title>素因数分解 - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,13 +56,13 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>Sliding Window Minimum</h1>
+<h1>素因数分解</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Sliding Window Minimum Algorithm</p>
+<p>素因数分解(prime factorize)</p>
 </div>
 </div>
 </div>
@@ -70,20 +70,7 @@ $(document).on('page:load', ready2);
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>以下の問題を解く実装</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>長さ\(N\)の数列\(A\)</p>
-</li>
-<li>
-<p>数列\(A\)における、連続\(K\)個の(\(N-K+1\)個の)各部分列について、最小値を計算</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>蟻本<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>に解説がある。dequeを用いて計算できる。</p>
+<p>1つの数\(N\)を素因数分解する。</p>
 </div>
 </div>
 </div>
@@ -91,7 +78,7 @@ $(document).on('page:load', ready2);
 <h2 id="_計算量">計算量</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>\(O(N)\)</p>
+<p>\(O(\sqrt{N})\)</p>
 </div>
 </div>
 </div>
@@ -100,25 +87,18 @@ $(document).on('page:load', ready2);
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># N: 要素列の長さ
-# A[i]: 列のi番目の要素
-# L: 最小値を調べる長さ
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># N: 素因数分解する数
 
-from collections import deque
-ans = []
-
-que = deque()
-for i, a in enumerate(A):
-    while que and a &lt;= que[-1][1]:
-        que.pop()
-    que.append((i, a))
-
-    ans.append(que[0][1])
-
-    if que and que[0][0] &lt;= i+1-L:
-        que.popleft()
-
-ans = ans[L-1:]</code></pre>
+res = []
+x = N
+y = 2
+while y*y &lt;= x:
+    while x % y == 0:
+        res.append(y)
+        x //= y
+    y += 1
+if x &gt; 1:
+    res.append(x)</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -126,7 +106,7 @@ ans = ans[L-1:]</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "DSL_3_D: Sliding Window - Sliding Minimum Elements": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3161784#1>source</a></p>
+<p>AOJ: "NTL_1_A: Elementary Number Theory - Prime Factorize": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3166467#1>source</a></p>
 </li>
 </ul>
 </div>
@@ -138,15 +118,9 @@ ans = ans[L-1:]</code></pre>
 </div>
 </div>
 </div>
-<div id="footnotes">
-<hr>
-<div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. プログラミングコンテストチャレンジブック [第2版] p.300
-</div>
-</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-03 23:34:08 JST
+Last updated 2018-10-03 08:38:28 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

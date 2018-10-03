@@ -17,7 +17,9 @@ Ford-Fulkerson algorithmよりも早い最大流アルゴリズム。
 1. BFSでsourceから各頂点までの距離($level$)を計算
 2. DFSで、sourceからの距離が遠くなるようなパスを見つけ、フローを流す
 
-計算量は$O(V^2E)$
+== 計算量
+
+$O(V^2E)$
 
 == 実装
 

@@ -12,7 +12,9 @@ Sliding Window Minimum Algorithm
 
 蟻本footnote:[プログラミングコンテストチャレンジブック [第2版\] p.300]に解説がある。dequeを用いて計算できる。
 
-計算量は $O(N)$
+== 計算量
+
+$O(N)$
 
 == 実装
 

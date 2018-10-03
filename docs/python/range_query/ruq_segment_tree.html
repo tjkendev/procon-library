@@ -88,14 +88,27 @@ $(document).on('page:load', ready2);
 <p>セグメント木で各区間\([l, r)\)において、その区間全体が更新された時刻\(t\)とその値\(x\)のtuple値\((t, x)\)を持つ。</p>
 </div>
 <div class="paragraph">
-<p>時刻\(t\)に区間\([l, r)\)を値\(x\)で更新する際は、区間\([l, r)\)を覆う最小個数の区間をtuple値\((t, x)\)で更新する。
-この更新1クエリの計算量は \(O(\log N)\) になる。</p>
+<p>時刻\(t\)に区間\([l, r)\)を値\(x\)で更新する際は、区間\([l, r)\)を覆う最小個数の区間をtuple値\((t, x)\)で更新する。</p>
 </div>
 <div class="paragraph">
 <p>\(a_i\) の値を取得する際は、 \(i\)を含む全ての区間\([l, r)\)のtuple値をチェックし、最も\(t\)が大きいtuple値\((t, x)\)を求め、
-その\(x\)を現在の値とする。
-この取得クエリの計算量は \(O(\log N)\) になる。</p>
+その\(x\)を現在の値とする。</p>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>区間更新: \(O(\log N)\)</p>
+</li>
+<li>
+<p>値取得: \(O(\log N)\)</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -155,7 +168,7 @@ def query(k):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-29 00:25:54 JST
+Last updated 2018-10-03 23:35:51 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

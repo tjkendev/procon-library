@@ -59,6 +59,9 @@ $(document).on('page:load', ready2);
 <h1>Union-Find (素集合データ構造)</h1>
 </div>
 <div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Union-Findでは以下の操作を行うことができる</p>
 </div>
@@ -69,19 +72,28 @@ $(document).on('page:load', ready2);
 </li>
 <li>
 <p>\(find(u)\): 要素uが属するグループを求める</p>
-<div class="ulist">
-<ul>
-<li>
-<p>\(find(u) = find(v)\)であればuとvは同じグループに属することが分かる</p>
-</li>
-</ul>
-</div>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>計算量は\(O(\alpha(n))\) (ただし、\(\alpha\)はアッカーマン関数の逆関数)</p>
+<p>\(find(u) = find(v)\)であればuとvは同じグループに属することが分かる</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(\alpha(n))\)</p>
+</div>
+<div class="paragraph">
+<p>(ただし、\(\alpha\)はアッカーマン関数の逆関数)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Union-Find Tree
@@ -107,13 +119,16 @@ class UnionFind:
         return self.root(x)==self.root(y)</code></pre>
 </div>
 </div>
+<hr>
 <div class="paragraph">
 <p><a href=../../index.html>戻る</a></p>
 </div>
 </div>
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-18 00:01:48 JST
+Last updated 2018-10-03 08:55:48 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
