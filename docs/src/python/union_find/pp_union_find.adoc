@@ -1,0 +1,34 @@
+= 部分永続Union-Find
+:title: {doctitle} - {pagetitle}
+
+部分永続Union-Find (partially persistent union-find)
+
+== 概要
+
+部分永続Union-Findでは以下の操作を行える。
+
+* $union(u, v, t)$: 時刻tにて頂点uの属するグループと要素vの属するグループを1つにまとめる
+* $find(u, t)$: 時刻tにおける頂点uの親頂点を求める
+* $size(u, t)$: 時刻tにおける頂点uの属するグループの頂点数を求める
+
+== 計算量
+
+$O(\log N)$
+
+== 実装
+
+[source, python]
+----
+include::./python/union_find/pp_union_find.py[]
+----
+
+=== Verified
+
+* AtCoder: "CODE THANKS FESTIVAL 2017 - H問題: Union Sets": (Python3) link:https://beta.atcoder.jp/contests/code-thanks-festival-2017-open/submissions/3331724[source]
+
+== 参考ページ
+
+* link:https://camypaper.bitbucket.io/2016/12/18/adc2016/[やぶについて書きます - 紙ぺーぱーめも]
+
+***
+link:../../index.html[戻る]

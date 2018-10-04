@@ -22,7 +22,7 @@ Range Minimum Query and Range Update Query (RMQ and RUQ)
 1. 更新する区間が含まれる全ての区間で遅延させている値lazyをトップダウンに伝搬
     - 伝搬させる区間は $2 \lceil \log N \rceil + 1$ 個以下
 2. 区間$I$に含まれる(最小個の)区間の値を全て更新
-    - 更新する区間は高々 $2 \lceil \log N \rceil - 2$個
+    - 更新する区間は高々 $2 \lceil \log N \rceil - 2$ 個
     - value[$I$] = lazy[$I$] = x
 3. 更新する区間を含む全ての区間の値valueをボトムアップに更新
     - 遅延値を伝搬した1の区間を更新する
@@ -34,7 +34,7 @@ Range Minimum Query and Range Update Query (RMQ and RUQ)
 1. 2の計算で参照する区間が含まれる全ての区間で遅延させている値lazyをトップダウンに伝搬
     - 伝搬させる区間は $2 \lceil \log N \rceil + 1$ 個以下
 2. 区間$I$に含まれる(最小個の)区間から最小値を求める
-    - 確認する区間は高々 $2 \lceil \log N \rceil - 2$個
+    - 確認する区間は高々 $2 \lceil \log N \rceil - 2$ 個
 
 == 計算量
 

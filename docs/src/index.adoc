@@ -30,6 +30,7 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 === 集合
 
 * link:./python/union_find/union_find.html[Union-Find]
+* link:./python/union_find/pp_union_find.html[部分永続Union-Find]
 
 === 二分木
 
