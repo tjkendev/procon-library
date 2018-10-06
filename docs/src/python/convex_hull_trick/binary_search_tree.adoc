@@ -1,4 +1,4 @@
-= 平衡二分探索木を用いたConvex Hull Trick
+= Convex Hull Trick (平衡二分探索木)
 :title: {doctitle} - {pagetitle}
 
 == 概要

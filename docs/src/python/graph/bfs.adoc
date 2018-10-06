@@ -1,0 +1,25 @@
+= 単一始点最短経路(BFS)
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+グラフ$G = (V, E)$において、辺のコストが全て1である場合、BFSで探索することで、1頂点から各頂点までの距離を線形オーダーで探索できる。
+
+== 計算量
+
+$O(N)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/bfs.py[]
+----
+
+=== Verified
+
+* AOJ: "ALDS1_11_C: Graph I - Breadth First Search": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3172927#1[source]
+
+***
+
+link:../../index.html[戻る]

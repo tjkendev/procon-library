@@ -60,7 +60,7 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 === グラフ
 
 * link:./python/graph/warshall-floyd.html[全点対最短経路(ワーシャルフロイド法)]
-* 単一始点最短経路(BFS)
+* link:./python/graph/bfs.html[単一始点最短経路(BFS)]
 * 単一始点最短経路(0-1-BFS)
 * link:./python/graph/bellman-ford.html[単一始点最短経路(ベルマンフォード法)]
 * link:./python/graph/dijkstra.html[単一始点最短経路(ダイクストラ法)]
