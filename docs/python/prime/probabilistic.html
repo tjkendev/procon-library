@@ -109,7 +109,7 @@ def fermat(k):
 <p>ミラーラビン素数判定法 (Miller-Rabin primality test)</p>
 </div>
 <div class="paragraph">
-<p>異なる \(k\) 個の乱数で素数判定を行った場合、誤って素数と判定してしまう平均確率は \(4^{-k}\) になる。</p>
+<p>異なる \(k\) 個の乱数で素数判定を行った場合、誤って素数と判定してしまう確率は \(\frac{1}{4^k}\) 以下になる。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -151,6 +151,9 @@ def miller_rabin(n, t):
 <li>
 <p><a href=https://ja.wikipedia.org/wiki/%E3%83%9F%E3%83%A9%E3%83%BC%E2%80%93%E3%83%A9%E3%83%93%E3%83%B3%E7%B4%A0%E6%95%B0%E5%88%A4%E5%AE%9A%E6%B3%95>ミラー-ラビン素数判定法 - Wikipedia</a></p>
 </li>
+<li>
+<p><a href=http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html>Rabin-Miller Strong Pseudoprime Test - Wofram MathWorld</a></p>
+</li>
 </ul>
 </div>
 <hr>
@@ -162,7 +165,7 @@ def miller_rabin(n, t):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-25 08:43:12 JST
+Last updated 2018-10-07 16:55:00 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

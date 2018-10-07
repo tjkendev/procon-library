@@ -66,6 +66,9 @@ $(document).on('page:load', ready2);
 <p>各辺\(e\)が容量\(c_e\)と単位コスト\(d_e\)を持つ、有向グラフ\(G = (V, E)\)に対し、
 特定のsourceとsinkの間に流量\(F\)を流す時の最小コストを求める。</p>
 </div>
+<div class="paragraph">
+<p>蟻本<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>を参考にして実装。</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -92,9 +95,6 @@ $(document).on('page:load', ready2);
 </div>
 <div class="sect2">
 <h3 id="_実装">実装</h3>
-<div class="paragraph">
-<p>蟻本ベース実装</p>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># 最小費用流(minimum cost flow)
@@ -149,6 +149,101 @@ class MinCostFlow:
         return res</code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_verified">Verified</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_6_B: Network Flow - Minimum Cost Flow": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2565754#1>source</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_with_dijkstras_algorithm">with Dijkstra&#8217;s Algorithm</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ポテンシャルを導入して、ダイクストラ法を用いて最短路を計算するようにしたもの。</p>
+</div>
+<div class="sect2">
+<h3 id="_計算量_2">計算量</h3>
+<div class="paragraph">
+<p>\(O(F |E| \log |V|)\) or \(O(F |V|^2)\)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_実装_2">実装</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from heapq import heappush, heappop
+class MinCostFlow:
+    INF = 10**18
+
+    def __init__(self, N):
+        self.N = N
+        self.G = [[] for i in range(N)]
+
+    def add_edge(self, fr, to, cap, cost):
+        G = self.G
+        G[fr].append([to, cap, cost, len(G[to])])
+        G[to].append([fr, 0, -cost, len(G[fr])-1])
+
+    def flow(self, s, t, f):
+        N = self.N; G = self.G
+        INF = MinCostFlow.INF
+
+        res = 0
+        H = [0]*N
+        prv_v = [0]*N
+        prv_e = [0]*N
+
+        while f:
+            dist = [INF]*N
+            dist[s] = 0
+            que = [(0, s)]
+
+            while que:
+                c, v = heappop(que)
+                if dist[v] &lt; c:
+                    continue
+                for i, (w, cap, cost, _) in enumerate(G[v]):
+                    if cap &gt; 0 and dist[w] &gt; dist[v] + cost + H[v] - H[w]:
+                        dist[w] = r = dist[v] + cost + H[v] - H[w]
+                        prv_v[w] = v; prv_e[w] = i
+                        heappush(que, (r, w))
+            if dist[t] == INF:
+                return -1
+
+            for i in range(N):
+                H[i] += dist[i]
+
+            d = f; v = t
+            while v != s:
+                d = min(d, G[prv_v[v]][prv_e[v]][1])
+                v = prv_v[v]
+            f -= d
+            res += d * H[t]
+            v = t
+            while v != s:
+                e = G[prv_v[v]][prv_e[v]]
+                e[1] -= d
+                G[v][e[3]][1] += d
+                v = prv_v[v]
+        return res</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_verified_2">Verified</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_6_B: Network Flow - Minimum Cost Flow": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3174869#1>source</a></p>
+</li>
+</ul>
+</div>
 <hr>
 <div class="paragraph">
 <p><a href=../../index.html>戻る</a></p>
@@ -157,9 +252,16 @@ class MinCostFlow:
 </div>
 </div>
 </div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. プログラミングコンテストチャレンジブック [第2版] p.199
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-07 14:52:22 JST
+Last updated 2018-10-07 16:20:13 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
