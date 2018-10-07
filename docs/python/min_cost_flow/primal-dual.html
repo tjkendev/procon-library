@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>最小費用流問題 - yaketake08's 実装メモ</title>
+<title>最小費用流問題 (Primal-Dual Algorithm) - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -56,17 +56,42 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>最小費用流問題</h1>
+<h1>最小費用流問題 (Primal-Dual Algorithm)</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_primal_dual_algorithm">Primal-Dual Algorithm</h2>
+<h2 id="_概要">概要</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_with_bellman_ford_algorithm">with Bellman-Ford Algorithm</h3>
 <div class="paragraph">
-<p>容量の合計を\(U\)、費用の合計を\(C\)としたとき、計算量は\(O(V^2 U C)\)</p>
+<p>各辺\(e\)が容量\(c_e\)と単位コスト\(d_e\)を持つ、有向グラフ\(G = (V, E)\)に対し、
+特定のsourceとsinkの間に流量\(F\)を流す時の最小コストを求める。</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_with_bellman_ford_algorithm">with Bellman-Ford Algorithm</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下を、流量\(F\)を流しきるまで繰り返す</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Bellman-Ford Algorithmでsourceとsinkの間の最小コストとなるパスを求める</p>
+</li>
+<li>
+<p>そのパスに流せる限り流す</p>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_計算量">計算量</h3>
+<div class="paragraph">
+<p>\(O(F |V| |E|)\)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_実装">実装</h3>
 <div class="paragraph">
 <p>蟻本ベース実装</p>
 </div>
@@ -124,6 +149,7 @@ class MinCostFlow:
         return res</code></pre>
 </div>
 </div>
+<hr>
 <div class="paragraph">
 <p><a href=../../index.html>戻る</a></p>
 </div>
@@ -133,7 +159,7 @@ class MinCostFlow:
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-18 00:01:38 JST
+Last updated 2018-10-07 14:52:22 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

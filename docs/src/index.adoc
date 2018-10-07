@@ -51,11 +51,8 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 * link:./python/range_query/rmq_raq_segment_tree_lp.html[RMQ and RAQ (遅延伝搬セグメント木)]
 * link:./python/range_query/rsq_ruq_segment_tree_lp.html[RSQ and RUQ (遅延伝搬セグメント木)]
 * link:./python/range_query/sliding_window_minimum.html[Sliding Window Minimum]
-
-=== Convex Hull Trick
-
-* link:./python/convex_hull_trick/li_chao_tree.html[Li Chao (Segment) Tree]
-* link:./python/convex_hull_trick/binary_search_tree.html[平衡二分探索木を用いたCHT]
+* link:./python/convex_hull_trick/li_chao_tree.html[Convex Hull Trick (Li Chao (Segment) Tree)]
+* link:./python/convex_hull_trick/binary_search_tree.html[Convex Hull Trick (平衡二分探索木)]
 
 === グラフ
 
@@ -82,7 +79,7 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 
 * link:./python/max_flow/ford-fulkerson.html[最大フロー (Ford-Fulkerson Algorithm)]
 * link:./python/max_flow/dinic.html[最大フロー (Dinic's Algorithm)]
-* link:./python/min_cost_flow/min_cost_flow.html[最小費用流問題 (Primal Dual Algorithm)]
+* link:./python/min_cost_flow/primal-dual.html[最小費用流問題 (Primal Dual Algorithm)]
 
 === 行列・数列
 

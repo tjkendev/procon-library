@@ -1,0 +1,30 @@
+= 最小費用流問題 (Primal-Dual Algorithm)
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+各辺$e$が容量$c_e$と単位コスト$d_e$を持つ、有向グラフ$G = (V, E)$に対し、
+特定のsourceとsinkの間に流量$F$を流す時の最小コストを求める。
+
+== with Bellman-Ford Algorithm
+
+以下を、流量$F$を流しきるまで繰り返す
+
+1. Bellman-Ford Algorithmでsourceとsinkの間の最小コストとなるパスを求める
+2. そのパスに流せる限り流す
+
+=== 計算量
+
+$O(F |V| |E|)$
+
+=== 実装
+
+蟻本ベース実装
+
+[source, python]
+----
+include::./python/min_cost_flow/primal-dual_bf.py[]
+----
+
+***
+link:../../index.html[戻る]
