@@ -1,7 +1,7 @@
 = 最大フロー (Dinic's Algorithm)
 :title: {doctitle} - {pagetitle}
 
-最大フロー問題を解くアルゴリズムの１つ Dinic's Algorithm
+最大フロー問題を解くアルゴリズムの Dinic's Algorithm
 
 == 概要
 
@@ -36,6 +36,7 @@ include::./python/max_flow/dinic.py[]
 * AtCoder: "AtCoder Regular Contest 085 - E問題: MUL": (Python3) link:https://beta.atcoder.jp/contests/arc085/submissions/2451765[source]
 * AtCoder: "天下一プログラマーコンテスト2015予選A - C問題: 天下一美術館": (Python2) link:https://beta.atcoder.jp/contests/tenka1-2015-quala/submissions/461107[source]
 * AtCoder: "東京工業大学プログラミングコンテスト2015 - L問題: グラフ色ぬり": (Python2) link:https://beta.atcoder.jp/contests/ttpc2015/submissions/517443[source]
+* AOJ: "GRL_6_A: Network Flow - Maximum Flow": (Python2) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2435165#1[source]
 
 ***
 link:../../index.html[戻る]
