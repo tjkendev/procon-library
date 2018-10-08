@@ -7,13 +7,20 @@ link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ラ
 
 Python2で書いてたプログラムは、基本Python3用に書き直してます。
 
-=== 数学
+=== 整数
 
 * link:./python/math/gcd.html[最大公約数]
 * link:./python/math/chinese-remainder.html[中国余剰定理]
+
+=== 素数
+
 * link:./python/prime/factorize.html[素因数分解]
 * link:./python/prime/sieve.html[素数を求める篩(ふるい)法]
 * link:./python/prime/probabilistic.html[確率的素数判定]
+
+=== 組合せ
+
+* link:./python/combinatorics/twelvefold-way.html[写像12相]
 
 === 幾何
 

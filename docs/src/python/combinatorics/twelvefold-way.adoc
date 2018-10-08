@@ -1,0 +1,69 @@
+= 写像12相
+:title: {doctitle} - {pagetitle}
+
+写像12相 (Twelvefold way)
+
+== 概要
+
+$N$個のボールを$K$個の箱に分けるときの通り数について
+
+- ボールの区別する/しない
+- 箱の区別する/しない
+- 箱に入れる制約なし/全ての箱にボール1個以下(単射)/全ての箱にボール1個以上(全射)
+
+の条件で12通りの問題が考えられ、写像12相と呼ばれる。
+
+[cols="^.^10,^.^10,^.^20,^.^20,^.^20",width=75%]
+|===
+|ボールの区別|箱の区別|制約なし|各箱一個以下 ($N \le K$)|各箱一個以上 ($K \le N$)
+|あり|あり|$N^K$|$_KP_N$|$\displaystyle \sum_{k=1}^K (-1)^{K-k} {}_KC_k k^N$
+|なし|あり|${}_{N+K-1}C_N (= {}_KH_N)$|${}_KC_N$|$_{N-1}C_{K-1}$
+|あり|なし|$B(N, K)$|1|$S(N, K)$
+|なし|なし|$P(N+K, K)$|1|$P(N, K)$
+|===
+
+=== 分割数 (partition number)
+
+$N$を$K$個の数に区別なく分割する時の通り数: $P(N, K)$
+
+- $P(i, 1) = P(i, i) = 1$
+- $P(N, K) = P(N-K, K) + P(N-1, K-1)$
+
+==== 実装
+
+- AOJ: "DPL_5_L: Probability - Ball and Boxes 12": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176170#1[source]
+
+[source, python]
+----
+include::./python/combinatorics/k-partitions_of_n.py[]
+----
+
+=== 第2種スターリング数 (Stirling number of the second kind)
+
+区別される$N$個の要素を$K$個のグループに分割する時の通り数: $S(N, K)$
+
+- $S(0, 0) = 1$
+- $S(N, K) = S(N-1, K-1) + K * S(N-1, K)$
+
+==== 実装
+
+* AOJ: "DPL_5_I: Probability - Ball and Boxes 9": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3175681#1[source]
+
+[source, python]
+----
+include::./python/combinatorics/stirling-number-2.py[]
+----
+
+=== ベル数 (Bell number)
+
+区別される$N$個の要素を$K$個以下のグループに分割する時の通り数: $B(N, K)$
+
+- $\displaystyle B(N, K) = \sum_{k=0}^K S(N, k)$
+
+== 参考ページ
+
+* link:https://mathtrain.jp/twelveway[写像の個数（写像12相） - 高校数学の美しい物語]
+* link:http://d.hatena.ne.jp/incognita/20110305/1299344781[数学ガール★分割数(partition number)の漸化式と戯れる - incognita et cognita]
+
+***
+link:../../index.html[戻る]
