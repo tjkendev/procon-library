@@ -8,6 +8,7 @@ SRC := ./docs/src
 DST := ./docs
 DSTSUBDIR := docs/python docs/cpp
 BASE := ./
+ASRC := $(shell readlink -f $(SRC))/
 TARGET := '**/*.adoc'
 HIGHLIGHTER := highlightjs
 STYLESHEET := ./stylesheet/github.css
@@ -22,15 +23,20 @@ SRCDIR-LOCAL := '$(CUR)/docs/src/'
 
 docs:
 	$(CMD) -b $(FMT) -R $(SRC) -D $(DST) $(TARGET) -B $(BASE) \
+		-r ./docs/lib/relative-path.rb \
 		-a pagetitle=$(TITLE) -a source-highlighter=$(HIGHLIGHTER) \
 		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(SRCDIR) \
-		-a jsdir=$(SRCDIR) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL)
+		-a jsdir=$(SRCDIR) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
+		-a basedir=$(ASRC) -a baseurl=$(BASEPATH)
+
 
 docs-local:
 	$(CMD) -b $(FMT) -R $(SRC) -D $(DST-LOCAL) $(TARGET) -B $(BASE) \
+		-r ./docs/lib/relative-path.rb \
 		-a pagetitle=$(TITLE) -a source-highlighter=$(HIGHLIGHTER) \
 		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(SRCDIR-LOCAL) \
-		-a jsdir=$(SRCDIR-LOCAL) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL)
+		-a jsdir=$(SRCDIR-LOCAL) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
+		-a basedir=$(ASRC) -a baseurl=$(BASEPATH)
 
 clean:
 	rm -f ./docs/index.html
