@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
 <title>最小全域有向木問題 - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="最小全域有向木問題 - yaketake08's 実装メモ" />
-<meta property="og:description" content="最小全域有向木問題" />
-<meta property="og:type" content="article" />
-<meta property="og:locale" content="ja_JP" />
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/chu-liu-edmonds.html" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="最小全域有向木問題 - yaketake08's 実装メモ">
+<meta property="og:description" content="最小全域有向木問題">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/chu-liu-edmonds.html">
+<meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
@@ -78,14 +79,15 @@ $(document).on('page:load', ready2);
 <div class="sectionbody">
 <div class="paragraph">
 <p>解説を付けたコード:
-<a href=https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936>https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936</a></p>
+<a href="https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936">https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936</a></p>
 </div>
 <div class="paragraph">
 <p>計算量は\(O(VE)\)</p>
 </div>
 <div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Chu-Liu/Edmonds' Algorithm
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># Chu-Liu/Edmonds' Algorithm
 # 最小全域有向木を再帰的に求める
 # V: 頂点数, es: 辺集合, r: 根となる頂点番号
 # 辺１つ(s-&gt;tのコストw)は(s, t, w)のlistを持つ
@@ -147,7 +149,7 @@ def solve(V, es, r):
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "GRL_2_B - Minimum-Cost Arborescence": (Python2) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850894#1>source</a></p>
+<p>AOJ: "GRL_2_B - Minimum-Cost Arborescence": (Python2) <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850894#1">source</a></p>
 </li>
 </ul>
 </div>
@@ -160,13 +162,13 @@ def solve(V, es, r):
 <div class="ulist">
 <ul>
 <li>
-<p><a href=http://ti2236.hatenablog.com/entry/2012/12/07/175841>Chu-Liu/Edmonds のアルゴリズム - 情報科学と人口知能のノート</a></p>
+<p><a href="http://ti2236.hatenablog.com/entry/2012/12/07/175841">Chu-Liu/Edmonds のアルゴリズム - 情報科学と人口知能のノート</a></p>
 </li>
 </ul>
 </div>
 <hr>
 <div class="paragraph">
-<p><a href=../../index.html>戻る</a></p>
+<p><a href="../../index.html">戻る</a></p>
 </div>
 </div>
 </div>

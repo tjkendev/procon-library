@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
 <title>トポロジカルソート - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="トポロジカルソート - yaketake08's 実装メモ" />
-<meta property="og:description" content="トポロジカルソート" />
-<meta property="og:type" content="article" />
-<meta property="og:locale" content="ja_JP" />
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/topological_sort.html" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="トポロジカルソート - yaketake08's 実装メモ">
+<meta property="og:description" content="トポロジカルソート">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/topological_sort.html">
+<meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
@@ -79,7 +80,7 @@ $(document).on('page:load', ready2);
 <p>トポロジカルソートは、DAGなグラフ\(G = (V, E)\)のトポロジカル順序を求める。</p>
 </div>
 <div class="paragraph">
-<p>Kahn&#8217;s Algorithmでの実装。計算量は \(O(|V| + |E|)\)</p>
+<p>Kahn’s Algorithmでの実装。計算量は \(O(|V| + |E|)\)</p>
 </div>
 </div>
 </div>
@@ -87,8 +88,9 @@ $(document).on('page:load', ready2);
 <h2 id="_実装">実装</h2>
 <div class="sectionbody">
 <div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># V: 頂点数
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># V: 頂点数
 # G[v] = [w, ...]:
 #    有向グラフ上の頂点vから到達できる頂点w
 # deg[v]:
@@ -115,13 +117,13 @@ while deq:
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "GRL_4_B: Path/Cycle - Topological Sort": (Python2) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1852406#1>source</a></p>
+<p>AOJ: "GRL_4_B: Path/Cycle - Topological Sort": (Python2) <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1852406#1">source</a></p>
 </li>
 </ul>
 </div>
 <hr>
 <div class="paragraph">
-<p><a href=../../index.html>戻る</a></p>
+<p><a href="../../index.html">戻る</a></p>
 </div>
 </div>
 </div>

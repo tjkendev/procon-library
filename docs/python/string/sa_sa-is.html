@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
 <title>Suffix Array (SA-IS) - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="Suffix Array (SA-IS) - yaketake08's 実装メモ" />
-<meta property="og:description" content="Suffix Array (SA-IS)" />
-<meta property="og:type" content="article" />
-<meta property="og:locale" content="ja_JP" />
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/string/sa_sa-is.html" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Suffix Array (SA-IS) - yaketake08's 実装メモ">
+<meta property="og:description" content="Suffix Array (SA-IS)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/string/sa_sa-is.html">
+<meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
@@ -84,11 +85,12 @@ $(document).on('page:load', ready2);
 <h2 id="_実装">実装</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Suffix Arrayとして早いはずだけど、実装が重いのか遅い&#8230;&#8203;</p>
+<p>Suffix Arrayとして早いはずだけど、実装が重いのか遅い…​</p>
 </div>
 <div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># SA-IS (O(nlogn))
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># SA-IS (O(nlogn))
 # usage: SAIS(*chr_compression(&lt;string&gt;))
 
 # 文字コード値に0, 1, 2, ...の値に振り直す
@@ -199,7 +201,7 @@ def LCP(s, n, sa):
 <div class="ulist">
 <ul>
 <li>
-<p>(TLE) AtCoder: "AtCoder Regular Contest 050 - D問題: Suffix Concat": (PyPy2) <a href=https://arc050.contest.atcoder.jp/submissions/684198>source</a></p>
+<p>(TLE) AtCoder: "AtCoder Regular Contest 050 - D問題: Suffix Concat": (PyPy2) <a href="https://arc050.contest.atcoder.jp/submissions/684198">source</a></p>
 </li>
 </ul>
 </div>
@@ -212,16 +214,16 @@ def LCP(s, n, sa):
 <div class="ulist">
 <ul>
 <li>
-<p><a href=http://shogo82148.github.io/homepage/memo/algorithm/suffix-array/>接尾辞配列(Suffix Array) - Shogo Computing Laboratory</a></p>
+<p><a href="http://shogo82148.github.io/homepage/memo/algorithm/suffix-array/">接尾辞配列(Suffix Array) - Shogo Computing Laboratory</a></p>
 </li>
 <li>
-<p><a href=http://sile.hatenablog.jp/entry/20101213/1292190698>SA-IS: SuffixArray線形構築 - sileのブログ</a></p>
+<p><a href="http://sile.hatenablog.jp/entry/20101213/1292190698">SA-IS: SuffixArray線形構築 - sileのブログ</a></p>
 </li>
 </ul>
 </div>
 <hr>
 <div class="paragraph">
-<p><a href=../../index.html>戻る</a></p>
+<p><a href="../../index.html">戻る</a></p>
 </div>
 </div>
 </div>

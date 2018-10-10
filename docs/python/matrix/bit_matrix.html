@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
 <title>ビット行列 - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="ビット行列 - yaketake08's 実装メモ" />
-<meta property="og:description" content="ビット行列" />
-<meta property="og:type" content="article" />
-<meta property="og:locale" content="ja_JP" />
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/matrix/bit_matrix.html" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="ビット行列 - yaketake08's 実装メモ">
+<meta property="og:description" content="ビット行列">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/matrix/bit_matrix.html">
+<meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
@@ -72,14 +73,14 @@ $(document).on('page:load', ready2);
 <p>ビット01から成る\(N \times N\)のビット行列の演算を行う。</p>
 </div>
 <div class="paragraph">
-<p>この実装の話(ブログ): <a href=http://smijake3.hatenablog.com/entry/2017/01/03/054440>ABC009 - D問題: 漸化式 (ビット行列解法)</a></p>
+<p>この実装の話(ブログ): <a href="http://smijake3.hatenablog.com/entry/2017/01/03/054440">ABC009 - D問題: 漸化式 (ビット行列解法)</a></p>
 </div>
 <div class="paragraph">
 <p>行列演算において、ネックとなるのは積であり\(O(N^3)\)かかる。
 さらにPythonではlistの処理が遅いため、行列サイズが\(10^2\)程度でもTLEすることがある。</p>
 </div>
 <div class="paragraph">
-<p>参考: <a href=https://anond.hatelabo.jp/20151220172711>高速なビット行列演算 - はてな匿名ダイアリー</a></p>
+<p>参考: <a href="https://anond.hatelabo.jp/20151220172711">高速なビット行列演算 - はてな匿名ダイアリー</a></p>
 </div>
 <div class="paragraph">
 <p>Pythonでビットを処理するとき、0もしくは1をlistで管理するよりも、１つの数値の1bitとして管理した方が高速になることが多いため、ビットパラレルアルゴリズムを用いて行列積を高速に計算するようにした。</p>
@@ -96,8 +97,9 @@ $(document).on('page:load', ready2);
 <h2 id="_実装">実装</h2>
 <div class="sectionbody">
 <div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># ビット行列演算
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># ビット行列演算
 class BitMatrix:
     __slots__ = ['n', 'mat', 'mask', 'u', 'v']
     def __init__(self, n):
@@ -178,13 +180,13 @@ class BitMatrix:
 <div class="ulist">
 <ul>
 <li>
-<p>AtCoder: "AtCoder Beginner Contest 009 - D問題: 漸化式": (Python2) <a href=http://abc009.contest.atcoder.jp/submissions/726855>source</a></p>
+<p>AtCoder: "AtCoder Beginner Contest 009 - D問題: 漸化式": (Python2) <a href="http://abc009.contest.atcoder.jp/submissions/726855">source</a></p>
 </li>
 </ul>
 </div>
 <hr>
 <div class="paragraph">
-<p><a href=../../index.html>戻る</a></p>
+<p><a href="../../index.html">戻る</a></p>
 </div>
 </div>
 </div>

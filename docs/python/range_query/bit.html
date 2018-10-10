@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
 <title>Binary Indexed Tree - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="Binary Indexed Tree - yaketake08's 実装メモ" />
-<meta property="og:description" content="Binary Indexed Tree" />
-<meta property="og:type" content="article" />
-<meta property="og:locale" content="ja_JP" />
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/range_query/bit.html" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Binary Indexed Tree - yaketake08's 実装メモ">
+<meta property="og:description" content="Binary Indexed Tree">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/range_query/bit.html">
+<meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
@@ -112,8 +113,9 @@ $(document).on('page:load', ready2);
 <p>\(Q\)個のクエリを処理する場合の計算量は\(O(Q \log N)\)</p>
 </div>
 <div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Binary Indexed Tree (Fenwick Tree)
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># Binary Indexed Tree (Fenwick Tree)
 class BIT:
     def __init__(self, n):
         self.n = n
@@ -141,8 +143,9 @@ class BIT:
 <p>クラスを使わない単純な実装</p>
 </div>
 <div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-1">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># N: クエリ処理する列のサイズ
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-1" data-lang="python"># N: クエリ処理する列のサイズ
 
 data = [0]*(N+1)
 def add(k, x):
@@ -175,10 +178,10 @@ def lower_bound(x):
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "DSL_2_E: Range Query - Range Add Query (RAQ)": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158466#1>source</a></p>
+<p>AOJ: "DSL_2_E: Range Query - Range Add Query (RAQ)": (Python3) <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158466#1">source</a></p>
 </li>
 <li>
-<p>AtCoder: "Japan Alumni Group Summer Camp 2017 Day 1 - B問題: リス": (PyPy3) <a href=https://beta.atcoder.jp/contests/jag2017summer-day1/submissions/2559566>source</a></p>
+<p>AtCoder: "Japan Alumni Group Summer Camp 2017 Day 1 - B問題: リス": (PyPy3) <a href="https://beta.atcoder.jp/contests/jag2017summer-day1/submissions/2559566">source</a></p>
 </li>
 </ul>
 </div>
@@ -195,8 +198,9 @@ def lower_bound(x):
 <p>\(H \times W\)の2次元BITにおいて、\(Q\)個のクエリを処理する場合の計算量は\(O(Q \log W \log H)\)</p>
 </div>
 <div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-2">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Binary Index Tree (2-dimension)
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-2" data-lang="python"># Binary Index Tree (2-dimension)
 class BIT2:
     # H*W
     def __init__(self, h, w):
@@ -242,13 +246,13 @@ class BIT2:
 <div class="ulist">
 <ul>
 <li>
-<p><a href=http://hos.ac/slides/20140319_bit.pdf>Binary Indexed Tree のはなし</a></p>
+<p><a href="http://hos.ac/slides/20140319_bit.pdf">Binary Indexed Tree のはなし</a></p>
 </li>
 </ul>
 </div>
 <hr>
 <div class="paragraph">
-<p><a href=../../index.html>戻る</a></p>
+<p><a href="../../index.html">戻る</a></p>
 </div>
 </div>
 </div>

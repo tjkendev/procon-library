@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
 <title>最大フロー (Dinic's Algorithm) - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="最大フロー (Dinic's Algorithm) - yaketake08's 実装メモ" />
-<meta property="og:description" content="最大フロー (Dinic's Algorithm)" />
-<meta property="og:type" content="article" />
-<meta property="og:locale" content="ja_JP" />
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/max_flow/dinic.html" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="最大フロー (Dinic's Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="最大フロー (Dinic's Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/max_flow/dinic.html">
+<meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
@@ -62,13 +63,13 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>最大フロー (Dinic&#8217;s Algorithm)</h1>
+<h1>最大フロー (Dinic’s Algorithm)</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>最大フロー問題を解くアルゴリズムの Dinic&#8217;s Algorithm</p>
+<p>最大フロー問題を解くアルゴリズムの Dinic’s Algorithm</p>
 </div>
 </div>
 </div>
@@ -82,7 +83,7 @@ $(document).on('page:load', ready2);
 <p>最大フロー最小カット定理が成り立つため、最小カット問題も解くことができる。</p>
 </div>
 <div class="sect2">
-<h3 id="_dinics_algorithm">Dinic&#8217;s Algorithm</h3>
+<h3 id="_dinics_algorithm">Dinic’s Algorithm</h3>
 <div class="paragraph">
 <p>Ford-Fulkerson algorithmよりも早い最大流アルゴリズム。
 以下の処理をフローを流しきるまで繰り返す。</p>
@@ -115,8 +116,9 @@ $(document).on('page:load', ready2);
 <p>蟻本ベース実装</p>
 </div>
 <div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Dinic's algorithm
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># Dinic's algorithm
 import collections
 class Dinic:
     def __init__(self, n):
@@ -175,25 +177,25 @@ class Dinic:
 <div class="ulist">
 <ul>
 <li>
-<p>CodeChef: "CodeChef June Challenge 2018 - Binary Board": (Python3) <a href=https://www.codechef.com/viewsolution/18917513>source</a></p>
+<p>CodeChef: "CodeChef June Challenge 2018 - Binary Board": (Python3) <a href="https://www.codechef.com/viewsolution/18917513">source</a></p>
 </li>
 <li>
-<p>AtCoder: "AtCoder Regular Contest 085 - E問題: MUL": (Python3) <a href=https://beta.atcoder.jp/contests/arc085/submissions/2451765>source</a></p>
+<p>AtCoder: "AtCoder Regular Contest 085 - E問題: MUL": (Python3) <a href="https://beta.atcoder.jp/contests/arc085/submissions/2451765">source</a></p>
 </li>
 <li>
-<p>AtCoder: "天下一プログラマーコンテスト2015予選A - C問題: 天下一美術館": (Python2) <a href=https://beta.atcoder.jp/contests/tenka1-2015-quala/submissions/461107>source</a></p>
+<p>AtCoder: "天下一プログラマーコンテスト2015予選A - C問題: 天下一美術館": (Python2) <a href="https://beta.atcoder.jp/contests/tenka1-2015-quala/submissions/461107">source</a></p>
 </li>
 <li>
-<p>AtCoder: "東京工業大学プログラミングコンテスト2015 - L問題: グラフ色ぬり": (Python2) <a href=https://beta.atcoder.jp/contests/ttpc2015/submissions/517443>source</a></p>
+<p>AtCoder: "東京工業大学プログラミングコンテスト2015 - L問題: グラフ色ぬり": (Python2) <a href="https://beta.atcoder.jp/contests/ttpc2015/submissions/517443">source</a></p>
 </li>
 <li>
-<p>AOJ: "GRL_6_A: Network Flow - Maximum Flow": (Python2) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2435165#1>source</a></p>
+<p>AOJ: "GRL_6_A: Network Flow - Maximum Flow": (Python2) <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2435165#1">source</a></p>
 </li>
 </ul>
 </div>
 <hr>
 <div class="paragraph">
-<p><a href=../../index.html>戻る</a></p>
+<p><a href="../../index.html">戻る</a></p>
 </div>
 </div>
 </div>

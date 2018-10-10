@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
 <title>Aho-Corasick Algorithm - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="Aho-Corasick Algorithm - yaketake08's 実装メモ" />
-<meta property="og:description" content="Aho-Corasick Algorithm" />
-<meta property="og:type" content="article" />
-<meta property="og:locale" content="ja_JP" />
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/string/aho-corasick.html" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Aho-Corasick Algorithm - yaketake08's 実装メモ">
+<meta property="og:description" content="Aho-Corasick Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/string/aho-corasick.html">
+<meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
@@ -83,11 +84,12 @@ $(document).on('page:load', ready2);
 <h2 id="_実装">実装</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href=../../python/string/aho-corasick.html>Python版</a> がベース</p>
+<p><a href="../../python/string/aho-corasick.html">Python版</a> がベース</p>
 </div>
 <div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define NN 30
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#define NN 30
 
 struct TrieNode {
   TrieNode(int size) : sz(size), cnt(0) {
@@ -149,13 +151,13 @@ void suffix() {
 <div class="ulist">
 <ul>
 <li>
-<p>AtCoder: "JAG Practice Contest for ACM-ICPC Asia Regional 2017 - H問題: Separate String": <a href=https://jag2017autumn.contest.atcoder.jp/submissions/1799531>source</a></p>
+<p>AtCoder: "JAG Practice Contest for ACM-ICPC Asia Regional 2017 - H問題: Separate String": <a href="https://jag2017autumn.contest.atcoder.jp/submissions/1799531">source</a></p>
 </li>
 </ul>
 </div>
 <hr>
 <div class="paragraph">
-<p><a href=../../index.html>戻る</a></p>
+<p><a href="../../index.html">戻る</a></p>
 </div>
 </div>
 </div>

@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
 <title>線分同士の交差判定 - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="線分同士の交差判定 - yaketake08's 実装メモ" />
-<meta property="og:description" content="線分同士の交差判定" />
-<meta property="og:type" content="article" />
-<meta property="og:locale" content="ja_JP" />
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/geometry/segment_line_intersection.html" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="線分同士の交差判定 - yaketake08's 実装メモ">
+<meta property="og:description" content="線分同士の交差判定">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/geometry/segment_line_intersection.html">
+<meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
@@ -88,7 +89,7 @@ $(document).on('page:load', ready2);
 </div>
 </li>
 <li>
-<p>\(O_0 \le 0\) かつ \(O_1 \le 0\) であり、 \(O_0 < 0\) もしくは \(O_1 < 0\) である場合は交差</p>
+<p>\(O_0 \le 0\) かつ \(O_1 \le 0\) であり、 \(O_0 &lt; 0\) もしくは \(O_1 &lt; 0\) である場合は交差</p>
 </li>
 <li>
 <p>\(O_0 = O_1 = 0\)である場合は \(P_0 = (1, 0), P_1 = (2, 0), Q_0 = (3, 0), Q_1 = (4, 0)\)のように線分が一直線上に並んでいるため、さらに内積を用いて判定</p>
@@ -114,8 +115,9 @@ $(document).on('page:load', ready2);
 <p>AOJ: "CGL_2_B: Segments/Lines - Intersection"で提出した実装</p>
 </div>
 <div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># 線分同士の交点判定
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># 線分同士の交点判定
 def dot3(O, A, B):
     ox, oy = O; ax, ay = A; bx, by = B
     return (ax - ox) * (bx - ox) + (ay - oy) * (by - oy)
@@ -147,13 +149,13 @@ for q in range(int(input())):
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "CGL_2_B: Segments/Lines - Intersection": (Python3) <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2647106#1>source</a></p>
+<p>AOJ: "CGL_2_B: Segments/Lines - Intersection": (Python3) <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2647106#1">source</a></p>
 </li>
 </ul>
 </div>
 <hr>
 <div class="paragraph">
-<p><a href=../../index.html>戻る</a></p>
+<p><a href="../../index.html">戻る</a></p>
 </div>
 </div>
 </div>

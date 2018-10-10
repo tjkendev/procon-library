@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
 <title>最大流問題 (Dinic's Algorithm) - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="最大流問題 (Dinic's Algorithm) - yaketake08's 実装メモ" />
-<meta property="og:description" content="最大流問題 (Dinic's Algorithm)" />
-<meta property="og:type" content="article" />
-<meta property="og:locale" content="ja_JP" />
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/max_flow/dinic.html" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="最大流問題 (Dinic's Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="最大流問題 (Dinic's Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/max_flow/dinic.html">
+<meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
@@ -62,13 +63,13 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>最大流問題 (Dinic&#8217;s Algorithm)</h1>
+<h1>最大流問題 (Dinic’s Algorithm)</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Dinic&#8217;s Algorithm (Maximum flow problem)</p>
+<p>Dinic’s Algorithm (Maximum flow problem)</p>
 </div>
 </div>
 </div>
@@ -76,7 +77,7 @@ $(document).on('page:load', ready2);
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>最大流問題を解くDinic&#8217;s Algorithmの実装。</p>
+<p>最大流問題を解くDinic’s Algorithmの実装。</p>
 </div>
 <div class="paragraph">
 <p>合わせて、辺の容量増加と容量減少にも対応できる実装が含まれる。</p>
@@ -90,8 +91,9 @@ $(document).on('page:load', ready2);
 <p>蟻本ベース実装</p>
 </div>
 <div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Dinicアルゴリズム
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">// Dinicアルゴリズム
 // コンストラクタでnとsinkとsourceを決める。
 // add_edge(s, t, cap)で辺追加。
 // max_flow()で最大流を求める。
@@ -257,13 +259,13 @@ public:
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "2313: Box Witch": <a href=http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1779017>source</a></p>
+<p>AOJ: "2313: Box Witch": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1779017">source</a></p>
 </li>
 </ul>
 </div>
 <hr>
 <div class="paragraph">
-<p><a href=../../index.html>戻る</a></p>
+<p><a href="../../index.html">戻る</a></p>
 </div>
 </div>
 </div>

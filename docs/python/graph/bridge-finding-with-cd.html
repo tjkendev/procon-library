@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
 <title>橋検出(with chain decompositions) - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="橋検出(with chain decompositions) - yaketake08's 実装メモ" />
-<meta property="og:description" content="橋検出(with chain decompositions)" />
-<meta property="og:type" content="article" />
-<meta property="og:locale" content="ja_JP" />
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/bridge-finding-with-cd.html" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="橋検出(with chain decompositions) - yaketake08's 実装メモ">
+<meta property="og:description" content="橋検出(with chain decompositions)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/bridge-finding-with-cd.html">
+<meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
@@ -91,8 +92,9 @@ $(document).on('page:load', ready2);
 多重辺にも対応できるようにしている。</p>
 </div>
 <div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Bridge-Finding with Chain Decompositions
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># Bridge-Finding with Chain Decompositions
 # 橋、二重辺連結成分分解
 # g: 隣接リスト, v: 頂点数, s: 探索開始地点
 #
@@ -145,8 +147,9 @@ def bridge_finding(G, N, start=0):
 <p>単純にグラフ内で橋となる辺(頂点のペア)を返す実装。</p>
 </div>
 <div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-1">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># 単純に橋となる辺を返す
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-1" data-lang="python"># 単純に橋となる辺を返す
 def bridge(G, N):
     result = set()
     label = [None]*N
@@ -180,7 +183,7 @@ def bridge(G, N):
 </div>
 <hr>
 <div class="paragraph">
-<p><a href=../../index.html>戻る</a></p>
+<p><a href="../../index.html">戻る</a></p>
 </div>
 </div>
 </div>
