@@ -30,7 +30,7 @@ include::./python/graph/lca-segment-tree.py[]
 
 === Verified
 
-* AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3152697#1[source]
+* AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3152697#1[source] (Python3, 1.70sec)
 
 ***
 link:../../index.html[戻る]

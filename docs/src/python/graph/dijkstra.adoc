@@ -9,12 +9,13 @@
 
 Pythonでは標準の ``heapq`` モジュールの ``heappush`` と ``heappop`` を使えば実現できる。
 
-``queue``モジュールに``PriorityQueue``が存在するが、こっちは同期するようにブロッキングがサポートされてて遅いので注意。
+``queue``モジュールに``PriorityQueue``が存在するが``heapq``モジュールを使う方が高速。
 
-計算量は$O((E + V) \log V)$
+== 計算量
+
+二分ヒープ実装で $O((E + V) \log V)$
 
 == 実装
-
 [source, python]
 ----
 include::./python/graph/dijkstra.py[]
@@ -22,7 +23,23 @@ include::./python/graph/dijkstra.py[]
 
 === Verified
 
-* AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850601#1[source]
+* AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850601#1[source] (Python2, 1.98sec)
+
+* AOJ: "ALDS1_12_C: Graph II - Single Source Shortest Path II": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3182740#1[source] (Python3, 0.45sec)
+
+== その他の実装
+
+=== ``queue.PriorityQueue`` による実装
+
+* AOJ: "ALDS1_12_C: Graph II - Single Source Shortest Path II": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3182760#1[source] (Python3, 0.55sec)
+
+=== Radix Heapによるダイクストラ法
+
+* AOJ: "ALDS1_12_C: Graph II - Single Source Shortest Path II": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3182741#1[source] (Python3, 0.46sec)
+
+== 参考ページ
+
+- link:https://www.slideshare.net/yosupo/ss-46612984[色々なダイクストラ高速化 - slideshare]
 
 ***
 

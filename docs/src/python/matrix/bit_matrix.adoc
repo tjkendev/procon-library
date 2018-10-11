@@ -28,7 +28,7 @@ include::./python/matrix/bit_matrix.py[]
 
 === Verified
 
-- AtCoder: "AtCoder Beginner Contest 009 - D問題: 漸化式": (Python2) link:http://abc009.contest.atcoder.jp/submissions/726855[source]
+- AtCoder: "AtCoder Beginner Contest 009 - D問題: 漸化式": link:http://abc009.contest.atcoder.jp/submissions/726855[source] (Python2, 1547ms)
 
 ***
 
