@@ -3,6 +3,8 @@ require 'asciidoctor/extensions' unless RUBY_ENGINE == 'opal'
 include Asciidoctor
 
 require 'nokogiri'
+require 'opengraph_parser'
+require 'cgi'
 
 class CustomPage < Extensions::Postprocessor
   def process document, output
@@ -16,5 +18,18 @@ class CustomPage < Extensions::Postprocessor
     }
 
     doc.to_html
+  end
+end
+
+class OGPLinkMacro < Extensions::InlineMacroProcessor
+  use_dsl
+
+  named :dlink
+
+  def process parent, target, attributes
+    doc = parent.document
+    og = OpenGraph.new(target)
+    title = og.title || target
+    %(<a href="#{target}">#{title}</a>)
   end
 end

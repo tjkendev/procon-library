@@ -4,4 +4,6 @@ Extensions.register do
   if (@document.basebackend? 'html')
     postprocessor CustomPage
   end
+
+  inline_macro OGPLinkMacro
 end

@@ -86,6 +86,7 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 
 * link:./python/max_flow/ford-fulkerson.html[最大フロー (Ford-Fulkerson Algorithm)]
 * link:./python/max_flow/dinic.html[最大フロー (Dinic's Algorithm)]
+* 最大フロー (Goldberg-Tarjan Algorithm)
 * link:./python/max_flow/hopcroft-karp.html[最大二部マッチング (Hopcroft-Karp Algorithm)]
 * link:./python/min_cost_flow/primal-dual.html[最小費用流問題 (Primal Dual Algorithm)]
 

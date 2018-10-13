@@ -28,8 +28,6 @@ $O(|E| \sqrt{|V|})$
 
 == 実装
 
-蟻本ベース実装
-
 [source, python]
 ----
 include::./python/max_flow/hopcroft-karp.py[]
