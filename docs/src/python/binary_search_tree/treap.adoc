@@ -4,7 +4,7 @@
 == 概要
 
 乱択アルゴリズムを用いた平衡二分探索木。
-平衡二分探索木の中では実装が簡単なアルゴリズム。
+平衡二分探索木の中で実装が簡単なアルゴリズム。
 
 木の高さは$O(\log N)$になる。
 
@@ -14,6 +14,15 @@
 
 == 実装
 
+各ノードに以下の情報を持たせたバージョン
+
+- 左右の子ノード
+- key
+- priority
+- そのノード以下の部分木のサイズ
+
+高速に処理するため、非再帰でノードの追加、削除を行うようにしている。
+
 [source, python]
 ----
 include::./python/binary_search_tree/treap.py[]
@@ -21,9 +30,11 @@ include::./python/binary_search_tree/treap.py[]
 
 === Verified
 
-Pythonだと早くないため使うのは厳しい
+* AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://arc033.contest.atcoder.jp/submissions/3402054[source] (PyPy3, 1637ms)
 
-* (TLE) CSAcademy: "Squared Ends": (Python3) link:https://csacademy.com/submission/1404350/[source]
+==== 部分木サイズを持たない実装
+
+* AOJ: "ALDS1_8_D: Binary search trees - Treap": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185647[source] (Python3, 3.00sec)
 
 == 参考ページ
 
