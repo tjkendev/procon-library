@@ -19,14 +19,14 @@ sourceからsinkへのパスを片っ端から探し、そのパスに流せる�
 
 == 実装
 
-蟻本ベース実装
-
-Pythonだと遅いため使いにくい。
-
 [source, python]
 ----
 include::./python/max_flow/ford-fulkerson.py[]
 ----
+
+=== Verified
+
+* AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185200#1[source] (Python3, 0.75sec)
 
 ***
 link:../../index.html[戻る]

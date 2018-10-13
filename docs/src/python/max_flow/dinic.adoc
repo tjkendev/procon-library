@@ -23,8 +23,6 @@ $O(V^2E)$
 
 == 実装
 
-蟻本ベース実装
-
 [source, python]
 ----
 include::./python/max_flow/dinic.py[]
@@ -32,11 +30,15 @@ include::./python/max_flow/dinic.py[]
 
 === Verified
 
-* CodeChef: "CodeChef June Challenge 2018 - Binary Board": (Python3) link:https://www.codechef.com/viewsolution/18917513[source]
-* AtCoder: "AtCoder Regular Contest 085 - E問題: MUL": (Python3) link:https://beta.atcoder.jp/contests/arc085/submissions/2451765[source]
-* AtCoder: "天下一プログラマーコンテスト2015予選A - C問題: 天下一美術館": (Python2) link:https://beta.atcoder.jp/contests/tenka1-2015-quala/submissions/461107[source]
-* AtCoder: "東京工業大学プログラミングコンテスト2015 - L問題: グラフ色ぬり": (Python2) link:https://beta.atcoder.jp/contests/ttpc2015/submissions/517443[source]
-* AOJ: "GRL_6_A: Network Flow - Maximum Flow": (Python2) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2435165#1[source]
+* AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185211#1[source] (Python3, 0.03sec)
+
+=== Verified (旧実装)
+
+* CodeChef: "CodeChef June Challenge 2018 - Binary Board": link:https://www.codechef.com/viewsolution/18917513[source] (Python3, 7.84sec)
+* AtCoder: "AtCoder Regular Contest 085 - E問題: MUL": link:https://beta.atcoder.jp/contests/arc085/submissions/2451765[source] (Python3, 23ms)
+* AtCoder: "天下一プログラマーコンテスト2015予選A - C問題: 天下一美術館": link:https://beta.atcoder.jp/contests/tenka1-2015-quala/submissions/461107[source] (Python2, 1417ms)
+* AtCoder: "東京工業大学プログラミングコンテスト2015 - L問題: グラフ色ぬり": link:https://beta.atcoder.jp/contests/ttpc2015/submissions/517443[source] (Python2, 74ms)
+* AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2435165#1[source] (Python2, 0.01sec), link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185215#1[source] (Python3, 0.03sec)
 
 ***
 link:../../index.html[戻る]

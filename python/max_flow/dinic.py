@@ -1,52 +1,58 @@
 # Dinic's algorithm
-import collections
+from collections import deque
 class Dinic:
-    def __init__(self, n):
-        self.n = n
-        self.g = [[] for i in range(n)]
+    def __init__(self, N):
+        self.N = N
+        self.G = [[] for i in range(N)]
+
     def add_edge(self, fr, to, cap):
-        self.g[fr].append([to, cap, len(self.g[to])])
-        self.g[to].append([fr, 0, len(self.g[fr])-1])
+        forward = [to, cap, None]
+        forward[2] = backward = [fr, 0, forward]
+        self.G[fr].append(forward)
+        self.G[to].append(backward)
+
     def add_multi_edge(self, v1, v2, cap1, cap2):
-        self.g[v1].append([v2, cap1, len(self.g[v2])])
-        self.g[v2].append([v1, cap2, len(self.g[v1])-1])
-    def bfs(self, s):
-        level = [-1]*self.n
-        deq = collections.deque()
+        edge1 = [v2, cap1, None]
+        edge1[2] = edge2 = [v1, cap2, edge1]
+        self.G[v1].append(edge1)
+        self.G[v2].append(edge2)
+
+    def bfs(self, s, t):
+        self.level = level = [None]*self.N
+        deq = deque([s])
         level[s] = 0
-        deq.append(s)
+        G = self.G
         while deq:
             v = deq.popleft()
-            for e in self.g[v]:
-                if e[1]>0 and level[e[0]]<0:
-                    level[e[0]] = level[v] + 1
-                    deq.append(e[0])
-        self.level = level
+            lv = level[v] + 1
+            for w, cap, _ in G[v]:
+                if cap and level[w] is None:
+                    level[w] = lv
+                    deq.append(w)
+        return level[t] is not None
+
     def dfs(self, v, t, f):
-        if v==t: return f
-        es = self.g[v]
+        if v == t:
+            return f
         level = self.level
-        for i in range(self.it[v], len(self.g[v])):
-            e = es[i]
-            if e[1]>0 and level[v]<level[e[0]]:
-                d = self.dfs(e[0], t, min(f, e[1]))
-                if d>0:
+        for e in self.it[v]:
+            w, cap, rev = e
+            if cap and level[v] < level[w]:
+                d = self.dfs(w, t, min(f, cap))
+                if d:
                     e[1] -= d
-                    self.g[e[0]][e[2]][1] += d
-                    self.it[v] = i
+                    rev[1] += d
                     return d
-        self.it[v] = len(self.g[v])
         return 0
-    def max_flow(self, s, t):
+
+    def flow(self, s, t):
         flow = 0
-        while True:
-            self.bfs(s)
-            if self.level[t]<0: break
-            self.it = [0]*self.n
-            while True:
-                f = self.dfs(s, t, 10**9+7)
-                if f>0:
-                    flow += f
-                else:
-                    break
+        INF = 10**9 + 7
+        G = self.G
+        while self.bfs(s, t):
+            *self.it, = map(iter, self.G)
+            f = INF
+            while f:
+                f = self.dfs(s, t, INF)
+                flow += f
         return flow

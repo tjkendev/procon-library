@@ -1,0 +1,43 @@
+= 最大二部マッチング (Hopcroft-Karp Algorithm)
+:title: {doctitle} - {pagetitle}
+
+最大二部マッチング (maximum bipartite matching)
+
+== 概要
+
+最大二部マッチングは、二部グラフ$G = (V, E)$上で各辺の容量が1の、最大マッチングを求める問題である。
+
+二部グラフ上では、以下の関係が成り立つ
+
+- *最大マッチング* のサイズ + 最小辺被覆 のサイズ = $|V|$
+- *最大マッチング* のサイズ = 最小点被覆 のサイズ
+- 最大安定集合 のサイズ + 最小点被覆 のサイズ = $|V|$
+
+=== Hopcroft-Karp Algorithm
+
+最大二部マッチングを解くアルゴリズムである。
+
+Dinic's Algorithmと同じで、以下の手順を繰り返して解を求める。
+
+1. BFSでsourceから各頂点までの距離($level$)を計算
+2. DFSで、sourceからの距離が遠くなるようなパスを見つけ、フローを流す
+
+== 計算量
+
+$O(|E| \sqrt{|V|})$
+
+== 実装
+
+蟻本ベース実装
+
+[source, python]
+----
+include::./python/max_flow/hopcroft-karp.py[]
+----
+
+=== Verified
+
+* AOJ: "GRL_7_A: Matching - Bipartite Matching": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185168#1[source] (Python3, 0.05sec)
+
+***
+link:../../index.html[戻る]

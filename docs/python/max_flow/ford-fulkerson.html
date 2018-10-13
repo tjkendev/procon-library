@@ -101,47 +101,61 @@ $(document).on('page:load', ready2);
 <div class="sect1">
 <h2 id="_実装">実装</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>蟻本ベース実装</p>
-</div>
-<div class="paragraph">
-<p>Pythonだと遅いため使いにくい。</p>
-</div>
 <div class="listingblock">
 <button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># Ford-Fulkerson algorithm
-class MaxFlow:
-    def __init__(self, n):
-        self.n = n
-        self.g = [[] for i in range(n)]
+class FordFulkerson:
+    def __init__(self, N):
+        self.N = N
+        self.G = [[] for i in range(N)]
+
     def add_edge(self, fr, to, cap):
-        self.g[fr].append([to, cap, len(self.g[to])])
-        self.g[to].append([fr, 0, len(self.g[fr])-1])
+        forward = [to, cap, None]
+        forward[2] = backward = [fr, 0, forward]
+        self.G[fr].append(forward)
+        self.G[to].append(backward)
+
     def add_multi_edge(self, v1, v2, cap1, cap2):
-        self.g[v1].append([v2, cap1, len(self.g[v2])])
-        self.g[v2].append([v1, cap2, len(self.g[v1])-1])
+        edge1 = [v2, cap1, None]
+        edge1[2] = edge2 = [v1, cap2, edge1]
+        self.G[v1].append(edge1)
+        self.G[v2].append(edge2)
+
     def dfs(self, v, t, f):
-        if v==t: return f
+        if v == t:
+            return f
         used = self.used
-        used[v] = True
-        for e in self.g[v]:
-            if not used[e[0]] and e[1]&gt;0:
-                d = self.dfs(e[0], t, min(f, e[1]))
-                if d&gt;0:
+        used[v] = 1
+        for e in self.G[v]:
+            w, cap, rev = e
+            if cap and not used[w]:
+                d = self.dfs(w, t, min(f, cap))
+                if d:
                     e[1] -= d
-                    self.g[e[0]][e[2]][1] += d
+                    rev[1] += d
                     return d
         return 0
-    def max_flow(self, s, t):
+
+    def flow(self, s, t):
         flow = 0
-        while True:
-            self.used = [0]*self.n
-            f = self.dfs(s, t, 10**9+7)
-            if f==0: break
+        f = INF = 10**9 + 7
+        N = self.N
+        while f:
+            self.used = [0]*N
+            f = self.dfs(s, t, INF)
             flow += f
         return flow</code></pre>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_6_A: Network Flow - Maximum Flow": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185200#1">source</a> (Python3, 0.75sec)</p>
+</li>
+</ul>
 </div>
 <hr>
 <div class="paragraph">
@@ -150,9 +164,10 @@ class MaxFlow:
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-03 23:38:22 JST
+Last updated 2018-10-13 20:17:01 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

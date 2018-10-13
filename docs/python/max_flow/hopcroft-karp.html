@@ -6,13 +6,13 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>最大フロー (Dinic's Algorithm) - yaketake08's 実装メモ</title>
+<title>最大二部マッチング (Hopcroft-Karp Algorithm) - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="最大フロー (Dinic's Algorithm) - yaketake08's 実装メモ">
-<meta property="og:description" content="最大フロー (Dinic's Algorithm)">
+<meta property="og:title" content="最大二部マッチング (Hopcroft-Karp Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="最大二部マッチング (Hopcroft-Karp Algorithm)">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/max_flow/dinic.html">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/max_flow/hopcroft-karp.html">
 <meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -63,13 +63,13 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>最大フロー (Dinic’s Algorithm)</h1>
+<h1>最大二部マッチング (Hopcroft-Karp Algorithm)</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>最大フロー問題を解くアルゴリズムの Dinic’s Algorithm</p>
+<p>最大二部マッチング (maximum bipartite matching)</p>
 </div>
 </div>
 </div>
@@ -77,16 +77,31 @@ $(document).on('page:load', ready2);
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>最大流問題は、有向グラフ\(G = (V, E)\)の各辺\(e \in E\)に容量\(c(u, v)\)がついており、このグラフ上のsourceからsinkへ流せる流量を求める問題である。</p>
+<p>最大二部マッチングは、二部グラフ\(G = (V, E)\)上で各辺の容量が1の、最大マッチングを求める問題である。</p>
 </div>
 <div class="paragraph">
-<p>最大フロー最小カット定理が成り立つため、最小カット問題も解くことができる。</p>
+<p>二部グラフ上では、以下の関係が成り立つ</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>最大マッチング</strong> のサイズ + 最小辺被覆 のサイズ = \(|V|\)</p>
+</li>
+<li>
+<p><strong>最大マッチング</strong> のサイズ = 最小点被覆 のサイズ</p>
+</li>
+<li>
+<p>最大安定集合 のサイズ + 最小点被覆 のサイズ = \(|V|\)</p>
+</li>
+</ul>
 </div>
 <div class="sect2">
-<h3 id="_dinics_algorithm">Dinic’s Algorithm</h3>
+<h3 id="_hopcroft_karp_algorithm">Hopcroft-Karp Algorithm</h3>
 <div class="paragraph">
-<p>Ford-Fulkerson algorithmよりも早い最大流アルゴリズム。
-以下の処理をフローを流しきるまで繰り返す。</p>
+<p>最大二部マッチングを解くアルゴリズムである。</p>
+</div>
+<div class="paragraph">
+<p>Dinic’s Algorithmと同じで、以下の手順を繰り返して解を求める。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -105,40 +120,55 @@ $(document).on('page:load', ready2);
 <h2 id="_計算量">計算量</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>\(O(V^2E)\)</p>
+<p>\(O(|E| \sqrt{|V|})\)</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_実装">実装</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>蟻本ベース実装</p>
+</div>
 <div class="listingblock">
 <button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># Dinic's algorithm
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># Hopcroft-Karp Algorithm
 from collections import deque
-class Dinic:
-    def __init__(self, N):
-        self.N = N
+class HopcroftKarp:
+    def __init__(self, N0, N1):
+        self.N0 = N0
+        self.N1 = N1
+        self.N = N = 2+N0+N1
         self.G = [[] for i in range(N)]
+        for i in range(N0):
+            forward = [2+i, 1, None]
+            forward[2] = backward = [0, 0, forward]
+            self.G[0].append(forward)
+            self.G[2+i].append(backward)
+        self.backwards = bs = []
+        for i in range(N1):
+            forward = [1, 1, None]
+            forward[2] = backward = [2+N0+i, 0, forward]
+            bs.append(backward)
+            self.G[2+N0+i].append(forward)
+            self.G[1].append(backward)
 
-    def add_edge(self, fr, to, cap):
-        forward = [to, cap, None]
-        forward[2] = backward = [fr, 0, forward]
-        self.G[fr].append(forward)
-        self.G[to].append(backward)
+    def add_edge(self, fr, to):
+        #assert 0 &lt;= fr &lt; self.N0
+        #assert 0 &lt;= to &lt; self.N1
+        v0 = 2 + fr
+        v1 = 2 + self.N0 + to
+        forward = [v1, 1, None]
+        forward[2] = backward = [v0, 0, forward]
+        self.G[v0].append(forward)
+        self.G[v1].append(backward)
 
-    def add_multi_edge(self, v1, v2, cap1, cap2):
-        edge1 = [v2, cap1, None]
-        edge1[2] = edge2 = [v1, cap2, edge1]
-        self.G[v1].append(edge1)
-        self.G[v2].append(edge2)
-
-    def bfs(self, s, t):
-        self.level = level = [None]*self.N
-        deq = deque([s])
-        level[s] = 0
+    def bfs(self):
         G = self.G
+        level = [None]*self.N
+        deq = deque([0])
+        level[0] = 0
         while deq:
             v = deq.popleft()
             lv = level[v] + 1
@@ -146,33 +176,33 @@ class Dinic:
                 if cap and level[w] is None:
                     level[w] = lv
                     deq.append(w)
-        return level[t] is not None
+        self.level = level
+        return level[1] is not None
 
-    def dfs(self, v, t, f):
+    def dfs(self, v, t):
         if v == t:
-            return f
+            return 1
         level = self.level
         for e in self.it[v]:
             w, cap, rev = e
-            if cap and level[v] &lt; level[w]:
-                d = self.dfs(w, t, min(f, cap))
-                if d:
-                    e[1] -= d
-                    rev[1] += d
-                    return d
+            if cap and level[v] &lt; level[w] and self.dfs(w, t):
+                e[1] = 0
+                rev[1] = 1
+                return 1
         return 0
 
-    def flow(self, s, t):
+    def flow(self):
         flow = 0
-        INF = 10**9 + 7
         G = self.G
-        while self.bfs(s, t):
-            *self.it, = map(iter, self.G)
-            f = INF
-            while f:
-                f = self.dfs(s, t, INF)
-                flow += f
-        return flow</code></pre>
+        bfs = self.bfs; dfs = self.dfs
+        while bfs():
+            *self.it, = map(iter, G)
+            while dfs(0, 1):
+                flow += 1
+        return flow
+
+    def matching(self):
+        return [cap for _, cap, _ in self.backwards]</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -180,29 +210,7 @@ class Dinic:
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "GRL_6_A: Network Flow - Maximum Flow": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185211#1">source</a> (Python3, 0.03sec)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_verified_旧実装">Verified (旧実装)</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>CodeChef: "CodeChef June Challenge 2018 - Binary Board": <a href="https://www.codechef.com/viewsolution/18917513">source</a> (Python3, 7.84sec)</p>
-</li>
-<li>
-<p>AtCoder: "AtCoder Regular Contest 085 - E問題: MUL": <a href="https://beta.atcoder.jp/contests/arc085/submissions/2451765">source</a> (Python3, 23ms)</p>
-</li>
-<li>
-<p>AtCoder: "天下一プログラマーコンテスト2015予選A - C問題: 天下一美術館": <a href="https://beta.atcoder.jp/contests/tenka1-2015-quala/submissions/461107">source</a> (Python2, 1417ms)</p>
-</li>
-<li>
-<p>AtCoder: "東京工業大学プログラミングコンテスト2015 - L問題: グラフ色ぬり": <a href="https://beta.atcoder.jp/contests/ttpc2015/submissions/517443">source</a> (Python2, 74ms)</p>
-</li>
-<li>
-<p>AOJ: "GRL_6_A: Network Flow - Maximum Flow": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2435165#1">source</a> (Python2, 0.01sec), <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185215#1">source</a> (Python3, 0.03sec)</p>
+<p>AOJ: "GRL_7_A: Matching - Bipartite Matching": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185168#1">source</a> (Python3, 0.05sec)</p>
 </li>
 </ul>
 </div>
@@ -216,7 +224,7 @@ class Dinic:
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-13 20:16:55 JST
+Last updated 2018-10-13 19:36:54 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
