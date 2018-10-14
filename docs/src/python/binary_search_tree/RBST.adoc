@@ -1,0 +1,44 @@
+= Randomized Binary Search Tree (RBST)
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+乱択アルゴリズムを用いた平衡二分探索木。
+
+サイズ$p$の木Aとサイズ$q$の木Bをマージする際、確率$\frac{p}{p+q}$で木Aの根、確率$\frac{q}{p+q}$で木Bの根をマージ後の根頂点にする、を再帰的に繰り返し、マージ後の木を構築。
+木の高さを$O(\log N)$にする。
+
+== 計算量
+
+各クエリ $O(\log N)$
+
+== 実装
+
+merge-splitベース
+
+各ノードに以下の情報を持たせている
+
+- 左右の子ノード
+- key
+- そのノード以下の部分木のサイズ
+
+高速化のために非再帰で処理するようにしている。
+
+[source, python]
+----
+include::./python/binary_search_tree/RBST.py[]
+----
+
+=== Verified
+
+merge, splitのコストが高くて遅い感じ
+
+* AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://arc033.contest.atcoder.jp/submissions/3410116[source] (PyPy3, TLE)
+
+== 参考ページ
+
+* link:https://www.slideshare.net/iwiwi/2-12188757[プログラミングコンテストでのデータ構造 2　～平衡二分探索木編～]
+
+
+***
+link:../../index.html[戻る]
