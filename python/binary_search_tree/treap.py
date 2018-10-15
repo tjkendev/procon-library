@@ -17,7 +17,7 @@ def rotate(nd, d):
     nd[4] = r - (e[4] if e else 0) - 1
     return c
 
-# insert node with key = val and priority = pri
+# insert a node with key = val and priority = pri
 def insert(t, val, pri):
     st = []
     dr = []
@@ -61,7 +61,7 @@ def __delete(nd):
         x[4] -= 1
     return x
 
-# delete node with key = val
+# delete a node with key = val
 def delete(t, val):
     x = t
 
@@ -83,7 +83,7 @@ def delete(t, val):
         return t
     return __delete(x)
 
-# find node with key = val
+# find a node with key = val
 def find(t, val):
     x = t
     while x:

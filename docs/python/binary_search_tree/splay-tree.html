@@ -6,13 +6,13 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>Treap - yaketake08's 実装メモ</title>
+<title>Splay木 - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="Treap - yaketake08's 実装メモ">
-<meta property="og:description" content="Treap">
+<meta property="og:title" content="Splay木 - yaketake08's 実装メモ">
+<meta property="og:description" content="Splay木">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/binary_search_tree/treap.html">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/binary_search_tree/splay-tree.html">
 <meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -63,18 +63,17 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>Treap</h1>
+<h1>Splay木</h1>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>乱択アルゴリズムを用いた平衡二分探索木。
-平衡二分探索木の中で実装が簡単なアルゴリズム。</p>
+<p>最近アクセスした値に素早くアクセスできる平衡２分探索木。</p>
 </div>
 <div class="paragraph">
-<p>木の高さは\(O(\log N)\)になる。</p>
+<p>各操作で要素を参照した際、スプレー操作を行い、木を回転しながら要素をトップに持ってくる。</p>
 </div>
 </div>
 </div>
@@ -82,16 +81,13 @@ $(document).on('page:load', ready2);
 <h2 id="_計算量">計算量</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>各クエリ \(O(\log N)\)</p>
+<p>各クエリ ならし \(O(\log N)\)</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_実装">実装</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>insert-eraseベース</p>
-</div>
 <div class="paragraph">
 <p>各ノードに以下の情報を持たせている</p>
 </div>
@@ -104,176 +100,154 @@ $(document).on('page:load', ready2);
 <p>key</p>
 </li>
 <li>
-<p>priority</p>
-</li>
-<li>
 <p>そのノード以下の部分木のサイズ</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>高速に処理するため、非再帰でノードの追加、削除を行うようにしている。</p>
-</div>
 <div class="listingblock">
 <button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># Treap
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># splay node nd
+def __splay(st, dr, nd):
+    l = nd[0]; r = nd[1]
+    L = (l[3] if l else 0); R = (r[3] if r else 0)
+    c = len(st) &gt;&gt; 1
+    while c:
+        # y(d1)-x(d)-nd
+        x = st.pop(); y = st.pop()
+        d = dr.pop(); d1 = dr.pop()
 
-# d = 0: right rotation
-# d = 1: left rotation
-def rotate(nd, d):
-    c = nd[d]
-    if d:
-        e = c[1]
-        nd[1] = c[0]
-        c[0] = nd
-    else:
-        e = c[0]
-        nd[0] = c[1]
-        c[1] = nd
+        if d == d1:
+            # Zig-zig step
+            y[3] = e = y[3] - L - R - 2
+            if d:
+                y[1] = x[0]; x[0] = y
+                x[1] = l; l = x
 
-    r = c[4] = nd[4]
-    nd[4] = r - (e[4] if e else 0) - 1
-    return c
+                l[3] = L = e + L + 1
+            else:
+                y[0] = x[1]; x[1] = y
+                x[0] = r; r = x
 
-# insert a node with key = val and priority = pri
-def insert(t, val, pri):
-    st = []
-    dr = []
-    x = t
+                r[3] = R = e + R + 1
+        else:
+            # Zig-zag step
+            if d:
+                x[1] = l; l = x
+                y[0] = r; r = y
+
+                l[3] = L = l[3] - R - 1
+                r[3] = R = r[3] - L - 1
+            else:
+                x[0] = r; r = x
+                y[1] = l; l = y
+
+                r[3] = R = r[3] - L - 1
+                l[3] = L = l[3] - R - 1
+        c -= 1
+    if st:
+        # Zig step
+        x = st[0]; d = dr[0]
+        if d:
+            x[1] = l; l = x
+            l[3] = L = l[3] - R - 1
+        else:
+            x[0] = r; r = x
+            r[3] = R = r[3] - L - 1
+    nd[0] = l; nd[1] = r
+    nd[3] = L + R + 1
+    return nd
+
+# insert a node with key = val
+def insert(t, val):
+    # [&lt;left&gt;, &lt;right&gt;, &lt;key&gt;, &lt;count&gt;]
+    nd = [None, None, val, 1]
+    st = []; dr = []
+    x = t; y = None
     while x:
-        st.append(x)
-        if x[2] == val:
-            return t
-        d = (x[2] &lt; val)
-        dr.append(d)
+        y = x; d = (x[2] &lt;= val)
+        st.append(y); dr.append(d)
+        x[3] += 1
         x = x[d]
 
-    # [&lt;left&gt;, &lt;right&gt;, &lt;key&gt;, &lt;priority&gt;, &lt;count&gt;]
-    nd = [None, None, val, pri, 1]
-    while st:
-        x = st.pop(); d = dr.pop()
-        x[d] = nd
-        x[4] += 1
-        if x[3] &gt;= nd[3]:
-            break
-        rotate(x, d)
-    else:
+    if not y:
         return nd
-
-    for x in st:
-        x[4] += 1
-    return t
-
-# delete node nd
-def __delete(nd):
-    st = []; dr = []
-    while nd[0] or nd[1]:
-        l = nd[0]; r = nd[1]
-        d = (l[3] &lt;= r[3]) if l and r else (l is None)
-        st.append(rotate(nd, d))
-        dr.append(d ^ 1)
-    nd = x = None
-    while st:
-        nd = x; x = st.pop(); d = dr.pop()
-        x[d] = nd
-        x[4] -= 1
-    return x
+    y[d] = nd
+    return __splay(st, dr, nd)
 
 # delete a node with key = val
 def delete(t, val):
+    st = []; dr = []
     x = t
-
-    st = []
-    y = None
-    while x:
-        if val == x[2]:
-            break
-        y = x; d = (x[2] &lt; val)
-        st.append(y)
+    while x and x[2] != val:
+        d = (x[2] &lt;= val)
+        st.append(x); dr.append(d)
         x = x[d]
-    else:
-        return
-
-    if y:
-        y[d] = __delete(x)
-        for x in st:
-            x[4] -= 1
+    if not x:
         return t
-    return __delete(x)
+    t = __splay(st, dr, x)
+    return merge(t[0], t[1])
 
 # find a node with key = val
 def find(t, val):
+    st = []; dr = []
     x = t
-    while x:
-        if val == x[2]:
-            return 1
-        x = x[x[2] &lt; val]
-    return 0
+    while x and x[2] != val:
+        d = (x[2] &lt;= val)
+        st.append(x); dr.append(d)
+        x = x[d]
+    if not x:
+        return t, False
+    t = __splay(st, dr, x)
+    return t, True
 
 # merge tree l with tree r
 def merge(l, r):
-    if not l:
-        return r
-    if not r:
+    if not l or not r:
+        return l or r
+    if not l[1]:
+        l[3] += r[3]
+        l[1] = r
         return l
-    nd = [l, r, None, None, l[4]+r[4]+1]
-    return __delete(nd)
+
+    st = []
+    x = l
+    while x[1]:
+        st.append(x)
+        x = x[1]
+
+    l = __splay(st, [1]*len(st), x)
+    l[3] += r[3]
+    l[1] = r
+    return l
 
 # split tree t into two trees of size k and |t|-k
 def split(t, k):
-    x = t
-    if not 0 &lt; k &lt; x[4]:
+    if not t or not 0 &lt; k &lt; t[3]:
         return t, None
+    x = t
     st = []; dr = []
     while x:
         l = x[0]
+        c = (l[3] if l else 0) + 1
 
-        c = (l[4] if l else 0) + 1
         if c == k:
             break
-        y = x
-        st.append(y)
 
+        st.append(x)
         if c &lt; k:
             k -= c
             x = x[1]
-            d = 1
+            dr.append(1)
         else:
-            x = l
-            d = 0
-        dr.append(d)
-    # x is k-th element in tree t
-    #assert x
-    st.append(x)
-    dr.append(1)
-    x = x[1]
-    while x:
-        st.append(x)
-        dr.append(0)
-        x = x[0]
-    nd = [None, None, None, None, 1]
-    while st:
-        x = st.pop(); d = dr.pop()
-        x[d] = nd
-        x[4] += 1
-        rotate(x, d)
-    return nd[0], nd[1]
-
-# for debug
-def debug(t):
-    def dfs(t, k):
-        cc = 1
-        if t[0]:
-            cc += dfs(t[0], k+1)
-        print(" "*k, "%d (%d) %d" % (t[2], t[3], t[4]))
-        if t[1]:
-            cc += t[1] and dfs(t[1], k+1)
-        assert t[4] == cc
-        return cc
-    if not t:
-        return 0
-    return dfs(t, 0)</code></pre>
+            x = x[0]
+            dr.append(0)
+    l = __splay(st, dr, x)
+    r = l[1]
+    if r:
+        l[3] -= r[3]
+    l[1] = None
+    return l, r</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -281,19 +255,9 @@ def debug(t):
 <div class="ulist">
 <ul>
 <li>
-<p>AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": <a href="https://arc033.contest.atcoder.jp/submissions/3402054">source</a> (PyPy3, 1637ms)</p>
+<p>AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": <a href="https://beta.atcoder.jp/contests/arc033/submissions/3415755">source</a> (PyPy3, 1662ms)</p>
 </li>
 </ul>
-</div>
-<div class="sect3">
-<h4 id="_部分木サイズを持たない実装">部分木サイズを持たない実装</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>AOJ: "ALDS1_8_D: Binary search trees - Treap": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185647">source</a> (Python3, 3.00sec)</p>
-</li>
-</ul>
-</div>
 </div>
 </div>
 </div>
@@ -306,6 +270,9 @@ def debug(t):
 <li>
 <p><a href="https://www.slideshare.net/iwiwi/2-12188757">プログラミングコンテストでのデータ構造 2　～平衡二分探索木編～</a></p>
 </li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Splay_tree">Splay tree - Wikipedia</a></p>
+</li>
 </ul>
 </div>
 <hr>
@@ -317,7 +284,7 @@ def debug(t):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-14 11:30:02 JST
+Last updated 2018-10-16 08:20:57 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

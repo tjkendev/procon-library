@@ -46,7 +46,7 @@ Python2で書いてたプログラムは、基本Python3用に書き直してま
 * link:./python/binary_search_tree/persistent_RBST.html[永続RBST]
 * 赤黒木
 * AVL木
-* Splay木
+* link:./python/binary_search_tree/splay-tree.html[Splay木]
 
 === 区間クエリ
 

@@ -1,0 +1,38 @@
+= Splay木
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+最近アクセスした値に素早くアクセスできる平衡２分探索木。
+
+各操作で要素を参照した際、スプレー操作を行い、木を回転しながら要素をトップに持ってくる。
+
+== 計算量
+
+各クエリ ならし $O(\log N)$
+
+== 実装
+
+各ノードに以下の情報を持たせている
+
+- 左右の子ノード
+- key
+- そのノード以下の部分木のサイズ
+
+[source, python]
+----
+include::./python/binary_search_tree/splay-tree.py[]
+----
+
+=== Verified
+
+* AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://beta.atcoder.jp/contests/arc033/submissions/3415755[source] (PyPy3, 1662ms)
+
+== 参考ページ
+
+* link:https://www.slideshare.net/iwiwi/2-12188757[プログラミングコンテストでのデータ構造 2　～平衡二分探索木編～]
+* link:https://en.wikipedia.org/wiki/Splay_tree[Splay tree - Wikipedia]
+
+
+***
+link:../../index.html[戻る]

@@ -144,7 +144,7 @@ def merge(l, r):
     #    x = st.pop(); d = dr.pop()
     return z[0]
 
-# split tree using stack info
+# split a tree using stack info
 def __split(st, dr):
     l = None; r = None
     st.reverse(); dr.reverse()
@@ -181,7 +181,7 @@ def split(t, k):
         dr.append(d)
     return __split(st, dr)
 
-# insert node with key = val
+# insert a node with key = val
 def insert(t, val):
     x = t
     st = []; dr = []
@@ -219,7 +219,7 @@ def insert(t, val):
             l = nd
     return merge(l, r)
 
-# delete node with key = val
+# delete a node with key = val
 def delete(t, val):
     x = t
     st = []; dr = []
