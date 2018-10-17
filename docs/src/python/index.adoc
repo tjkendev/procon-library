@@ -42,7 +42,8 @@ Python2で書いてたプログラムは、Python3用に書き直してます。
 * link:./binary_search_tree/persistent_RBST.html[永続RBST]
 * 赤黒木
 * AVL木
-* link:./binary_search_tree/splay-tree.html[Splay木]
+* link:./binary_search_tree/splay-tree.html[Splay tree]
+* link:./binary_search_tree/scapegoat-tree.html[Scapegoat tree]
 
 == 区間クエリ
 

@@ -1,0 +1,39 @@
+= Scapegoat tree
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+木の回転を行わず、部分木が偏った時に再構築することで平衡を保つ平衡二分探索木
+
+再構築は $O(N)$ かかるが、全体ではならし計算量で $O(\log N)$ になる。
+
+== 計算量
+
+- 要素検索: $O(\log N)$
+- 要素追加・削除: ならし $O(\log N)$
+
+== 実装
+
+各ノードに以下の情報を持たせている
+
+- 左右の子ノード
+- key
+- そのノード以下の部分木の(生存している)サイズ
+
+[source, python]
+----
+include::./python/binary_search_tree/scapegoat-tree.py[]
+----
+
+=== Verified
+
+* AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://beta.atcoder.jp/contests/arc033/submissions/3423757[source] (PyPy3, 1686ms)
+
+== 参考ページ
+
+* link:https://en.wikipedia.org/wiki/Scapegoat_tree[Scapegoat tree - Wikipedia]
+* link:https://topcoder.g.hatena.ne.jp/spaghetti_source/20120901/1346460700[Scapegoat Tree - 週刊 spaghetti_source]
+
+
+***
+link:../index.html[戻る]

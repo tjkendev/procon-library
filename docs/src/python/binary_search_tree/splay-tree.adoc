@@ -1,4 +1,4 @@
-= Splay木
+= Splay tree
 :title: {doctitle} - {pagetitle}
 
 == 概要
