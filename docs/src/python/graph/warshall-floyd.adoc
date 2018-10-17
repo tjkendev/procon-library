@@ -21,4 +21,4 @@ include::./python/graph/warshall-floyd.py[]
 * AOJ: "GRL_1_C: Shortest Path - All Pairs Shortest Path": (Python2) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850668#1[source]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

@@ -43,4 +43,4 @@ include::./python/graph/dijkstra.py[]
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

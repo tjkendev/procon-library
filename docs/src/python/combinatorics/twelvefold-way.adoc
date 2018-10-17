@@ -66,4 +66,4 @@ include::./python/combinatorics/stirling-number-2.py[]
 * link:http://d.hatena.ne.jp/incognita/20110305/1299344781[数学ガール★分割数(partition number)の漸化式と戯れる - incognita et cognita]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

@@ -38,4 +38,4 @@ include::./python/max_flow/hopcroft-karp.py[]
 * AOJ: "GRL_7_A: Matching - Bipartite Matching": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185168#1[source] (Python3, 0.05sec)
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

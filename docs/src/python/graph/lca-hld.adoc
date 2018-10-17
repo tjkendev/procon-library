@@ -33,4 +33,4 @@ include::./python/graph/lca-hld.py[]
 * link:http://math314.hateblo.jp/entry/2014/06/24/220107[Heavy-Light Decomposition - math314のブログ]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

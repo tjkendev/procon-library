@@ -22,4 +22,4 @@ include::./python/graph/bfs.py[]
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

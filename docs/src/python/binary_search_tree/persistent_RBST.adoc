@@ -26,4 +26,4 @@ Pythonにとっては重い
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

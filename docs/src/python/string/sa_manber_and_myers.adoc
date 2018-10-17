@@ -19,4 +19,4 @@ include::./python/string/sa_manber_and_myers.py[]
 ----
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

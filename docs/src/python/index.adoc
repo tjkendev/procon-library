@@ -1,0 +1,108 @@
+= 実装メモ (Python)
+:title: {doctitle} - {pagetitle}
+
+Python2で書いてたプログラムは、Python3用に書き直してます。
+
+== 整数
+
+* link:./math/gcd.html[最大公約数]
+* link:./math/chinese-remainder.html[中国余剰定理]
+
+== 素数
+
+* link:./prime/factorize.html[素因数分解]
+* link:./prime/sieve.html[素数を求める篩(ふるい)法]
+* link:./prime/probabilistic.html[確率的素数判定]
+
+== 組合せ
+
+* link:./combinatorics/twelvefold-way.html[写像12相]
+
+== 幾何
+
+* link:./geometry/polygon_area.html[多角形の面積]
+* link:./geometry/segment_line_intersection.html[線分同士の交差判定]
+* link:./geometry/line_cross_point.html[直線の交点]
+* link:./geometry/circle_line_cross_point.html[直線と円の交点]
+* link:./geometry/circle_cross_point.html[円同士の交点]
+* link:./geometry/circle_common_tangent_point.html[円の共通接線の接点]
+* link:./geometry/graham_scan.html[凸包(Graham Scan)]
+* link:./geometry/rotating_calipers.html[最遠点対(キャリパー法)]
+* link:./geometry/closest_pair.html[最近点対(分割統治法)]
+
+== 集合
+
+* link:./union_find/union_find.html[Union-Find]
+* link:./union_find/pp_union_find.html[部分永続Union-Find]
+
+== 二分木
+
+* link:./binary_search_tree/treap.html[Treap]
+* link:./binary_search_tree/RBST.html[Randomized Binary Search Tree (RBST)]
+* link:./binary_search_tree/persistent_RBST.html[永続RBST]
+* 赤黒木
+* AVL木
+* link:./binary_search_tree/splay-tree.html[Splay木]
+
+== 区間クエリ
+
+* link:./range_query/bit.html[Binary Indexed Tree]
+* link:./range_query/rmq_segment_tree.html[Range Minimum Query (セグメント木)]
+* link:./range_query/ruq_segment_tree.html[Range Update Query (セグメント木)]
+* link:./range_query/rsq_raq_bit.html[RSQ and RAQ (BIT)]
+* link:./range_query/rmq_ruq_segment_tree_lp.html[RMQ and RUQ (遅延伝搬セグメント木)]
+* link:./range_query/rmq_raq_segment_tree_lp.html[RMQ and RAQ (遅延伝搬セグメント木)]
+* link:./range_query/rsq_ruq_segment_tree_lp.html[RSQ and RUQ (遅延伝搬セグメント木)]
+* link:./range_query/sliding_window_minimum.html[Sliding Window Minimum]
+* link:./convex_hull_trick/li_chao_tree.html[Convex Hull Trick (Li Chao (Segment) Tree)]
+* link:./convex_hull_trick/binary_search_tree.html[Convex Hull Trick (平衡二分探索木)]
+
+== グラフ
+
+* link:./graph/warshall-floyd.html[全点対最短経路(ワーシャルフロイド法)]
+* link:./graph/bfs.html[単一始点最短経路(BFS)]
+* 単一始点最短経路(0-1-BFS)
+* link:./graph/bellman-ford.html[単一始点最短経路(ベルマンフォード法)]
+* link:./graph/dijkstra.html[単一始点最短経路(ダイクストラ法)]
+* link:./graph/tree_diameter.html[木の直径]
+* link:./graph/topological_sort.html[トポロジカルソート]
+* link:./graph/scc.html[強連結成分分解]
+* link:./graph/bridge-finding-with-cd.html[橋検出(with chain decompositions)]
+* link:./graph/articulation-points.html[関節点検出]
+* link:./graph/min_st_kruskal.html[最小全域木 (クラスカル法)]
+* link:./graph/min_st_prim.html[最小全域木 (プリム法)]
+* link:./graph/chu-liu-edmonds.html[最小全域有向木]
+* link:./graph/lca-doubling.html[最小共通祖先 (ダブリング)]
+* link:./graph/lca-segment-tree.html[最小共通祖先 (セグメント木)]
+* link:./graph/lca-dst.html[最小共通祖先 (Disjoint Sparse Table)]
+* link:./graph/lca-sqrt.html[最小共通祖先 (平方分割)]
+* link:./graph/lca-hld.html[最小共通祖先 (Heavy-Light Decomposition)]
+
+== フロー
+
+* link:./max_flow/ford-fulkerson.html[最大フロー (Ford-Fulkerson Algorithm)]
+* link:./max_flow/dinic.html[最大フロー (Dinic's Algorithm)]
+* 最大フロー (Goldberg-Tarjan Algorithm)
+* link:./max_flow/hopcroft-karp.html[最大二部マッチング (Hopcroft-Karp Algorithm)]
+* link:./min_cost_flow/primal-dual.html[最小費用流問題 (Primal Dual Algorithm)]
+
+== 行列・数列
+
+* link:./matrix/bit_matrix.html[ビット行列]
+* きたまさ法
+
+== 多項式/高速フーリエ変換
+
+* link:./fft/fft.html[Fast Fourier Transform]
+* link:./fft/fmt.html[Fast Modulo Transform]
+* link:./polynomial/lagrange-polynomial.html[ラグランジュ補完]
+
+== 文字列
+
+* link:./string/rolling_hash.html[Rolling Hash]
+* link:./string/sa_manber_and_myers.html[Suffix Array (Manber and Myers Algorithm)]
+* link:./string/sa_sa-is.html[Suffix Array (SA-IS)]
+* link:./string/aho-corasick.html[Aho-Corasick Algorithm]
+
+***
+link:../index.html[戻る]

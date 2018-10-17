@@ -24,4 +24,4 @@ include::./cpp/string/aho-corasick.cpp[]
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

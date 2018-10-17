@@ -35,4 +35,4 @@ include::./python/geometry/circle_cross_point.py[]
 - AOJ: "CGL_7_E: Circles - Cross Points of Circles": (Python2) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416434#1[source]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

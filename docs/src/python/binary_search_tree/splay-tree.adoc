@@ -35,4 +35,4 @@ include::./python/binary_search_tree/splay-tree.py[]
 
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

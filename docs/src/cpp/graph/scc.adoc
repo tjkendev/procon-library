@@ -24,4 +24,4 @@ include::./cpp/graph/scc.cpp[]
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

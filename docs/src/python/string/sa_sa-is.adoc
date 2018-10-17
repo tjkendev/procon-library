@@ -26,5 +26,5 @@ include::./python/string/sa_sa-is.py[]
 - link:http://sile.hatenablog.jp/entry/20101213/1292190698[SA-IS: SuffixArray線形構築 - sileのブログ]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]
 

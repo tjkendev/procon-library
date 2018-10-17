@@ -50,4 +50,4 @@ include::./python/prime/sieve_of_atkin.py[]
 * link:https://stackoverflow.com/questions/2398894/why-is-my-implementation-of-the-sieve-of-atkin-overlooking-numbers-close-to-the[Why is my implementation of the Sieve of Atkin overlooking numbers close to the specified limit? - stack overflow]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

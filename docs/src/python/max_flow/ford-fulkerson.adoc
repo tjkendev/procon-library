@@ -29,4 +29,4 @@ include::./python/max_flow/ford-fulkerson.py[]
 * AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185200#1[source] (Python3, 0.75sec)
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

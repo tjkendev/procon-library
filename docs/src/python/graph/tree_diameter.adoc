@@ -20,4 +20,4 @@ include::./python/graph/tree_diameter.py[]
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

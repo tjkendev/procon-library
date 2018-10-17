@@ -28,4 +28,4 @@ include::./python/geometry/segment_line_intersection.py[]
 - AOJ: "CGL_2_B: Segments/Lines - Intersection": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2647106#1[source]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

@@ -33,4 +33,4 @@ include::./python/geometry/circle_line_cross_point.py[]
 * AOJ: "CGL_7_D: Circles - Cross Points of a Circle and a Line": (Python2) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416269#1[source]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

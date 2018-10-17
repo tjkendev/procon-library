@@ -50,4 +50,4 @@ include::./python/min_cost_flow/primal-dual_d.py[]
 * AOJ: "GRL_6_B: Network Flow - Minimum Cost Flow": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3174869#1[source]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

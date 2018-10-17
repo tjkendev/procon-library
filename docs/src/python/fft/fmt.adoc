@@ -29,4 +29,4 @@ include::./python/fft/fmt.py[]
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

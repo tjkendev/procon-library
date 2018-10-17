@@ -32,4 +32,4 @@ include::./python/matrix/bit_matrix.py[]
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

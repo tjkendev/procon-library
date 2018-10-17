@@ -31,4 +31,4 @@ Pythonだと重くてつらい
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

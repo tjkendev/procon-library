@@ -28,4 +28,4 @@ include::./python/graph/bridge-finding-with-cd-simple.py[]
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

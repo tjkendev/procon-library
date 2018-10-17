@@ -25,4 +25,4 @@ include::./python/graph/articulation_points.py[]
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

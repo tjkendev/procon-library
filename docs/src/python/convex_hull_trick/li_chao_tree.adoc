@@ -33,4 +33,4 @@ include::./python/convex_hull_trick/li_chao_tree.py[]
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

@@ -41,4 +41,4 @@ merge, splitのコストが高くて遅い感じ
 
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

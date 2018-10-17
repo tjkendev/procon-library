@@ -31,4 +31,4 @@ include::./python/union_find/pp_union_find.py[]
 * link:https://camypaper.bitbucket.io/2016/12/18/adc2016/[やぶについて書きます - 紙ぺーぱーめも]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

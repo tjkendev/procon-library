@@ -24,4 +24,4 @@ include::./cpp/max_flow/dinic.cpp[]
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

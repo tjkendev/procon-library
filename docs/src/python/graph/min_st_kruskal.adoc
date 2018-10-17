@@ -23,4 +23,4 @@ include::./python/graph/min_st_kruskal.py[]
 * AOJ: "ALDS1_12_A: Graph II - Minimum Spanning Tree": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3164895#1[source] (Python3, 0.02sec)
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

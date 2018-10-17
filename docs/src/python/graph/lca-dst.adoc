@@ -25,4 +25,4 @@ include::./python/graph/lca-dst.py[]
 * link:https://discuss.codechef.com/questions/117696/tutorial-disjoint-sparse-table?page=1[[Tutorial\] Disjoint Sparse Table - CodeChef Discussion]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

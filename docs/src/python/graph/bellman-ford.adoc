@@ -23,4 +23,4 @@ include::./python/graph/bellman-ford.py[]
 * AOJ: "GRL_1_B: Shortest Path - Single Source Shortest Path (Negative Edges)": (Python2) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850625#1[source]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

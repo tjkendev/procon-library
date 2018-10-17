@@ -28,4 +28,4 @@ include::./python/range_query/sliding_window_minimum.py[]
 * AOJ: "DSL_3_D: Sliding Window - Sliding Minimum Elements": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3161784#1[source]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

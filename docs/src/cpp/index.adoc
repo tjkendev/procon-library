@@ -1,0 +1,23 @@
+= 実装メモ (C++)
+:title: {doctitle} - {pagetitle}
+
+実装は基本的に実装テンプレートをベースに実装してます。
+
+== テンプレート
+
+* link:./template/main.html[実装テンプレート]
+
+== グラフ
+
+* link:./graph/scc.html[強連結成分分解]
+
+== フロー
+
+* link:./max_flow/dinic.html[最大流問題 (Dinic's Algorithm)]
+
+== 文字列
+
+* link:./string/aho-corasick.html[Aho-Corasick Algorithm]
+
+***
+link:../index.html[戻る]

@@ -27,4 +27,4 @@ include::./python/graph/chu-liu_edmonds.py[]
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]

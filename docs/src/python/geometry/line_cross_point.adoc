@@ -34,4 +34,4 @@ include::./python/geometry/line_cross_point.py[]
 http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3148979#1[source]
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

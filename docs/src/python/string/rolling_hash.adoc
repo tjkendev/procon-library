@@ -21,4 +21,4 @@ include::./python/string/random_rolling_hash.py[]
 ----
 
 ***
-link:../../index.html[戻る]
+link:../index.html[戻る]

@@ -24,4 +24,4 @@ include::./python/prime/factorize.py[]
 
 ***
 
-link:../../index.html[戻る]
+link:../index.html[戻る]
