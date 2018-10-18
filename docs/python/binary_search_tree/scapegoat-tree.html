@@ -118,9 +118,11 @@ $(document).on('page:load', ready2);
 alpha = 0.7
 beta = 1/log2(1/alpha)
 
+# get the size of a tree t
 def size(t):
     return size(t[0]) + size(t[1]) + 1 if t else 0
 
+# rebuild a tree t
 def __rebuild(t):
     res = []
     append = res.append
@@ -156,13 +158,14 @@ def __rebuild(t):
         return None, 0
     return dfs0(len(res))
 
+# find a node with key = val in a tree T
 def find(T, val):
-    st = []; dr = []
-    x, M = T
+    x = T[0]
     while x and x[2] != val:
         x = x[x[2] &lt; val]
     return x is not None
 
+# insert a node with key = val into a tree T
 def insert(T, val):
     st = []; dr = []
     t, M = T
@@ -206,6 +209,7 @@ def insert(T, val):
         return t, M-nt+cc
     return t, M+1
 
+# delete a node with key = val from a tree T
 def delete(T, val):
     t, M = T
     st = []; dr = []
@@ -234,6 +238,16 @@ def delete(T, val):
 </li>
 </ul>
 </div>
+<div class="sect3">
+<h4 id="_部分木の全体サイズを頂点に持たせた実装">部分木の全体サイズを頂点に持たせた実装</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": <a href="https://beta.atcoder.jp/contests/arc033/submissions/3423378">source</a> (PyPy3, 1630ms)</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -259,7 +273,7 @@ def delete(T, val):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-18 00:56:42 JST
+Last updated 2018-10-18 01:07:15 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

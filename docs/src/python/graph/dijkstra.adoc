@@ -13,7 +13,7 @@ Pythonでは標準の ``heapq`` モジュールの ``heappush`` と ``heappop`` 
 
 == 計算量
 
-二分ヒープ実装で $O((E + V) \log V)$
+二分ヒープ実装で $O((|E| + |V|) \log |V|)$
 
 == 実装
 [source, python]

@@ -29,6 +29,10 @@ include::./python/binary_search_tree/scapegoat-tree.py[]
 
 * AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://beta.atcoder.jp/contests/arc033/submissions/3423757[source] (PyPy3, 1686ms)
 
+==== 部分木の全体サイズを頂点に持たせた実装
+
+* AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://beta.atcoder.jp/contests/arc033/submissions/3423378[source] (PyPy3, 1630ms)
+
 == 参考ページ
 
 * link:https://en.wikipedia.org/wiki/Scapegoat_tree[Scapegoat tree - Wikipedia]

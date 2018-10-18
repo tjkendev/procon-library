@@ -107,7 +107,7 @@ $(document).on('page:load', ready2);
 <div class="listingblock">
 <button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># splay node nd
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># splay a node nd
 def __splay(st, dr, nd):
     l = nd[0]; r = nd[1]
     L = (l[3] if l else 0); R = (r[3] if r else 0)
@@ -201,7 +201,7 @@ def find(t, val):
     t = __splay(st, dr, x)
     return t, True
 
-# merge tree l with tree r
+# merge a tree l with a tree r
 def merge(l, r):
     if not l or not r:
         return l or r
@@ -221,7 +221,7 @@ def merge(l, r):
     l[1] = r
     return l
 
-# split tree t into two trees of size k and |t|-k
+# split a tree t into two trees of size k and |t|-k
 def split(t, k):
     if not t or not 0 &lt; k &lt; t[3]:
         return t, None

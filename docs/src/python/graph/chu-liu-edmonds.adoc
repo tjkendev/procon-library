@@ -1,16 +1,18 @@
-= 最小全域有向木問題
+= 最小全域有向木問題 (Chu-Liu/Edmonds' Algorithm)
 :title: {doctitle} - {pagetitle}
 
 == 概要
 
 有向木$G = (V, E)$に対する最小全域木を求める問題
 
-== Chu-Liu/Edmonds' Algorithm
-
 解説を付けたコード:
 link:https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936[]
 
-計算量は$O(VE)$
+== 計算量
+
+$O(|V||E|)$
+
+== 実装
 
 [source, python]
 ----

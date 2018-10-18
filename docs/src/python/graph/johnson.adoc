@@ -1,0 +1,26 @@
+= 全点対最短経路 (Johnson's Algorithm)
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+グラフ$G = (V, E)$の全てのペア$(v, w)$間の最短経路コストを求める。
+
+Bellman-Ford Algorithmで一度負辺を除去した上で、Dijkstra's Algorithmで各頂点からの最短経路を計算する。
+
+== 計算量
+
+二分ヒープ実装で $O((|V| + |E|) |V| \log |V|)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/johnson.py[]
+----
+
+=== Verified
+
+* AOJ: "GRL_1_C: Shortest Path - All Pairs Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3195640#1[source] (Python3, 0.20sec)
+
+***
+link:../index.html[戻る]

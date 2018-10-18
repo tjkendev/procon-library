@@ -1,4 +1,4 @@
-# splay node nd
+# splay a node nd
 def __splay(st, dr, nd):
     l = nd[0]; r = nd[1]
     L = (l[3] if l else 0); R = (r[3] if r else 0)
@@ -92,7 +92,7 @@ def find(t, val):
     t = __splay(st, dr, x)
     return t, True
 
-# merge tree l with tree r
+# merge a tree l with a tree r
 def merge(l, r):
     if not l or not r:
         return l or r
@@ -112,7 +112,7 @@ def merge(l, r):
     l[1] = r
     return l
 
-# split tree t into two trees of size k and |t|-k
+# split a tree t into two trees of size k and |t|-k
 def split(t, k):
     if not t or not 0 < k < t[3]:
         return t, None

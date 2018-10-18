@@ -2,9 +2,11 @@ from math import log as log2
 alpha = 0.7
 beta = 1/log2(1/alpha)
  
+# get the size of a tree t
 def size(t):
     return size(t[0]) + size(t[1]) + 1 if t else 0
  
+# rebuild a tree t
 def __rebuild(t):
     res = []
     append = res.append
@@ -40,13 +42,14 @@ def __rebuild(t):
         return None, 0
     return dfs0(len(res))
 
+# find a node with key = val in a tree T
 def find(T, val):
-    st = []; dr = []
-    x, M = T
+    x = T[0]
     while x and x[2] != val:
         x = x[x[2] < val]
     return x is not None
 
+# insert a node with key = val into a tree T
 def insert(T, val):
     st = []; dr = []
     t, M = T
@@ -90,6 +93,7 @@ def insert(T, val):
         return t, M-nt+cc
     return t, M+1
  
+# delete a node with key = val from a tree T
 def delete(T, val):
     t, M = T
     st = []; dr = []

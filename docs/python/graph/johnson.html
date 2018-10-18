@@ -6,13 +6,13 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>最小全域有向木問題 (Chu-Liu/Edmonds' Algorithm) - yaketake08's 実装メモ</title>
+<title>全点対最短経路 (Johnson's Algorithm) - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="最小全域有向木問題 (Chu-Liu/Edmonds' Algorithm) - yaketake08's 実装メモ">
-<meta property="og:description" content="最小全域有向木問題 (Chu-Liu/Edmonds' Algorithm)">
+<meta property="og:title" content="全点対最短経路 (Johnson's Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="全点対最短経路 (Johnson's Algorithm)">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/chu-liu-edmonds.html">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/johnson.html">
 <meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -63,18 +63,17 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>最小全域有向木問題 (Chu-Liu/Edmonds' Algorithm)</h1>
+<h1>全点対最短経路 (Johnson’s Algorithm)</h1>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>有向木\(G = (V, E)\)に対する最小全域木を求める問題</p>
+<p>グラフ\(G = (V, E)\)の全てのペア\((v, w)\)間の最短経路コストを求める。</p>
 </div>
 <div class="paragraph">
-<p>解説を付けたコード:
-<a href="https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936">https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936</a></p>
+<p>Bellman-Ford Algorithmで一度負辺を除去した上で、Dijkstra’s Algorithmで各頂点からの最短経路を計算する。</p>
 </div>
 </div>
 </div>
@@ -82,7 +81,7 @@ $(document).on('page:load', ready2);
 <h2 id="_計算量">計算量</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>\(O(|V||E|)\)</p>
+<p>二分ヒープ実装で \(O((|V| + |E|) |V| \log |V|)\)</p>
 </div>
 </div>
 </div>
@@ -92,61 +91,55 @@ $(document).on('page:load', ready2);
 <div class="listingblock">
 <button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># Chu-Liu/Edmonds' Algorithm
-# 最小全域有向木を再帰的に求める
-# V: 頂点数, es: 辺集合, r: 根となる頂点番号
-# 辺１つ(s-&gt;tのコストw)は(s, t, w)のlistを持つ
-# 頂点は0..V-1
-def solve(V, es, r):
-    mins = [(10**18, -1)]*V
-    for s, t, w in es:
-        mins[t] = min(mins[t], (w, s))
-    mins[r] = (-1, -1)
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">from collections import deque
+from heapq import heappush, heappop
 
-    group = [0]*V
-    comp = [0]*V
-    cnt = 0
+INF = 10**30
+def Johnson(G):
+    h = [0]*N
 
-    used = [0]*V
-    for v in range(V):
-        if not used[v]:
-            chain = []
-            cur = v
-            while cur!=-1 and not used[cur]:
-                chain.append(cur)
-                used[cur] = 1
-                cur = mins[cur][1]
-            if cur!=-1:
-                cycle = 0
-                for e in chain:
-                    group[e] = cnt
-                    if e==cur:
-                        cycle = 1
-                        comp[cnt] = 1
-                    if not cycle:
-                        cnt += 1
-                if cycle:
-                    cnt += 1
+    update = 1
+    for i in range(N):
+        update = 0
+        for v in range(N):
+            d = h[v]
+            for w, c in G[v]:
+                if c + d &lt; h[w]:
+                    h[w] = d + c
+                    update = 1
+        if not update:
+            break
+    else:
+        return None
+
+    for v in range(N):
+        d = h[v]
+        g = G[v]
+        for j, (w, c) in enumerate(g):
+            g[j] = (w, c + d - h[w])
+
+    D = []
+    for i in range(N):
+        dst = [INF]*N
+        dst[i] = 0
+        que = [(0, i)]
+        while que:
+            cost, v = heappop(que)
+            if dst[v] &lt; cost:
+                continue
+            for w, c in G[v]:
+                if cost + c &lt; dst[w]:
+                    dst[w] = r = cost + c
+                    heappush(que, (r, w))
+        v = h[i]
+        for j in range(N):
+            if dst[j] == INF:
+                dst[j] = INF
             else:
-                for e in chain:
-                    group[e] = cnt
-                    cnt += 1
+                dst[j] -= v - h[j]
+        D.append(dst)
 
-    if cnt == V:
-        return sum(map(lambda x:x[0], mins)) + 1
-
-    res = sum(mins[v][0] for v in range(V) if v!=r and comp[group[v]])
-
-    n_es = []
-    for s, t, w in es:
-        gs = group[s]; gt = group[t]
-        if gs == gt:
-            continue
-        if comp[gt]:
-            n_es.append((gs, gt, w - mins[t][0]))
-        else:
-            n_es.append((gs, gt, w))
-    return res + solve(cnt, n_es, group[r])</code></pre>
+    return D</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -154,20 +147,7 @@ def solve(V, es, r):
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "GRL_2_B - Minimum-Cost Arborescence": (Python2) <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850894#1">source</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_参考ページ">参考ページ</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://ti2236.hatenablog.com/entry/2012/12/07/175841">Chu-Liu/Edmonds のアルゴリズム - 情報科学と人口知能のノート</a></p>
+<p>AOJ: "GRL_1_C: Shortest Path - All Pairs Shortest Path": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3195640#1">source</a> (Python3, 0.20sec)</p>
 </li>
 </ul>
 </div>
@@ -178,9 +158,10 @@ def solve(V, es, r):
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-18 08:56:23 JST
+Last updated 2018-10-19 01:02:45 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
