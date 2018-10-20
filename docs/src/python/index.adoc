@@ -40,7 +40,7 @@ Python2で書いてたプログラムは、Python3用に書き直してます。
 * link:./binary_search_tree/treap.html[Treap]
 * link:./binary_search_tree/RBST.html[Randomized Binary Search Tree (RBST)]
 * link:./binary_search_tree/persistent_RBST.html[永続RBST]
-* 赤黒木
+* link:./binary_search_tree/red-black-tree.html[赤黒木]
 * AVL木
 * link:./binary_search_tree/splay-tree.html[Splay tree]
 * link:./binary_search_tree/scapegoat-tree.html[Scapegoat tree]

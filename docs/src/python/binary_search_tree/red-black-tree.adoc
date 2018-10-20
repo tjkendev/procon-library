@@ -1,0 +1,46 @@
+= 赤黒木
+:title: {doctitle} - {pagetitle}
+
+赤黒木 (Red-black tree)
+
+== 概要
+
+ノードに赤・黒の情報の載せて平衡する平衡二分探索木。
+
+ノードの追加や削除の際に以下の制約を満たすように木を回転する。
+
+1. ノードは赤か黒の情報を持つ
+2. 根ノードは黒
+3. 葉(NIL)は黒
+4. ノードが赤であれば、その子ノードは必ず黒
+5. 根ノードから任意の葉までのパス上に含まれる黒ノードの個数は全てのパスで等しい
+
+== 計算量
+
+各クエリ $O(\log N)$
+
+== 実装
+
+各ノードに以下の情報を持たせている
+
+- 左右の子ノード
+- key
+- ノードの色
+- そのノード以下の部分木のサイズ
+
+[source, python]
+----
+include::./python/binary_search_tree/red-black-tree.py[]
+----
+
+=== Verified
+
+* AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://arc033.contest.atcoder.jp/submissions/3441934[source] (PyPy3, 1406ms)
+
+== 参考ページ
+
+* link:https://en.wikipedia.org/wiki/Red%E2%80%93black_tree[Red-black tree - Wikipedia]
+
+
+***
+link:../index.html[戻る]
