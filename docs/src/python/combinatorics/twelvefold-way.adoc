@@ -31,7 +31,7 @@ $N$を$K$個の数に区別なく分割する時の通り数: $P(N, K)$
 
 ==== 実装
 
-- AOJ: "DPL_5_L: Probability - Ball and Boxes 12": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176170#1[source]
+- AOJ: "DPL_5_L: Probability - Ball and Boxes 12": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176170#1[source] (Python3, 0.38sec)
 
 [source, python]
 ----
@@ -47,7 +47,7 @@ include::./python/combinatorics/k-partitions_of_n.py[]
 
 ==== 実装
 
-* AOJ: "DPL_5_I: Probability - Ball and Boxes 9": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3175681#1[source]
+* AOJ: "DPL_5_I: Probability - Ball and Boxes 9": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3175681#1[source] (Python3, 0.55sec)
 
 [source, python]
 ----

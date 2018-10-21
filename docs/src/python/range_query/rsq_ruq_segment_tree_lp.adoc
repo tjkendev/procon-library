@@ -1,18 +1,18 @@
-= RSQ and RUQ (遅延伝搬セグメント木)
+= RSQ and RUQ (遅延評価セグメント木)
 :title: {doctitle} - {pagetitle}
 
 Range Sum Query and Range Update Query (RSQ and RUQ)
 
 == 概要
 
-以下のクエリが処理できる遅延伝搬セグメント木の実装
+以下のクエリが処理できる遅延評価セグメント木の実装
 
 - $a_l, a_{l+1}, ..., a_{r-1}$ の値を $x$ に更新
 - $a_l, a_{l+1}, ..., a_{r-1}$ の合計を求める
 
 === 具体的計算
 
-遅延伝搬セグメント木(Segment Tree with Lazy Propagation)の実装では、
+遅延評価セグメント木(Segment Tree with Lazy Propagation)の実装では、
 各区間Iには区間の値value[$I$]と遅延させている値lazy[$I$]を持たせる。
 
 ==== 区間更新
@@ -52,7 +52,7 @@ include::./python/range_query/rsq_ruq_segment_tree_lp.py[]
 
 === Verified
 
-* AOJ: "DSL_2_I: Range Query - RSQ and RUQ": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3161416#1[source]
+* AOJ: "DSL_2_I: Range Query - RSQ and RUQ": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3161416#1[source] (Python3, 3.99sec)
 
 ***
 link:../index.html[戻る]

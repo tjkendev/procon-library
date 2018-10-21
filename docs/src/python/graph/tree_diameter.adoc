@@ -18,6 +18,10 @@
 include::./python/graph/tree_diameter.py[]
 ----
 
+=== Verified
+
+* AOJ: "GRL_5_A: Tree - Diameter of a Tree": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3166311#1[source] (Python3, 0.58sec)
+
 ***
 
 link:../index.html[戻る]

@@ -22,7 +22,7 @@ include::./python/string/aho-corasick.py[]
 
 Pythonだと重くてつらい
 
-* (TLE) AtCoder: "JAG Practice Contest for ACM-ICPC Asia Regional 2017 - H問題: Separate String": (PyPy3) link:https://jag2017autumn.contest.atcoder.jp/submissions/1799538[source]
+* AtCoder: "JAG Practice Contest for ACM-ICPC Asia Regional 2017 - H問題: Separate String": link:https://jag2017autumn.contest.atcoder.jp/submissions/1799538[source] (PyPy3, TLE)
 
 == 参考ページ
 

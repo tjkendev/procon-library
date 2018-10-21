@@ -40,7 +40,7 @@ include::./python/math/chinese-remainder.py[]
 
 === Verified
 
-* yukicoder: "No. 187 中華風 (Hard)": (Python3) link:https://yukicoder.me/submissions/288619[source]
+* yukicoder: "No. 187 中華風 (Hard)": link:https://yukicoder.me/submissions/288619[source] (Python3, 865ms)
 
 ***
 link:../index.html[戻る]

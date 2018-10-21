@@ -30,7 +30,7 @@ include::./python/prime/sieve_of_eratosthenes.py[]
 
 === 計算量
 
-$O( N / \log \log N)$
+$\displaystyle O( \frac{N}{\log \log N} )$
 
 === 実装
 

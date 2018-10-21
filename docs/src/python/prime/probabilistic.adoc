@@ -16,8 +16,9 @@ include::./python/prime/fermat.py[]
 
 === Verified
 
-- (WA) yukicoder: "No.308 素数は通れません": (Python2) link:https://yukicoder.me/submissions/61897[source]
-    * カーマイケル数で落ちてWA
+- yukicoder: "No.308 素数は通れません": link:https://yukicoder.me/submissions/61897[source] (Python2, WA)
+
+カーマイケル数で落ちてWA
 
 == ミラーラビン素数判定法
 
@@ -32,7 +33,7 @@ include::./python/prime/miller_rabin.py[]
 
 === Verified
 
-- yukicoder: "No.308 素数は通れません": (Python2) link:https://yukicoder.me/submissions/61936[source]
+- yukicoder: "No.308 素数は通れません": link:https://yukicoder.me/submissions/61936[source] (Python2, 45ms)
 
 == 参考ページ
 

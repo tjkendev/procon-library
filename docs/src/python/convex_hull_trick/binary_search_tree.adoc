@@ -24,7 +24,7 @@ include::./python/convex_hull_trick/cht_with_treap.py[]
 
 === Verified
 
-* (TLE) CSAcademy: "Squared Ends": (Python3) link:https://csacademy.com/submission/1404350/[source]
+* CSAcademy: "Squared Ends": link:https://csacademy.com/submission/1404350/[source] (Python3, TLE)
 
 ***
 

@@ -22,7 +22,7 @@ include::./python/geometry/polygon_area.py[]
 
 === Verified
 
-* AOJ: "CGL_3_A: Polygon - Area": (Python2) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1894030#1[source]
+* AOJ: "CGL_3_A: Polygon - Area": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1894030#1[source] (Python2, 0.01sec)
 
 
 == 参考ページ

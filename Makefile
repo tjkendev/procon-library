@@ -19,7 +19,7 @@ TITLE := "yaketake08's 実装メモ"
 # for local debug
 CUR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 DST-LOCAL := ./docs-local
-SRCDIR-LOCAL := '$(CUR)/docs/src/'
+SRCDIR-LOCAL := '$(CUR)/docs/src'
 
 docs:
 	$(CMD) -b $(FMT) -R $(SRC) -D $(DST) $(TARGET) -B $(BASE) \

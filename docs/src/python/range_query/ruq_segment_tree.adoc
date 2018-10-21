@@ -33,7 +33,7 @@ include::./python/range_query/ruq_segment_tree.py[]
 
 === Verified
 
-* AOJ: "DSL_2_D: Range Query - Range Update Query (RUQ)": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158554#1[source]
+* AOJ: "DSL_2_D: Range Query - Range Update Query (RUQ)": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158554#1[source] (Python3, 0.96sec)
 
 ***
 link:../index.html[戻る]

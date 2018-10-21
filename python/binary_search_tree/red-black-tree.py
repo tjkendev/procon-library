@@ -103,8 +103,6 @@ def __delete(st, dr, nd):
     else:
         y = nd
 
-    #assert len(st) == len(dr)
-
     # delete the node (y) with at most one non-leaf child
     for x in st:
         x[3] -= 1

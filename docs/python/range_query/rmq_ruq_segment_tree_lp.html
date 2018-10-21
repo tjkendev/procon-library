@@ -6,15 +6,15 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>RMQ and RUQ (遅延伝搬セグメント木) - yaketake08's 実装メモ</title>
+<title>RMQ and RUQ (遅延評価セグメント木) - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="RMQ and RUQ (遅延伝搬セグメント木) - yaketake08's 実装メモ">
-<meta property="og:description" content="RMQ and RUQ (遅延伝搬セグメント木)">
+<meta property="og:title" content="RMQ and RUQ (遅延評価セグメント木) - yaketake08's 実装メモ">
+<meta property="og:description" content="RMQ and RUQ (遅延評価セグメント木)">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:url" content="https://tjkendev.github.io/procon-library/python/range_query/rmq_ruq_segment_tree_lp.html">
 <meta name="twitter:card" content="summary">
-<script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/javascript/main.js"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/js/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
 
@@ -63,7 +63,7 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>RMQ and RUQ (遅延伝搬セグメント木)</h1>
+<h1>RMQ and RUQ (遅延評価セグメント木)</h1>
 </div>
 <div id="content">
 <div id="preamble">
@@ -77,7 +77,7 @@ $(document).on('page:load', ready2);
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>以下のクエリが処理できる遅延伝搬セグメント木の実装</p>
+<p>以下のクエリが処理できる遅延評価セグメント木の実装</p>
 </div>
 <div class="ulist">
 <ul>
@@ -92,7 +92,7 @@ $(document).on('page:load', ready2);
 <div class="sect2">
 <h3 id="_具体的計算">具体的計算</h3>
 <div class="paragraph">
-<p>遅延伝搬セグメント木(Segment Tree with Lazy Propagation)の実装では、
+<p>遅延評価セグメント木(Segment Tree with Lazy Propagation)の実装では、
 各区間Iには区間の値value[\(I\)]と遅延させている値lazy[\(I\)]を持たせる。</p>
 </div>
 <div class="sect3">
@@ -272,7 +272,7 @@ def query(l, r):
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "DSL_2_F: Range Query - RMQ and RUQ": (Python3) <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3161105#1">source</a></p>
+<p>AOJ: "DSL_2_F: Range Query - RMQ and RUQ": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3161105#1">source</a> (Python3, 3.70sec)</p>
 </li>
 </ul>
 </div>
@@ -286,7 +286,7 @@ def query(l, r):
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-17 21:06:58 JST
+Last updated 2018-10-21 14:02:04 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

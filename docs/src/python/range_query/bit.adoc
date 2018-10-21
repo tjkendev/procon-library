@@ -37,8 +37,8 @@ include::./python/range_query/bit-simple.py[]
 
 === Verified
 
-* AOJ: "DSL_2_E: Range Query - Range Add Query (RAQ)": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158466#1[source]
-* AtCoder: "Japan Alumni Group Summer Camp 2017 Day 1 - B問題: リス": (PyPy3) link:https://beta.atcoder.jp/contests/jag2017summer-day1/submissions/2559566[source]
+* AOJ: "DSL_2_E: Range Query - Range Add Query (RAQ)": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158466#1[source] (Python3, 0.77sec)
+* AtCoder: "Japan Alumni Group Summer Camp 2017 Day 1 - B問題: リス": link:https://beta.atcoder.jp/contests/jag2017summer-day1/submissions/2559566[source] (PyPy3, 674ms)
 
 == 実装 (2次元BIT)
 

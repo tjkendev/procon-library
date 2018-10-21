@@ -30,7 +30,7 @@ include::./python/range_query/rmq_segment_tree.py[]
 
 === Verified
 
-* AOJ: "DSL_2_A: Range Query - Range Minimum Query (RMQ)": (Python3) link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158592#1[source]
+* AOJ: "DSL_2_A: Range Query - Range Minimum Query (RMQ)": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158592#1[source] (Python3, 1.22sec)
 
 ***
 link:../index.html[戻る]

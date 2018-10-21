@@ -18,7 +18,7 @@ include::./python/string/sa_sa-is.py[]
 
 === Verified
 
-- (TLE) AtCoder: "AtCoder Regular Contest 050 - D問題: Suffix Concat": (PyPy2) link:https://arc050.contest.atcoder.jp/submissions/684198[source]
+- AtCoder: "AtCoder Regular Contest 050 - D問題: Suffix Concat": link:https://arc050.contest.atcoder.jp/submissions/684198[source] (PyPy2, TLE)
 
 == 参考ページ
 
