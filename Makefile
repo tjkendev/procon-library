@@ -30,6 +30,7 @@ docs:
 		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(SRCDIR) \
 		-a jsdir=$(SRCDIR) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
 		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) \
+		-a nofooter \
 		-a attribute-missing=warn --failure-level=WARN
 
 
@@ -42,6 +43,7 @@ docs-local:
 		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(SRCDIR-LOCAL) \
 		-a jsdir=$(SRCDIR-LOCAL) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
 		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) \
+		-a nofooter \
 		-a attribute-missing=warn --failure-level=WARN
 
 clean:
