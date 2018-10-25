@@ -7,7 +7,9 @@
 
 有向グラフ$G = (V, E)$における強連結の関係にある複数の頂点をひとまとまりにして分解する。
 
-計算量は$O(|V|)$
+== 計算量
+
+$O(|V| + |E|)$
 
 == 実装
 解説コメント付き: https://gist.github.com/tjkendev/1ce0c38486c18a180f83623d74436a5c
@@ -19,8 +21,8 @@ include::./cpp/graph/scc.cpp[]
 
 === Verified
 
-- AOJ: "GRL_3_C: Connected Components - Strongly Connected Components": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867905#1[source]
-- AOJ: "2598: Website Tour": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867998[source]
+- AOJ: "GRL_3_C: Connected Components - Strongly Connected Components": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867908#1[source] (C++, 0.17sec)
+- AOJ: "2598: Website Tour": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867998[source] (C++, 0.17sec)
 
 ***
 

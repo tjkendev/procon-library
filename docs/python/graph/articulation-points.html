@@ -88,7 +88,7 @@ $(document).on('page:load', ready2);
 <h2 id="_計算量">計算量</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>\(O(|V|)\)</p>
+<p>\(O(|V| + |E|)\)</p>
 </div>
 </div>
 </div>
@@ -100,7 +100,7 @@ $(document).on('page:load', ready2);
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># 関節点(Articulation Points)
 def get_articulation_points(G, N, start=0):
-    v_min = [0]*N; order = [None]*N
+    order = [None]*N
     result = []; count = 0
     def dfs(v, prev):
         nonlocal count

@@ -7,13 +7,21 @@
 
 * link:./template/main.html[実装テンプレート]
 
+== 数学
+
+* link:./math/pow.html[繰り返し二乗法]
+
+== 集合
+
+* link:./union_find/union_find.html[Union-Find]
+
 == グラフ
 
 * link:./graph/scc.html[強連結成分分解]
 
 == フロー
 
-* link:./max_flow/dinic.html[最大流問題 (Dinic's Algorithm)]
+* link:./max_flow/dinic.html[最大フロー (Dinic's Algorithm)]
 
 == 文字列
 

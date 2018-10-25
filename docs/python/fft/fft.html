@@ -83,7 +83,7 @@ $(document).on('page:load', ready2);
 <p>順変換: \(\displaystyle F(t) = \sum_{x=0}^{N-1} f(x) e^{-i \frac{2 \pi t x}{N}}\)</p>
 </div>
 <div class="paragraph">
-<p>逆変換: \(\displaystyle f(x) = \sum_{t=0}^{N-1} F(t) e^{i \frac{2 \pi t x}{N}}\)</p>
+<p>逆変換: \(\displaystyle f(x) = \frac{1}{N} \sum_{t=0}^{N-1} F(t) e^{i \frac{2 \pi t x}{N}}\)</p>
 </div>
 <div class="paragraph">
 <p>Pythonは標準で複素数をサポートしているため、簡単に実装できる。</p>

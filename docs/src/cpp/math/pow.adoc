@@ -1,0 +1,25 @@
+= 繰り返し二乗法
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+$X^N$ (mod $M$)を高速に計算する。
+
+== 計算量
+
+$O(\log N)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/math/pow.cpp[]
+----
+
+=== Verified
+
+- AOJ: "NTL_1_B: Elementary Number Theory - Power": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3201456#1[source] (C++, 0.00sec)
+
+***
+
+link:../index.html[戻る]

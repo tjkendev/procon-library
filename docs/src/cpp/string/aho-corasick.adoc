@@ -7,7 +7,9 @@
 
 ある文字列$T$について、$N$個の文字列$s_1, s_2, ..., s_N$の中からマッチする(最長の)文字列を線形に探索することができる。
 
-計算量は$O(|T| + \sum_i |s_i|)$
+== 計算量
+
+$O(|T| + \sum_i |s_i|)$
 
 == 実装
 
@@ -20,7 +22,7 @@ include::./cpp/string/aho-corasick.cpp[]
 
 === Verified
 
-* AtCoder: "JAG Practice Contest for ACM-ICPC Asia Regional 2017 - H問題: Separate String": link:https://jag2017autumn.contest.atcoder.jp/submissions/1799531[source]
+* AtCoder: "JAG Practice Contest for ACM-ICPC Asia Regional 2017 - H問題: Separate String": link:https://jag2017autumn.contest.atcoder.jp/submissions/1799531[source] (C++14, 396ms)
 
 ***
 

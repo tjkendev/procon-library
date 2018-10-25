@@ -2,7 +2,7 @@ from collections import deque
 from heapq import heappush, heappop
 
 INF = 10**30
-def Johnson(G):
+def Johnson(G, N):
     h = [0]*N
 
     update = 1
