@@ -23,9 +23,7 @@ SRCDIR-LOCAL := '$(CUR)/docs/src'
 
 docs:
 	$(CMD) -b $(FMT) -R $(SRC) -D $(DST) $(TARGET) -B $(BASE) \
-		-r ./docs/lib/relative-path.rb \
-		-r ./docs/lib/ogp.rb \
-		-r ./docs/lib/custom-page.rb \
+		-r ./docs/src/lib/custom-extensions.rb \
 		-a pagetitle=$(TITLE) -a source-highlighter=$(HIGHLIGHTER) \
 		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(SRCDIR) \
 		-a jsdir=$(SRCDIR) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
@@ -36,9 +34,7 @@ docs:
 
 docs-local:
 	$(CMD) -b $(FMT) -R $(SRC) -D $(DST-LOCAL) $(TARGET) -B $(BASE) \
-		-r ./docs/lib/relative-path.rb \
-		-r ./docs/lib/ogp.rb \
-		-r ./docs/lib/custom-page.rb \
+		-r ./docs/src/lib/custom-extensions.rb \
 		-a pagetitle=$(TITLE) -a source-highlighter=$(HIGHLIGHTER) \
 		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(SRCDIR-LOCAL) \
 		-a jsdir=$(SRCDIR-LOCAL) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
