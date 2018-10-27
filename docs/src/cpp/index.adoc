@@ -23,6 +23,10 @@
 
 * link:./max_flow/dinic.html[最大フロー (Dinic's Algorithm)]
 
+== 行列・数列
+
+* link:./series/kitamasa.html[きたまさ法]
+
 == 文字列
 
 * link:./string/aho-corasick.html[Aho-Corasick Algorithm]

@@ -6,13 +6,13 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>実装メモ (C++) - yaketake08's 実装メモ</title>
+<title>きたまさ法 - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta property="og:title" content="実装メモ (C++) - yaketake08's 実装メモ">
-<meta property="og:description" content="実装メモ (C++)">
+<meta property="og:title" content="きたまさ法 - yaketake08's 実装メモ">
+<meta property="og:description" content="きたまさ法">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/index.html">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/series/kitamasa.html">
 <meta name="twitter:card" content="summary">
 <script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/js/main.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -63,101 +63,115 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>実装メモ (C++)</h1>
+<h1>きたまさ法</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>実装は基本的に実装テンプレートをベースに実装してます。</p>
+<p>きたまさ法 (Kitamasa Method)</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_テンプレート">テンプレート</h2>
+<h2 id="_概要">概要</h2>
 <div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="./template/main.html">実装テンプレート</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>線形漸化式 \(\displaystyle a_{i+K} = c_0 a_i + c_1 a_{i+1} + ... + c_{i+K-1} a_{i+K-1}\) について、\(a_N\)を求める。</p>
+</div>
+<div class="paragraph">
+<p>解説ブログ: <a href="http://smijake3.hatenablog.com/entry/2017/01/02/024712">Kitamasa法</a></p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_数学">数学</h2>
+<h2 id="_計算量">計算量</h2>
 <div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="./math/pow.html">繰り返し二乗法</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>\(O(K^2 \log N)\)</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_集合">集合</h2>
+<h2 id="_実装">実装</h2>
 <div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#define K 1003
+#define MOD 1000000007
+
+// (0-indexed)
+// a[i] = a_i, c[i] = c_i
+// a_{i+k} = c_i*a_i + c_{i+1}*a_{i+1} + ... + c_{i+k-1}*a_{i+k-1}
+ll c[K], a[K];
+
+// C(N, *) -&gt; C(N+1, *)
+void nxt(int k, ll c0[K], ll c1[K]) {
+  c1[0] = (c0[k-1] * c[0]) % MOD;
+  rep(i, k-1) {
+    c1[i+1] = (c0[i] + c0[k-1]*c[i+1]) % MOD;
+  }
+}
+
+// C(N, *) -&gt; C(2N, *)
+void dbl(int k, ll c0[K], ll c1[K]) {
+  ll cs[K][K];
+  rep(i, k) cs[0][i] = c0[i];
+  rep(i, k-1) {
+    nxt(k, cs[i], cs[i+1]);
+  }
+
+  rep(i, k) {
+    c1[i] = 0;
+    rep(j, k) {
+      c1[i] += cs[0][j] * cs[j][i];
+      c1[i] %= MOD;
+    }
+  }
+}
+
+// caluculate a_m
+ll solve(int m, int k) {
+  ll c0[K], c1[K];
+  if(m == 0) {
+    return a[0];
+  }
+  rep(i, k) c0[i] = 0;
+  c0[1] = 1;
+
+  int p = 31;
+  while(((m &gt;&gt; --p) &amp; 1) == 0);
+  while(p-- &gt; 0) {
+    dbl(k, c0, c0);
+    if((m &gt;&gt; p) &amp; 1) {
+      nxt(k, c0, c1);
+      rep(j, k) c0[j] = c1[j];
+    }
+  }
+
+  ll res = 0;
+  rep(i, k) {
+    res += c0[i]*a[i];
+    res %= MOD;
+  }
+  return res;
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="./union_find/union_find.html">Union-Find</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_グラフ">グラフ</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="./graph/scc.html">強連結成分分解</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_フロー">フロー</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="./max_flow/dinic.html">最大フロー (Dinic’s Algorithm)</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_行列数列">行列・数列</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="./series/kitamasa.html">きたまさ法</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_文字列">文字列</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="./string/aho-corasick.html">Aho-Corasick Algorithm</a></p>
+<p>AtCoder: "Typical DP Contest - T問題: フィボナッチ": <a href="https://beta.atcoder.jp/contests/tdpc/submissions/3489610">source</a> (C++14, 212ms)</p>
 </li>
 </ul>
 </div>
 <hr>
 <div class="paragraph">
 <p><a href="../index.html">戻る</a></p>
+</div>
 </div>
 </div>
 </div>
