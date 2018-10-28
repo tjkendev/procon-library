@@ -48,7 +48,7 @@ class OGPDescription < Extensions::Postprocessor
       body = doc.search("#content").text.gsub(/\n+/, ' ')
 
       text = body.slice(0, 100).strip + "..."
-      puts doc.search("meta[name=\"description\"]").attr("content", text)
+      doc.search("meta[name=\"description\"]").attr("content", text)
       doc.to_html
   end
 end
