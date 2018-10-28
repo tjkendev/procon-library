@@ -2,6 +2,8 @@ require 'asciidoctor/extensions' unless RUBY_ENGINE == 'opal'
 
 include Asciidoctor
 
+require 'nokogiri'
+
 class OGP < Extensions::Preprocessor
   def process document, reader
     doc_attrs = document.attributes
@@ -37,5 +39,16 @@ end
 class OGPHeader < Extensions::Postprocessor
   def process document, output
     output.sub "<head>", "<head prefix=\"og: http://ogp.me/ns# website: http://ogp.me/ns/website#\">"
+  end
+end
+
+class OGPDescription < Extensions::Postprocessor
+  def process document, output
+      doc = Nokogiri::HTML.parse(output)
+      body = doc.search("#content").text.gsub(/\n+/, ' ')
+
+      text = body.slice(0, 100).strip + "..."
+      puts doc.search("meta[name=\"description\"]").attr("content", text)
+      doc.to_html
   end
 end

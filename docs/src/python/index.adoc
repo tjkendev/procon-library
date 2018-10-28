@@ -1,7 +1,7 @@
 = 実装メモ (Python)
 :title: {doctitle} - {pagetitle}
 
-Python2で書いてたプログラムは、Python3用に書き直してます。
+Python3で実装しています。
 
 == 整数
 

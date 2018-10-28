@@ -7,8 +7,10 @@ Extensions.register do
   preprocessor RelativePath
 
   if (@document.basebackend? 'html')
-    postprocessor CustomPage
     postprocessor OGPHeader
+    postprocessor OGPDescription
+
+    postprocessor CustomPage
   end
 
   inline_macro OGPLinkMacro
