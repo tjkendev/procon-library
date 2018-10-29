@@ -6,14 +6,14 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>素集合データ構造 (Union-Find) - yaketake08's 実装メモ</title>
+<title>ビット集合演算 - yaketake08's 実装メモ</title>
 <link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
-<meta name="description" content="概要 Union-Findでは以下の操作を行うことができる \(union(u, v)\): 要素uの属するグループと要素vが属するグループを１つにまとめる \(find(u)\): 要素uが属する...">
-<meta property="og:title" content="素集合データ構造 (Union-Find) - yaketake08's 実装メモ">
-<meta property="og:description" content="素集合データ構造 (Union-Find)">
+<meta name="description" content="概要 集合\(S\)を1つの数値のbitで扱う。 具体的に、要素\(i\)が含まれることを S &amp; (1 &lt;&lt; i) &gt; 0 で表す。 部分集合の列挙 \(T \subseteq S\) となる部分...">
+<meta property="og:title" content="ビット集合演算 - yaketake08's 実装メモ">
+<meta property="og:description" content="ビット集合演算">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/union_find/union_find.html">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/set/bit-set.html">
 <meta property="og:image" content="https://github.com/tjkendev.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@jken_ull">
@@ -66,80 +66,91 @@ $(document).on('page:load', ready2);
 
 <body class="article">
 <div id="header">
-<h1>素集合データ構造 (Union-Find)</h1>
+<h1>ビット集合演算</h1>
 </div>
 <div id="content">
 <div class="sect1">
 <h2 id="_概要">概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Union-Findでは以下の操作を行うことができる</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>\(union(u, v)\): 要素uの属するグループと要素vが属するグループを１つにまとめる</p>
-</li>
-<li>
-<p>\(find(u)\): 要素uが属するグループを求める</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>\(find(u) = find(v)\)であればuとvは同じグループに属することが分かる</p>
+<p>集合\(S\)を1つの数値のbitで扱う。
+具体的に、要素\(i\)が含まれることを <code>S &amp; (1 &lt;&lt; i) &gt; 0</code> で表す。</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_計算量">計算量</h2>
+<h2 id="_部分集合の列挙">部分集合の列挙</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>\(O(\alpha(n))\)</p>
+<p>\(T \subseteq S\) となる部分集合\(T\)を列挙する。</p>
 </div>
-<div class="paragraph">
-<p>(ただし、\(\alpha\)はアッカーマン関数の逆関数)</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_実装">実装</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#define N 100008
-
-int parent[N];
-int root(int x) {
-  if(x == parent[x]) {
-    return x;
-  }
-  return parent[x] = root(parent[x]);
-}
-
-bool unite(int x, int y) {
-  int px = root(x), py = root(y);
-  if(px == py) return false;
-
-  if(px &lt; py) {
-    parent[py] = px;
-  } else {
-    parent[px] = py;
-  }
-  return true;
-}
-
-// 以下で初期化
-//
-// rep(i, n) parent[i] = i;
-//</code></pre>
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># 集合Mの部分集合を列挙
+# R が結果
+R = []
+v = (-1) &amp; M
+while v:
+    R.append(v)
+    v = (v - 1) &amp; M</code></pre>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "ITP2_11_C: Bitset II - Enumeration of Subsets III": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176925#1">source</a> (Python3, 2.28sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_サイズkの部分集合の列挙">サイズ\(K\)の部分集合の列挙</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>蟻本ベース<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>の実装</p>
+</div>
+<div class="paragraph">
+<p>\(T \subseteq \{0, 1, ..., N-1\}\), \(|T| = K\)となる部分集合\(T\)を列挙する。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-1">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-1" data-lang="python"># サイズKの部分集合を列挙
+# R が結果
+R = []
+v = (1 &lt;&lt; K) - 1
+while v &lt; (1 &lt;&lt; N):
+    R.append(v)
+    x = v &amp; -v; y = v + x
+    v = ((v &amp; ~y) // x &gt;&gt; 1) | y</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified_2">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "ITP2_11_D: Bitset II - Enumeration of Combinations": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176932#1">source</a> (Python3, 0.45sec)</p>
+</li>
+</ul>
 </div>
 <hr>
 <div class="paragraph">
 <p><a href="../index.html">戻る</a></p>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. プログラミングコンテストチャレンジブック [第2版] p.144
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

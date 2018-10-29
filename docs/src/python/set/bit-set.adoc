@@ -1,0 +1,51 @@
+= ビット集合演算
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+集合$S$を1つの数値のbitで扱う。
+具体的に、要素$i$が含まれることを ``S & (1 << i) > 0`` で表す。
+
+== 部分集合の列挙
+
+$T \subseteq S$ となる部分集合$T$を列挙する。
+
+[source, python]
+----
+# 集合Mの部分集合を列挙
+# R が結果
+R = []
+v = (-1) & M
+while v:
+    R.append(v)
+    v = (v - 1) & M
+----
+
+=== Verified
+
+* AOJ: "ITP2_11_C: Bitset II - Enumeration of Subsets III": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176925#1[source] (Python3, 2.28sec)
+
+== サイズ$K$の部分集合の列挙
+
+蟻本ベースfootnote:[プログラミングコンテストチャレンジブック [第2版\] p.144]の実装
+
+$T \subseteq \{0, 1, ..., N-1\}$, $|T| = K$となる部分集合$T$を列挙する。
+
+[source, python]
+----
+# サイズKの部分集合を列挙
+# R が結果
+R = []
+v = (1 << K) - 1
+while v < (1 << N):
+    R.append(v)
+    x = v & -v; y = v + x
+    v = ((v & ~y) // x >> 1) | y
+----
+
+=== Verified
+
+* AOJ: "ITP2_11_D: Bitset II - Enumeration of Combinations": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176932#1[source] (Python3, 0.45sec)
+
+***
+link:../index.html[戻る]

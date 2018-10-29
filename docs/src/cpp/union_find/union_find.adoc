@@ -1,4 +1,4 @@
-= Union-Find (素集合データ構造)
+= 素集合データ構造 (Union-Find)
 :title: {doctitle} - {pagetitle}
 
 == 概要

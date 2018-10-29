@@ -32,7 +32,8 @@ Python3で実装しています。
 
 == 集合
 
-* link:./union_find/union_find.html[Union-Find]
+* link:./set/bit-set.html[ビット集合演算]
+* link:./union_find/union_find.html[素集合データ構造 (Union-Find)]
 * link:./union_find/pp_union_find.html[部分永続Union-Find]
 
 == 二分木

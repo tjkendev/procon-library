@@ -13,7 +13,7 @@
 
 == 集合
 
-* link:./union_find/union_find.html[Union-Find]
+* link:./union_find/union_find.html[素集合データ構造 (Union-Find)]
 
 == グラフ
 
