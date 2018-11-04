@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>Link-Cut Tree - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
+<meta name="description" content="Link-Cut Tree 概要 動的木のデータ構造 Heavy-Light Decompositionを動的にしたイメージ。 分解したパスはSplay Tree上で管理する。 以下の操作ができる...">
+<meta property="og:title" content="Link-Cut Tree - yaketake08's 実装メモ">
+<meta property="og:description" content="Link-Cut Tree">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/range_query/link-cut-tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
+
+<style>
+  .click .title { color: blue; }
+  .click {margin-top: 0.5em; margin-bottom: 0.5em;}
+  .openblock { margin-top: 1em; margin-bottom: 1em; }
+  .openblock>.box>.content { margin-top:1em;margin-bottom: 1em;margin-left:3em;margin-right:4em; }
+</style>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+
+
+
+var ready2;
+
+ready2 = function() {
+
+    $(document).ready(function(){
+
+        $('.openblock.click').click( function()  { $(this).find('.content').slideToggle('200'); } )
+        $('.openblock.click').find('.content').hide()
+
+
+        $('.listingblock.click').click( function()  { $(this).find('.content').slideToggle('200') }  )
+        $('.listingblock.click').find('.content').hide()
+
+    });
+
+}
+
+
+
+
+$(document).ready(ready2);
+$(document).on('page:load', ready2);
+
+
+</script>
+
+</head>
+
+
+<body class="article">
+<div id="header">
+<h1>Link-Cut Tree</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Link-Cut Tree</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>動的木のデータ構造</p>
+</div>
+<div class="paragraph">
+<p>Heavy-Light Decompositionを動的にしたイメージ。
+分解したパスはSplay Tree上で管理する。</p>
+</div>
+<div class="paragraph">
+<p>以下の操作ができる</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>expose(i): 根頂点から頂点iまでのパスのみを繋げる (それ以外のパスをカット</p>
+</li>
+<li>
+<p>cut(i): 木を頂点iと頂点iの親頂点pの間の辺をカットして分割</p>
+</li>
+<li>
+<p>link(i, p): 2つの木について、頂点iと頂点pを接続して1つの木にする</p>
+</li>
+<li>
+<p>evert(i): 木の根頂点を頂点iに変更</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>各クエリ: ならし \(O(\log^2 N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>evertなし版。各頂点は1-indexedで番号付けして管理する。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">N = 10**5
+
+# prt[i]: 頂点iの親頂点
+# left[i]: 頂点iの左部分木, right[i]: 頂点iの右部分木
+# sz[i]: 頂点iを根頂点とする部分木のサイズ
+# key[i]: 頂点iが持つ値
+# val[i]: 頂点i以下の部分木の持つ値の和
+prt = [0]*(N+1)
+left = [0]*(N+1)
+right = [0]*(N+1)
+sz = [0] + [1]*N
+key = [0]*(N+1)
+val = [0]*(N+1)
+
+def update(i, l, r):
+    #assert 1 &lt;= i &lt;= N
+    sz[i] = 1 + sz[l] + sz[r]
+    val[i] = key[i] + val[l] + val[r]
+
+def splay(i):
+    #assert 1 &lt;= i &lt;= N
+    q = prt[i]
+    li = left[i]; ri = right[i]
+    while q and not left[q] != i != right[q]:
+        r = prt[q]
+        if not r or left[r] != q != right[r]:
+            y = r
+            if left[q] == i:
+                left[q] = ri
+                if ri:
+                    prt[ri] = q
+                update(q, ri, right[q])
+                ri = q; prt[q] = i
+                update(i, li, q)
+            else:
+                right[q] = li
+                if li:
+                    prt[li] = q
+                update(q, left[q], li)
+                li = q; prt[q] = i
+                update(i, q, ri)
+        else:
+            y = prt[r]
+            if left[r] == q:
+                if left[q] == i:
+                    v = left[r] = right[q]
+                    if v:
+                        prt[v] = r
+                    update(r, v, right[r])
+
+                    left[q] = ri
+                    if ri:
+                        prt[ri] = q
+                    update(q, ri, r)
+
+                    right[q] = r; prt[r] = ri = q; prt[q] = i
+                    update(i, li, q)
+                else:
+                    left[r] = ri
+                    if ri:
+                        prt[ri] = r
+                    update(r, ri, right[r])
+
+                    right[q] = li
+                    if li:
+                        prt[li] = q
+                    update(q, left[q], li)
+
+                    ri = r; li = q; prt[q] = prt[r] = i
+                    update(i, q, r)
+            else:
+                if right[q] == i:
+                    v = right[r] = left[q]
+                    if v:
+                        prt[v] = r
+                    update(r, left[r], v)
+
+                    right[q] = li
+                    if li:
+                        prt[li] = q
+                    update(q, r, li)
+
+                    left[q] = r; prt[r] = li = q; prt[q] = i
+                    update(i, q, ri)
+                else:
+                    right[r] = li
+                    if li:
+                        prt[li] = r
+                    update(r, left[r], li)
+
+                    left[q] = ri
+                    if ri:
+                        prt[ri] = q
+                    update(q, ri, right[q])
+
+                    li = r; ri = q; prt[q] = prt[r] = i
+                    update(i, r, q)
+
+        if y:
+            if left[y] == r:
+                left[y] = i
+                update(y, i, right[y])
+            elif right[y] == r:
+                right[y] = i
+                update(y, left[y], i)
+        q = y
+    left[i] = li; right[i] = ri
+    prt[i] = q
+
+def expose(i):
+    p = 0
+    cur = i
+    while cur:
+        splay(cur)
+        right[cur] = p
+        update(cur, left[cur], p)
+        p = cur
+        cur = prt[cur]
+    splay(i)
+    return i
+
+def cut(i):
+    expose(i)
+    p = left[i]
+    left[i] = prt[p] = 0
+    return p
+
+def link(i, p):
+    expose(i)
+    expose(p)
+    prt[i] = p
+    right[p] = i</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="paragraph">
+<p>遅いので実用性は微妙…​</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_5_D: Tree - Range Query on a Tree": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3223286#1">source</a> (Python3, 9.81sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考ページ">参考ページ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.slideshare.net/iwiwi/2-12188845">プログラミングコンテストでのデータ構造 2　～動的木編～</a></p>
+</li>
+</ul>
+</div>
+<hr>
+<div class="paragraph">
+<p><a href="../index.html">戻る</a></p>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { extensions: ["mhchem.js"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+</body>
+</html>

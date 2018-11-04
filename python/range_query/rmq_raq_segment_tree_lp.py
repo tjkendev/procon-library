@@ -10,13 +10,12 @@ def gindex(l, r):
     L = (l + N0) >> 1; R = (r + N0) >> 1
     lc = 0 if l & 1 else (L & -L).bit_length()
     rc = 0 if r & 1 else (R & -R).bit_length()
-    v = 2
     for i in range(LV):
         if rc <= i:
             yield R
         if L < R and lc <= i:
             yield L
-        L >>= 1; R >>= 1; v <<= 1
+        L >>= 1; R >>= 1
 
 # 遅延伝搬処理
 def propagates(*ids):
