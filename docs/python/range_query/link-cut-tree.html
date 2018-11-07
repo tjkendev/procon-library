@@ -120,57 +120,85 @@ $(document).on('page:load', ready2);
 </div>
 </div>
 <div class="sect1">
-<h2 id="_実装">実装</h2>
+<h2 id="_実装1">実装(1)</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>evertなし版。各頂点は1-indexedで番号付けして管理する。</p>
+<p>各ノードの情報を別の配列で管理する実装。
+各頂点は1-indexedで番号付けして管理する。</p>
+</div>
+<div class="paragraph">
+<p>Python3が遅い。PyPy3はある程度高速。</p>
 </div>
 <div class="listingblock">
 <button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">N = 10**5
-
-# prt[i]: 頂点iの親頂点
-# left[i]: 頂点iの左部分木, right[i]: 頂点iの右部分木
-# sz[i]: 頂点iを根頂点とする部分木のサイズ
-# key[i]: 頂点iが持つ値
-# val[i]: 頂点i以下の部分木の持つ値の和
 prt = [0]*(N+1)
 left = [0]*(N+1)
 right = [0]*(N+1)
 sz = [0] + [1]*N
 key = [0]*(N+1)
 val = [0]*(N+1)
+rev = [0]*(N+1)
 
 def update(i, l, r):
     #assert 1 &lt;= i &lt;= N
     sz[i] = 1 + sz[l] + sz[r]
     val[i] = key[i] + val[l] + val[r]
 
+def swap(i):
+    if i:
+        left[i], right[i] = right[i], left[i]
+        rev[i] ^= 1
+
+def prop(i):
+    swap(left[i])
+    swap(right[i])
+    rev[i] = 0
+    return 1
+
 def splay(i):
     #assert 1 &lt;= i &lt;= N
     q = prt[i]
+    rev[i] and prop(i)
+
     li = left[i]; ri = right[i]
     while q and not left[q] != i != right[q]:
         r = prt[q]
         if not r or left[r] != q != right[r]:
+            if rev[q] and prop(q):
+                li, ri = ri, li
+
+                if rev[i]:
+                    swap(li); swap(ri)
+                    rev[i] = 0
+
             y = r
             if left[q] == i:
                 left[q] = ri
                 if ri:
                     prt[ri] = q
                 update(q, ri, right[q])
-                ri = q; prt[q] = i
+                ri = q
                 update(i, li, q)
             else:
                 right[q] = li
                 if li:
                     prt[li] = q
                 update(q, left[q], li)
-                li = q; prt[q] = i
+                li = q
                 update(i, q, ri)
         else:
+            rev[r] and prop(r)
+            if rev[q] and prop(q):
+                li, ri = ri, li
+
+                if rev[i]:
+                    swap(li); swap(ri)
+                    rev[i] = 0
+
             y = prt[r]
+
             if left[r] == q:
                 if left[q] == i:
                     v = left[r] = right[q]
@@ -178,12 +206,12 @@ def splay(i):
                         prt[v] = r
                     update(r, v, right[r])
 
-                    left[q] = ri
+                    left[q] = ri; right[q] = r
                     if ri:
                         prt[ri] = q
                     update(q, ri, r)
 
-                    right[q] = r; prt[r] = ri = q; prt[q] = i
+                    prt[r] = ri = q
                     update(i, li, q)
                 else:
                     left[r] = ri
@@ -196,7 +224,7 @@ def splay(i):
                         prt[li] = q
                     update(q, left[q], li)
 
-                    ri = r; li = q; prt[q] = prt[r] = i
+                    ri = r; li = q
                     update(i, q, r)
             else:
                 if right[q] == i:
@@ -205,12 +233,12 @@ def splay(i):
                         prt[v] = r
                     update(r, left[r], v)
 
-                    right[q] = li
+                    left[q] = r; right[q] = li
                     if li:
                         prt[li] = q
                     update(q, r, li)
 
-                    left[q] = r; prt[r] = li = q; prt[q] = i
+                    prt[r] = li = q
                     update(i, q, ri)
                 else:
                     right[r] = li
@@ -223,7 +251,7 @@ def splay(i):
                         prt[ri] = q
                     update(q, ri, right[q])
 
-                    li = r; ri = q; prt[q] = prt[r] = i
+                    li = r; ri = q
                     update(i, r, q)
 
         if y:
@@ -235,6 +263,7 @@ def splay(i):
                 update(y, left[y], i)
         q = y
     left[i] = li; right[i] = ri
+    prt[li] = prt[ri] = i
     prt[i] = q
 
 def expose(i):
@@ -259,18 +288,81 @@ def link(i, p):
     expose(i)
     expose(p)
     prt[i] = p
-    right[p] = i</code></pre>
+    right[p] = i
+
+def evert(i):
+    expose(i)
+    swap(i)
+    rev[i] and prop(i)
+
+def query(v):
+    r = expose(v+1)
+    return val[r]
+
+def query_add(v, w):
+    key[v+1] += w
+    expose(v+1)
+
+def debug(v):
+    def dfs(v, k):
+        if rev[v]:
+            prop(v)
+        if left[v]:
+            dfs(left[v], k+1)
+        print(" "*k, v, key[v], sz[v])
+        if right[v]:
+            dfs(right[v], k+1)
+    print("&gt;&gt;&gt;&gt;")
+    dfs(v, 0)
+    print("&lt;&lt;&lt;&lt;")
+
+
+readline = open(0).readline
+writelines = open(1, 'w').writelines
+
+N = int(readline())
+for i in range(N):
+    k, *C = map(int, readline().split())
+    for c in C:
+        link(c+1, i+1)
+Q = int(readline())
+ans = []
+for q in range(Q):
+    t, *args = map(int, readline().split())
+    if t:
+        ans.append("%d\n" % query(args[0]))
+    else:
+        query_add(*args)
+writelines(ans)</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_その他の実装">その他の実装</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_verified">Verified</h3>
+<h3 id="_evertなしの実装">evertなしの実装</h3>
 <div class="paragraph">
-<p>遅いので実用性は微妙…​</p>
+<p>evertを考慮しなくてすむ分わずかだけど早い</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
 <p>AOJ: "GRL_5_D: Tree - Range Query on a Tree": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3223286#1">source</a> (Python3, 9.81sec)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_1ノードを１つのlistで管理する実装">1ノードを１つのlistで管理する実装</h3>
+<div class="paragraph">
+<p>Python3だと高速化するが、PyPy3が遅くなる (PyPy3の方がPython3よりも遅くなる)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_5_D: Tree - Range Query on a Tree": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3224499#1">source</a> (Python3, 9.81sec)</p>
 </li>
 </ul>
 </div>

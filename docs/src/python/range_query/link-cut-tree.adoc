@@ -21,20 +21,29 @@ Heavy-Light Decompositionを動的にしたイメージ。
 
 - 各クエリ: ならし $O(\log^2 N)$
 
-== 実装
+== 実装(1)
 
-evertなし版。各頂点は1-indexedで番号付けして管理する。
+各ノードの情報を別の配列で管理する実装。
+各頂点は1-indexedで番号付けして管理する。
+
+Python3が遅い。PyPy3はある程度高速。
 
 [source, python]
 ----
-include::./python/range_query/link-cut-tree-simple.py[]
+include::./python/range_query/link-cut-tree.py[]
 ----
 
 === Verified
 
-遅いので実用性は微妙...
+* AOJ: "GRL_5_D: Tree - Range Query on a Tree": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227821#1[source] (Python3, 9.37sec)
 
-* AOJ: "GRL_5_D: Tree - Range Query on a Tree": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3223286#1[source] (Python3, 9.81sec)
+== その他の実装
+
+=== 1ノードを１つのlistで管理する実装
+
+Python3だと高速化するが、PyPy3がPython3よりも遅くなる。
+
+* AOJ: "GRL_5_D: Tree - Range Query on a Tree": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227855#1[source] (Python3, 7.80sec)
 
 == 参考ページ
 
