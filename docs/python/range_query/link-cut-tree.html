@@ -132,10 +132,16 @@ $(document).on('page:load', ready2);
 <div class="listingblock">
 <button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">N = 10**5
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># prt[i]: 頂点iの親頂点
+# left[i]: 頂点iの左部分木, right[i]: 頂点iの右部分木
+# sz[i]: 頂点iを根頂点とする部分木のサイズ
+# key[i]: 頂点iが持つ値
+# val[i]: 頂点i以下の部分木の持つ値の和
+# rev[i]: 木の反転遅延が行われているか
+N = 10**5
 prt = [0]*(N+1)
-left = [0]*(N+1)
-right = [0]*(N+1)
+left = [-1] + [0]*N
+right = [-1] + [0]*N
 sz = [0] + [1]*N
 key = [0]*(N+1)
 val = [0]*(N+1)
@@ -159,112 +165,95 @@ def prop(i):
 
 def splay(i):
     #assert 1 &lt;= i &lt;= N
-    q = prt[i]
+    x = prt[i]
     rev[i] and prop(i)
 
     li = left[i]; ri = right[i]
-    while q and not left[q] != i != right[q]:
-        r = prt[q]
-        if not r or left[r] != q != right[r]:
-            if rev[q] and prop(q):
+    while x and not left[x] != i != right[x]:
+        y = prt[x]
+        if not y or left[y] != x != right[y]:
+            if rev[x] and prop(x):
                 li, ri = ri, li
+                swap(li); swap(ri)
 
-                if rev[i]:
-                    swap(li); swap(ri)
-                    rev[i] = 0
-
-            y = r
-            if left[q] == i:
-                left[q] = ri
-                if ri:
-                    prt[ri] = q
-                update(q, ri, right[q])
-                ri = q
-                update(i, li, q)
+            if left[x] == i:
+                left[x] = ri
+                prt[ri] = x
+                update(x, ri, right[x])
+                ri = x
             else:
-                right[q] = li
-                if li:
-                    prt[li] = q
-                update(q, left[q], li)
-                li = q
-                update(i, q, ri)
+                right[x] = li
+                prt[li] = x
+                update(x, left[x], li)
+                li = x
+            x = y
+            break
+
+        rev[y] and prop(y)
+        if rev[x] and prop(x):
+            li, ri = ri, li
+            swap(li); swap(ri)
+
+        z = prt[y]
+        if left[y] == x:
+            if left[x] == i:
+                v = left[y] = right[x]
+                prt[v] = y
+                update(y, v, right[y])
+
+                left[x] = ri; right[x] = y
+                prt[ri] = x
+                update(x, ri, y)
+
+                prt[y] = ri = x
+            else:
+                left[y] = ri
+                prt[ri] = y
+                update(y, ri, right[y])
+
+                right[x] = li
+                prt[li] = x
+                update(x, left[x], li)
+
+                li = x; ri = y
         else:
-            rev[r] and prop(r)
-            if rev[q] and prop(q):
-                li, ri = ri, li
+            if right[x] == i:
+                v = right[y] = left[x]
+                prt[v] = y
+                update(y, left[y], v)
 
-                if rev[i]:
-                    swap(li); swap(ri)
-                    rev[i] = 0
+                left[x] = y; right[x] = li
+                prt[li] = x
+                update(x, y, li)
 
-            y = prt[r]
-
-            if left[r] == q:
-                if left[q] == i:
-                    v = left[r] = right[q]
-                    if v:
-                        prt[v] = r
-                    update(r, v, right[r])
-
-                    left[q] = ri; right[q] = r
-                    if ri:
-                        prt[ri] = q
-                    update(q, ri, r)
-
-                    prt[r] = ri = q
-                    update(i, li, q)
-                else:
-                    left[r] = ri
-                    if ri:
-                        prt[ri] = r
-                    update(r, ri, right[r])
-
-                    right[q] = li
-                    if li:
-                        prt[li] = q
-                    update(q, left[q], li)
-
-                    ri = r; li = q
-                    update(i, q, r)
+                prt[y] = li = x
             else:
-                if right[q] == i:
-                    v = right[r] = left[q]
-                    if v:
-                        prt[v] = r
-                    update(r, left[r], v)
+                right[y] = li
+                prt[li] = y
+                update(y, left[y], li)
 
-                    left[q] = r; right[q] = li
-                    if li:
-                        prt[li] = q
-                    update(q, r, li)
+                left[x] = ri
+                prt[ri] = x
+                update(x, ri, right[x])
 
-                    prt[r] = li = q
-                    update(i, q, ri)
-                else:
-                    right[r] = li
-                    if li:
-                        prt[li] = r
-                    update(r, left[r], li)
+                li = y; ri = x
 
-                    left[q] = ri
-                    if ri:
-                        prt[ri] = q
-                    update(q, ri, right[q])
+        x = z
+        if left[z] == y:
+            left[z] = i
+            update(z, i, right[z])
+        elif right[z] == y:
+            right[z] = i
+            update(z, left[z], i)
+        else:
+            break
 
-                    li = r; ri = q
-                    update(i, r, q)
-
-        if y:
-            if left[y] == r:
-                left[y] = i
-                update(y, i, right[y])
-            elif right[y] == r:
-                right[y] = i
-                update(y, left[y], i)
-        q = y
+    update(i, li, ri)
     left[i] = li; right[i] = ri
     prt[li] = prt[ri] = i
-    prt[i] = q
+    prt[i] = x
+
+    rev[i] = prt[0] = 0
 
 def expose(i):
     p = 0
@@ -293,47 +282,17 @@ def link(i, p):
 def evert(i):
     expose(i)
     swap(i)
-    rev[i] and prop(i)
-
-def query(v):
-    r = expose(v+1)
-    return val[r]
-
-def query_add(v, w):
-    key[v+1] += w
-    expose(v+1)
-
-def debug(v):
-    def dfs(v, k):
-        if rev[v]:
-            prop(v)
-        if left[v]:
-            dfs(left[v], k+1)
-        print(" "*k, v, key[v], sz[v])
-        if right[v]:
-            dfs(right[v], k+1)
-    print("&gt;&gt;&gt;&gt;")
-    dfs(v, 0)
-    print("&lt;&lt;&lt;&lt;")
-
-
-readline = open(0).readline
-writelines = open(1, 'w').writelines
-
-N = int(readline())
-for i in range(N):
-    k, *C = map(int, readline().split())
-    for c in C:
-        link(c+1, i+1)
-Q = int(readline())
-ans = []
-for q in range(Q):
-    t, *args = map(int, readline().split())
-    if t:
-        ans.append("%d\n" % query(args[0]))
-    else:
-        query_add(*args)
-writelines(ans)</code></pre>
+    rev[i] and prop(i)</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_5_D: Tree - Range Query on a Tree": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227821#1">source</a> (Python3, 9.37sec)</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -342,27 +301,14 @@ writelines(ans)</code></pre>
 <h2 id="_その他の実装">その他の実装</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_evertなしの実装">evertなしの実装</h3>
-<div class="paragraph">
-<p>evertを考慮しなくてすむ分わずかだけど早い</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>AOJ: "GRL_5_D: Tree - Range Query on a Tree": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3223286#1">source</a> (Python3, 9.81sec)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_1ノードを１つのlistで管理する実装">1ノードを１つのlistで管理する実装</h3>
 <div class="paragraph">
-<p>Python3だと高速化するが、PyPy3が遅くなる (PyPy3の方がPython3よりも遅くなる)</p>
+<p>Python3だと高速化するが、PyPy3がPython3よりも遅くなる。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>AOJ: "GRL_5_D: Tree - Range Query on a Tree": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3224499#1">source</a> (Python3, 9.81sec)</p>
+<p>AOJ: "GRL_5_D: Tree - Range Query on a Tree": <a href="http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227855#1">source</a> (Python3, 7.80sec)</p>
 </li>
 </ul>
 </div>
