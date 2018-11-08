@@ -1,0 +1,43 @@
+= Link-Cut Tree
+:title: {doctitle} - {pagetitle}
+
+Link-Cut Tree
+
+== 概要
+
+動的木のデータ構造
+
+Heavy-Light Decompositionを動的にしたイメージ。
+分解したパスはSplay Tree上で管理する。
+
+以下の操作ができる
+
+- expose(i): 根頂点から頂点iまでのパスのみを繋げる (それ以外のパスをカット
+- cut(i): 木を頂点iと頂点iの親頂点pの間の辺をカットして分割
+- link(i, p): 2つの木について、頂点iと頂点pを接続して1つの木にする
+- evert(i): 木の根頂点を頂点iに変更
+
+== 計算量
+
+- 各クエリ: ならし $O(\log^2 N)$
+
+== 実装(1)
+
+各ノードの情報を別の配列で管理する実装。
+各頂点は1-indexedで番号付けして管理する。
+
+[source, python]
+----
+include::./cpp/range_query/link-cut-tree.cpp[]
+----
+
+=== Verified
+
+* AOJ: "GRL_5_D: Tree - Range Query on a Tree": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227998#1[source] (Python3, 0.28sec)
+
+== 参考ページ
+
+* link:https://www.slideshare.net/iwiwi/2-12188845[プログラミングコンテストでのデータ構造 2　～動的木編～]
+
+***
+link:../index.html[戻る]

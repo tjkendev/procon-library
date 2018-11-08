@@ -15,6 +15,10 @@
 
 * link:./union_find/union_find.html[素集合データ構造 (Union-Find)]
 
+== 区間クエリ
+
+* link:./range_query/link-cut-tree.html[Link-Cut Tree]
+
 == グラフ
 
 * link:./graph/scc.html[強連結成分分解]
