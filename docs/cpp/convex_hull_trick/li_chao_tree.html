@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>Convex Hull Trick (Li-Chao (Segment) Tree) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/github.css">
+<meta name="description" content="概要 Li-Chao (Segment) Treeはセグメント木を用いてConvex Hull Trickを行うアルゴリズム。 詳細はこちら(ブログ): Li Chao Treeのメモ 計算量 直線...">
+<meta property="og:title" content="Convex Hull Trick (Li-Chao (Segment) Tree) - yaketake08's 実装メモ">
+<meta property="og:description" content="Convex Hull Trick (Li-Chao (Segment) Tree)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/convex_hull_trick/li_chao_tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/src/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/src/stylesheet/custom.css">
+
+<style>
+  .click .title { color: blue; }
+  .click {margin-top: 0.5em; margin-bottom: 0.5em;}
+  .openblock { margin-top: 1em; margin-bottom: 1em; }
+  .openblock>.box>.content { margin-top:1em;margin-bottom: 1em;margin-left:3em;margin-right:4em; }
+</style>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+
+
+
+var ready2;
+
+ready2 = function() {
+
+    $(document).ready(function(){
+
+        $('.openblock.click').click( function()  { $(this).find('.content').slideToggle('200'); } )
+        $('.openblock.click').find('.content').hide()
+
+
+        $('.listingblock.click').click( function()  { $(this).find('.content').slideToggle('200') }  )
+        $('.listingblock.click').find('.content').hide()
+
+    });
+
+}
+
+
+
+
+$(document).ready(ready2);
+$(document).on('page:load', ready2);
+
+
+</script>
+
+</head>
+
+
+<body class="article">
+<div id="header">
+<h1>Convex Hull Trick (Li-Chao (Segment) Tree)</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Li-Chao (Segment) Treeはセグメント木を用いてConvex Hull Trickを行うアルゴリズム。</p>
+</div>
+<div class="paragraph">
+<p>詳細はこちら(ブログ): <a href="http://smijake3.hatenablog.com/entry/2018/06/16/144548">Li Chao Treeのメモ</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>直線追加: \(O(\log N)\)</p>
+</li>
+<li>
+<p>線分追加: \(O(\log^2 N)\)</p>
+</li>
+<li>
+<p>最小値計算: \(O(\log N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#define N 300004
+
+class LiChaoTree {
+  int n;
+  ll xs[4*N];
+  ll p[4*N], q[4*N];
+  bool u[4*N];
+
+  void _add_line(ll a, ll b) {
+    int k = 0, l = 0, r = n;
+    while(r-l &gt; 0) {
+      int m = (l + r) &gt;&gt; 1;
+      if(!u[k]) {
+        p[k] = a; q[k] = b;
+        u[k] = true;
+        return;
+      }
+
+      ll lx = xs[l], mx = xs[m], rx = xs[r-1];
+      ll pk = p[k], qk = q[k];
+      bool left = (a*lx+b &lt; pk*lx+qk);
+      bool mid = (a*mx+b &lt; pk*mx+qk);
+      bool right = (a*rx+b &lt; pk*rx+qk);
+      if(left &amp;&amp; right) {
+        p[k] = a; q[k] = b;
+        return;
+      }
+      if(!left &amp;&amp; !right) {
+        return;
+      }
+      if(mid) {
+        swap(p[k], a);
+        swap(q[k], b);
+      }
+      if(left != mid) {
+        k = 2*k+1; r = m;
+      } else {
+        k = 2*k+2; l = m;
+      }
+    }
+  }
+
+  ll _query(int k, ll x) {
+    k += n - 1;
+    ll s = u[k] ? p[k]*x+q[k] : INFLL;
+    while(k &gt; 0) {
+      k = (k - 1) / 2;
+      if(u[k]) {
+        ll r = p[k]*x+q[k];
+        s = mind(s, r);
+      }
+    }
+    return s;
+  }
+
+public:
+  LiChaoTree(int n0, ll ps[N]) {
+    n = 1;
+    while(n &lt; n0) n &lt;&lt;= 1;
+
+    rep(i, 2*n) u[i] = false;
+    rep(i, n0) xs[i] = ps[i];
+    repl(i, n0, 2*n-1) xs[i] = INF;
+  }
+
+  void add_line(ll a, ll b) {
+    _add_line(a, b);
+  }
+
+  void add_segment_line(ll a, ll b, int l, int r) {
+    ll l0 = l + n, r0 = r + n;
+    ll s0 = l, t0 = r, sz = 1;
+    while(l0 &lt; r0) {
+      if(r0 &amp; 1) {
+        --r0; t0 -= sz;
+        _add_line(a, b, r0-1, t0, t0+sz);
+      }
+      if(l0 &amp; 1) {
+        _add_line(a, b, l0-1, s0, s0+sz);
+        ++l0; s0 += sz;
+      }
+      l0 &gt;&gt;= 1; r0 &gt;&gt;= 1;
+      sz &lt;&lt;= 1;
+    }
+  }
+
+  ll query(int i) {
+    return _query(i, xs[i]);
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="sect3">
+<h4 id="_直線処理">直線処理</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>yukicoder: "No.703 ゴミ拾い Easy": <a href="https://yukicoder.me/submissions/296651">source</a> (C++14, 514ms)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_線分処理">線分処理</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>yukicoder: "No.704 ゴミ拾い Medium": <a href="https://yukicoder.me/submissions/297285">source</a> (C++14, 711ms)</p>
+</li>
+</ul>
+</div>
+<hr>
+<div class="paragraph">
+<p><a href="../index.html">戻る</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { extensions: ["mhchem.js"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+</body>
+</html>

@@ -18,6 +18,7 @@
 == 区間クエリ
 
 * link:./range_query/link-cut-tree.html[Link-Cut Tree]
+* link:./convex_hull_trick/li_chao_tree.html[Convex Hull Trick (Li Chao (Segment) Tree)]
 
 == グラフ
 

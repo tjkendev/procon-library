@@ -19,7 +19,7 @@ Heavy-Light Decompositionを動的にしたイメージ。
 
 == 計算量
 
-- 各クエリ: ならし $O(\log^2 N)$
+- 各クエリ: ならし $O(\log N)$
 
 == 実装(1)
 

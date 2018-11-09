@@ -1,0 +1,33 @@
+= Convex Hull Trick (Li-Chao (Segment) Tree)
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+Li-Chao (Segment) Treeはセグメント木を用いてConvex Hull Trickを行うアルゴリズム。
+
+詳細はこちら(ブログ): link:http://smijake3.hatenablog.com/entry/2018/06/16/144548[Li Chao Treeのメモ]
+
+== 計算量
+
+- 直線追加: $O(\log N)$
+- 線分追加: $O(\log^2 N)$
+- 最小値計算: $O(\log N)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/convex_hull_trick/li_chao_tree.cpp[]
+----
+
+=== Verified
+
+==== 直線処理
+* yukicoder: "No.703 ゴミ拾い Easy": link:https://yukicoder.me/submissions/296651[source] (C++14, 514ms)
+
+==== 線分処理
+* yukicoder: "No.704 ゴミ拾い Medium": link:https://yukicoder.me/submissions/297285[source] (C++14, 711ms)
+
+***
+
+link:../index.html[戻る]
