@@ -6,8 +6,7 @@ class LiChaoTree {
   ll p[4*N], q[4*N];
   bool u[4*N];
 
-  void _add_line(ll a, ll b) {
-    int k = 0, l = 0, r = n;
+  void _add_line(ll a, ll b, int k, int l, int r) {
     while(r-l > 0) {
       int m = (l + r) >> 1;
       if(!u[k]) {
@@ -64,7 +63,7 @@ public:
   }
 
   void add_line(ll a, ll b) {
-    _add_line(a, b);
+    _add_line(a, b, 0, 0, n);
   }
 
   void add_segment_line(ll a, ll b, int l, int r) {
