@@ -7,6 +7,7 @@ link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ラ
 
 * link:./python/index.html[Python]
 * link:./cpp/index.html[C++]
+* link:./other/index.html[その他]
 
 == 外部リンク
 

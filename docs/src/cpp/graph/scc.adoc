@@ -23,6 +23,7 @@ include::./cpp/graph/scc.cpp[]
 
 - AOJ: "GRL_3_C: Connected Components - Strongly Connected Components": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867908#1[source] (C++, 0.17sec)
 - AOJ: "2598: Website Tour": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867998[source] (C++, 0.17sec)
+- AtCoder: "AtCoder Regular Contest 010 - D問題: 情報伝搬": link:https://beta.atcoder.jp/contests/arc010/submissions/3585181[source] (C++14, 3392ms)
 
 ***
 

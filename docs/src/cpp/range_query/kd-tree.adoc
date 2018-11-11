@@ -1,0 +1,33 @@
+= kd-tree (2次元)
+:title: {doctitle} - {pagetitle}
+
+kd-tree (k-dimensional tree)
+
+== 概要
+
+2次元平面上の頂点を木構造で管理する。
+
+== 計算量
+
+- 構築: $O(N \log^2 N)$
+- 領域探索クエリ: $O(\sqrt{N} + K)$ ($K$は出力する点の数)
+- (一様分布の点集合における)最近傍点クエリ: $O(\log N)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/range_query/kd-tree.cpp[]
+----
+
+=== Verified
+
+- AOJ: "DSL_2_C: Range Query - Range Search (kD Tree)": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3232854[source] (C++14, 0.45sec)
+- AtCoder: "AtCoder Regular Contest 010 - D問題: 情報伝搬": link:https://beta.atcoder.jp/contests/arc010/submissions/3585181[source] (C++14, 3392ms)
+
+== 参考
+
+- link:https://en.wikipedia.org/wiki/K-d_tree#Complexity[k-d tree - Wikipedia]
+
+***
+link:../index.html[戻る]
