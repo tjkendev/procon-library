@@ -4,5 +4,10 @@ deploy_key.pub
 vendor
 .bundle
 
+docs/index.html
+docs/python
+docs/cpp
+docs/other
+
 docs/static/stylesheet
 docs/static/images
