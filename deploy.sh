@@ -1,5 +1,5 @@
 cd ./docs
-rm -f ./src/**/*.adoc ./src/**/*.html ./src/**/*.rb
+find ./src -type f -name '*.adoc' -o -name '*.html' -o -name '*.rb' -delete
 git init
 git add .
 git commit -m "commit on `date "+%Y-%m-%d %H:%M:%S"`"
