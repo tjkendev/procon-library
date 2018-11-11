@@ -3,3 +3,9 @@ deploy_key
 deploy_key.pub
 vendor
 .bundle
+
+docs/src/stylesheet
+!docs/src/stylesheet/github.css
+!docs/src/stylesheet/custom.css
+docs/src/images
+!docs/src/images/github
