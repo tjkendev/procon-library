@@ -2,7 +2,7 @@
 
 BASEPATH = https://tjkendev.github.io/procon-library/
 
-CMD := asciidoctor-latex
+CMD := bundle exec asciidoctor-latex
 FMT := html
 SRC := ./docs/src
 DST := ./docs
@@ -30,7 +30,6 @@ docs:
 		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) \
 		-a nofooter \
 		-a attribute-missing=warn --failure-level=WARN
-
 
 docs-local:
 	$(CMD) -b $(FMT) -R $(SRC) -D $(DST-LOCAL) $(TARGET) -B $(BASE) \
