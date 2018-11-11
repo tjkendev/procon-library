@@ -22,7 +22,7 @@ DST-LOCAL := ./docs-local
 SRCDIR-LOCAL := '$(CUR)/docs/src'
 
 docs:
-	$(CMD) -b $(FMT) -R $(SRC) -D $(DST) $(TARGET) -B $(BASE) \
+	@$(CMD) -b $(FMT) -R $(SRC) -D $(DST) $(TARGET) -B $(BASE) \
 		-r ./docs/src/lib/custom-extensions.rb \
 		-a pagetitle=$(TITLE) -a source-highlighter=$(HIGHLIGHTER) \
 		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(SRCDIR) \
