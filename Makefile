@@ -13,6 +13,7 @@ TARGET := 'docs/**/*.adoc'
 HIGHLIGHTER := highlightjs
 STYLESHEET := ./stylesheet/github.css
 SRCDIR := '$(BASEPATH)src'
+STATICDIR := '$(BASEPATH)static'
 TITLE := "yaketake08's 実装メモ"
 
 
@@ -20,13 +21,14 @@ TITLE := "yaketake08's 実装メモ"
 CUR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 DST-LOCAL := ./docs-local
 SRCDIR-LOCAL := '$(CUR)/docs/src'
+STATICDIR-LOCAL := '$(CUR)/docs/static'
 
 docs:
 	@$(CMD) -b $(FMT) -R $(SRC) -D $(DST) $(TARGET) -B $(BASE) \
 		-r ./docs/src/lib/custom-extensions.rb \
 		-a pagetitle=$(TITLE) -a source-highlighter=$(HIGHLIGHTER) \
-		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(SRCDIR) \
-		-a jsdir=$(SRCDIR) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
+		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(STATICDIR) \
+		-a jsdir=$(STATICDIR) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
 		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) \
 		-a nofooter \
 		-a attribute-missing=warn --failure-level=WARN
@@ -35,8 +37,8 @@ docs-local:
 	$(CMD) -b $(FMT) -R $(SRC) -D $(DST-LOCAL) $(TARGET) -B $(BASE) \
 		-r ./docs/src/lib/custom-extensions.rb \
 		-a pagetitle=$(TITLE) -a source-highlighter=$(HIGHLIGHTER) \
-		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(SRCDIR-LOCAL) \
-		-a jsdir=$(SRCDIR-LOCAL) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
+		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(STATICDIR-LOCAL) \
+		-a jsdir=$(STATICDIR-LOCAL) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
 		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) \
 		-a nofooter \
 		-a attribute-missing=warn --failure-level=WARN
