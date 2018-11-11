@@ -16,11 +16,8 @@ procon-library
 ### インストール
 
 ```sh
-# install Asciidoctor Latex
-$ gem install asciidoctor-latex --pre
-
-# need for Asciidoctor extension
-$ gem install nokogiri opengraph_parser
+# install dependencies from Gemfile
+$ bundle install
 ```
 
 ### コンパイル
