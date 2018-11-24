@@ -131,7 +131,7 @@ def expose(i):
         p = cur
         cur = prt[cur]
     splay(i)
-    return i
+    return p
 
 def cut(i):
     expose(i)
@@ -149,3 +149,19 @@ def evert(i):
     expose(i)
     swap(i)
     rev[i] and prop(i)
+
+def root(u):
+    expose(u)
+    while left[u]:
+        u = left[u]
+    splay(u)
+    return u
+ 
+def lca(u, v):
+    expose(u)
+    while left[u]:
+        u = left[u]
+    w = expose(v)
+    while left[v]:
+        v = left[v]
+    return w if u == v else None

@@ -19,9 +19,9 @@ Heavy-Light Decompositionを動的にしたイメージ。
 
 == 計算量
 
-- 各クエリ: ならし $O(\log N)$
+- 各クエリ: $O(\log N)$
 
-== 実装(1)
+== 実装
 
 各ノードの情報を別の配列で管理する実装。
 各頂点は1-indexedで番号付けして管理する。
@@ -36,6 +36,7 @@ include::./python/range_query/link-cut-tree.py[]
 === Verified
 
 * AOJ: "GRL_5_D: Tree - Range Query on a Tree": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227821#1[source] (Python3, 9.37sec)
+* AtCoder: "2013年 日本情報オリンピック春合宿 4日目: 3 - 宇宙船 (Spaceships)": link:https://beta.atcoder.jp/contests/joisc2013-day4/submissions/3650962[source] (PyPy3, 8114ms)
 
 == その他の実装
 
