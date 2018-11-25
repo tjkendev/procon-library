@@ -1,23 +1,27 @@
 /* Binary Indexed Tree */
-#define N 100003
+#define N 100008
 
 class BIT {
+  int n;
   ll data[N];
-  ll n;
+ 
 public:
-  BIT(int n) : n(n){}
-  ll sum(int i) {
+  BIT(int n) : n(n) {
+    for(int i = 0; i < n+2; ++i) data[i] = 0;
+  }
+  void add(int k, ll x) {
+    while(k <= n) {
+      data[k] += x;
+      k += k & -k;
+    }
+  }
+ 
+  ll get(int k) {
     ll s = 0;
-    while(i > 0) {
-      s += data[i];
-      i -= i & -i;
+    while(k) {
+      s += data[k];
+      k -= k & -k;
     }
     return s;
-  }
-  void add(int i, ll x) {
-    while(i <= n) {
-      data[i] += x;
-      i += i & -i;
-    }
   }
 };

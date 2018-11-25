@@ -11,13 +11,19 @@
 
 * link:./math/pow.html[繰り返し二乗法]
 
+== 幾何
+
+* link:./geometry/segment_line_intersection.html[線分同士の交差判定]
+
 == 集合
 
 * link:./union_find/union_find.html[素集合データ構造 (Union-Find)]
 
 == 区間クエリ
 
+* link:./range_query/bit.html[Binary Indexed Tree]
 * link:./range_query/link-cut-tree.html[Link-Cut Tree]
+* link:./range_query/sliding_window_minimum.html[Sliding Window Minimum]
 * link:./convex_hull_trick/li_chao_tree.html[Convex Hull Trick (Li Chao (Segment) Tree)]
 * link:./range_query/kd-tree.html[kd-tree (2次元)]
 

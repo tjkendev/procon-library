@@ -1,0 +1,21 @@
+= 線分同士の交差判定
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+線分$P_0-P_1$と線分$Q_0-Q_1$が交差しているかを判定する。
+外積と内積を用いて判定。
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/geometry/segment_line_intersection.cpp[]
+----
+
+=== Verified
+
+- AOJ: "0214: Autumnal Illumination": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3254860#1[source] (C++11, 0.01sec)
+
+***
+link:../index.html[戻る]
