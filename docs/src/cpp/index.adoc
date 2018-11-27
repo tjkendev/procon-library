@@ -19,6 +19,10 @@
 
 * link:./union_find/union_find.html[素集合データ構造 (Union-Find)]
 
+== 二分木
+
+* link:./binary_search_tree/splay-tree.html[Splay tree]
+
 == 区間クエリ
 
 * link:./range_query/bit.html[Binary Indexed Tree]
