@@ -9,6 +9,7 @@
 
 == 数学
 
+* link:./math/gcd.html[最大公約数]
 * link:./math/pow.html[繰り返し二乗法]
 
 == 幾何

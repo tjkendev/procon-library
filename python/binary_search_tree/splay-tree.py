@@ -36,6 +36,7 @@ def __splay(st, dr, nd):
                 r[3] = R = r[3] - L - 1
                 l[3] = L = l[3] - R - 1
         c -= 1
+        # update(y); update(x)
     if st:
         # Zig step
         x = st[0]; d = dr[0]
@@ -45,9 +46,15 @@ def __splay(st, dr, nd):
         else:
             x[0] = r; r = x
             r[3] = R = r[3] - L - 1
+        # update(x)
     nd[0] = l; nd[1] = r
     nd[3] = L + R + 1
+    # update(nd)
     return nd
+
+# create a new node with key = val
+def new_node(val):
+    return [None, None, val, 1]
 
 # insert a node with key = val
 def insert(t, val):
@@ -92,6 +99,29 @@ def find(t, val):
     t = __splay(st, dr, x)
     return t, True
 
+# find k-th node in a tree t
+def findk(t, k):
+    if not t or not 0 < k <= t[3]:
+        return t
+    x = t
+    st = []; dr = []
+    while x:
+        l = x[0]
+        c = (l[3] if l else 0) + 1
+ 
+        if c == k:
+            break
+ 
+        st.append(x)
+        if c < k:
+            k -= c
+            x = x[1]
+            dr.append(1)
+        else:
+            x = x[0]
+            dr.append(0)
+    return __splay(st, dr, x)
+
 # merge a tree l with a tree r
 def merge(l, r):
     if not l or not r:
@@ -110,12 +140,17 @@ def merge(l, r):
     l = __splay(st, [1]*len(st), x)
     l[3] += r[3]
     l[1] = r
+    # update(l)
     return l
 
 # split a tree t into two trees of size k and |t|-k
 def split(t, k):
-    if not t or not 0 < k < t[3]:
-        return t, None
+    if not t:
+        return None, None
+    if not 0 < k < t[3]:
+        if k == t[3]:
+            return findk(t, k), None
+        return None, t
     x = t
     st = []; dr = []
     while x:
@@ -138,4 +173,5 @@ def split(t, k):
     if r:
         l[3] -= r[3]
     l[1] = None
+    # update(l)
     return l, r
