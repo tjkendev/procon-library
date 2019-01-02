@@ -28,6 +28,7 @@
 == 区間クエリ
 
 * link:./range_query/bit.html[Binary Indexed Tree]
+* link:./range_query/rmq_segment_tree.html[Range Minimum Query (セグメント木)]
 * link:./range_query/link-cut-tree.html[Link-Cut Tree]
 * link:./range_query/sliding_window_minimum.html[Sliding Window Minimum]
 * link:./convex_hull_trick/li_chao_tree.html[Convex Hull Trick (Li Chao (Segment) Tree)]
