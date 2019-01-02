@@ -22,9 +22,9 @@ Find.find(base_dir) {|path|
   Find.prune if path == './vendor'
   m = /^#{base_dir}\/(.*)\.adoc$/.match path
   if m
-    stats = File::Stat.new path
-    mtime = stats.mtime
-    if mtime
+    ts = `git --no-pager log --pretty=%at -n1 #{path}`
+    if mtime.length > 0
+      mtime = Time.at(ts.to_i)
       result.push "  <url>\n    <loc>#{base_url}/#{m[1]}.html</loc>\n    <lastmod>#{mtime.strftime("%Y-%m-%d")}</lastmod>\n  </url>"
     else
       result.push "  <url>\n    <loc>#{base_url}/#{m[1]}.html</loc>\n  </url>"
