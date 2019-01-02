@@ -22,6 +22,7 @@
 
 == 二分木
 
+* link:./binary_search_tree/persistent_RBST.html[永続RBST]
 * link:./binary_search_tree/splay-tree.html[Splay tree]
 
 == 区間クエリ

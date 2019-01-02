@@ -9,7 +9,7 @@
 
 == 計算量
 
-$O(|V|)$
+$O(|V| + |E|)$
 
 == 実装
 
@@ -17,6 +17,10 @@ $O(|V|)$
 ----
 include::./python/graph/scc.py[]
 ----
+
+=== Verified
+
+* AtCoder: "AtCoder Regular Contest 030 - C問題: 有向グラフ" link:https://atcoder.jp/contests/arc030/submissions/3914553[source] (Python3, 73ms)
 
 ***
 

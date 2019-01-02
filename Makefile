@@ -15,6 +15,7 @@ STYLESHEET := ./stylesheet/github.css
 SRCDIR := '$(BASEPATH)src'
 STATICDIR := '$(BASEPATH)static'
 TITLE := "yaketake08's 実装メモ"
+SGEN-CMD := bundle exec ruby ./docs/src/sitemap-generator.rb
 
 
 # for local debug
@@ -32,6 +33,7 @@ docs:
 		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) \
 		-a nofooter \
 		-a attribute-missing=warn --failure-level=WARN
+	@$(SGEN-CMD) $(BASEPATH) $(SRC) > $(DST)/sitemap.xml
 
 docs-local:
 	$(CMD) -b $(FMT) -R $(SRC) -D $(DST-LOCAL) $(TARGET) -B $(BASE) \
@@ -42,6 +44,7 @@ docs-local:
 		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) \
 		-a nofooter \
 		-a attribute-missing=warn --failure-level=WARN
+	$(SGEN-CMD) $(BASEPATH) $(SRC) > $(DST-LOCAL)/sitemap.xml
 
 clean:
 	rm -f ./docs/index.html

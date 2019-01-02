@@ -27,3 +27,17 @@ def scc(N, G, RG):
             rdfs(s, label)
             label += 1
     return label, group
+
+# 縮約後のグラフを構築
+def construct(N, G, label, group):
+    G0 = [set() for i in range(label)]
+    GP = [[] for i in range(label)]
+    for v in range(N):
+        lbs = group[v]
+        for w in G[v]:
+            lbt = group[w]
+            if lbs == lbt:
+                continue
+            G0[lbs].add(lbt)
+        GP[lbs].append(v)
+    return G0, GP

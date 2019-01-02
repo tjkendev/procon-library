@@ -1,0 +1,35 @@
+= 永続RBST
+:title: {doctitle} - {pagetitle}
+
+永続RBST (Persistent Randomized Binary Search Tree)
+
+== 概要
+
+乱数を使った平衡二分木であるRandomized Binary Search Treeのデータを永続化したもの。
+
+詳しくは link:https://www.slideshare.net/chokudai/arc030[ARC030のD問題の解説]
+
+== 実装
+
+遅延評価付きの永続型平衡二分木の実装。
+
+ノードの複製により、すぐにノードの数が大きくなるため、
+
+- 配列によるノードの管理(gnodes)
+- 使われたノード数が多くなった場合にRBSTの再構築(rebuild)
+
+を行えるようにしている
+
+[source, cpp]
+----
+include::./cpp/binary_search_tree/persistent_RBST.cpp[]
+----
+
+=== Verified
+
+
+* AtCoder: "AtCoder Regular Contest 030 - D問題: グラフではない": link:https://atcoder.jp/contests/arc030/submissions/3913175[source] (C++14, 819ms)
+
+***
+
+link:../index.html[戻る]
