@@ -23,7 +23,7 @@ Find.find(base_dir) {|path|
   m = /^#{base_dir}\/(.*)\.adoc$/.match path
   if m
     ts = `git --no-pager log --pretty=%at -n1 #{path}`
-    if mtime.length > 0
+    if ts.length > 0
       mtime = Time.at(ts.to_i)
       result.push "  <url>\n    <loc>#{base_url}/#{m[1]}.html</loc>\n    <lastmod>#{mtime.strftime("%Y-%m-%d")}</lastmod>\n  </url>"
     else
