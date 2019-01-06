@@ -1,0 +1,33 @@
+= Suffix Array (Rolling Hash)
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+Rolling Hashを用いてSuffixArrayを計算する。
+
+``S[i:]`` と ``S[j:]`` のLCPの長さはRolling Hash上で二分探索を行い求める。
+
+Suffix Arrayは、LCPの計算を利用しながらソートを行って構築する。
+
+== 計算量
+
+- SuffixArrayの構築: $O(N \log^2 N)$
+- LCPの計算: $O(\log N)$
+
+== 実装
+
+[source, python]
+----
+include::./python/string/sa_rolling_hash.py[]
+----
+
+=== Verified
+
+- AtCoder: "AtCoder Regular Contest 050 - D問題: Suffix Concat": link:https://atcoder.jp/contests/arc050/submissions/3933420[source] (PyPy3, 2955ms)
+
+== 参考
+
+- link:https://topcoder.g.hatena.ne.jp/spaghetti_source/20130209/1360403866[Rolling Hashing - 週刊 spaghetti_source]
+
+***
+link:../index.html[戻る]

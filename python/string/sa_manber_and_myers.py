@@ -45,3 +45,34 @@ class SuffixArray:
             lcp[rank[i] - 1] = h
         self.lcp = lcp
         return lcp
+
+# query(a, b): S[a:] と S[b:] の最長共通接頭語(LCP)の長さを求める
+# S = (文字列)
+# N = len(S)
+SA = SuffixArray(S)
+sa = SA.suffix()
+lcp = SA.lcp()
+N0 = 2**(N).bit_length()
+data = [0]*(2*N0)
+for i in range(N+1):
+    data[i+N0-1] = lcp[i]
+for i in range(N0-2, -1, -1):
+    data[i] = min(data[2*i+1], data[2*i+2])
+D = [0]*(N+1)
+for i, s in enumerate(sa):
+    D[s] = i
+def query(a, b):
+    L = D[a] + N0; R = D[b] + N0
+    if L > R:
+        L, R = R, L
+    s = N+1
+    while L < R:
+        if R & 1:
+            R -= 1
+            s = min(s, data[R-1])
+ 
+        if L & 1:
+            s = min(s, data[L-1])
+            L += 1
+        L >>= 1; R >>= 1
+    return s

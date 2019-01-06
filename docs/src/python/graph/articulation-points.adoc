@@ -1,7 +1,7 @@
 = 関節点検出
 :title: {doctitle} - {pagetitle}
 
-関節点(articulation point)
+関節点(articulation points)
 
 == 概要
 

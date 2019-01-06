@@ -1,0 +1,34 @@
+= 関節点検出
+:title: {doctitle} - {pagetitle}
+
+関節点(articulation points)
+
+== 概要
+
+無向グラフ$G = (V, E)$における関節点(除去するとグラフが連結でなくなる頂点)を検出する。
+
+DFSでlowlinkを計算しながら関節点を求める。
+
+== 計算量
+
+$O(|V| + |E|)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/graph/articulation_points.cpp[]
+----
+
+=== Verified
+
+- AtCoder: "AtCoder Regular Contest 045 - D問題: みんな仲良し高橋君": link:https://atcoder.jp/contests/arc045/submissions/3930199[source] (C++14, 894ms)
+- AOJ: "GRL_3_A: Connected Components - Articulation Points": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3324597#1[source] (C++14, 0.02sec)
+
+== 参考
+
+- link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3324597#1[AtCoder Regular Contest 045 解説]
+
+***
+
+link:../index.html[戻る]

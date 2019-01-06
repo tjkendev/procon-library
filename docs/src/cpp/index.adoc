@@ -29,6 +29,7 @@
 
 * link:./range_query/bit.html[Binary Indexed Tree]
 * link:./range_query/rmq_segment_tree.html[Range Minimum Query (セグメント木)]
+* link:./range_query/rmq_ruq_segment_tree_lp.html[RMQ and RUQ (遅延評価セグメント木)]
 * link:./range_query/link-cut-tree.html[Link-Cut Tree]
 * link:./range_query/sliding_window_minimum.html[Sliding Window Minimum]
 * link:./convex_hull_trick/li_chao_tree.html[Convex Hull Trick (Li Chao (Segment) Tree)]
@@ -37,6 +38,7 @@
 == グラフ
 
 * link:./graph/scc.html[強連結成分分解]
+* link:./graph/articulation-points.html[関節点検出]
 
 == フロー
 

@@ -105,6 +105,7 @@ Python3で実装しています。
 
 * link:./string/rolling_hash.html[Rolling Hash]
 * link:./string/sa_manber_and_myers.html[Suffix Array (Manber and Myers Algorithm)]
+* link:./string/sa_rolling_hash.html[Suffix Array (Rolling Hash)]
 * link:./string/sa_sa-is.html[Suffix Array (SA-IS)]
 * link:./string/aho-corasick.html[Aho-Corasick Algorithm]
 
