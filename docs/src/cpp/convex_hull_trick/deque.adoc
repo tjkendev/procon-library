@@ -1,0 +1,33 @@
+= Convex Hull Trick (Deque)
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+Dequeを用いてConvex Hull Trickを行うアルゴリズム
+
+蟻本footnote:[プログラミングコンテストチャレンジブック [第2版\] p.304]に載っている。
+
+以下の条件を満たす場合、CHTを線形オーダーで解くことができる。
+
+1. 追加する直線の傾きが単調増加(減少)
+2. 計算する最小値(最大値)の座標$x$が単調増加(減少)
+
+== 計算量
+
+- $N$本の直線追加: $O(N)$
+- $Q$個の座標における最小値: $O(Q)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/convex_hull_trick/deque.cpp[]
+----
+
+=== Verified
+
+* AtCoder: "Educational DP Contest / DP まとめコンテスト - Z問題: Frog 3": link:https://atcoder.jp/contests/dp/submissions/3963619[source] (C++14, 25ms)
+
+***
+
+link:../index.html[戻る]

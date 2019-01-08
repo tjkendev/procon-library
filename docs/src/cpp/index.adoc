@@ -33,6 +33,7 @@
 * link:./range_query/link-cut-tree.html[Link-Cut Tree]
 * link:./range_query/sliding_window_minimum.html[Sliding Window Minimum]
 * link:./convex_hull_trick/li_chao_tree.html[Convex Hull Trick (Li Chao (Segment) Tree)]
+* link:./convex_hull_trick/deque.html[Convex Hull Trick (Deque)]
 * link:./range_query/kd-tree.html[kd-tree (2次元)]
 
 == グラフ
