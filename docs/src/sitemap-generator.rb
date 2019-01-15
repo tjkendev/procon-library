@@ -52,6 +52,6 @@ File.open("#{dest_dir}/sitemap.xml", "w") do |f|
 end
 
 robots_text = generate_robots_text base_url
-File.open("#{dest_dir}/robots.text", "w") do |f|
+File.open("#{dest_dir}/robots.txt", "w") do |f|
   f.puts robots_text
 end
