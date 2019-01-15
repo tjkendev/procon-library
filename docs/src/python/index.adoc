@@ -110,5 +110,9 @@ Python3で実装しています。
 * link:./string/sa_sa-is.html[Suffix Array (SA-IS)]
 * link:./string/aho-corasick.html[Aho-Corasick Algorithm]
 
+== その他
+
+* link:https://gist.github.com/tjkendev/63df75a6831119791ed1a657bc4c1988#file-golf-python2-md[コードゴルフテクニックメモ (gist)]
+
 ***
 link:../index.html[戻る]

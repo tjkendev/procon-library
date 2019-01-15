@@ -33,7 +33,7 @@ docs:
 		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) \
 		-a nofooter \
 		-a attribute-missing=warn --failure-level=WARN
-	@$(SGEN-CMD) $(BASEPATH) $(SRC) > $(DST)/sitemap.xml
+	@$(SGEN-CMD) $(BASEPATH) $(SRC) $(DST)
 
 docs-local:
 	$(CMD) -b $(FMT) -R $(SRC) -D $(DST-LOCAL) $(TARGET) -B $(BASE) \
@@ -44,7 +44,7 @@ docs-local:
 		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) \
 		-a nofooter \
 		-a attribute-missing=warn --failure-level=WARN
-	$(SGEN-CMD) $(BASEPATH) $(SRC) > $(DST-LOCAL)/sitemap.xml
+	$(SGEN-CMD) $(BASEPATH) $(SRC) $(DST-LOCAL)
 
 clean:
 	rm -f ./docs/index.html

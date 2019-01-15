@@ -8,6 +8,12 @@ require 'cgi'
 
 class CustomPage < Extensions::Postprocessor
   def process document, output
+
+    # :no-copy: が定義されている場合はボタンを生成しない
+    if document.attributes['no-copy']
+      return output
+    end
+
     doc = Nokogiri::HTML.parse(output)
 
     # add "Copy to clipboard" button

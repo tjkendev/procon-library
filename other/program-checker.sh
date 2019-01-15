@@ -13,9 +13,9 @@ while :; do
     # failed
     echo "===== input ====="
     cat input.txt
-    echo "===== output1 ====="
+    echo "===== output1 '$prog1' ====="
     echo $out1
-    echo "===== output2 ====="
+    echo "===== output2 '$prog2' ====="
     echo $out2
     break
   fi
