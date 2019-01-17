@@ -9,6 +9,7 @@ docs/python
 docs/cpp
 docs/other
 docs/sitemap.xml
+docs/robots.txt
 
 docs/static/stylesheet
 docs/static/images

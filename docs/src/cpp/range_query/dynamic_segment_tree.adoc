@@ -1,0 +1,33 @@
+= Range Sum Query (動的セグメント木)
+:title: {doctitle} - {pagetitle}
+
+Range Sum Query
+
+動的セグメント木(Dynamic Segment Tree)
+
+== 概要
+
+セグメント木の動的バージョン
+
+大きい区間(区間$[1, 10^9]$等)を扱えたり、メモリ量少なめに区間クエリを処理することができる。
+
+== 計算量
+
+扱う区間のサイズをNとする。(つまり、区間$[1, N]$を扱う動的セグメント木)
+
+- 更新: $O(\log N)$
+- 区間和: $O(\log N)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/range_query/dynamic_segment_tree.cpp[]
+----
+
+=== Verified
+
+* AtCoder: "AtCoder Regular Contest 054 - D問題: バブルソート": link:https://atcoder.jp/contests/arc054/submissions/4032958[source] (C++14, 650ms)
+
+***
+link:../index.html[戻る]
