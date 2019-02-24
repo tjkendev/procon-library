@@ -12,6 +12,18 @@ Range Minimum Query (RMQ)
 
 セグメント木の最も基本的な形。
 
+=== 特殊ケース高速化
+
+以下のケースについては定数倍高速化ができる。
+
+- $a_i$ の値を求める
+- prefix minimum: $a_0, a_1, ..., a_{r-1}$ の最小値を求める
+- suffix minimum: $a_l, a_{l+1}, ..., a_{N-1}$ の最小値を求める
+
+prefix/suffixの最小値は、BITベースで計算することで高速化できる。
+
+前計算では、 link:https://oeis.org/A000265[OEIS - A000265] と link:https://oeis.org/A322250[OEIS - A322250] をベースに計算する。
+
 == 計算量
 
 - 更新: $O(\log N)$
@@ -21,17 +33,28 @@ Range Minimum Query (RMQ)
 
 再帰的なセグメント木計算は、Pythonでは遅い(場合によってはTLEする)ので、再帰しない形で計算している。
 
-- 参考: link:http://d.hatena.ne.jp/komiyam/20131202/1385992406[Segment Treeをちょっと高速化したい - komiyamの日記]
-
 [source, python]
 ----
 include::./python/range_query/rmq_segment_tree.py[]
+----
+
+=== 特殊ケース高速化
+
+前計算として、$O(N)$の処理を行う。
+
+[source, python]
+----
+include::./python/range_query/rmq_segment_tree_special.py[]
 ----
 
 === Verified
 
 * AOJ: "DSL_2_A: Range Query - Range Minimum Query (RMQ)": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158592#1[source] (Python3, 1.22sec)
 * AtCoder: "AtCoder Regular Contest 026 - C問題: 蛍光灯": link:https://atcoder.jp/contests/arc026/submissions/3917069[source] (Python3, 1914ms)
+
+== 参考
+
+- link:http://d.hatena.ne.jp/komiyam/20131202/1385992406[Segment Treeをちょっと高速化したい - komiyamの日記]
 
 ***
 link:../index.html[戻る]

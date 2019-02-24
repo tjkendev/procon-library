@@ -24,6 +24,7 @@ include::./cpp/convex_hull_trick/li_chao_tree.cpp[]
 
 ==== 直線処理
 * yukicoder: "No.703 ゴミ拾い Easy": link:https://yukicoder.me/submissions/296651[source] (C++14, 514ms)
+* AtCoder: "全国統一プログラミング王決定戦本戦 - G問題: Greatest Jorney": link:https://atcoder.jp/contests/nikkei2019-final/submissions/4352791[source] (C++14, 1485ms)
 
 ==== 線分処理
 * yukicoder: "No.704 ゴミ拾い Medium": link:https://yukicoder.me/submissions/297285[source] (C++14, 711ms)

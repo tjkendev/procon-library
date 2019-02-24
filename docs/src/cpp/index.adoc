@@ -15,6 +15,7 @@
 == 幾何
 
 * link:./geometry/segment_line_intersection.html[線分同士の交差判定]
+* link:./geometry/compress.html[座標圧縮]
 
 == 集合
 
