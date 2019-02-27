@@ -43,6 +43,7 @@
 
 * link:./graph/scc.html[強連結成分分解]
 * link:./graph/articulation-points.html[関節点検出]
+* link:./graph/centroid-decomposition.html[重心分解]
 
 == フロー
 
