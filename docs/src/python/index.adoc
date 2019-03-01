@@ -6,7 +6,9 @@ Python3で実装しています。
 == 整数
 
 * link:./math/gcd.html[最大公約数]
+* link:./math/factorial.html[階乗]
 * link:./math/chinese-remainder.html[中国余剰定理]
+* link:./math/baby-step-giant-step.html[Baby-step giant-step]
 
 == 素数
 

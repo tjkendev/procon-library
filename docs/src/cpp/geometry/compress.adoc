@@ -1,6 +1,8 @@
 = 座標圧縮
 :title: {doctitle} - {pagetitle}
 
+座標圧縮 (coordinate compression)
+
 == 概要
 
 $N$個の点、$x_0, x_1, ...,x_{N-1}$に対し、昇順に$0, 1, ..., N-1$を割り当てる。
