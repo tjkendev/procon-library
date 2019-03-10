@@ -53,6 +53,10 @@
 
 * link:./series/kitamasa.html[きたまさ法]
 
+== 多項式/高速フーリエ変換
+
+* link:./fft/fmt.html[Fast Modulo Transform]
+
 == 文字列
 
 * link:./string/aho-corasick.html[Aho-Corasick Algorithm]

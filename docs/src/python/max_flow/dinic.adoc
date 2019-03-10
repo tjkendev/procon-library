@@ -31,6 +31,7 @@ include::./python/max_flow/dinic.py[]
 === Verified
 
 * AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185211#1[source] (Python3, 0.03sec)
+* AtCoder: "早稲田大学プログラミングコンテスト2019 - F問題: RPG": link:https://atcoder.jp/contests/wupc2019/submissions/4538991[source] (Python3, 377ms), link:https://atcoder.jp/contests/wupc2019/submissions/4538971[source] (PyPy3, 511ms)
 
 === Verified (旧実装)
 

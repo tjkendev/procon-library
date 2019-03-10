@@ -96,6 +96,7 @@ Python3で実装しています。
 
 == 行列・数列
 
+* link:./sequence/number_of_inversions.html[反転数]
 * link:./matrix/bit_matrix.html[ビット行列]
 * きたまさ法
 
@@ -112,6 +113,7 @@ Python3で実装しています。
 * link:./string/sa_rolling_hash.html[Suffix Array (Rolling Hash)]
 * link:./string/sa_sa-is.html[Suffix Array (SA-IS)]
 * link:./string/aho-corasick.html[Aho-Corasick Algorithm]
+* link:./string/manacher.html[最長回文 (Manacher's algorithm)]
 
 == その他
 

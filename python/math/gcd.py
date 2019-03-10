@@ -1,4 +1,4 @@
-# gcd(greatest common divisor)
+# gcd (greatest common divisor)
 def gcd(m, n):
     r = m % n
     return gcd(n, r) if r else n
@@ -10,3 +10,7 @@ def extgcd(a, b):
         return d, x, y
     else:
         return a, 1, 0
+
+# lcm (least common multiple)
+def lcm(m, n):
+    return m//gcd(m, n)//n

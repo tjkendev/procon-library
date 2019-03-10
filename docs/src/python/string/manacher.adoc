@@ -1,0 +1,32 @@
+= 最長回文 (Manacher's algorithm)
+:title: {doctitle} - {pagetitle}
+
+最長回文 (Manacher's algorithm)
+
+== 概要
+
+各$i$について、 $S[i-k+1:i+k-1]$ が回文となる最大の$k$を求める。
+
+偶数長を求める場合は、文字と文字の間にダミーの文字を挟むと計算できる。
+
+== 計算量
+
+$O(N)$
+
+== 実装
+
+[source, python]
+----
+include::./python/string/manacher.py[]
+----
+
+=== Verified
+
+* AtCoder: "早稲田大学プログラミングコンテスト2019 - E問題: Artist": link:https://atcoder.jp/contests/wupc2019/submissions/4541727[source] (Python3,  232ms)
+
+== 参考ページ
+
+- link:https://snuke.hatenablog.com/entry/2014/12/02/235837[文字列の頭良い感じの線形アルゴリズムたち２ - あなたは嘘つきですかと聞かれたら「YES」と答えるブログ]
+
+***
+link:../index.html[戻る]
