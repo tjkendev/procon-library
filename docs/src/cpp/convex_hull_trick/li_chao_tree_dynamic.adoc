@@ -1,0 +1,31 @@
+= Convex Hull Trick (Li-Chao (Segment) Tree, 動的セグ木)
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+動的セグメント木上でLi-Chao (Segment) Treeを処理する。
+
+動的セグメント木上で処理することで、座標先読みなしで大きい区間$[0, N\]$に対するConvex Hull Trickの問題を解くことができる。
+
+== 計算量
+
+扱う区間を$[0, N\]$とした時、
+
+- 直線追加: $O(\log N)$
+- 線分追加: $O(\log^2 N)$
+- 最小値計算: $O(\log N)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/convex_hull_trick/li_chao_tree_dynamic.cpp[]
+----
+
+=== Verified
+
+* AtCoder: "早稲田大学プログラミングコンテスト - I問題: Ramen": link:https://atcoder.jp/contests/wupc2019/submissions/4571384[source] (C++14, 1128ms)
+
+***
+
+link:../index.html[戻る]
