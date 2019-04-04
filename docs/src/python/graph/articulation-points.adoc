@@ -1,7 +1,7 @@
 = 関節点検出
 :title: {doctitle} - {pagetitle}
 
-関節点(articulation points)
+関節点(articulation points), 切断点 (cut vertices)
 
 == 概要
 

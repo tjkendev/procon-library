@@ -75,7 +75,7 @@ Python3で実装しています。
 * link:./graph/tree_diameter.html[木の直径]
 * link:./graph/topological_sort.html[トポロジカルソート]
 * link:./graph/scc.html[強連結成分分解]
-* link:./graph/bridge-finding-with-cd.html[橋検出(with chain decompositions)]
+* link:./graph/bridge.html[橋検出]
 * link:./graph/articulation-points.html[関節点検出]
 * link:./graph/min_st_kruskal.html[最小全域木 (クラスカル法)]
 * link:./graph/min_st_prim.html[最小全域木 (プリム法)]
@@ -114,6 +114,7 @@ Python3で実装しています。
 * link:./string/sa_sa-is.html[Suffix Array (SA-IS)]
 * link:./string/aho-corasick.html[Aho-Corasick Algorithm]
 * link:./string/manacher.html[最長回文 (Manacher's algorithm)]
+* link:./string/z-algorithm.html[Z algorithm]
 
 == その他
 

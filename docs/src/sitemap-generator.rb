@@ -7,7 +7,7 @@ base_dir = ARGV[1]
 dest_dir = ARGV[2]
 
 if !base_url || !base_dir || !dest_dir
-  puts "An arguments is invalid!"
+  puts "The arguments are invalid!"
   exit(1)
 end
 

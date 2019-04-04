@@ -1,0 +1,30 @@
+= 橋検出
+:title: {doctitle} - {pagetitle}
+
+橋検出(Bridge-finding)
+
+== 概要
+
+グラフ$G = (V, E)$において橋(除去するとグラフが連結でなくなる辺)を検出する。
+
+== 計算量
+
+$O(|V| + |E|)$
+
+== 実装
+
+グラフ内で橋となる辺(頂点のペア)を返す実装。
+自己辺、多重辺に対応させている。
+
+[source, cpp]
+----
+include::./cpp/graph/bridge.cpp[]
+----
+
+=== Verified
+
+- AOJ: "GRL_3_B - Connected Components": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3446672#1[source] (C++14, 0.00sec)
+
+***
+
+link:../index.html[戻る]

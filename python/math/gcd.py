@@ -13,4 +13,4 @@ def extgcd(a, b):
 
 # lcm (least common multiple)
 def lcm(m, n):
-    return m//gcd(m, n)//n
+    return m//gcd(m, n)*n

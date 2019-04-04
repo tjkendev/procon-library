@@ -1,7 +1,7 @@
-= 橋検出(with chain decompositions)
+= 橋検出
 :title: {doctitle} - {pagetitle}
 
-橋検出(Bridge-finding with chain decompositions)
+橋検出(Bridge-finding)
 
 == 概要
 
@@ -18,14 +18,14 @@ $O(|V| + |E|)$
 
 [source, python]
 ----
-include::./python/graph/bridge-finding-with-cd.py[]
+include::./python/graph/bridge.py[]
 ----
 
 単純にグラフ内で橋となる辺(頂点のペア)を返す実装。
 
 [source, python]
 ----
-include::./python/graph/bridge-finding-with-cd-simple.py[]
+include::./python/graph/bridge-simple.py[]
 ----
 
 ***

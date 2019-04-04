@@ -6,7 +6,13 @@ rfact = [1]*(N+1)
 r = 1
 for i in range(1, N+1):
   fact[i] = r = r * i % MOD
-  rfact[i] = pow(r, MOD-2, MOD)
+rfact[N] = r = pow(fact[N], MOD-2, MOD)
+for i in range(N, 0, -1):
+  rfact[i-1] = r = r * i % MOD
+
+# nPk (mod MOD) を求める
+def perm(n, k):
+  return fact[n] * rfact[n-k] % MOD
 
 # nCk (mod MOD) を求める
 def comb(n, k):

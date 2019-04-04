@@ -1,11 +1,10 @@
-procon-library
-====
+# procon-library
 
-## 概要
+[![Build Status](https://travis-ci.org/tjkendev/procon-library.svg?branch=master)](https://travis-ci.org/tjkendev/procon-library)
 
-競技プログラミングで参照できるテンプレートやライブラリ等の置き場
+競技プログラミング参照用のテンプレートやライブラリ等の置き場
 
-* webページ: [http://tjkendev.github.io/procon-library/](http://tjkendev.github.io/procon-library/)
+* webページ: [https://tjkendev.github.io/procon-library/](http://tjkendev.github.io/procon-library/)
 
 ## コンパイル
 
