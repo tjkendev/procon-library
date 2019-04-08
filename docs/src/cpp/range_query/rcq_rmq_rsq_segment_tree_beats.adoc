@@ -1,0 +1,35 @@
+= 区間chmin, RMQ, and RSQ (Segment tree beats)
+:title: {doctitle} - {pagetitle}
+
+Segment tree beats (range chmin, rmq, and rsq)
+
+== 概要
+
+以下のクエリを処理する
+
+- $a_l, a_{l+1}, ..., a_{r-1}$ の各$a_i$について $\min(a_i, x)$ に更新
+- $a_l, a_{l+1}, ..., a_{r-1}$ の最大値を求める
+- $a_l, a_{l+1}, ..., a_{r-1}$ の総和を求める
+
+== 計算量
+
+- 区間chmin: 各クエリ ならし $O(\log N)$
+- 最大値・総和計算: 各クエリ $O(\log N)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/range_query/rcq_rmq_rsq_segment_tree_beats.cpp[]
+----
+
+=== Verified
+
+* link:http://acm.hdu.edu.cn/showproblem.php?pid=5306[HDOJ: "Gorgeous Sequence"] (G++, 2184ms)
+
+== 参考
+
+* link:https://codeforces.com/blog/entry/57319[A simple introduction to "Segment tree beats"]
+
+***
+link:../index.html[戻る]
