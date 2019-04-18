@@ -20,7 +20,7 @@ Segment tree beats (range chmin, rmq, and rsq)
 
 [source, cpp]
 ----
-include::./cpp/range_query/rcq_rmq_rsq_segment_tree_beats.cpp[]
+include::./cpp/range_query/segment_tree_beats_1.cpp[]
 ----
 
 === Verified
