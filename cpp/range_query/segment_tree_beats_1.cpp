@@ -1,6 +1,4 @@
 #include<algorithm>
-#include<random>
-#include<iostream>
 using namespace std;
 using ll = long long;
 
@@ -12,14 +10,17 @@ class SegmentTree {
   ll max_v[4*N], smax_v[4*N];
   ll sum[4*N], max_c[4*N];
 
+  void update_node_max(int k, ll x) {
+    sum[k] += (x - max_v[k]) * max_c[k];
+    max_v[k] = x;
+  }
+
   void push(int k) {
     if(max_v[k] < max_v[2*k+1]) {
-      sum[2*k+1] += (max_v[k] - max_v[2*k+1]) * max_c[2*k+1];
-      max_v[2*k+1] = max_v[k];
+      update_node_max(2*k+1, max_v[k]);
     }
     if(max_v[k] < max_v[2*k+2]) {
-      sum[2*k+2] += (max_v[k] - max_v[2*k+2]) * max_c[2*k+2];
-      max_v[2*k+2] = max_v[k];
+      update_node_max(2*k+2, max_v[k]);
     }
   }
 
@@ -46,8 +47,7 @@ class SegmentTree {
       return;
     }
     if(a <= l && r <= b && smax_v[k] < x) {
-      sum[k] += (x - max_v[k]) * max_c[k];
-      max_v[k] = x;
+      update_node_max(k, x);
       return;
     }
 
@@ -105,14 +105,17 @@ public:
     for(int i=n0-2; i>=0; i--) update(i);
   }
 
+  // range chmin query
   void update_min(int a, int b, ll x) {
     return _update_min(x, a, b, 0, 0, n0);
   }
 
+  // range maximum query
   ll query_max(int a, int b) {
     return _query_max(a, b, 0, 0, n0);
   }
 
+  // range sum query
   ll query_sum(int a, int b) {
     return _query_sum(a, b, 0, 0, n0);
   }
