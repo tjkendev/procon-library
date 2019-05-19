@@ -23,6 +23,7 @@ include::./python/graph/tree_diameter.py[]
 === Verified
 
 * AOJ: "GRL_5_A: Tree - Diameter of a Tree": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3166311#1[source] (Python3, 0.58sec)
+* AtCoder: "AtCoder Grand Contest 033 - C問題: Removing Coins": link:https://atcoder.jp/contests/agc033/submissions/5270954[source] (Python3, 814ms)
 
 ***
 

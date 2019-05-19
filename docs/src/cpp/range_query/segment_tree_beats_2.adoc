@@ -1,7 +1,7 @@
-= 区間chmin/chmax, RMQ, RSQ, RAQ, RUQ (Segment tree beats)
+= 区間chmin/chmaxクエリ, RMQ, RSQ, RAQ, RUQ (Segment tree beats)
 :title: {doctitle} - {pagetitle}
 
-Segment tree beats (range chmin/chmax, RMQ, RSQ, RAQ, RUQ)
+Segment tree beats (range minimize/maximize query, RMQ, RSQ, RAQ, RUQ)
 
 == 概要
 
@@ -17,7 +17,7 @@ Segment tree beats (range chmin/chmax, RMQ, RSQ, RAQ, RUQ)
 
 == 計算量
 
-- 区間chmin/chmax: 各クエリ ならし $O(\log^2 N)$
+- 区間chminクエリ: $N$ 個の要素に対し $Q$ 回のクエリで $O((N+Q) \log^2 N)$ (ならし計算量)
 - その他のクエリ: 各クエリ $O(\log N)$
 
 == 実装
