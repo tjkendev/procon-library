@@ -17,7 +17,7 @@ Segment tree beats (range minimize/maximize query, RMQ, RSQ, RAQ, RUQ)
 
 == 計算量
 
-- 区間chminクエリ: $N$ 個の要素に対し $Q$ 回のクエリで $O((N+Q) \log^2 N)$ (ならし計算量)
+- 区間chminクエリ: $N$ 個の要素に対し $Q$ 回のクエリで $O(N \log N + M \log^2 N)$ (ならし計算量)
 - その他のクエリ: 各クエリ $O(\log N)$
 
 == 実装
