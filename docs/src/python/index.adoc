@@ -69,7 +69,7 @@ Python3で実装しています。
 * link:./graph/warshall-floyd.html[全点対最短経路(ワーシャルフロイド法)]
 * link:./graph/johnson.html[全点対最短経路(Johnson's Algorithm)]
 * link:./graph/bfs.html[単一始点最短経路(BFS)]
-* 単一始点最短経路(0-1-BFS)
+* link:./graph/01-bfs.html[単一始点最短経路(0-1-BFS)]
 * link:./graph/bellman-ford.html[単一始点最短経路(ベルマンフォード法)]
 * link:./graph/dijkstra.html[単一始点最短経路(ダイクストラ法)]
 * link:./graph/tree_diameter.html[木の直径]

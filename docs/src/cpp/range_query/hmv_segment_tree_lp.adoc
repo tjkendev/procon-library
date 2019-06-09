@@ -1,4 +1,4 @@
-= histric maximal valueのRMQ (遅延セグメント木)
+= histric maximal valueのRMQ (遅延評価セグメント木)
 :title: {doctitle} - {pagetitle}
 
 histric maximal value (histric information) on Segment Tree with Lazy Propagation
@@ -31,8 +31,10 @@ lazy tagの初期値は $(0, -\infty)$ になる。
 - $a_i$ を $x$ に更新するtag: $(-\infty, x)$
 - $a_i$ を $\max(a_i, x)$ に更新するtag: $(0, x)$
 
-あるノードが持つlazy tag $(c, d)$, $(c_H, d_H)$ をpushdownし、子ノードのlazy tag $(a, b)$, $(a_H, b_H)$ とマージすることを考える。
-この時、子ノードのtagは以下のように更新することができる。
+
+tag $(c, d)$, $(c_H, d_H)$ の情報を、あるノードのlazy tag $(a, b)$, $(a_H, b_H)$ へマージすることを考える。
+
+この時、ノードが持つtagは以下のように更新できる。
 
 - $(a, b) \leftarrow (a+c, \max(b+c, d))$
 - $(a_H, b_H) \leftarrow (\max(a_H, a+c_H), \max(b_H, b+c_H, d_H))$

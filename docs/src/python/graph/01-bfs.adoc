@@ -1,0 +1,25 @@
+= 単一始点最短経路(0-1-BFS)
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+グラフ$G = (V, E)$において、辺のコストが全て0もしくは1である場合、0-1-BFSで探索することができる。
+
+== 計算量
+
+$O(N)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/01-bfs.py[]
+----
+
+=== Verified
+
+* AtCoder: "AtCoder Begineer Contest 077 - D問題: Small Multiple": link:https://atcoder.jp/contests/abc077/submissions/5829348[source] (Python3, 230ms)
+
+***
+
+link:../index.html[戻る]
