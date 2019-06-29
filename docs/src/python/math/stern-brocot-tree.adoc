@@ -1,0 +1,33 @@
+= Stern-Brocot Tree
+:title: {doctitle} - {pagetitle}
+
+シュターン-ブロコ木 (Stern-Brocot Tree)
+
+== 概要
+
+各頂点に有理数が紐づく、無限に続く二分木。
+
+- 各頂点には開区間が紐づく
+- 根頂点は 区間$(0/1, 1/0)$ が紐づく
+- $(a/b, c/d)$ の左右の子頂点は $(a/b, (a+c)/(b+d))$ と $((a+c)/(b+d), c/d)$ が紐づく
+
+== 実装
+
+$a, b, c, d \le n$ を満たす中で $\sqrt{p}$ に最も近い2つの分数 $a/b < \sqrt{p}$ と $ \sqrt{p} < c/d$ を求める。
+
+[source, python]
+----
+include::./python/math/stern-brocot-tree.py[]
+----
+
+=== Verified
+
+* AOJ: "1208: Rational Irrationals": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3665739#1[source] (Python3, 0.07sec)
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/Stern%E2%80%93Brocot_tree[Stern–Brocot tree - Wikipedia]
+* link:http://www.prefield.com/algorithm/math/stern_brocot_tree.html[Stern-Brocot木 - Spaghetti Source]
+
+***
+link:../index.html[戻る]
