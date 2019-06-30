@@ -6,6 +6,7 @@
 == テンプレート
 
 * link:./template/main.html[実装テンプレート]
+* link:./template/fast_io.html[高速I/O処理]
 
 == 数学
 

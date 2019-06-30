@@ -1,0 +1,31 @@
+= 高速I/O処理
+:title: {doctitle} - {pagetitle}
+
+高速で入出力を行うためのクラス
+
+入出力が大量に存在する場合に高速化したい場合に検討する
+
+== cinまわりの高速化
+
+[source, cpp]
+----
+ios_base::sync_with_stdio(false);
+cin.tie(0);
+----
+
+== 実装: Buffered I/O
+
+stdin, stdoutのバッファを直に行い高速に入出力を処理
+
+[source, cpp]
+----
+include::./cpp/template/fast_io.cpp[]
+----
+
+== 参考
+
+- link:https://codeforces.com/blog/entry/8080[Fast IO c++ - codeforces]
+
+***
+
+link:../index.html[戻る]
