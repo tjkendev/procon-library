@@ -15,7 +15,7 @@ cin.tie(0);
 
 == 実装: Buffered I/O
 
-stdin, stdoutのバッファを直に行い高速に入出力を処理
+stdin, stdoutのバッファを直に管理し高速に入出力を処理
 
 [source, cpp]
 ----

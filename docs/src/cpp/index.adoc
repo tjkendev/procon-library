@@ -50,6 +50,7 @@
 * link:./graph/bridge.html[橋検出]
 * link:./graph/articulation-points.html[関節点検出]
 * link:./graph/centroid-decomposition.html[重心分解]
+* link:./graph/lca-doubling.html[最小共通祖先 (ダブリング)]
 
 == フロー
 
