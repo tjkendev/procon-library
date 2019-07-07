@@ -1,0 +1,24 @@
+= インタラクティブ
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+インタラクティブな問題に対する入出力
+
+以下の処理を行う
+
+- 標準出力
+- 出力バッファをflush
+- ジャッジから標準入力を受け取る
+
+== 実装
+
+`sys` モジュールの `stdin` と `stdout` から入出力を行うとよい
+
+[source, python]
+----
+include::./python/template/interactive.py[]
+----
+
+***
+link:../index.html[戻る]

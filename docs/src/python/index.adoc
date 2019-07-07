@@ -3,6 +3,10 @@
 
 Python3で実装しています。
 
+== テンプレート
+
+* link:./template/interactive.html[インタラクティブ]
+
 == 整数・有理数
 
 * link:./math/gcd.html[最大公約数]
