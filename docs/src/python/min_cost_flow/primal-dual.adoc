@@ -36,7 +36,7 @@ include::./python/min_cost_flow/primal-dual_bf.py[]
 
 === 計算量
 
-$O(F |E| \log |V|)$ or $O(F |V|^2)$
+$O(F |E| \log |V|)$
 
 === 実装
 

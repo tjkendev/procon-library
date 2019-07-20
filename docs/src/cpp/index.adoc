@@ -55,6 +55,7 @@
 == フロー
 
 * link:./max_flow/dinic.html[最大フロー (Dinic's Algorithm)]
+* link:./min_cost_flow/primal-dual.html[最小費用流問題 (Primal Dual Algorithm)]
 
 == 行列・数列
 
