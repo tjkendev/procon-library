@@ -1,5 +1,6 @@
 = 実装メモ (C++)
 :title: {doctitle} - {pagetitle}
+:canonical: cpp/index.html
 
 実装は基本的に実装テンプレートをベースに実装してます。
 
