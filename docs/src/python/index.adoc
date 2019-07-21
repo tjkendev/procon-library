@@ -1,6 +1,5 @@
 = 実装メモ (Python)
 :title: {doctitle} - {pagetitle}
-:canonical: python/index.html
 
 Python3で実装しています。
 

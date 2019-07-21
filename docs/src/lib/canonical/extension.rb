@@ -34,6 +34,8 @@ class Canonical < Extensions::Postprocessor
       return add_canonical document, output, url
     end
 
-    return output
+    # canonicalが未指定 -> サイトのURLをそのまま指定
+    url = document.attributes['relpath']
+    return add_canonical document, output, url
   end
 end
