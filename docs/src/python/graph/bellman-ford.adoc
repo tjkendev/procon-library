@@ -1,4 +1,4 @@
-= 全点対最短経路(ベルマンフォード法)
+= 単一始点最短経路 (ベルマンフォード法)
 :title: {doctitle} - {pagetitle}
 
 ベルマンフォード法 (Bellman-Ford Algorithm)

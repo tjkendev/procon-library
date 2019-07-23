@@ -77,6 +77,7 @@ Python3で実装しています。
 * link:./graph/01-bfs.html[単一始点最短経路(0-1-BFS)]
 * link:./graph/bellman-ford.html[単一始点最短経路(ベルマンフォード法)]
 * link:./graph/dijkstra.html[単一始点最短経路(ダイクストラ法)]
+* link:./graph/desopo-pape.html[単一始点最短経路(D'Esopo-Pape Algorithm)]
 * link:./graph/tree_diameter.html[木の直径]
 * link:./graph/topological_sort.html[トポロジカルソート]
 * link:./graph/scc.html[強連結成分分解]
