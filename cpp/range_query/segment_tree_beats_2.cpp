@@ -268,12 +268,12 @@ public:
     }
   }
 
-  // range chmin query
+  // range minimize query
   void update_min(int a, int b, ll x) {
     _update_min(x, a, b, 0, 0, n0);
   }
 
-  // range chmax query
+  // range maximize query
   void update_max(int a, int b, ll x) {
     _update_max(x, a, b, 0, 0, n0);
   }

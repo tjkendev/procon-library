@@ -1,0 +1,21 @@
+= 凸包 (Graham Scan)
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+凸包をGraham Scanで求める
+
+計算量は$O(N \log N)$
+
+[source, cpp]
+----
+include::./cpp/geometry/graham_scan.cpp[]
+----
+
+=== Verified
+
+- AOJ: "CGL_4_A: Convex Polygon - Convex Hull": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3778824#1[source] (C++14, 0.10sec)
+
+***
+
+link:../index.html[戻る]
