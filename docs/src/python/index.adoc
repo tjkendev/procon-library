@@ -37,6 +37,7 @@ Python3で実装しています。
 * link:./geometry/graham_scan.html[凸包(Graham Scan)]
 * link:./geometry/rotating_calipers.html[最遠点対(キャリパー法)]
 * link:./geometry/closest_pair.html[最近点対(分割統治法)]
+* link:./geometry/compress.html[座標圧縮]
 
 == 集合
 
