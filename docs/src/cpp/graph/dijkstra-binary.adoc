@@ -1,0 +1,27 @@
+= 単一始点最短経路 (ダイクストラ法, 二分ヒープ)
+:title: {doctitle} - {pagetitle}
+
+二分ヒープによるダイクストラ法 (Dijkstra's Algorithm with Binary Heap)
+
+== 概要
+
+単一始点最短経路問題を解くアルゴリズム。
+到達するまでのコストが小さい方からコストを伝搬させていく。
+
+== 計算量
+
+$O((|E| + |V|) \log |V|)$
+
+== 実装
+[source, cpp]
+----
+include::./cpp/graph/dijkstra-binary.cpp[]
+----
+
+=== Verified
+
+* AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3793230#1[source] (C++14, 0.20sec)
+
+***
+
+link:../index.html[戻る]

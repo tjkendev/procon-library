@@ -47,6 +47,7 @@
 
 == グラフ
 
+* link:./graph/dijkstra-binary.html[単一始点最短経路(ダイクストラ法, 二分ヒープ)]
 * link:./graph/scc.html[強連結成分分解]
 * link:./graph/bridge.html[橋検出]
 * link:./graph/articulation-points.html[関節点検出]

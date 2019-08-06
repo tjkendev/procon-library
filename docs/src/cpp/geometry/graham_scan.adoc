@@ -5,7 +5,11 @@
 
 凸包をGraham Scanで求める
 
-計算量は$O(N \log N)$
+== 計算量
+
+$O(N \log N)$
+
+== 実装
 
 [source, cpp]
 ----
