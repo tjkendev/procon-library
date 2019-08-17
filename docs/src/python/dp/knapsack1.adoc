@@ -1,0 +1,103 @@
+= ナップザック問題 (重みが小さいケース)
+:title: {doctitle} - {pagetitle}
+
+Knapsack Problem
+
+== 概要
+
+以下のような問題
+
+- $N$種類の品物がある
+- $i$番目の品物の価値は$v_i$, 容量は$w_i$, 個数は$c_i$
+- 重さの総和$W$まで入るナップザックに入れる
+- ナップザックに入る品物の価値を最大化する
+
+== 0-1ナップザック問題: $O(NW)$
+
+制約の一例は以下
+
+****
+- $1 \le N \le 100$
+- $1 \le W \le 10^4$
+- $1 \le v_i \le 10^9$
+- $1 \le w_i \le 10^4$
+- $c_i = 1$
+****
+
+基本的な制約。
+
+一次配列を用いたdpで、インデックス逆から回す。
+
+[source, python]
+----
+include::./python/dp/knapsack1-1.py[]
+----
+
+=== Verified
+
+- AOJ: "DPL_1_B: Combinatorial - 0-1 Knapsack Problem": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812183#1[source] (Python3, 0.52sec)
+
+== 個数制限なしナップザック問題: $O(NW)$
+
+制約の一例は以下
+
+****
+- $1 \le N \le 100$
+- $1 \le W \le 10^4$
+- $1 \le v_i \le 10^9$
+- $1 \le w_i \le 10^4$
+- ($c_i$ は無制限)
+****
+
+一次配列を用いたdpで、インデックス順に回せばよい。
+
+[source, python]
+----
+include::./python/dp/knapsack1-2.py[]
+----
+
+=== Verified
+
+- AOJ: "DPL_1_C: Combinatorial - Knapsack Problem": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812191#1[source] (Python3, 0.55sec)
+
+== 個数制限付きナップザック問題: $O(NW)$
+
+制約の一例は以下
+
+****
+- $1 \le N \le 100$
+- $1 \le W \le 10^4$
+- $1 \le v_i \le 10^9$
+- $1 \le w_i \le 10^4$
+- $1 \le c_i \le 10^9$
+****
+
+dequeを用いたSliding Window Maximumを利用した解法 +
+各 $0 \le k < w_i$ ごとに $m_i$ 個前までの価値の最大値を管理しながら、重さが $k + w_i \cdot j$ の時の価値の最大値を計算する。
+
+[source, python]
+----
+include::./python/dp/knapsack2-1.py[]
+----
+
+=== Verified
+
+- AOJ: "DPL_1_G: Combinatorial - Knapsack Problem with Limitations": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812207#1[source] (Python3, 1.46sec)
+
+== 個数制限付きナップザック問題: $O(NW \log \max_i c_i)$
+
+各品物を $c_i = 2^0 + 2^1 + ... + 2^{k-1} + 2^k + R$ ($R \le 2^{k+1}$) という感じに分け、 +
+分けた品物ごとに1つの品物($A$個の品物は 重さ $w_i \cdot A$, 価値 $v_i \cdot A$ の1つの品物)とみなすことで、 +
+品物が $O(N \log \max_i c_i)$ 個の0-1ナップザック問題として解くことができる。
+
+[source, python]
+----
+include::./python/dp/knapsack2-2.py[]
+----
+
+=== Verified
+
+- AOJ: "DPL_1_G: Combinatorial - Knapsack Problem with Limitations": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3814886#1[source] (Python3, 4.32sec)
+
+***
+link:../index.html[戻る]

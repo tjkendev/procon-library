@@ -7,3 +7,6 @@ def compress(arr):
 
 # 1行バージョン
 compress2 = lambda arr: {e: i for i, e in enumerate(sorted(set(arr)))}
+
+# 直に座標圧縮する場合
+compress3 = lambda arr: list(map({e: i for i, e in enumerate(sorted(set(arr)))}.__getitem__, arr))

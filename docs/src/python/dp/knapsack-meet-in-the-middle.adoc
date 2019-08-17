@@ -1,0 +1,45 @@
+= 0-1ナップザック問題 (半分全列挙)
+:title: {doctitle} - {pagetitle}
+
+Knapsack Problem (Meet in the middle)
+
+== 概要
+
+以下のような問題
+
+- $N$種類の品物がある
+- $i$番目の品物の価値は$v_i$, 容量は$w_i$
+- 重さの総和$W$まで入るナップザックに入れる
+- ナップザックに入る品物の価値を最大化する
+
+- 制約の一例は以下
+****
+- $1 \le N \le 40$
+- $1 \le W \le 10^{15}$
+- $1 \le v_i \le 10^{15}$
+- $1 \le w_i \le 10^{15}$
+****
+
+$N$が小さいため、半分全列挙で解く問題。
+
+品物を半分に分けて全列挙($O(2^{N/2})$)した上で、
+２つの集合について、一方は小さい方からでもう一方は大きい方から、
+重さが$W$以下になるようにスライドさせながら価値の最大値を求める。
+
+== 計算量
+
+$O(2^{N/2})$
+
+== 実装
+
+[source, python]
+----
+include::./python/dp/knapsack5.py[]
+----
+
+=== Verified
+
+- AOJ: "DPL_1_H: Combinatorial - Huge Knapsack Problem": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176389#1[source] (Python3, 4.32sec)
+
+***
+link:../index.html[戻る]

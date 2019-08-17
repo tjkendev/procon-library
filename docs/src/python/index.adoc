@@ -26,6 +26,12 @@ Python3で実装しています。
 
 * link:./combinatorics/twelvefold-way.html[写像12相]
 
+== 動的計画法
+
+* link:./dp/knapsack1.html[ナップザック問題 (重みが小さいケース)]
+* link:./dp/knapsack2.html[ナップザック問題 (価値が小さいケース)]
+* link:./dp/knapsack-meet-in-the-middle.html[0-1ナップザック問題 (半分全列挙)]
+
 == 幾何
 
 * link:./geometry/polygon_area.html[多角形の面積]
