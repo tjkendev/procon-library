@@ -28,9 +28,11 @@ Python3で実装しています。
 
 == 動的計画法
 
-* link:./dp/knapsack1.html[ナップザック問題 (重みが小さいケース)]
-* link:./dp/knapsack2.html[ナップザック問題 (価値が小さいケース)]
-* link:./dp/knapsack-meet-in-the-middle.html[0-1ナップザック問題 (半分全列挙)]
+* link:./dp/knapsack1.html[ナップサック問題 (重みが小さいケース)]
+* link:./dp/knapsack2.html[ナップサック問題 (価値が小さいケース)]
+* link:./dp/knapsack-meet-in-the-middle.html[0-1ナップサック問題 (半分全列挙)]
+* link:./dp/lis.html[最長部分増加列]
+* link:./dp/lcs.html[最長共通部分列]
 
 == 幾何
 

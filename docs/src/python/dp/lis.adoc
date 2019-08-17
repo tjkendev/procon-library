@@ -1,0 +1,36 @@
+= 最長増加部分列
+:title: {doctitle} - {pagetitle}
+
+Longest Increasing Subsequence
+
+== 概要
+
+以下のような問題
+
+- 長さ$N$の数列がある
+- $a_{i_1} < a_{i_2} < ... < a_{i_k}$ となる $i_1 < i_2 < ... < i_k$ の中で、$k$の最大値を求める
+
+以下のようなDPを考える。
+
+- $dp[k\] := $長さkとなるLISの中で、列最後の要素の最小値
+
+そして、$dp[j\] < a_i$ となる最大のjを二分探索で見つけ、
+$dp[j+1\] = \min(a_i, dp[j+1\])$ で更新していく。
+
+== 計算量
+
+$O(N \log N)$
+
+== 実装
+
+[source, python]
+----
+include::./python/dp/lis.py[]
+----
+
+=== Verified
+
+- AOJ: "DPL_1_D: Combinatorial - Longest Increasing Subsequence": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3815153#1[source] (Python3, 0.12sec)
+
+***
+link:../index.html[戻る]

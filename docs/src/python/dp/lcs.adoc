@@ -1,0 +1,41 @@
+= 最長共通部分列
+:title: {doctitle} - {pagetitle}
+
+Longest Common Subsequence
+
+== 概要
+
+以下のような問題
+
+- 長さ$N$の文字列$S$と長さ$M$の文字列$T$がある
+- 文字列$S$と文字列$T$の共通部分列の中で、最長となる長さ、もしくは部分文字列を求めよ
+
+以下のようなDPを考える。
+
+- $dp[i\][j\] :=$ $S$のi文字目、$T$のj文字目からの最長部分文字列の長さ
+
+復元は $i = j = 0$ から始め、
+
+- $S_i = T_j$ の時は解にその文字を追加し、$i \leftarrow i + 1$, $j \leftarrow j + 1$ に遷移
+- それ以外は $dp[i+1\][j\]$, $dp[i\][j+1\]$ の内、 $dp[i\][j\]$ と等しくなる方の遷移
+
+という感じで処理すればよい
+
+== 計算量
+
+$O(NM)$
+
+== 実装
+
+[source, python]
+----
+include::./python/dp/lcs.py[]
+----
+
+=== Verified
+
+- AtCoder: "Educational DP Contest - F問題: LCS": link:https://atcoder.jp/contests/dp/submissions/6952563[source] (PyPy3, 458ms)
+
+
+***
+link:../index.html[戻る]
