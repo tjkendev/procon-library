@@ -17,7 +17,7 @@ $O(\alpha(n))$
 
 (ただし、$\alpha$はアッカーマン関数の逆関数)
 
-== 実装
+== 実装 (Linking by index)
 
 [source, cpp]
 ----

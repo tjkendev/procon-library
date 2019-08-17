@@ -1,7 +1,7 @@
 = 最長共通部分列
 :title: {doctitle} - {pagetitle}
 
-Longest Common Subsequence
+最長共通部分列 (Longest Common Subsequence ,LCS)
 
 == 概要
 

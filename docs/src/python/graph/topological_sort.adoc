@@ -1,7 +1,7 @@
 = トポロジカルソート
 :title: {doctitle} - {pagetitle}
 
-トポロジカルソート(Topological sort)
+トポロジカルソート(Topological sorting)
 
 == 概要
 

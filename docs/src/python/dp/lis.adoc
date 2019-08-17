@@ -1,7 +1,7 @@
 = 最長増加部分列
 :title: {doctitle} - {pagetitle}
 
-Longest Increasing Subsequence
+最長増加部分列 (Longest Increasing Subsequence, LIS)
 
 == 概要
 

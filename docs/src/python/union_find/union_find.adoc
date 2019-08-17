@@ -1,6 +1,8 @@
 = 素集合データ構造 (Union-Find)
 :title: {doctitle} - {pagetitle}
 
+素集合データ構造 (Union-Find data structure, Disjoint-set data structure)
+
 == 概要
 
 Union-Findでは以下の操作を行うことができる
@@ -13,16 +15,48 @@ $find(u) = find(v)$であればuとvは同じグループに属することが�
 
 == 計算量
 
-$O(\alpha(n))$
+以下を行うことにより $O(\alpha(n))$ になる。 ($\alpha$はアッカーマン関数の逆関数)
 
-(ただし、$\alpha$はアッカーマン関数の逆関数)
+- rankもしくはsizeによるマージ先の選択
+- 経路圧縮
 
-== 実装
+片方のみだと $O(\log n)$ になる。
+
+== 実装 (Union by rank)
+
+rankによってマージ先を選択する実装
 
 [source, python]
 ----
-include::./python/union_find/union_find.py[]
+include::./python/union_find/union_find_by_rank.py[]
 ----
+
+== 実装 (Union by size)
+
+size(集合のサイズ)によってマージ先を選択する実装
+
+[source, python]
+----
+include::./python/union_find/union_find_by_size.py[]
+----
+
+== 実装 (Linking by index)
+
+シンプルなUnion-Find実装。
+
+インデックスの若い方を親にしてマージする実装 +
+計算量的には "by size" と同じになることが示せる。しかし、実際の処理では少しだけ遅くなる(rootの呼ばれる回数が多くなる)。
+
+シンプルな実装であるため、Pythonではちょっと高速になることが多い。(PyPyではby rankの方が高速)
+
+[source, python]
+----
+include::./python/union_find/union_find_by_index.py[]
+----
+
+== 参考
+
+- link:https://cp-algorithms.com/data_structures/disjoint_set_union.html[Disjoint Set Union - CP-Algorithms]
 
 ***
 link:../index.html[戻る]
