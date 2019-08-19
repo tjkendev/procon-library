@@ -1,0 +1,36 @@
+= 単一始点最短経路 (SPFA)
+:title: {doctitle} - {pagetitle}
+
+Shortest Path Faster Algorithm (SPFA)
+
+== 概要
+
+重み付きグラフ$G = (V, E)$ の始点 $v_s$ から各頂点 $v_t$ への最短距離を求める。 +
+辺のコストに負が含まれていても正しく動き、負閉路も検出することができる。
+
+ベルマンフォード法よりも高速に動作することが期待できる。
+
+== 計算量
+
+$O(|V||E|)$
+
+== 実装
+
+Small Label First を用いた実装
+
+[source, python]
+----
+include::./python/graph/spfa.py[]
+----
+
+=== Verified
+
+* AOJ: "GRL_1_B: Shortest Path - Single Source Shortest Path (Negative Edges)": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3818981#1[source] (Python3, 0.03sec)
+
+== 参考
+
+- link:https://en.wikipedia.org/wiki/Shortest_Path_Faster_Algorithm[Shortest Path Faster Algorithm - Wikipedia]
+- link:https://stackoverflow.com/questions/18007979/detecting-negative-cycles-using-spfa-algorithm[Detecting negative cycles using SPFA algorithm - stack overflow]
+
+***
+link:../index.html[戻る]
