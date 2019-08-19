@@ -14,7 +14,14 @@ Rolling Hashは文字列のハッシュによって文字列比較を高速に�
 include::./python/string/rolling_hash.py[]
 ----
 
-Rolling HashはHack可能なコンテストで使うと、ハッシュが衝突する入力で落とされる可能性がある。それに対応するため、乱数を使って狙って衝突させにくくした実装。
+=== Verified
+
+* AOJ: "ALDS1_14_B: String Search - String Search": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3818944#1[source] (Python3, 1.88sec)
+
+== 実装 (mod の乱数化)
+
+Rolling HashはHack可能なコンテストで使うと、ハッシュが衝突する入力で落とされる可能性がある。 +
+これに対応するため、乱数を使って狙って衝突させにくくした実装。
 [source, python]
 ----
 include::./python/string/random_rolling_hash.py[]

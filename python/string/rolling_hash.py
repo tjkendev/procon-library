@@ -1,23 +1,37 @@
 # 1-dimension Rolling Hash
-class RollingHash:
-    def __init__(self, s, base, MOD):
-        self.s = s
-        self.l = l = len(s)
-        self.base = base
-        self.MOD = MOD
-        self.h = h = [0]*(l + 1)
+class RollingHash():
+    def __init__(self, s, base, mod):
+        self.mod = mod
+        self.pw = pw = [1]*(len(s)+1)
+
+        l = len(s)
+        self.h = h = [0]*(l+1)
+
+        v = 0
         for i in range(l):
-            h[i+1] = (h[i] * base + ord(s[i])) % MOD
+            h[i+1] = v = (v * base + ord(s[i])) % mod
+        v = 1
+        for i in range(l):
+            pw[i+1] = v = v * base % mod
     def get(self, l, r):
-        MOD = self.MOD
-        return (self.h[r] - self.h[l]*pow(self.base, r-l, MOD)) % MOD
+        return (self.h[r] - self.h[l] * self.pw[r-l]) % self.mod
 
 # 非クラス版
-def rolling_hash(s, base, MOD):
+base = 37; mod = 10**9 + 9
+pw = None
+def rolling_hash(s):
     l = len(s)
     h = [0]*(l + 1)
+    v = 0
     for i in range(l):
-        h[i+1] = (h[i] * base + ord(s[i])) % MOD
+        h[i+1] = v = (v * base + ord(s[i])) % mod
     return h
-def get(h, l, r, base, MOD):
-    return (h[r] - h[l]*pow(base, r-l, MOD)) % MOD
+# RH前に、必要な長さの最大値分のpow-tableを計算しておく
+def setup_pw(l):
+    global pw
+    pw = [1]*(l + 1)
+    v = 1
+    for i in range(l):
+        pw[i+1] = v = v * base % mod
+def get(h, l, r):
+    return (h[r] - h[l] * pw[r-l]) % mod
