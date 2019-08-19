@@ -1,0 +1,22 @@
+= Suffix Array (Manber and Myers Algorithm)
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+ダブリングしながら、Suffix Arrayを計算する。
+
+== 計算量
+
+$O(N \log^2 N)$
+
+== 実装
+
+蟻本ベース実装
+
+[source, cpp]
+----
+include::./cpp/string/sa_manber_and_myers.cpp[]
+----
+
+***
+link:../index.html[戻る]

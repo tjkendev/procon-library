@@ -1,0 +1,27 @@
+= Rolling Hash
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+Rolling Hashは文字列$S$のハッシュによって文字列比較を高速に行う。
+
+ハッシュは衝突する可能性もある。衝突させにくくするには、複数のハッシュを計算して比較する等をすればよい。
+
+== 計算量
+
+- 構築: $O(|S|)$
+- ハッシュ計算: $O(1)$
+
+== 実装
+
+[source, python]
+----
+include::./cpp/string/rolling_hash.cpp[]
+----
+
+=== Verified
+
+- AOJ: "ALDS1_14_B: String Search - String Search": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3817171#1[source] (C++14, 0.96sec)
+
+***
+link:../index.html[戻る]
