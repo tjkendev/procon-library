@@ -95,6 +95,7 @@ Python3で実装しています。
 * link:./graph/articulation-points.html[関節点検出]
 * link:./graph/min_st_kruskal.html[最小全域木 (クラスカル法)]
 * link:./graph/min_st_prim.html[最小全域木 (プリム法)]
+* link:./graph/binarization-mst.html[最小全域木の二分木変換]
 * link:./graph/chu-liu-edmonds.html[最小全域有向木 (Chu-Liu/Edmonds' Algorithm)]
 * link:./graph/lca-doubling.html[最小共通祖先 (ダブリング)]
 * link:./graph/lca-segment-tree.html[最小共通祖先 (セグメント木)]
