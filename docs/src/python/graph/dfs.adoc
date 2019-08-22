@@ -1,0 +1,32 @@
+= 深さ優先探索
+:title: {doctitle} - {pagetitle}
+
+深さ優先探索 (Depth First Search, DFS)
+
+== 概要
+
+再帰、もしくはstackを用いたLIFO(Last-In First-Out)順の探索を行う。
+
+== 計算量
+
+$O(|V| + |E|)$
+
+== 実装 (再帰関数)
+
+[source, python]
+----
+include::./python/graph/dfs_rec.py[]
+----
+
+== 実装 (stack)
+
+``A, B1, B2, C, D, E`` は上記の関数再帰実装のものと対応する。
+
+[source, python]
+----
+include::./python/graph/dfs_stack.py[]
+----
+
+***
+
+link:../index.html[戻る]

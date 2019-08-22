@@ -80,6 +80,7 @@ Python3で実装しています。
 
 == グラフ
 
+* link:./graph/dfs.html[深さ優先探索]
 * link:./graph/warshall-floyd.html[全点対最短経路(ワーシャルフロイド法)]
 * link:./graph/johnson.html[全点対最短経路(Johnson's Algorithm)]
 * link:./graph/bfs.html[単一始点最短経路(BFS)]
