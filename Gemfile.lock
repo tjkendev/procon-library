@@ -11,9 +11,9 @@ GEM
     concurrent-ruby (1.1.3)
     htmlentities (4.3.4)
     json (2.1.0)
-    mini_portile2 (2.3.0)
-    nokogiri (1.8.5)
-      mini_portile2 (~> 2.3.0)
+    mini_portile2 (2.4.0)
+    nokogiri (1.10.4)
+      mini_portile2 (~> 2.4.0)
     opal (0.6.3)
       source_map
       sprockets
