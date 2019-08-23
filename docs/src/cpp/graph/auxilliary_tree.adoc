@@ -32,14 +32,14 @@ Euler Tour TechniqueとSegment Treeを用いた場合
 
 == 実装 (ETT + Sparse Table)
 
-[source, python]
+[source, cpp]
 ----
-include::./python/graph/auxilliary_tree.py[]
+include::./cpp/graph/auxilliary_tree.cpp[]
 ----
 
 === Verified
 
-* Codeforces: "613D: Kingdom and its Cities": link:https://codeforces.com/contest/613/submission/59250663[source] (PyPy3, 920ms)
+* Codeforces: "613D: Kingdom and its Cities": link:https://codeforces.com/contest/613/submission/59363996[source] (C++14, 576ms)
 
 ***
 link:../index.html[戻る]
