@@ -1,11 +1,11 @@
-= Baby-step giant-step
+= 離散対数問題 (Baby-step giant-step)
 :title: {doctitle} - {pagetitle}
 
 Baby-step Giant-step
 
 == 概要
 
-離散対数問題を解くアルゴリズム。
+離散対数問題(Discrete Logarithm Problem)を解くアルゴリズム。
 
 ある$X, Y, M$ について $X^K \equiv Y$ (mod $M$) となる $K$ を求める。
 

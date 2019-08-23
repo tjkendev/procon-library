@@ -1,14 +1,16 @@
-// gcd(greatest common divisor)
+using ll = long long;
+
+// Euclidean Algorithm
 ll gcd(ll m, ll n) {
   ll r = m % n;
   return r ? gcd(n, r) : n;
 }
 
-// extgcd(a, b, x, y)
-// -> a*x + b*y = d を満たす
+// Extended Euclidean Algorithm
+// - extgcd(a, b, x, y) -> a*x + b*y = d を満たす
 ll extgcd(ll a, ll b, ll &x, ll &y) {
   if(b) {
-    d = extgcd(b, a%b, y, x);
+    ll d = extgcd(b, a%b, y, x);
     y -= (a/b)*x;
     return d;
   }

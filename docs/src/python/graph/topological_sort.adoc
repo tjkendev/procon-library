@@ -1,4 +1,4 @@
-= トポロジカルソート
+= トポロジカルソート (Kahn's Algorithm)
 :title: {doctitle} - {pagetitle}
 
 トポロジカルソート(Topological sorting)
@@ -7,7 +7,7 @@
 
 トポロジカルソートは、DAGなグラフ$G = (V, E)$のトポロジカル順序を求める。
 
-Kahn's Algorithmでの実装。
+Kahn's Algorithmでは、incoming edgeがなくなった辺からqueueに入れて順序を決定する。
 
 == 計算量
 

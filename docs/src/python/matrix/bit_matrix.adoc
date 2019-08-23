@@ -1,4 +1,4 @@
-= ビット行列
+= ビット行列 (Bit-Parallel Algorithm)
 :title: {doctitle} - {pagetitle}
 
 == 概要

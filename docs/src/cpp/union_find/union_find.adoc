@@ -1,6 +1,8 @@
 = 素集合データ構造 (Union-Find)
 :title: {doctitle} - {pagetitle}
 
+素集合データ構造 (Union-Find data structure, Disjoint-set data structure)
+
 == 概要
 
 Union-Findでは以下の操作を行うことができる

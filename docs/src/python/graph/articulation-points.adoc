@@ -1,4 +1,4 @@
-= 関節点検出
+= 関節点検出 (LowLink)
 :title: {doctitle} - {pagetitle}
 
 関節点(articulation points), 切断点 (cut vertices)

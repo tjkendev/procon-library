@@ -10,13 +10,13 @@
 
 == 数学
 
-* link:./math/gcd.html[最大公約数]
+* link:./math/gcd.html[最大公約数 ((拡張)ユークリッドの互除法)]
 * link:./math/pow.html[繰り返し二乗法]
 
 == 幾何
 
 * link:./geometry/segment_line_intersection.html[線分同士の交差判定]
-* link:./geometry/graham_scan.html[凸包(Graham Scan)]
+* link:./geometry/graham_scan.html[凸包 (Graham Scan)]
 * link:./geometry/compress.html[座標圧縮]
 
 == 集合
@@ -47,11 +47,11 @@
 
 == グラフ
 
-* link:./graph/dijkstra-binary.html[単一始点最短経路(ダイクストラ法, 二分ヒープ)]
-* link:./graph/dijkstra-fibonacci.html[単一始点最短経路(ダイクストラ法, フィボナッチヒープ)]
-* link:./graph/scc.html[強連結成分分解]
+* link:./graph/dijkstra-binary.html[単一始点最短経路 (ダイクストラ法, 二分ヒープ)]
+* link:./graph/dijkstra-fibonacci.html[単一始点最短経路 (ダイクストラ法, フィボナッチヒープ)]
+* link:./graph/scc.html[強連結成分分解 (Kosaraju's Algorithm)]
 * link:./graph/bridge.html[橋検出]
-* link:./graph/articulation-points.html[関節点検出]
+* link:./graph/articulation-points.html[関節点検出 (LowLink)]
 * link:./graph/centroid-decomposition.html[重心分解]
 * link:./graph/lca-doubling.html[最小共通祖先 (ダブリング)]
 * link:./graph/auxilliary_tree.html[Auxilliary Tree]

@@ -1,4 +1,4 @@
-= 最大公約数
+= 最大公約数 ((拡張)ユークリッドの互除法)
 :title: {doctitle} - {pagetitle}
 
 最大公約数 (greatest common divisor, GCD)

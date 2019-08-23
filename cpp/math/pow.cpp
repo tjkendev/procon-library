@@ -1,3 +1,5 @@
+using ll = long long;
+
 ll fast_pow(ll x, ll n, ll m) {
   ll r = 1;
   while(n > 0) {

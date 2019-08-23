@@ -1,8 +1,9 @@
-# gcd (greatest common divisor)
+# Euclidean Algorithm
 def gcd(m, n):
     r = m % n
     return gcd(n, r) if r else n
 
+# Extended Euclidean Algorithm
 def extgcd(a, b):
     if b:
         d, y, x = extgcd(b, a%b)

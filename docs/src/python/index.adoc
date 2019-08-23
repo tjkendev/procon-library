@@ -9,10 +9,10 @@ Python3で実装しています。
 
 == 整数・有理数
 
-* link:./math/gcd.html[最大公約数]
+* link:./math/gcd.html[最大公約数 ((拡張)ユークリッドの互除法)]
 * link:./math/factorial.html[階乗]
 * link:./math/chinese-remainder.html[中国余剰定理]
-* link:./math/baby-step-giant-step.html[Baby-step giant-step]
+* link:./math/baby-step-giant-step.html[離散対数問題 (Baby-step giant-step)]
 * link:./math/stern-brocot-tree.html[Stern-Brocot tree]
 
 == 素数
@@ -42,9 +42,9 @@ Python3で実装しています。
 * link:./geometry/circle_line_cross_point.html[直線と円の交点]
 * link:./geometry/circle_cross_point.html[円同士の交点]
 * link:./geometry/circle_common_tangent_point.html[円の共通接線の接点]
-* link:./geometry/graham_scan.html[凸包(Graham Scan)]
-* link:./geometry/rotating_calipers.html[最遠点対(キャリパー法)]
-* link:./geometry/closest_pair.html[最近点対(分割統治法)]
+* link:./geometry/graham_scan.html[凸包 (Graham Scan)]
+* link:./geometry/rotating_calipers.html[最遠点対 (キャリパー法)]
+* link:./geometry/closest_pair.html[最近点対 (分割統治法)]
 * link:./geometry/compress.html[座標圧縮]
 
 == 集合
@@ -81,19 +81,19 @@ Python3で実装しています。
 == グラフ
 
 * link:./graph/dfs.html[深さ優先探索]
-* link:./graph/warshall-floyd.html[全点対最短経路(ワーシャルフロイド法)]
-* link:./graph/johnson.html[全点対最短経路(Johnson's Algorithm)]
-* link:./graph/bfs.html[単一始点最短経路(BFS)]
-* link:./graph/01-bfs.html[単一始点最短経路(0-1-BFS)]
-* link:./graph/bellman-ford.html[単一始点最短経路(ベルマンフォード法)]
-* link:./graph/dijkstra.html[単一始点最短経路(ダイクストラ法)]
-* link:./graph/desopo-pape.html[単一始点最短経路(D'Esopo-Pape Algorithm)]
-* link:./graph/spfa.html[単一始点最短経路(SPFA)]
-* link:./graph/tree_diameter.html[木の直径]
-* link:./graph/topological_sort.html[トポロジカルソート]
-* link:./graph/scc.html[強連結成分分解]
+* link:./graph/warshall-floyd.html[全点対最短経路 (ワーシャルフロイド法)]
+* link:./graph/johnson.html[全点対最短経路 (Johnson's Algorithm)]
+* link:./graph/bfs.html[単一始点最短経路 (BFS)]
+* link:./graph/01-bfs.html[単一始点最短経路 (0-1-BFS)]
+* link:./graph/bellman-ford.html[単一始点最短経路 (ベルマンフォード法)]
+* link:./graph/dijkstra.html[単一始点最短経路 (ダイクストラ法)]
+* link:./graph/desopo-pape.html[単一始点最短経路 (D'Esopo-Pape Algorithm)]
+* link:./graph/spfa.html[単一始点最短経路 (SPFA)]
+* link:./graph/tree_diameter.html[木の直径 (double sweep method)]
+* link:./graph/topological_sort.html[トポロジカルソート (Kahn's Algorithm)]
+* link:./graph/scc.html[強連結成分分解 (Kosaraju's Algorithm)]
 * link:./graph/bridge.html[橋検出]
-* link:./graph/articulation-points.html[関節点検出]
+* link:./graph/articulation-points.html[関節点検出 (LowLink)]
 * link:./graph/min_st_kruskal.html[最小全域木 (クラスカル法)]
 * link:./graph/min_st_prim.html[最小全域木 (プリム法)]
 * link:./graph/binarization-mst.html[最小全域木の二分木変換]
@@ -116,7 +116,7 @@ Python3で実装しています。
 == 行列・数列
 
 * link:./sequence/number_of_inversions.html[反転数]
-* link:./matrix/bit_matrix.html[ビット行列]
+* link:./matrix/bit_matrix.html[ビット行列 (Bit-Parallel Algorithm)]
 * きたまさ法
 
 == 多項式/高速フーリエ変換

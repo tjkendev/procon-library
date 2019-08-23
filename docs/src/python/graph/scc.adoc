@@ -1,4 +1,4 @@
-= 強連結成分分解
+= 強連結成分分解 (Kosaraju's Algorithm)
 :title: {doctitle} - {pagetitle}
 
 強連結成分分解(Strongly Connected Components)

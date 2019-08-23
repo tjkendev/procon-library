@@ -3,6 +3,8 @@
 
 == 概要
 
+全点対最短経路問題(APSP)を解くアルゴリズム。
+
 グラフ$G = (V, E)$の全てのペア$(v, w)$間の最短経路コストを求める。
 
 Bellman-Ford Algorithmで一度負辺を除去した上で、Dijkstra's Algorithmで各頂点からの最短経路を計算する。
