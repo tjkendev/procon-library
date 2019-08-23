@@ -4,6 +4,9 @@
 
 link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ライブラリ、知識等の置き場
 
+ここに置いてある実装は自由に利用して頂いて大丈夫です。 +
+できる限りVerifyしてますが、実装のバグで正しく動かない可能性がある点についてはご了承ください。
+
 == 実装メモ
 
 * link:./python/index.html[Python]

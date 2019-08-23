@@ -103,6 +103,7 @@ Python3で実装しています。
 * link:./graph/lca-dst.html[最小共通祖先 (Disjoint Sparse Table)]
 * link:./graph/lca-sqrt.html[最小共通祖先 (平方分割)]
 * link:./graph/lca-hld.html[最小共通祖先 (Heavy-Light Decomposition)]
+* link:./graph/auxilliary_tree.html[Auxilliary Tree]
 
 == フロー
 

@@ -1,0 +1,43 @@
+= Auxilliary Tree
+:title: {doctitle} - {pagetitle}
+
+Auxilliary Tree, Virtual Tree
+
+== 概要
+
+$N$個の頂点を含む根付き木$T$ において、とある頂点集合 $X = {v_1, v_2, ..., v_K}$ と それらのLCAを含むような木を構築する。
+
+頂点集合$X$に対し、以下の手順によって構築される。
+
+1. 頂点集合$X$を、グラフ$G$をDFSした時のpre-orderの順序で並べる
+  - このリストを $A = v_{i_1}, v_{i_2}, ..., v_{i_K}$ とする
+2. $1 \le j < K$ に対し、 $w = lca(v_{i_j}, v_{i_{j+1}})$ を求め、リスト$A$に追加する
+3. 追加した頂点を含め、リスト$A$をもう一度pre-orderの順序で並べる
+4. リスト$A$に含まれる各頂点$v_i$について、リスト$A$に含まれる直近の祖先$v_j$ を求め、これよりAuxilliary Treeを構築する
+  - この計算はstackを用いてリスト$A$をpre-orderに走査することで求められる
+
+== 計算量
+
+Euler Tour TechniqueとSparse Tableを用いた場合
+
+- 前計算: $O(N \log N)$
+- Auxilliary Treeの構築: $O(K \log K)$
+
+Euler Tour TechniqueとSegment Treeを用いた場合
+
+- 前計算: $O(N)$
+- Auxilliary Treeの構築: $O(K \log K \log N)$
+
+== 実装 (ETT + Sparse Table)
+
+[source, python]
+----
+include::./python/graph/auxilliary_tree.py[]
+----
+
+=== Verified
+
+* Codeforces: "613D: Kingdom and its Cities": link:https://codeforces.com/contest/613/submission/59250663[source] (PyPy3, 920ms)
+
+***
+link:../index.html[戻る]
