@@ -1,0 +1,33 @@
+= 単一始点最短経路 (ダイクストラ法, Radix Heap)
+:title: {doctitle} - {pagetitle}
+
+Radix Heapによるダイクストラ法 (Dijkstra's Algorithm with Radix Heap)
+
+== 概要
+
+単一始点最短経路問題(SSSP)を解くアルゴリズム。到達するまでのコストが小さい方からコストを伝搬させていく。
+
+Radix Heapを用いた実装。負辺が含まれないグラフ上で利用可能。
+
+== 計算量
+
+コストの最大が$D$とすると $O((|E| + |V|) \log D)$
+
+== 実装
+[source, python]
+----
+include::./python/graph/dijkstra-radix.py[]
+----
+
+=== Verified
+
+* AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3826335#1[source] (Python3, 1.77hsec)
+* AOJ: "ALDS1_12_C: Graph II - Single Source Shortest Path II": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3826335#1[source] (Python3, 0.39sec)
+
+== 参考ページ
+
+- link:https://www.slideshare.net/yosupo/ss-46612984[色々なダイクストラ高速化 - slideshare]
+
+***
+
+link:../index.html[戻る]

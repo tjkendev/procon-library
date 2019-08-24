@@ -5,14 +5,15 @@
  
 from heapq import heappush, heappop
 INF = 10**10
-dist = [INF]*V
-que = [(0,r)]
-dist[r] = 0
-while que:
-    c, v = heappop(que)
-    if dist[v] < c:
-        continue
-    for t, cost in g[v]:
-        if dist[v] + cost < dist[t]:
-            dist[t] = dist[v] + cost
-            heappush(que, (dist[t], t))
+def dijkstra(N, G, s):
+    dist = [INF] * N
+    que = [(0, s)]
+    dist[s] = 0
+    while que:
+        c, v = heappop(que)
+        if dist[v] < c:
+            continue
+        for t, cost in G[v]:
+            if dist[v] + cost < dist[t]:
+                dist[t] = dist[v] + cost
+                heappush(que, (dist[t], t))
