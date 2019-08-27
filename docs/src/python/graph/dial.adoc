@@ -1,0 +1,35 @@
+= 単一始点最短経路 (Dial's Algorithm)
+:title: {doctitle} - {pagetitle}
+
+Dial's Algorithm
+
+== 概要
+
+単一始点最短経路問題(SSSP)を解くアルゴリズム。
+
+コストごとにbucketを用意し、コストが小さい順にbucketに含まれる頂点から探索する。 +
+各bucketでは頂点をDoubly Linked Listで管理し、頂点のコストが更新された時に追加削除を $O(1)$ でできるようにする。
+
+辺のコストが小さい場合に高速になる。
+
+== 計算量
+
+グラフ$G = (V, E)$ に含まれる辺の最大コストを $W$ とすると $O(|E| + W |V|)$
+
+== 実装
+[source, python]
+----
+include::./python/graph/dial.py[]
+----
+
+=== Verified
+
+* AOJ: "ALDS1_12_B: Graph I - Single Source Shortest Path I": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3833395#1[source] (Python3, 0.12sec)
+
+== 参考
+
+* link:https://www.slideshare.net/PrasannaReddyIsiredd/dials-algorithm-optimised-dijksstras-algorithm[Dials algorithm (Optimised Dijkstra's algorithm) - SlideShare]
+
+***
+
+link:../index.html[戻る]

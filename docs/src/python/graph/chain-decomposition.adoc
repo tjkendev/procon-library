@@ -1,0 +1,29 @@
+# 橋検出と関節点検出 (chain decomposition)
+:title: {doctitle} - {pagetitle}
+
+橋と関節点 (bridges and articulation points)
+
+== 概要
+
+ブログの解説: link:https://smijake3.hatenablog.com/entry/2019/08/24/164727[グラフのchain decompositionで橋と関節点を求める]
+
+DFS-treeからchain decompositionを求め、これをベースに橋と関節点を求める。
+
+== 計算量
+
+- $O(|V| + |E|)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/chain-decomposition.py[]
+----
+
+=== Verified
+
+- AOJ: "GRL_3_A: Connected Components - Articulation Points": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3461888#1[source] (Python3, 0.19sec)
+- AOJ: "GRL_3_B: Connected Components - Bridges": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp[source] (Python3, 0.15sec)
+
+***
+link:../index.html[戻る]

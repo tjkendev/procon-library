@@ -4,7 +4,7 @@ class BIT2:
     def __init__(self, h, w):
         self.w = w
         self.h = h
-        self.data = [{} for i in xrange(h+1)]
+        self.data = [{} for i in range(h+1)]
 
     # O(logH*logW)
     def sum(self, i, j):
