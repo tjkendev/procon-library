@@ -1,0 +1,29 @@
+= きたまさ法
+:title: {doctitle} - {pagetitle}
+
+きたまさ法 (Kitamasa Method)
+
+== 概要
+
+線形漸化式 $\displaystyle a_{i+K} = c_0 a_i + c_1 a_{i+1} + ... + c_{i+K-1} a_{i+K-1}$ について、$a_N$を求める。
+
+解説ブログ: link:http://smijake3.hatenablog.com/entry/2017/01/02/024712[Kitamasa法]
+
+== 計算量
+
+$O(K^2 \log N)$
+
+== 実装
+
+[source, python]
+----
+include::./python/series/kitamasa.py[]
+----
+
+=== Verified
+
+- AtCoder: "Typical DP Contest - T問題: フィボナッチ": link:https://atcoder.jp/contests/tdpc/submissions/7199287[source] (PyPy3, 1052ms)
+
+***
+
+link:../index.html[戻る]
