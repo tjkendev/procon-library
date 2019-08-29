@@ -120,6 +120,7 @@ Python3で実装しています。
 
 * link:./sequence/number_of_inversions.html[反転数]
 * link:./matrix/bit_matrix.html[ビット行列 (Bit-Parallel Algorithm)]
+* link:./series/fibonacci.html[フィボナッチ数列]
 * link:./series/kitamasa.html[きたまさ法]
 
 == 多項式/高速フーリエ変換

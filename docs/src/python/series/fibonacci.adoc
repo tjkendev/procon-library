@@ -1,0 +1,25 @@
+= フィボナッチ数列
+:title: {doctitle} - {pagetitle}
+
+フィボナッチ数列 (Fibonacci Sequence)
+
+== 概要
+
+フィボナッチ数列 $a_{i+1} = a_i + a_{i-1}$ ($a_0 = 0$, $a_1 = 1$) について $a_N$ を求める。
+
+$a_0, a_1$ から順番に $a_2, a_3, ..., a_N$ を計算することで $O(N)$ で計算できる。
+
+また、 $a_{i+1}, a_i, a_{i-1}$ の関係を行列を用いて以下のように表せるため、行列累乗によって $a_N$ を $O(\log N)$ で計算できる。
+
+$ \displaystyle \left( \begin{array}{c} a_{i+1} \\ a_i \end{array} \right) = \left( \begin{array}{cc} 1 & 1 \\ 1 & 0 \end{array} \right) \left( \begin{array}{c} a_i \\ a_{i-1} \end{array} \right)$
+
+== 実装
+
+[source, python]
+----
+include::./python/series/fibonacci.py[]
+----
+
+***
+
+link:../index.html[戻る]
