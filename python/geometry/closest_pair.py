@@ -32,12 +32,12 @@ def cp_rec(ps, i, n):
     # 境界のX座標x(=ps[i+m][0])から距離がd以下のものについて距離を計算していく
     # bは境界のX座標から距離d以下のものを集めたもの
     b = []
-    for i in xrange(n):
+    for i in range(n):
         ax, ay = q = qs[i]
         if abs(ax - x) >= d:
             continue
         # Y座標について、qs[i]から距離がd以下のj(<i)について計算していく
-        for j in xrange(len(b)-1, -1, -1):
+        for j in range(len(b)-1, -1, -1):
             dx = ax - b[j][0]
             dy = ay - b[j][1]
             if dy >= d: break

@@ -12,7 +12,6 @@
 $O(|V| + |E|)$
 
 == 実装
-解説コメント付き: https://gist.github.com/tjkendev/1ce0c38486c18a180f83623d74436a5c
 
 [source, cpp]
 ----
@@ -20,6 +19,15 @@ include::./cpp/graph/scc.cpp[]
 ----
 
 === Verified
+
+- AOJ: "GRL_3_C: Connected Components - Strongly Connected Components": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3842018#1[source] (C++14, 0.12sec)
+- Codeforces: "1213F: Unstable String Sort": link:https://codeforces.com/contest/1213/submission/59841021[source] (C++14, 686ms)
+
+== 旧実装
+
+解説コメント付き: https://gist.github.com/tjkendev/1ce0c38486c18a180f83623d74436a5c
+
+=== Verified (旧実装)
 
 - AOJ: "GRL_3_C: Connected Components - Strongly Connected Components": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867908#1[source] (C++, 0.17sec)
 - AOJ: "2598: Website Tour": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867998[source] (C++, 0.17sec)
