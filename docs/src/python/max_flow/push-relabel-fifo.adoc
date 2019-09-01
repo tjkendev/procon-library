@@ -1,0 +1,54 @@
+= 最大フロー (Push-Relabel Algorithm, FIFO selection)
+:title: {doctitle} - {pagetitle}
+
+Push-Relabel Algorithm, Golberg-Tarjan Algorithm
+
+== 概要
+
+最大流問題は、有向グラフ$G = (V, E)$の各辺$e \in E$に容量$c(u, v)$がついており、このグラフ上のsourceからsinkへ流せる流量を求める問題である。
+
+最大フロー最小カット定理が成り立つため、最小カット問題も解くことができる。
+
+=== Push-Relabel Algorithm
+
+Push-Relabel Algorithmでは、超過量のフロー(excess flow)を流し、すりきるような感じでsourceからsinkに流す。 +
+このアルゴリズムではactiveな頂点(excess flowを持つ頂点)を選び、以下の二種類の操作を行う。
+
+1. Push: capacityが残っている辺を通して、距離ラベルが小さい頂点にexcess flow分を流す
+2. Relabel: activeな頂点の距離ラベルを貼り直す
+
+FIFO selectionでは、Queueを用いてactiveな頂点を管理する。
+
+このアルゴリズムはいくつかのヒューリスティックを入れることで高速化できる。
+
+== 計算量
+
+$O(|V|^3)$
+
+== 実装
+
+以下のヒューリスティックを入れた実装
+
+- Global Labeling
+- Gap-Relabeling (たぶん正しいはず)
+
+状態をfreezeしてるため、フローを流した後のグラフ全体の正しい状態を得るには、frozenした頂点のexcess flowをsourceに戻す必要がある
+
+[source, python]
+----
+include::./python/max_flow/push-relabel-fifo.py[]
+----
+
+=== Verified
+
+* AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3842664#1[source] (Python3, 0.03sec)
+* AtCoder: "早稲田大学プログラミングコンテスト2019 - F問題: RPG": link:https://atcoder.jp/contests/wupc2019/submissions/7296026[source] (Python3, 52ms), link:https://atcoder.jp/contests/wupc2019/submissions/7296129[source] (PyPy3, 239ms)
+
+== 参考
+
+- link:https://en.wikipedia.org/wiki/Push%E2%80%93relabel_maximum_flow_algorithm[Push–relabel maximum flow algorithm - Wikipedia]
+- link:http://www.prefield.com/algorithm/graph/goldberg_tarjan.html[最大流 (Goldberg-Tarjan) - Spaghetti Source]
+- link:https://qiita.com/nariaki3551/items/65baee3c6ef0a6ffa136[Preflow Push-Relabel (プリフロープッシュリラベル) アルゴリズム 改良 - Qiita]
+
+***
+link:../index.html[戻る]

@@ -4,7 +4,6 @@
 using namespace std;
 
 // 強連結成分分解(Strongly Connected Component)
-// int scc(): 結果は割り当てられた番号の数
 // n: 頂点(0..v-1)
 // g: 各頂点の出る辺, rg: 各頂点の逆辺
 // group: 結果(閉路に１つの番号が割り当てられる)
