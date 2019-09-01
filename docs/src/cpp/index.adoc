@@ -60,6 +60,7 @@
 == フロー
 
 * link:./max_flow/dinic.html[最大フロー (Dinic's Algorithm)]
+* link:./max_flow/push-relabel-highest.html[最大フロー (Push-Relabel Algorithm, highest selection)]
 * link:./min_cost_flow/primal-dual.html[最小費用流問題 (Primal Dual Algorithm)]
 
 == 行列・数列

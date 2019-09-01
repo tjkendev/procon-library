@@ -34,15 +34,15 @@ $O(|V|^2 \sqrt{|E|})$
 
 状態をfreezeしてるため、フローを流した後のグラフ全体の正しい状態を得るには、frozenした頂点のexcess flowをsourceに戻す必要がある
 
-[source, python]
+[source, cpp]
 ----
-include::./python/max_flow/push-relabel-highest.py[]
+include::./cpp/max_flow/push-relabel-highest.cpp[]
 ----
 
 === Verified
 
-* AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3842656[source] (Python3, 0.03sec)
-* AtCoder: "早稲田大学プログラミングコンテスト2019 - F問題: RPG": link:https://atcoder.jp/contests/wupc2019/submissions/7295841[source] (Python3, 39ms), link:https://atcoder.jp/contests/wupc2019/submissions/7295912[source] (PyPy3, 265ms)
+* AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3842777#1[source] (C++14, 0.00sec)
+* AtCoder: "早稲田大学プログラミングコンテスト2019 - F問題: RPG": link:https://atcoder.jp/contests/wupc2019/submissions/7298482[source] (C++14, 2ms)
 
 == 参考
 

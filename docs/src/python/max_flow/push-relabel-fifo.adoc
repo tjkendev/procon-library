@@ -1,7 +1,7 @@
 = 最大フロー (Push-Relabel Algorithm, FIFO selection)
 :title: {doctitle} - {pagetitle}
 
-Push-Relabel Algorithm, Golberg-Tarjan Algorithm
+Push-Relabel Algorithm, Goldberg-Tarjan Algorithm
 
 == 概要
 
@@ -14,8 +14,8 @@ Push-Relabel Algorithm, Golberg-Tarjan Algorithm
 Push-Relabel Algorithmでは、超過量のフロー(excess flow)を流し、すりきるような感じでsourceからsinkに流す。 +
 このアルゴリズムではactiveな頂点(excess flowを持つ頂点)を選び、以下の二種類の操作を行う。
 
-1. Push: capacityが残っている辺を通して、距離ラベルが小さい頂点にexcess flow分を流す
-2. Relabel: activeな頂点の距離ラベルを貼り直す
+1. Push操作: capacityが残っている辺を通して、距離ラベルが小さい頂点にexcess flow分を流す
+2. Relabel操作: activeな頂点の距離ラベルを貼り直す
 
 FIFO selectionでは、Queueを用いてactiveな頂点を管理する。
 
