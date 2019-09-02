@@ -1,4 +1,7 @@
-/* Segment木 */
+#include<algorithm>
+using namespace std;
+using ll = long long;
+
 #define SN 100003
 class SegmentTree {
   ll data[SN];
@@ -8,7 +11,7 @@ public:
   SegmentTree(int n_) {
     n = 1;
     while(n < n_) n *= 2;
-    rep(i, 2*n) data[i] = 0;
+    for(int i=0; i<2*n; ++i) data[i] = 0;
   }
 
   void add(int k, ll a) {

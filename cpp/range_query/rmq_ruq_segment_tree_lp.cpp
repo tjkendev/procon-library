@@ -1,3 +1,7 @@
+#include<algorithm>
+using namespace std;
+using ll = long long;
+
 #define LV 20
 
 class SegmentTree {
@@ -25,7 +29,7 @@ class SegmentTree {
   }
 
   void propagates() {
-    repr(i, cur) {
+    for(int i=cur-1; i>=0; --i) {
       int k = ids[i];
 
       ll v = lazy[k-1];
@@ -44,7 +48,7 @@ public:
     while(n0 < n) n0 <<= 1;
     data = new ll[2*n0];
     lazy = new ll[2*n0];
-    rep(i, 2*n0) data[i] = inf, lazy[i] = -1;
+    for(int i=0; i<2*n0; ++i) data[i] = inf, lazy[i] = -1;
   }
 
   void update(int l, int r, ll x) {
@@ -64,7 +68,7 @@ public:
       l0 >>= 1; r0 >>= 1;
     }
 
-    rep(i, cur) {
+    for(int i=0; i<cur; ++i) {
       int k = ids[i];
       data[k-1] = min(data[2*k-1], data[2*k]);
     }

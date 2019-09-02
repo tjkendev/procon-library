@@ -1,3 +1,7 @@
+#include<algorithm>
+using namespace std;
+using ll = long long;
+
 #define N 100007
  
 class SegmentTree {
@@ -9,7 +13,7 @@ public:
   SegmentTree(int n) {
     n0 = 1;
     while(n0 < n) n0 <<= 1;
-    rep(i, 2*n0) data[i] = inf;
+    for(int i=0; i<2*n0; ++i) data[i] = inf;
   }
  
   void update(int k, ll x) {

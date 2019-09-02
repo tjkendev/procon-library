@@ -1,3 +1,7 @@
+#include<algorithm>
+using namespace std;
+using ll = long long;
+
 /* SegmentTree (一様区間足しこみ + 区間最小値) */
 #define N_MAX (1 << 18)
 
@@ -20,7 +24,7 @@ class SegmentTree {
 
     ll lv = _get_value(2*k+1);
     ll rv = _get_value(2*k+2);
-    dmin[k] = mind(lv, rv);
+    dmin[k] = min(lv, rv);
   }
 
   ll _get_value(int k) {
@@ -39,10 +43,10 @@ class SegmentTree {
     }
     ll lv = _get(a, b, 2*k+1, l, (l+r)/2);
     ll rv = _get(a, b, 2*k+2, (l+r)/2, r);
-    if(mind(lv, rv) == dINF) {
+    if(min(lv, rv) == dINF) {
       return dadd[k];
     }
-    return mind(lv, rv) + dadd[k];
+    return min(lv, rv) + dadd[k];
   }
 public:
   const static ll dINF = 1e15;
@@ -50,8 +54,8 @@ public:
   SegmentTree(int _n) {
     n = 1;
     while(n < _n) n <<= 1;
-    rep(i, n) dmin[i] = dINF;
-    rep(i, n) dadd[i] = 0;
+    for(int i=0; i<n; ++i) dmin[i] = dINF;
+    for(int i=0; i<n; ++i) dadd[i] = 0;
   }
 
   void set(int a, int b, ll x) {

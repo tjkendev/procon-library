@@ -1,3 +1,7 @@
+#include<string>
+#include<queue>
+using namespace std;
+
 #define NN 30
  
 struct TrieNode {
