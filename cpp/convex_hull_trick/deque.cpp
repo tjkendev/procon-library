@@ -1,3 +1,7 @@
+#include<deque>
+using namespace std;
+using ll = long long;
+
 class ConvexHullTrick {
   struct F {
     ll a, b;

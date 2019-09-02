@@ -1,3 +1,11 @@
+#include<iostream>
+#include<vector>
+#include<map>
+#include<queue>
+using namespace std;
+using P = pair<int, int>;
+
+
 // Dinicアルゴリズム
 // コンストラクタでnとsinkとsourceを決める。
 // add_edge(s, t, cap)で辺追加。
@@ -16,6 +24,8 @@ struct Edge {
 #define MAX_N 1005
 
 class Dinic {
+  static const int inf = 1e9;
+
   vector<Edge> g[MAX_N];
   int level[MAX_N], iter[MAX_N];
   int dist[MAX_N];
@@ -24,17 +34,17 @@ class Dinic {
   map<P, int> edges;
 
   void bfs(int s) {
-    rep(i, n) level[i] = -1, dist[i] = INF;
+    for(int i=0; i<n; ++i) level[i] = -1, dist[i] = inf;
     queue<int> que;
     level[s] = 0;
     que.push(s);
     while(!que.empty()) {
       int v = que.front(); que.pop();
-      rep(i, g[v].size()) {
+      for(int i=0; i<g[v].size(); ++i) {
         Edge &e = g[v][i];
         if(e.cap > 0 && level[e.to] < 0) {
           level[e.to] = level[v] + 1;
-          dist[e.to] = mind(e.cap, dist[v]);
+          dist[e.to] = min(e.cap, dist[v]);
           que.push(e.to);
         }
       }
@@ -46,7 +56,7 @@ class Dinic {
     for(int &i=iter[v]; i<g[v].size(); ++i) {
       Edge &e = g[v][i];
       if(e.cap > 0 && level[v] < level[e.to]) {
-        int d = dfs(e.to, t, mind(f, e.cap));
+        int d = dfs(e.to, t, min(f, e.cap));
         if(d > 0) {
           e.cap -= d;
           g[e.to][e.rev].cap += d;
@@ -88,9 +98,9 @@ public:
     while(rest) {
       bfs(s);
       if(level[t] < 0) break;
-      rep(i, n) iter[i] = 0;
+      for(int i=0; i<n; ++i) iter[i] = 0;
       int f;
-      while(rest && (f = dfs(s, t, rest == -1 ? INF : rest)) > 0) {
+      while(rest && (f = dfs(s, t, rest == -1 ? inf : rest)) > 0) {
         if(rest == -1) {
           flow += f;
         } else {
@@ -146,12 +156,12 @@ public:
   }
 
   void debug() {
-    rep(i, n) {
-      rep(j, n) {
+    for(int i=0; i<n; ++i) {
+      for(int j=0; j<n; ++j) {
         if(i == j) continue;
         if(edges.find(P(i, j)) != edges.end()) {
           Edge &e = g[i][edges[P(i, j)]];
-          cout << i SP j SP e.cap << endl;
+          cout << i << " " << j << " " << e.cap << endl;
         }
       }
     }

@@ -1,4 +1,4 @@
-/* Binary Indexed Tree */
+using ll = long long;
 #define N 100008
 
 class BIT {

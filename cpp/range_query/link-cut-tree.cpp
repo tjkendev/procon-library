@@ -1,3 +1,8 @@
+#include<algorithm>
+using namespace std;
+using ll = long long;
+
+
 #define N 100003
 
 class LinkCutTree {
@@ -126,7 +131,7 @@ class LinkCutTree {
 
 public:
   LinkCutTree(int n) {
-    rep(i, n+1) prt[i] = left[i] = right[i] = rev[i] = 0, sz[i] = 1;
+    for(int i=0; i<n+1; ++i) prt[i] = left[i] = right[i] = rev[i] = 0, sz[i] = 1;
     sz[0] = 0; left[0] = right[0] = -1;
   }
 

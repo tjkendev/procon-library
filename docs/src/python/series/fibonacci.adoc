@@ -11,7 +11,7 @@ $a_0, a_1$ から順番に $a_2, a_3, ..., a_N$ を計算することで $O(N)$ 
 
 また、 $a_{i+1}, a_i, a_{i-1}$ の関係を行列を用いて以下のように表せるため、行列累乗によって $a_N$ を $O(\log N)$ で計算できる。
 
-$ \displaystyle \left( \begin{array}{c} a_{i+1} \\ a_i \end{array} \right) = \left( \begin{array}{cc} 1 & 1 \\ 1 & 0 \end{array} \right) \left( \begin{array}{c} a_i \\ a_{i-1} \end{array} \right)$
+$ \displaystyle \left( \begin{array}{c} a_{n+1} \\ a_n \end{array} \right) = \left( \begin{array}{cc} 1 & 1 \\ 1 & 0 \end{array} \right) \left( \begin{array}{c} a_n \\ a_{n-1} \end{array} \right) = \left( \begin{array}{cc} 1 & 1 \\ 1 & 0 \end{array} \right)^n \left( \begin{array}{c} a_1 \\ a_0 \end{array} \right)$
 
 == 実装
 

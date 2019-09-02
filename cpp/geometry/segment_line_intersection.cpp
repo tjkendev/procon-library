@@ -1,3 +1,7 @@
+#include<algorithm>
+using namespace std;
+
+
 typedef int PType;
 struct Point {
   PType x, y;

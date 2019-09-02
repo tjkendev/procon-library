@@ -1,6 +1,14 @@
+#include<algorithm>
+using namespace std;
+using ll = long long;
+
+
 #define N 300004
 
 class LiChaoTree {
+  static const ll inf = 1e9;
+  static const ll infll = 1e18;
+
   int n;
   ll xs[4*N];
   ll p[4*N], q[4*N];
@@ -41,12 +49,12 @@ class LiChaoTree {
 
   ll _query(int k, ll x) {
     k += n - 1;
-    ll s = u[k] ? p[k]*x+q[k] : INFLL;
+    ll s = u[k] ? p[k]*x+q[k] : infll;
     while(k > 0) {
       k = (k - 1) / 2;
       if(u[k]) {
         ll r = p[k]*x+q[k];
-        s = mind(s, r);
+        s = min(s, r);
       }
     }
     return s;
@@ -57,9 +65,9 @@ public:
     n = 1;
     while(n < n0) n <<= 1;
 
-    rep(i, 2*n) u[i] = false;
-    rep(i, n0) xs[i] = ps[i];
-    repl(i, n0, 2*n-1) xs[i] = INF;
+    for(int i=0; i<2*n; ++i) u[i] = false;
+    for(int i=0; i<n0; ++i) xs[i] = ps[i];
+    for(int i=n0; i<2*n-1; ++i) xs[i] = inf;
   }
 
   void add_line(ll a, ll b) {

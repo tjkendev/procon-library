@@ -1,3 +1,8 @@
+#include<vector>
+#include<algorithm>
+using namespace std;
+using ll = long long;
+
 #define N 500007
 
 struct Point {
@@ -38,7 +43,7 @@ Node* make(int l, int r, int depth) {
 ll find(Node *nd, ll x, ll y, int depth, ll r) {
   if(nd == nullptr) return r;
   Point &p = nd->p;
-  ll d = pow2(x - p.x) + pow2(y - p.y);
+  ll d = (x - p.x)*(x - p.x) + (y - p.y)*(y - p.y);
   if(r == -1 || d < r) r = d;
 
   if(depth % 2) {

@@ -1,3 +1,5 @@
+using ll = long long;
+
 #define MOD 1000000007
  
 struct Node {

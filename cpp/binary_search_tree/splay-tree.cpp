@@ -1,3 +1,9 @@
+#include<iostream>
+#include<stack>
+using namespace std;
+using ll = long long;
+
+
 struct Node {
   Node *left, *right;
   ll key;
@@ -182,7 +188,7 @@ int dfs(Node *v, int k) {
   if(!v) return 0;
   int r = 0;
   if(v->left) r += dfs(v->left, k+1);
-  rep(i, k) cout << " "; cout << v->key << " " << v->count << endl;
+  for(int i=0; i<k; ++i) cout << " "; cout << v->key << " " << v->count << endl;
   if(v->right) r += dfs(v->right, k+1);
   return r+1;
 }

@@ -1,3 +1,8 @@
+#include<map>
+#include<vector>
+using namespace std;
+
+
 map<int, int> compress(const vector<int> &xs) {
   map<int, int> result;
   for(int i=0; i<xs.size(); ++i) {
