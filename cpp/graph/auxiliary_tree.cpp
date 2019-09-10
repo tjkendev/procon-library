@@ -44,7 +44,7 @@ bool cmp_at(int x, int y) {
 }
  
 int stk[2*N];
-int auxilliary_tree(int k, int vs[2*N]) {
+int auxiliary_tree(int k, int vs[2*N]) {
   sort(vs, vs+k, cmp_at);
   int k0 = k;
   for(int i=0; i<k-1; ++i) {

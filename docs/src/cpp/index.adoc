@@ -55,7 +55,7 @@
 * link:./graph/articulation-points.html[関節点検出 (LowLink)]
 * link:./graph/centroid-decomposition.html[重心分解]
 * link:./graph/lca-doubling.html[最小共通祖先 (ダブリング)]
-* link:./graph/auxilliary_tree.html[Auxilliary Tree]
+* link:./graph/auxiliary_tree.html[Auxiliary Tree]
 
 == フロー
 

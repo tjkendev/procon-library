@@ -1,7 +1,7 @@
-= Auxilliary Tree
+= Auxiliary Tree
 :title: {doctitle} - {pagetitle}
 
-Auxilliary Tree, Virtual Tree
+Auxiliary Tree, Virtual Tree
 
 == 概要
 
@@ -12,7 +12,7 @@ $N$個の頂点を含む根付き木$T$ より、とある頂点集合 $X = {v_1
 1. 頂点集合$X$を、グラフ$G$をDFSした時のpre-orderの順序で並べる
   - このリストを $A = v_{i_1}, v_{i_2}, ..., v_{i_K}$ とする
 2. $1 \le j < K$ に対し、 $w = lca(v_{i_j}, v_{i_{j+1}})$ を求める
-3. 頂点集合$X$と(2)のlcaの頂点から、Auxilliary Treeを構築する
+3. 頂点集合$X$と(2)のlcaの頂点から、Auxiliary Treeを構築する
 
 ここでは、具体的に以下で構築する
 
@@ -20,30 +20,31 @@ $N$個の頂点を含む根付き木$T$ より、とある頂点集合 $X = {v_1
 - リスト$A$に含まれる頂点をもう一度pre-orderの順序で並べる
 - リスト$A$に含まれる頂点$v_i$を走査しながら、stackを用いてリスト$A$に含まれる直近の祖先$v_j$を求める
 
-頂点集合$X$のサイズを$K$とすると、このAuxilliary Treeの頂点数は高々$2K-1$になる。
+頂点集合$X$のサイズを$K$とすると、このAuxiliary Treeの頂点数は高々$2K-1$になる。
 
 == 計算量
 
 Euler Tour TechniqueとSparse Tableを用いた場合
 
 - 前計算: $O(N \log N)$
-- Auxilliary Treeの構築: $O(K \log K)$
+- Auxiliary Treeの構築: $O(K \log K)$
 
 Euler Tour TechniqueとSegment Treeを用いた場合
 
 - 前計算: $O(N)$
-- Auxilliary Treeの構築: $O(K (\log K + \log N))$
+- Auxiliary Treeの構築: $O(K (\log K + \log N))$
 
 == 実装 (ETT + Sparse Table)
 
-[source, python]
+[source, cpp]
 ----
-include::./python/graph/auxilliary_tree.py[]
+include::./cpp/graph/auxiliary_tree.cpp[]
 ----
 
 === Verified
 
-* Codeforces: "613D: Kingdom and its Cities": link:https://codeforces.com/contest/613/submission/59250663[source] (PyPy3, 920ms)
+* Codeforces: "613D: Kingdom and its Cities": link:https://codeforces.com/contest/613/submission/59363996[source] (C++14, 576ms)
+* CodeChef: "ICL2017: Tree Obsession": link:https://www.codechef.com/viewsolution/26228328[source] (C++14, 0.66sec)
 
 ***
 link:../index.html[戻る]

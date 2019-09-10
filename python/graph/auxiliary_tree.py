@@ -1,4 +1,4 @@
-# Auxilliary Tree を保持する
+# Auxiliary Tree を保持する
 G0 = None
 
 S = None
@@ -42,8 +42,8 @@ def construct(N, G):
             st1[j] = (st0[j] if depth[st0[j]] <= depth[st0[j+b]] else st0[j+b])
         b <<= 1
 
-# 頂点リストvsを含むAuxilliary Treeを構築 O(K)
-def auxilliary_tree(k, vs):
+# 頂点リストvsを含むAuxiliary Treeを構築 O(K log K)
+def auxiliary_tree(k, vs):
     vs.sort(key=FS.__getitem__)
     for i in range(k-1):
         x = FS[vs[i]]; y = FS[vs[i+1]]
