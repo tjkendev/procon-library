@@ -1,4 +1,4 @@
-= 橋検出
+= 橋検出 (Path-based DFS)
 :title: {doctitle} - {pagetitle}
 
 橋検出(Bridge-finding)

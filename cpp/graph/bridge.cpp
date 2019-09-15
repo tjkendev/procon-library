@@ -46,6 +46,6 @@ int dfs(int v, int p) {
  
 void bridge() {
   bs.clear();
-  for(int i=0; i<n; ++i) used[i] = used[i] = 0;
+  for(int i=0; i<n; ++i) used[i] = val[i] = 0;
   dfs(0, -1);
 }
