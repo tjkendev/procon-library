@@ -1,0 +1,27 @@
+= 最小共通祖先 (Sparse Table)
+:title: {doctitle} - {pagetitle}
+
+== 概要
+
+根付き木$T$のある頂点$u, v$について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。
+
+Sparse Tableを使ったアルゴリズムでは、セグメント木と同様にEuler tour techniqueを用いてLCAを計算する。
+
+== 計算量
+
+- 前計算: $O(N \log N)$
+- クエリ処理: $O(1)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/lca-st.py[]
+----
+
+=== Verified
+
+* AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3868523#1[source] (Python3, 1.23sec)
+
+***
+link:../index.html[戻る]

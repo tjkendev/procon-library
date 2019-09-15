@@ -103,6 +103,7 @@ Python3で実装しています。
 * link:./graph/chu-liu-edmonds.html[最小全域有向木 (Chu-Liu/Edmonds' Algorithm)]
 * link:./graph/lca-doubling.html[最小共通祖先 (ダブリング)]
 * link:./graph/lca-segment-tree.html[最小共通祖先 (セグメント木)]
+* link:./graph/lca-st.html[最小共通祖先 (Sparse Table)]
 * link:./graph/lca-dst.html[最小共通祖先 (Disjoint Sparse Table)]
 * link:./graph/lca-sqrt.html[最小共通祖先 (平方分割)]
 * link:./graph/lca-hld.html[最小共通祖先 (Heavy-Light Decomposition)]
