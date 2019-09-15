@@ -43,21 +43,27 @@ bool cmp_at(int x, int y) {
   return fs[x] < fs[y];
 }
  
+inline int lca(int u, int v) {
+  int x = fs[u], y = fs[v];
+  if(x > y) swap(x, y);
+  int l = lg[y - x + 1];
+  return (depth[st[l][x]] <= depth[st[l][y - (1 << l) + 1]] ? st[l][x] : st[l][y - (1 << l) + 1]);
+}
+
+// 頂点vsを含むAuxiliary Treeを構築する
+// 結果はg0に入る
+// 返り値はAuxiliary Treeの根頂点
 int stk[2*N];
-int auxiliary_tree(int k, int vs[2*N]) {
-  sort(vs, vs+k, cmp_at);
-  int k0 = k;
+inline int auxiliary_tree(vector<int> &vs, vector<int> g0[N]) {
+  sort(vs.begin(), vs.end(), cmp_at);
+  int k = vs.size();
   for(int i=0; i<k-1; ++i) {
-    int x = fs[vs[i]], y = fs[vs[i+1]];
-    int l = lg[y - x + 1];
-    int w = depth[st[l][x]] <= depth[st[l][y - (1 << l) + 1]] ? st[l][x] : st[l][y - (1 << l) + 1];
-    vs[k0++] = w;
+    vs.push_back(lca(vs[i], vs[i+1]));
   }
-  k = k0;
-  sort(vs, vs+k, cmp_at);
+  sort(vs.begin(), vs.end(), cmp_at);
   int prv = -1;
   int cur = 0;
-  for(int i=0; i<k; ++i) {
+  for(int i=0; i<vs.size(); ++i) {
     int v = vs[i];
     if(prv == v) continue;
     while(cur > 0 && ls[stk[cur-1]] < fs[v]) --cur;
@@ -68,5 +74,5 @@ int auxiliary_tree(int k, int vs[2*N]) {
     stk[cur++] = v;
     prv = v;
   }
-  return k0;
+  return stk[0];
 }
