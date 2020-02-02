@@ -1,0 +1,47 @@
+= Weak AVL Tree
+:title: {doctitle} - {pagetitle}
+
+Weak AVL Tree, WAVL Tree
+
+== 概要
+
+平衝二分探索木の一つ。 +
+各ノードにrankをもたせて管理し、各ノードは以下の制約を満たす。
+
+- 親ノードとの rank差 (rank difference) は 1 もしくは 2
+- 葉ノードの rank は 0
+- NILノードの rank は -1
+
+挿入クエリのみであれば木は AVL Tree と同じ形になり、高さは高々約 $1.44 \log_2 N$ になる。 +
+削除クエリも含む場合は高さは高々 $2 \log_2 N$ (赤黒木と同じ) になる。
+
+また、挿入・削除クエリ1回ごとのrotate操作は高々2回 ($O(1)$) になる。
+
+== 計算量
+
+各クエリ ならし $O(\log N)$
+
+== 実装
+
+各ノードに以下の情報を持たせている
+
+- 左右の子ノード, 親ノード
+- key, rank
+- そのノード以下の部分木のサイズ
+
+[source, cpp]
+----
+include::./cpp/binary_search_tree/weak_avl_tree.cpp[]
+----
+
+=== Verified
+
+* AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://atcoder.jp/contests/arc033/submissions/9866529[source] (C++14, 127ms)
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/WAVL_tree[WAVL tree - Wikipedia]
+* Haeupler, Bernhard, Siddhartha Sen, and Robert E. Tarjan. "Rank-balanced trees." ACM Transactions on Algorithms (TALG) 11.4 (2015): 1-26.
+
+***
+link:../index.html[戻る]
