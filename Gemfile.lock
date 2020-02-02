@@ -21,7 +21,7 @@ GEM
       addressable
       nokogiri
     public_suffix (3.0.3)
-    rack (2.0.6)
+    rack (2.0.8)
     source_map (3.0.1)
       json
     sprockets (3.7.2)
