@@ -19,7 +19,7 @@ Weak AVL Tree, WAVL Tree
 
 == 計算量
 
-各クエリ ならし $O(\log N)$
+各クエリ $O(\log N)$
 
 == 実装
 

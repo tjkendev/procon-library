@@ -1,0 +1,37 @@
+= Left-Leaning Red-Black Tree
+:title: {doctitle} - {pagetitle}
+
+Left-Leaning Red-Black Tree, LLRB Tree
+
+== 概要
+
+平衝二分探索木の一つ。
+従来の赤黒木に「赤ノードは常に親の左子ノード」という制約を加えたもの。
+
+この制約により、想定する回転ケースは従来の赤黒木より少なくなる。
+
+== 計算量
+
+各クエリ $O(\log N)$
+
+== 実装
+
+非再帰版
+
+[source, cpp]
+----
+include::./cpp/binary_search_tree/ll-red-black-tree.cpp[]
+----
+
+=== Verified
+
+* AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://atcoder.jp/contests/arc033/submissions/9902998[source] (C++14, 147ms)
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/Left-leaning_red%E2%80%93black_tree[Left-leaning red-black tree - Wikipedia]
+* Sedgewick, Robert. "Left-leaning red-black trees." Dagstuhl Workshop on Data Structures. 2008.
+
+***
+
+link:../index.html[戻る]
