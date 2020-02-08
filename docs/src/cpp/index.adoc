@@ -27,6 +27,7 @@
 
 * link:./binary_search_tree/persistent_RBST.html[永続RBST]
 * link:./binary_search_tree/splay-tree.html[Splay tree]
+* link:./binary_search_tree/aa-tree.html[AA Tree]
 * link:./binary_search_tree/ll-red-black-tree.html[Left-Leaning Red-Black Tree]
 * link:./binary_search_tree/weak-avl-tree.html[Weak AVL Tree]
 

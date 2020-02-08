@@ -4,7 +4,7 @@
 
 競技プログラミング参照用のテンプレートやライブラリ等の置き場
 
-* webページ: [https://tjkendev.github.io/procon-library/](http://tjkendev.github.io/procon-library/)
+* webページ: [https://tjkendev.github.io/procon-library/](https://tjkendev.github.io/procon-library/)
 
 ## コンパイル
 

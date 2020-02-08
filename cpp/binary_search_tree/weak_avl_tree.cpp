@@ -53,6 +53,9 @@ class WAVLTree {
     inline Node* rotate_double_right() {
       Node *l = this->left, *p = this->prt,
            *m = l->right, *ml = m->left, *mr = m->right;
+      // l->rotate_left();
+      // this->rotate_right();
+
       if((m->prt = p)) {
         if(p->left == this) p->left = m;
         else p->right = m;
@@ -72,6 +75,9 @@ class WAVLTree {
     inline Node* rotate_double_left() {
       Node *r = this->right, *p = this->prt,
            *m = r->left, *ml = m->left, *mr = m->right;
+      // r->rotate_left();
+      // this->rotate_right();
+
       if((m->prt = p)) {
         if(p->left == this) p->left = m;
         else p->right = m;

@@ -1,0 +1,53 @@
+= AA Tree
+:title: {doctitle} - {pagetitle}
+
+AA Tree
+
+== 概要
+
+平衝二分探索木の一つ。 +
+各ノードにlevelをもたせて管理し、各ノードは以下の制約を満たす。
+
+- 葉ノードのlevelは 1
+- 全てのノードのlevelはその左子ノードのlevelより 1 大きい +
+  (``node.level = node.left.level + 1``)
+- 全てのノードのlevelはその右子ノードのlevelと同じ、もしくは 1 大きい +
+  (``node.level = node.right.level`` or ``node.level = node.right.level + 1``)
+- 全てのノードのlevelはその右孫ノードのlevelより大きい +
+  (``node.level > node.right.right.level``)
+- levelが 1 より大きい全てのノードは左右の子ノードを持つ
+
+平衝処理は skew と split の2つの操作で実現される。
+
+AA Tree は従来の赤黒木に「赤ノードは常に親の右子ノード」という制約を加えたものとみなせる。
+
+== 計算量
+
+各クエリ $O(\log N)$
+
+== 実装
+
+各ノードに以下の情報を持たせている
+
+- 左右の子ノード, 親ノード
+- key, level
+- そのノード以下の部分木のサイズ
+
+rotateに関する最適化はなし
+
+[source, cpp]
+----
+include::./cpp/binary_search_tree/aa-tree.cpp[]
+----
+
+=== Verified
+
+* AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://atcoder.jp/contests/arc033/submissions/9948878[source] (C++14, 131ms)
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/AA_tree[AA tree - Wikipedia]
+* Andersson, Arne. "Balanced search trees made simple." Workshop on Algorithms and Data Structures. Springer, Berlin, Heidelberg, 1993.
+
+***
+link:../index.html[戻る]
