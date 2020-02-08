@@ -1,0 +1,40 @@
+= AVL Tree
+:title: {doctitle} - {pagetitle}
+
+AVL Tree, AVL木
+
+== 概要
+
+平衝二分探索木の一つ。 +
+各ノードに高さをもたせ、各ノードの左右の子ノードの高さの差が -1, 0, 1 になるように保つ。
+
+木の高さは高々約 $1.44 \log_2 N$ になる。 +
+挿入クエリ1回のrotate回数は 2回、削除クエリ1回のrotate回数は $O(\log N)$ になる。
+
+== 計算量
+
+各クエリ $O(\log N)$
+
+== 実装
+
+各ノードに以下の情報を持たせている
+
+- 左右の子ノード, 親ノード
+- key, rank
+- そのノード以下の部分木のサイズ
+
+[source, cpp]
+----
+include::./cpp/binary_search_tree/avl-tree.cpp[]
+----
+
+=== Verified
+
+* AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://atcoder.jp/contests/arc033/submissions/9958496[source] (C++14, 113ms)
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/AVL_tree[AVL tree - Wikipedia]
+
+***
+link:../index.html[戻る]

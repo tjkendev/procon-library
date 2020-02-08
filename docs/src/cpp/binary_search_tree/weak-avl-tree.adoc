@@ -1,7 +1,7 @@
 = Weak AVL Tree
 :title: {doctitle} - {pagetitle}
 
-Weak AVL Tree, WAVL Tree
+Weak AVL Tree, WAVL Tree, WAVL木
 
 == 概要
 
@@ -31,7 +31,7 @@ Weak AVL Tree, WAVL Tree
 
 [source, cpp]
 ----
-include::./cpp/binary_search_tree/weak_avl_tree.cpp[]
+include::./cpp/binary_search_tree/weak-avl-tree.cpp[]
 ----
 
 === Verified
