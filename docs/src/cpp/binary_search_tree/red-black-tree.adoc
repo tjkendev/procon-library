@@ -1,0 +1,42 @@
+= Red-Black Tree
+:title: {doctitle} - {pagetitle}
+
+Red-Black Tree, 赤黒木
+
+== 概要
+
+平衝二分探索木の一つ。
+
+ノードの追加や削除の際に以下の制約を満たすように木を回転する。
+
+1. ノードは赤か黒の情報を持つ
+2. 根ノードは黒
+3. 葉(NIL)は黒
+4. ノードが赤であれば、その子ノードは必ず黒
+5. 根ノードから任意の葉までのパス上に含まれる黒ノードの個数は全てのパスで等しい
+
+木の高さは高々 $2 \log_2 N$ になる。 +
+挿入クエリ1回のrotate回数は高々2回、削除クエリ1回のrotate回数は高々3回になる。
+
+== 計算量
+
+各クエリ $O(\log N)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/binary_search_tree/red-black-tree.cpp[]
+----
+
+=== Verified
+
+* AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://atcoder.jp/contests/arc033/submissions/9964181[source] (C++14, 147ms)
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/Red%E2%80%93black_tree[Red-black tree - Wikipedia]
+
+***
+
+link:../index.html[戻る]

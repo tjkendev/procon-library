@@ -75,12 +75,12 @@ class AVLTree {
     inline Node* rotate_double_right() {
       Node *l = this->left, *p = this->prt,
            *m = l->right, *ml = m->left, *mr = m->right;
-      if(m->prt = p) {
+      if((m->prt = p)) {
         if(p->left == this) p->left = m;
         else p->right = m;
       }
-      if(l->right = ml) ml->prt = l;
-      if(this->left = mr) mr->prt = this;
+      if((l->right = ml)) ml->prt = l;
+      if((this->left = mr)) mr->prt = this;
       m->left = l; l->prt = m;
       m->right = this; this->prt = m;
 
