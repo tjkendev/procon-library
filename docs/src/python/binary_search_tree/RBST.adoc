@@ -5,16 +5,15 @@
 
 乱択アルゴリズムを用いた平衡二分探索木。
 
-サイズ$p$の木Aとサイズ$q$の木Bをマージする際、確率$\frac{p}{p+q}$で木Aの根、確率$\frac{q}{p+q}$で木Bの根をマージ後の根頂点にする、を再帰的に繰り返し、マージ後の木を構築。
-木の高さを$O(\log N)$にする。
+サイズ $N$ の(部分)木について、各keyが根になる確率が $\frac{1}{N}$ (= a random binary search tree) になるようにランダムに木の要素を操作する。
+
+この時、高さの期待値が $O(\log N)$ になる。
 
 == 計算量
 
-各クエリ $O(\log N)$
+各クエリ(期待値) $O(\log N)$
 
 == 実装
-
-merge-splitベース
 
 各ノードに以下の情報を持たせている
 
@@ -22,7 +21,7 @@ merge-splitベース
 - key
 - そのノード以下の部分木のサイズ
 
-高速化のために非再帰で処理するようにしている。
+非再帰版の実装
 
 [source, python]
 ----
@@ -31,13 +30,12 @@ include::./python/binary_search_tree/RBST.py[]
 
 === Verified
 
-merge, splitのコストが高くて遅い感じ
-
-* AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://arc033.contest.atcoder.jp/submissions/3410116[source] (PyPy3, TLE)
+* AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://atcoder.jp/contests/arc033/submissions/10042602[source] (PyPy3, 1292ms)
 
 == 参考ページ
 
 * link:https://www.slideshare.net/iwiwi/2-12188757[プログラミングコンテストでのデータ構造 2　～平衡二分探索木編～]
+* Martínez, Conrado, and Salvador Roura. "Randomized binary search trees." Journal of the ACM (JACM) 45.2 (1998): 288-323.
 
 
 ***
