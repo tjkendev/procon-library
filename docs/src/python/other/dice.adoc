@@ -1,0 +1,24 @@
+= サイコロ
+:title: {doctitle} - {pagetitle}
+
+サイコロ (Dice)
+
+== 概要
+
+サイコロに関する処理を扱う。
+
+link:http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ITP1_11_A&lang=ja[AOJ: "ITP1_11_A: Dice I"] ベースの実装
+
+== 実装
+
+[source, python]
+----
+include::./python/other/dice.py[]
+----
+
+=== Verified
+
+* AOJ: "0198: Trouble in Shinagawa's Artifacts": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4179170#1[source] (Python3, 0.10sec)
+
+***
+link:../index.html[戻る]

@@ -39,7 +39,7 @@ Python3で実装しています。
 * link:./geometry/polygon_area.html[多角形の面積]
 * link:./geometry/segment_line_intersection.html[線分同士の交差判定]
 * link:./geometry/line_cross_point.html[直線の交点]
-* link:./geometry/circle_line_cross_point.html[直線と円の交点]
+* link:./geometry/circle_line_cross_point.html[直線(線分)と円の交点]
 * link:./geometry/circle_cross_point.html[円同士の交点]
 * link:./geometry/circle_common_tangent_point.html[円の共通接線の接点]
 * link:./geometry/graham_scan.html[凸包 (Graham Scan)]
@@ -142,6 +142,10 @@ Python3で実装しています。
 * link:./string/z-algorithm.html[Z algorithm]
 
 == その他
+
+* link:./other/dice.html[サイコロ]
+
+== リンク
 
 * link:https://gist.github.com/tjkendev/63df75a6831119791ed1a657bc4c1988#file-golf-python2-md[コードゴルフテクニックメモ (gist)]
 
