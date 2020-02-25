@@ -144,6 +144,8 @@ Python3で実装しています。
 == その他
 
 * link:./other/dice.html[サイコロ]
+* link:./other/time-conversion.html[日付変換]
+* link:./other/parsing.html[構文解析]
 
 == リンク
 

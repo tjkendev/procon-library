@@ -1,0 +1,28 @@
+= 日付変換
+:title: {doctitle} - {pagetitle}
+
+日付変換
+
+== 概要
+
+様々な日付変換を行う
+
+== 実装
+
+- グレゴリオ暦(Gregorian Calendar Date)と修正ユリウス日(Modified Julian Date)の相互変換
+
+[source, python]
+----
+include::./python/other/time-conversion.py[]
+----
+
+=== Verified
+
+* AOJ: "0261: Mayan Crucial Prediction": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4195572[source] (Python3, 0.03sec)
+
+== 参考
+
+* link:https://ja.wikipedia.org/wiki/%E3%83%A6%E3%83%AA%E3%82%A6%E3%82%B9%E9%80%9A%E6%97%A5[ユリウス通日]
+
+***
+link:../index.html[戻る]

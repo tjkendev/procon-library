@@ -1,0 +1,30 @@
+= 構文解析
+:title: {doctitle} - {pagetitle}
+
+構文解析 (parsing)
+
+== 概要
+
+文字列の式等を簡易に構文解析しながら計算を行う。
+
+== 実装 (AOJ 0264)
+
+問題: link:http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0264[AOJ 0264: Finite Field Calculator]
+
+あるMOD上で 四則演算 + カッコ が含まれる式を計算する。
+
+[source, python]
+----
+include::./python/other/parsing1.py[]
+----
+
+=== Verified
+
+* AOJ: "0264: Finite Field Calculator": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4198258#1[source] (Python3, 0.69sec)
+
+== 参考
+
+* link:https://gist.github.com/draftcode/1357281[構文解析 Howto]
+
+***
+link:../index.html[戻る]
