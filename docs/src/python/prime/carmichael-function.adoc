@@ -1,0 +1,43 @@
+= カーマイケル関数
+:title: {doctitle} - {pagetitle}
+
+カーマイケル関数 (Carmichael function)
+
+== 概要
+カーマイケル関数 $\lambda (n)$ は、 1 から $n$ の間で $n$ と互いに素になる全ての整数 $a$ について、$a^m \equiv 1$ (mod $n$) となる最小の $m$ とする。
+
+自然数$n$の素因数分解が $n = p_1^{e_1} p_2^{e_2} ... p_k^{e_k}$ ($p_1, ..., p_k$ はそれぞれ異なる素数) と表される時、
+
+$p_i = 2$ の場合、 
+
+- $e_i = 1$ ならば $\lambda (p_i^{e_i}) = 1$
+- $e_i = 2$ ならば $\lambda (p_i^{e_i}) = 2$
+- $e_i \ge 3$ ならば $\lambda (p_i^{e_i}) = 2^{e_i - 2}$
+
+$p_i \ge 3$ の奇素数の場合、
+
+- $\lambda (p_i^{e_i}) = p_i^{e_i - 1} (p_i - 1)$
+
+で計算される。
+
+そして $\lambda(n)$ は以下で計算される。
+
+- $\lambda (n) = \text{lcm}(\lambda(p_1^{e_1}), \lambda(p_2^{e_2}), ..., \lambda(p_k^{e_k}))$
+
+=== カーマイケルの定理
+
+$a$ と $n$ を互いに素な整数とするとき、 $\displaystyle a^{\lambda(n)} \equiv 1$ (mod $n$) が成り立つ。
+
+== 実装
+
+[source, python]
+----
+include::./python/prime/carmichael-function.py[]
+----
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/Carmichael_function[Carmichael function - Wikipedia]
+
+***
+link:../index.html[戻る]
