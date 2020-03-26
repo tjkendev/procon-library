@@ -1,0 +1,38 @@
+= 最大クリーク問題 (Bron-Kerbosch Algorithm)
+:title: {doctitle} - {pagetitle}
+
+最大クリーク問題 (maximum clique problem)
+
+== 概要
+
+グラフ上の最大クリークを求める。
+
+Bron-Kerbosch Algorithm はバックトラックでグラフ上の極大クリーク(maximal clique)を全て列挙する。
+
+== 計算量
+
+頂点数を $N$ とする時、 $O(3^{N/3})$
+
+特に疎グラフに関しては $O(Nd 3^{d/3})$ ($d$ は グラフの degeneracy)
+
+== 実装
+
+グラフ上の最大クリークを一つ返す実装例
+
+[source, python]
+----
+include::./python/graph/bron-kerbosch.py[]
+----
+
+=== Verified
+
+- CodeChef: "CodeChef July Challenge 2018: Tom and Jerry": link:https://www.codechef.com/viewsolution/19209051[source] (PyPy2, 2.72sec)
+- AOJ: "2306 - Rabbit Party": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4293211[source] (Python3, 0.35sec)
+
+== 参考
+
+- link:https://en.wikipedia.org/wiki/Bron%E2%80%93Kerbosch_algorithm[Bron Kerbosch algorithm - Wikipedia]
+
+***
+
+link:../index.html[戻る]
