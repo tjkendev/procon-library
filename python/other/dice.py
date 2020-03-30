@@ -28,3 +28,12 @@ def enumerate_dice(L0):
     for k in p_dice:
         yield L
         L[:] = (L[e] for e in D[k])
+
+# サイコロの回転からグラフを構成
+def dice_graph(L0 = [0, 1, 2, 3, 4, 5]):
+    DA = list(map(tuple, enumerate_dice(L0)))
+    # DA.sort()
+    DM = {tuple(e): i for i, e in enumerate(DA)}
+    G = [list(DM[tuple(rotate_dice(ds, i))] for i in range(4)) for ds in DA]
+    return DA, G
+DA, DG = dice_graph()

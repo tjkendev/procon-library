@@ -4,6 +4,7 @@ def dot2(p, q):
     return p[0]*q[0] + p[1]*q[1]
 def dist2(p):
     return p[0]**2 + p[1]**2
+# Shortest distance between a line segment (p0-p1) and a point x
 def segment_line_dist(x, p0, p1):
     z0 = (p1[0] - p0[0], p1[1] - p0[1])
     z1 = (x[0] - p0[0], x[1] - p0[1])

@@ -31,7 +31,7 @@ include::./python/graph/bron-kerbosch.py[]
 
 == 参考
 
-- link:https://en.wikipedia.org/wiki/Bron%E2%80%93Kerbosch_algorithm[Bron Kerbosch algorithm - Wikipedia]
+- link:https://en.wikipedia.org/wiki/Bron%E2%80%93Kerbosch_algorithm[Bron-Kerbosch algorithm - Wikipedia]
 
 ***
 
