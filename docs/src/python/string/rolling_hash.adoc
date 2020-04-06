@@ -27,5 +27,20 @@ Rolling HashはHack可能なコンテストで使うと、ハッシュが衝突�
 include::./python/string/random_rolling_hash.py[]
 ----
 
+== 実装 (2次元)
+
+Rolling Hash を二次元配列上に拡張したもの
+
+特定の領域中の値が完全一致するかを判定できる。
+
+[source, python]
+----
+include::./python/string/rolling_hash-2d.py[]
+----
+
+=== Verified
+
+- AOJ: "1312: Where's Wally": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4310474#1[source] (Python3, 16.64sec)
+
 ***
 link:../index.html[戻る]

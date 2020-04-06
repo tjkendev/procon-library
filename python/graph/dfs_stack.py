@@ -24,6 +24,6 @@ def dfs_stack(N, G, s):
             break
         else:
             ... # D
-            R[w] = ... # E
+            R[v] = ... # E
             stk.pop()
     r0 = R[s]

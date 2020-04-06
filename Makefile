@@ -31,7 +31,7 @@ docs:
 		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(STATICDIR) \
 		-a jsdir=$(STATICDIR) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
 		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) \
-		-a nofooter -a inject_javascript=no \
+		-a nofooter -a inject_javascript=no -a lang=ja \
 		-a attribute-missing=warn --failure-level=WARN
 	@$(SGEN-CMD) $(BASEPATH) $(SRC) $(DST)
 
@@ -42,7 +42,7 @@ docs-local:
 		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(STATICDIR-LOCAL) \
 		-a jsdir=$(STATICDIR-LOCAL) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
 		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) \
-		-a nofooter -a inject_javascript=no \
+		-a nofooter -a inject_javascript=no -a lang=ja \
 		-a attribute-missing=warn --failure-level=WARN
 	$(SGEN-CMD) $(BASEPATH) $(SRC) $(DST-LOCAL)
 
