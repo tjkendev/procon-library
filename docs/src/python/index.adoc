@@ -37,6 +37,7 @@ Python3で実装しています。
 
 == 幾何
 
+* link:./geometry/reflection_point.html[点の線対称]
 * link:./geometry/polygon_area.html[多角形の面積]
 * link:./geometry/segment_line_intersection.html[線分同士の交差判定]
 * link:./geometry/segment_line_point_distance.html[線分と頂点の最短距離]

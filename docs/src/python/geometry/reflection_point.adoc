@@ -1,0 +1,31 @@
+= 点の線対称
+:title: {doctitle} - {pagetitle}
+
+reflection across a line
+
+== 概要
+
+点$(x_0, y_0)$ と 点$(x_1, y_1)$ を通る直線 を対称軸として ある点$(p, q)$ の線対称とする点を求める。
+
+ベクトル $(p - x_0, q - y_0)$ と $(x_1 - x_0, y_1 - y_0)$ の なす角を $\theta$ とする時、
+
+* $\displaystyle \left( \begin{array}{c} x_0 \\ y_0 \end{array} \right) + R(2\theta) \left( \begin{array}{c} p - x_0 \\ q - y_0 \end{array} \right)$
+
+を求める。 ($R(\theta)$は$2 \times 2$の回転行列)
+
+内積、外積から $\cos \theta$, $\sin \theta$ を求めた上で $\cos 2\theta$, $\sin 2\theta$ を求め、回転行列を計算する。
+
+== 実装
+
+[source, python]
+----
+include::./python/geometry/reflection_point.py[]
+----
+
+=== Verified
+
+- AOJ: "CGL_1_B: Reflection": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4328710#1[source] (Python3, 0.05sec)
+- AOJ: "2596: Points and Lines": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4328717#1[sourcce] (Python3, 0.03sec)
+
+***
+link:../index.html[戻る]
