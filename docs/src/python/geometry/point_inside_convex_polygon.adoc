@@ -1,0 +1,43 @@
+= 凸多角形の点包含判定
+:title: {doctitle} - {pagetitle}
+
+Check if a point is inside a convex polygon
+
+== 概要
+
+凸多角形 $P = (v_1, v_2, ..., v_N)$ に点 $w$ が含まれているかを判定する。
+
+=== 外積による判定
+
+各辺に対し、同じ側に含まれているかを判定する。
+
+具体的には、全ての $1 \le i \le N$ について外積 $(v_{i+1} - v_i) \times (w - v_i)$ が同じ符号(0含む)になるかを確認する。
+
+計算量: $O(N)$
+
+=== 二分探索による判定
+
+凸多角形 $P$ を $v_1v_iv_{i+1}$ ($2 \le i \le N-2$) の $N-2$個の三角形に分割し、点$w$がどの三角形に含まれるかを外積 $(v_i - v_1) \times (w - v_1)$ の符号によって判定しながら二分探索し、包含判定を行う。
+
+計算量: $O(\log N)$
+
+== 実装
+
+凸多角形の頂点は反時計回りのリストとして持つとする。
+
+[source, python]
+----
+include::./python/geometry/point_inside_convex_polygon.py[]
+----
+
+=== Verified
+
+* AOJ: "2827: Industrial Convex Pillar City": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4374060#1[source] (Python3, 16.71sec)
+
+== 参考
+
+* link:https://cp-algorithms.com/geometry/point-in-convex-polygon.html[Check if point belongs to the convex polygon in O(log N) - CP-Algorithms]
+
+***
+
+link:../index.html[戻る]
