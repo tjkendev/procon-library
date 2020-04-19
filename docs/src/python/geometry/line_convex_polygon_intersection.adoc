@@ -1,0 +1,46 @@
+= 凸多角形と直線の交差判定/交点
+:title: {doctitle} - {pagetitle}
+
+Intersection between a convex polygon and a line
+
+== 概要
+
+凸多角形 $P = (v_1, v_2, ..., v_N)$ と 点$p_0, p_1$ を通る直線の交差判定と交点を求める
+
+$h(i) = (v_{(i-1 \text{ mod } N)+1} - p_0) \times (p_1 - p_0)$ と定義する。
+
+関数$h$ の最大値をとる$x$ を $x_1$, 最小値をとる$x$ を $x_0$ とする時、
+この関数は以下の性質を満たす
+
+- 区間$[x_0+1, x_0+N-1]$ について 関数$h$ は上に凸な関数
+- 区間$[x_1+1, x_1+N-1]$ について 関数$h$ は下に凸な関数
+
+この最大値と最小値は2回の三分探索で求める。
+1回目の三分探索では 区間$[1, N]$ で定義される以下の関数$g$上で最小値をとる $x_0$ を求める。($h(1) = h(N)$ の場合は特殊ケースとして処理)
+
+$\displaystyle g(x) = \min\left(h(x), \frac{h(N) - h(1)}{N-1}(x-1) + h(1)\right)$
+
+2回目の三分探索では 区間$[x_0+1, x_0+N-1]$ 上の関数$h$で $x_1$ を求める。
+
+この最大値、最小値を求めた後、交点を含む辺を見つけるために $h(i)$ の符号が変化する箇所を二分探索で求める。
+
+== 計算量
+
+$O(\log N)$
+
+== 実装
+
+凸多角形の頂点は反時計回りのリストとして持つとする。
+
+[source, python]
+----
+include::./python/geometry/line_convex_polygon_intersection.py[]
+----
+
+== 参考
+
+* Chazelle, Bernard, and David P. Dobkin. "Intersection of convex objects in two and three dimensions." Journal of the ACM (JACM) 34.1 (1987): 1-27.
+
+***
+
+link:../index.html[戻る]

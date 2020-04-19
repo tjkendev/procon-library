@@ -49,6 +49,7 @@ Python3で実装しています。
 * link:./geometry/graham_scan.html[凸包 (Graham Scan)]
 * link:./geometry/point_inside_convex_polygon.html[凸多角形の点包含判定]
 * link:./geometry/convex_polygons_intersection.html[凸多角形同士の交差判定]
+* link:./geometry/line_convex_polygon_intersection.html[凸多角形と直線の交差判定/交点]
 * link:./geometry/rotating_calipers.html[最遠点対 (キャリパー法)]
 * link:./geometry/closest_pair.html[最近点対 (分割統治法)]
 * link:./geometry/compress.html[座標圧縮]
