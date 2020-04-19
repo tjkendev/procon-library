@@ -1,0 +1,54 @@
+= 多角形の点包含判定
+:title: {doctitle} - {pagetitle}
+
+Check if a point is inside a polygon
+
+== 概要
+
+多角形 $P = (v_1, v_2, ..., v_N)$ に点 $w$ が含まれているかを判定する。
+
+=== Ray Casting Algorithm
+
+点$w$ から半直線を出し、多角形$P$と何回交差するかで包含判定する。
+
+多角形$P$ と奇数回交差している場合に包含されていると判定する。
+
+計算量: $O(N)$
+
+=== Winding Number Algorithm
+
+点$w$ から見て、多角形$P$ 上を移動する時に何回転するかによって包含判定を行う。この時、回転しなければ包含されず、1回転以上すれば包含していることを意味する。
+
+半直線 $wv_i$ と 半直線 $wv_{i+1}$ のなす角 $\theta_i$ を求め、その総和 $\displaystyle \sum_{1 \le i \le N} \theta_i$ を確認する。
+
+この値が 0 以外 (この時は $2 \pi$ またはその倍数) になれば包含され、0の場合は包含されないことが分かる。
+
+計算量: $O(N)$
+
+== 実装
+
+凸多角形の頂点は反時計回りのリストとして持つとする。
+
+[source, python]
+----
+include::./python/geometry/point_inside_polygon.py[]
+----
+
+=== Verified
+
+==== Ray Casting Algorithm
+
+* AOJ: "CGL_3_C: Polygon-Point Containment": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4375020#1[source] (Python3, 0.07sec)
+
+==== Winding Number Algorithm
+
+* AOJ: "CGL_3_C: Polygon-Point Containment": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4374688#1[source] (Python3, 0.11sec)
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/Point_in_polygon[Point in polygon - Wikipedia]
+* O'rourke, Joseph. Computational geometry in C. Cambridge university press, 1998.
+
+***
+
+link:../index.html[戻る]
