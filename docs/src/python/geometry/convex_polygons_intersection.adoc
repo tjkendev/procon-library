@@ -1,0 +1,38 @@
+= 凸多角形同士の交差判定
+:title: {doctitle} - {pagetitle}
+
+Intersection of Convex Polygons
+
+== 概要
+
+凸多角形同士の交差判定を行う。
+
+2つの凸多角形 $P = (v_1, v_2, ..., v_N)$, $Q = (w_1, w_2, ..., w_M)$ の交差判定を行う。
+
+それぞれの凸多角形のある辺から始め、外積によって辺の位置関係を判定しながら走査し交差している箇所を求める。
+
+== 計算量
+
+$O(N + M)$
+
+== 実装
+
+凸多角形の頂点は反時計回りのリストとして持つとする。
+
+[source, python]
+----
+include::./python/geometry/convex_polygons_intersection.py[]
+----
+
+=== Verified
+
+* AOJ: "2827: Industrial Convex Pillar City": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4374060#1[source] (Python3, 16.71sec)
+
+== 参考
+
+* O'Rourke, Joseph, et al. "A new linear algorithm for intersecting convex polygons." Computer Graphics and Image Processing 19.4 (1982): 384-391.
+* O'rourke, Joseph. Computational geometry in C. Cambridge university press, 1998.
+
+***
+
+link:../index.html[戻る]
