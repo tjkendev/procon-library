@@ -1,11 +1,17 @@
 = 凸包 (Graham Scan)
 :title: {doctitle} - {pagetitle}
 
+Convex Hull (Graham Scan)
+
 == 概要
 
 凸包をGraham Scanで求める
 
-計算量は$O(N \log N)$
+== 計算量
+
+$O(N \log N)$
+
+== 実装
 
 [source, python]
 ----

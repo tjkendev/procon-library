@@ -27,7 +27,7 @@ Check if a point is inside a polygon
 
 == 実装
 
-凸多角形の頂点は反時計回りのリストとして持つとする。
+多角形の頂点は反時計回りのリストとして持つとする。
 
 [source, python]
 ----

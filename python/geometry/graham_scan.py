@@ -6,6 +6,7 @@ def convex_hull(ps):
     qs = []
     n = len(ps)
     for p in ps:
+        # 一直線上で高々2点にする場合は ">=" にする
         while len(qs)>1 and cross(qs[-1], qs[-2], p) > 0:
             qs.pop()
         qs.append(p)

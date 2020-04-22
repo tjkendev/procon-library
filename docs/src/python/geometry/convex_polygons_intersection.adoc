@@ -1,4 +1,4 @@
-= 凸多角形同士の交差判定
+= 凸多角形同士の交差判定/交点
 :title: {doctitle} - {pagetitle}
 
 Intersection of Convex Polygons
