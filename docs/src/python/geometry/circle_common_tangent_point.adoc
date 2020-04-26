@@ -1,11 +1,13 @@
-= 円の共通接線の接点
+= 円の共通接線の接点/接線
 :title: {doctitle} - {pagetitle}
 
 == 概要
 
 円1: 中心$(x_1, y_1)$ 半径$r_1$ と 円2: 中心$(x_2, y_2)$ 半径$r_2$ の2つの円がなす共通接線の接点を求める。
 
-今回は円1の方の共通内接線(最大2本)と共通外接線(最大2本)の接点を計算する。
+(円1の方の)共通内接線(最大2本)と共通外接線(最大2本)の接点を計算する。
+
+もしくは、接線上の2点を求める。
 
 === 具体的計算
 
@@ -25,7 +27,7 @@ $d_x = x_2 - x_1$, $d_y = y_2 - y_1$ とした時、接点を
 
 この時 $|\cos \theta| > 1$ の場合は接線が存在しない。また、$|\cos \theta| = 1$ の場合は接線が1本のみ存在する。
 
-== 実装
+== 実装(円1の接点)
 
 AOJ: "CGL_7_G: Circles - Common Tangent"で提出した実装のPython3版
 
@@ -37,6 +39,17 @@ include::./python/geometry/circle_common_tangent_point.py[]
 === Verified
 
 - AOJ: "CGL_7_G: Circles - Common Tangent": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416636#1[source] (Python2, 0.01sec)
+
+== 実装(接線上の2点)
+
+[source, python]
+----
+include::./python/geometry/circle_common_tangent_line.py[]
+----
+
+=== Verified
+
+- AOJ: "2201: Immortal Jewels": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4401736#1[source] (Python3, 6.64sec)
 
 ***
 link:../index.html[戻る]
