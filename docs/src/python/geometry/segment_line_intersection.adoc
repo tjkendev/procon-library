@@ -9,8 +9,6 @@
 
 == 実装
 
-AOJ: "CGL_2_B: Segments/Lines - Intersection"で提出した実装
-
 [source, python]
 ----
 include::./python/geometry/segment_line_intersection.py[]

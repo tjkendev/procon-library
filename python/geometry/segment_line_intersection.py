@@ -20,6 +20,15 @@ def is_intersection(P0, P1, Q0, Q1):
             E0, E1 = E1, E0
         return E0 <= dist2(P0, P1) and 0 <= E1
     return C0 * C1 <= 0 and D0 * D1 <= 0
-for q in range(int(input())):
-    x0, y0, x1, y1, x2, y2, x3, y3 = map(int, input().split())
-    print(+is_intersection((x0, y0), (x1, y1), (x2, y2), (x3, y3)))
+
+# 線分と線分
+print(is_intersection((0, 0), (1, 1), (0, 1), (1, 0)))
+# => "True"
+print(is_intersection((0, 0), (1, 1), (0, 2), (3, 2)))
+# => "False"
+
+# 点と線分の交差判定: 点 (1, 1)
+print(is_intersection((1, 1), (1, 1), (0, 0), (3, 3)))
+# => "True"
+print(is_intersection((1, 1), (1, 1), (-3, -2), (1, 1)))
+# => "True"
