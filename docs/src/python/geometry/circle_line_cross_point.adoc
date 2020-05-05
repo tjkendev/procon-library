@@ -21,7 +21,7 @@ $(d_x^2 + d_y^2) s^2 -2 (d_x X + d_y Y) s + (X^2 + Y^2 - r^2) = 0$
 
 この時、 $0 \le s \le 1$ に制限することで、線分と円の交点を求めることができる。
 
-== 実装
+== 実装: 直線と円の交点計算
 
 AOJ: "CGL_7_D: Circles - Cross Points of a Circle and a Line"で提出した実装のPython3版
 
@@ -33,6 +33,17 @@ include::./python/geometry/circle_line_cross_point.py[]
 === Verified
 
 * AOJ: "CGL_7_D: Circles - Cross Points of a Circle and a Line": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416269#1[source] (Python2, 0.01sec)
+
+== 実装: 線分と円の交差判定
+
+[source, python]
+----
+include::./python/geometry/circle_line_segment_intersection.py[]
+----
+
+=== Verified
+
+* AOJ: "0129: Hide-and-Seek Supporting System": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4432301#1[source] (Python3, 0.06sec)
 
 ***
 link:../index.html[戻る]
