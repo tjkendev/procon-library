@@ -9,6 +9,7 @@ Python3で実装しています。
 
 == 整数・有理数
 
+* link:./math/rounding_fractions.html[分数の端数処理]
 * link:./math/gcd.html[最大公約数 ((拡張)ユークリッドの互除法)]
 * link:./math/factorial.html[階乗]
 * link:./math/chinese-remainder.html[中国余剰定理]

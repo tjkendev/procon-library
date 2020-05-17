@@ -19,7 +19,7 @@ Ford-Fulkerson algorithmよりも早い最大流アルゴリズム。
 
 == 計算量
 
-$O(V^2E)$
+$O(|V|^2|E|)$
 
 == 実装
 

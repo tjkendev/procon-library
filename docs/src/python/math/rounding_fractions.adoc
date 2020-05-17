@@ -1,0 +1,23 @@
+= 分数の端数処理
+:title: {doctitle} - {pagetitle}
+
+Rounding fractions
+
+== 概要
+
+ある整数 $p, q$ で表される分数 $\frac{p}{q}$ を整数に変換する時の端数処理
+
+- 切り上げ (rounding up)
+- 切り捨て (rounding down)
+- 四捨五入 (rounding half up)
+- 五捨五超入 (rounding half down)
+
+== 実装
+
+[source, python]
+----
+include::./python/math/rounding_fractions.py[]
+----
+
+***
+link:../index.html[戻る]
