@@ -1,0 +1,30 @@
+= 直線による凸多角形の切断
+:title: {doctitle} - {pagetitle}
+
+Cut a convex polygon by a line
+
+== 概要
+
+凸多角形 $P = (v_1, v_2, ..., v_N)$ を 点$p_0, p_1$ で切断し、その左側にできる凸多角形 $P'$ を求める
+
+== 計算量
+
+$O(N)$
+
+== 実装
+
+凸多角形の頂点は反時計回りのリストとして持つとする。
+
+[source, python]
+----
+include::./python/geometry/line_convex_polygon_cut.py[]
+----
+
+=== Verified
+
+* AOJ: "CGL_4_C: Convex Cut": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4547014[source] (Python3, 0.03sec)
+* AOJ: "2160: Voronoi Island": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4546990[source] (Python3, 0.04sec)
+
+***
+
+link:../index.html[戻る]
