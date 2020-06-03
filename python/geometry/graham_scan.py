@@ -4,16 +4,16 @@ def cross3(a, b, c):
 # ps = [(x, y), ...]: ソートされた座標list
 def convex_hull(ps):
     qs = []
-    n = len(ps)
+    N = len(ps)
     for p in ps:
         # 一直線上で高々2点にする場合は ">=" にする
-        while len(qs)>1 and cross3(qs[-1], qs[-2], p) > 0:
+        while len(qs) > 1 and cross3(qs[-1], qs[-2], p) > 0:
             qs.pop()
         qs.append(p)
     t = len(qs)
-    for i in range(n-2, -1, -1):
+    for i in range(N-2, -1, -1):
         p = ps[i]
-        while len(qs)>t and cross3(qs[-1], qs[-2], p) > 0:
+        while len(qs) > t and cross3(qs[-1], qs[-2], p) > 0:
             qs.pop()
         qs.append(p)
     return qs
