@@ -1,0 +1,37 @@
+= Merge Sort Tree
+:title: {doctitle} - {pagetitle}
+
+Merge Sort Tree
+
+== 概要
+
+前計算でセグメント木上にソートした要素の配列を持たせる。
+
+その上で、以下のクエリを処理する。
+
+- 区間$[l, r]$ において $a_i \le K$ を満たす要素の数を求める
+
+== 計算量
+
+- 前計算: $O(N \log N)$
+- クエリ: 1クエリ $O(\log^2 N)$
+
+== 実装
+
+非再帰実装
+
+[source, python]
+----
+include::./python/range_query/merge-sort-tree.py[]
+----
+
+=== Verified
+
+* AOJ: "2907: Prefix Suffix Search": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4535727#1[source] (Python3, 12.00sec)
+
+== 参考
+
+- link:https://discuss.codechef.com/t/merge-sort-tree-tutorial/14277/2[Merge Sort Tree - Tutorial]
+
+***
+link:../index.html[戻る]

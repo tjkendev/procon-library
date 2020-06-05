@@ -83,6 +83,7 @@ Python3で実装しています。
 * link:./range_query/rmq_ruq_segment_tree_lp.html[RMQ and RUQ (遅延評価セグメント木)]
 * link:./range_query/rmq_raq_segment_tree_lp.html[RMQ and RAQ (遅延評価セグメント木)]
 * link:./range_query/rsq_ruq_segment_tree_lp.html[RSQ and RUQ (遅延評価セグメント木)]
+* link:./range_query/merge-sort-tree.html[Merge Sort Tree]
 * link:./range_query/link-cut-tree.html[Link-Cut Tree]
 * link:./range_query/sliding_window_minimum.html[Sliding Window Minimum]
 * link:./convex_hull_trick/li_chao_tree.html[Convex Hull Trick (Li Chao (Segment) Tree)]

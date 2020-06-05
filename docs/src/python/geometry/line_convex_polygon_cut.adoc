@@ -1,7 +1,7 @@
 = 直線による凸多角形の切断
 :title: {doctitle} - {pagetitle}
 
-Cut a convex polygon by a line
+Cutting a convex polygon by a line
 
 == 概要
 
