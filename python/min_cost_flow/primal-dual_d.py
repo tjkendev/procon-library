@@ -1,55 +1,61 @@
 from heapq import heappush, heappop
 class MinCostFlow:
     INF = 10**18
- 
+
     def __init__(self, N):
         self.N = N
         self.G = [[] for i in range(N)]
- 
+
     def add_edge(self, fr, to, cap, cost):
-        G = self.G
-        G[fr].append([to, cap, cost, len(G[to])])
-        G[to].append([fr, 0, -cost, len(G[fr])-1])
- 
+        forward = [to, cap, cost, None]
+        backward = forward[3] = [fr, 0, -cost, forward]
+        self.G[fr].append(forward)
+        self.G[to].append(backward)
+
     def flow(self, s, t, f):
         N = self.N; G = self.G
         INF = MinCostFlow.INF
- 
+
         res = 0
         H = [0]*N
         prv_v = [0]*N
-        prv_e = [0]*N
- 
+        prv_e = [None]*N
+
+        d0 = [INF]*N
+        dist = [INF]*N
+
         while f:
-            dist = [INF]*N
+            dist[:] = d0
             dist[s] = 0
             que = [(0, s)]
- 
+
             while que:
                 c, v = heappop(que)
                 if dist[v] < c:
                     continue
-                for i, (w, cap, cost, _) in enumerate(G[v]):
-                    if cap > 0 and dist[w] > dist[v] + cost + H[v] - H[w]:
-                        dist[w] = r = dist[v] + cost + H[v] - H[w]
-                        prv_v[w] = v; prv_e[w] = i
+                r0 = dist[v] + H[v]
+                for e in G[v]:
+                    w, cap, cost, _ = e
+                    if cap > 0 and r0 + cost - H[w] < dist[w]:
+                        dist[w] = r = r0 + cost - H[w]
+                        prv_v[w] = v; prv_e[w] = e
                         heappush(que, (r, w))
             if dist[t] == INF:
-                return -1
- 
+                return None
+
             for i in range(N):
                 H[i] += dist[i]
- 
+
             d = f; v = t
             while v != s:
-                d = min(d, G[prv_v[v]][prv_e[v]][1])
+                d = min(d, prv_e[v][1])
                 v = prv_v[v]
             f -= d
             res += d * H[t]
             v = t
             while v != s:
-                e = G[prv_v[v]][prv_e[v]]
+                e = prv_e[v]
                 e[1] -= d
-                G[v][e[3]][1] += d
+                e[3][1] += d
                 v = prv_v[v]
         return res
