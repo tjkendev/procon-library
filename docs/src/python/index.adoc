@@ -27,6 +27,7 @@ Python3で実装しています。
 == 組合せ
 
 * link:./combinatorics/twelvefold-way.html[写像12相]
+* link:./combinatorics/catalans-triangle.html[カタランの三角形]
 
 == 動的計画法
 

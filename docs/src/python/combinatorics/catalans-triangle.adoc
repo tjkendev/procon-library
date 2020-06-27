@@ -1,0 +1,36 @@
+# カタランの三角形
+:title: {doctitle} - {pagetitle}
+
+Catalan's Triangle
+
+== 概要
+
+$N$ 個の $X$ と $K$ 個の $Y$ を1列に並べる時に、全ての接頭辞において $Y$ の個数が $X$ の個数を超えないように並べる場合の通り数を $C(N, K)$ とする。
+
+カタランの三角形は、この $C(N, K)$ を項とする number triangle である。
+
+また、 $N = K$ の場合の数は カタラン数(Catalan numbers) と呼ばれる。
+
+$C(N, K)$ は以下の式で表せる
+
+- $\displaystyle C(N, K) = \frac{(N+K)!(N-K+1)}{K!(N+1)!}$
+- $k > 0$ について $\displaystyle C(N, K) = {}_{N+K}C_{K} - {}_{N+K}C_{K-1}$
+
+== 実装
+
+[source, python]
+----
+include::./python/combinatorics/catalans-triangle.py[]
+----
+
+=== Verified
+
+* AOJ: "2335: 10-Year-Old Dynamic Programming": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4553614#1[source] (Python3, 0.17sec)
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/Catalan%27s_triangle[Catalan's triangle - Wikipedia]
+* link:https://mathworld.wolfram.com/CatalansTriangle.html[Catalan's Triangle - Wolfram MathWorld]
+
+***
+link:../index.html[戻る]
