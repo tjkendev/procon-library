@@ -1,0 +1,41 @@
+= KMP法
+:title: {doctitle} - {pagetitle}
+
+KMP法 (KMP algorithm, Knuth-Morris-Pratt algorithm)
+
+== 概要
+
+文字列探索アルゴリズム。
+
+ある文字列$T$について、文字列$S$にマッチングする箇所を探索する。
+
+KMP法では、ミスマッチした時に次に探索を開始すべき位置を効率的に決定することで、線形に探索する。
+
+次に探索を開始すべき位置を決定するために、まずテーブルを構築する。
+
+そして、テーブルを元に 文字列$T$ の中から 文字列$S$ にマッチする箇所を探索する。
+
+== 計算量
+
+- 部分マッチテーブルの構築: $O(|S|)$
+- 文字列探索: $O(|T|)$
+
+== 実装
+
+[source, python]
+----
+include::./python/string/kmp.py[]
+----
+
+=== Verified
+
+* AOJ: "ALDS1_14_B: String Search": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4623918#1[source] (Python3, 0.74sec)
+
+== 参考
+
+- link:https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm[Knuth–Morris–Pratt algorithm - Wikipedia]
+- link:https://snuke.hatenablog.com/entry/2014/12/01/235807[文字列の頭良い感じの線形アルゴリズムたち - あなたは嘘つきですかと聞かれたら「YES」と答えるブログ]
+
+***
+
+link:../index.html[戻る]

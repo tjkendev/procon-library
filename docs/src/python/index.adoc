@@ -147,6 +147,7 @@ Python3で実装しています。
 
 == 文字列
 
+* link:./string/kmp.html[KMP法]
 * link:./string/rolling_hash.html[Rolling Hash]
 * link:./string/sa_manber_and_myers.html[Suffix Array (Manber and Myers Algorithm)]
 * link:./string/sa_rolling_hash.html[Suffix Array (Rolling Hash)]
