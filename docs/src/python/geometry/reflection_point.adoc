@@ -25,7 +25,8 @@ include::./python/geometry/reflection_point.py[]
 === Verified
 
 - AOJ: "CGL_1_B: Reflection": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4328710#1[source] (Python3, 0.05sec)
-- AOJ: "2596: Points and Lines": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4328717#1[sourcce] (Python3, 0.03sec)
+- AOJ: "2596: Points and Lines": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4328717#1[source] (Python3, 0.03sec)
+- AOJ: "2569: Putter": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4800156#1[source] (Python3, 0.33sec)
 
 ***
 link:../index.html[戻る]

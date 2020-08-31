@@ -1,7 +1,7 @@
 = Sliding Window Minimum
 :title: {doctitle} - {pagetitle}
 
-Sliding Window Minimum Algorithm
+スライド最小値, Sliding Window Minimum Algorithm
 
 == 概要
 
