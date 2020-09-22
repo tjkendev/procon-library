@@ -28,6 +28,7 @@ include::./python/geometry/convex_polygons_intersection.py[]
 
 * AOJ: "2827: Industrial Convex Pillar City": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4374060#1[source] (Python3, 16.71sec)
 * AOJ: "1298: Separate Points": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4402244#1[source] (Python3, 0.25sec)
+* AOJ: "1606: Complex Paper Folding": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4848118#1[source] (Python3, 0.28sec)
 
 == 参考
 

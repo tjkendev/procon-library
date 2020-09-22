@@ -1,21 +1,18 @@
-def solve(x0, y0, x1, y1, x2, y2, x3, y3):
-    dx0 = x1 - x0
-    dy0 = y1 - y0
-    dx1 = x3 - x2
-    dy1 = y3 - y2
+def line_cross_point(P0, P1, Q0, Q1):
+    x0, y0 = P0; x1, y1 = P1
+    x2, y2 = Q0; x3, y3 = Q1
+    a0 = x1 - x0; b0 = y1 - y0
+    a2 = x3 - x2; b2 = y3 - y2
 
-    s = (y0-y2)*dx1 - (x0-x2)*dy1
-    sm = dx0*dy1 - dy0*dx1
-    if s < 0:
-        s = -s
-        sm = -sm
-    if s == 0:
-        x = x0
-        y = y0
-    else:
-        x = x0 + s*dx0/sm
-        y = y0 + s*dy0/sm
-    return x, y
+    d = a0*b2 - a2*b0
+    if d == 0:
+        # two lines are parallel
+        return None
 
-for t in range(int(input())):
-    print("%.09f %.09f" % solve(*map(int, input().split())))
+    # s = sn/d
+    sn = b2 * (x2-x0) - a2 * (y2-y0)
+    # t = tn/d
+    #tn = b0 * (x2-x0) - a0 * (y2-y0)
+    return x0 + a0*sn/d, y0 + b0*sn/d
+print(line_cross_point((0, 0), (0, 3), (1, 10), (3, -1)))
+# => (0.0, 15.5)

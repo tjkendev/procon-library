@@ -44,7 +44,7 @@ Python3で実装しています。
 * link:./geometry/point_inside_polygon.html[多角形の点包含判定]
 * link:./geometry/segment_line_intersection.html[線分同士の交差判定]
 * link:./geometry/segment_line_point_distance.html[線分と頂点の最短距離]
-* link:./geometry/line_cross_point.html[直線の交点]
+* link:./geometry/line_cross_point.html[直線同士の交点]
 * link:./geometry/circle_line_cross_point.html[直線(線分)と円の交点]
 * link:./geometry/circle_cross_point.html[円同士の交点]
 * link:./geometry/circle_common_tangent_point.html[円の共通接線の接点/接線]
