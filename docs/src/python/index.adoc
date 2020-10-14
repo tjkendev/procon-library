@@ -97,6 +97,7 @@ Python3で実装しています。
 * link:./graph/warshall-floyd.html[全点対最短経路 (ワーシャルフロイド法)]
 * link:./graph/johnson.html[全点対最短経路 (Johnson's Algorithm)]
 * link:./graph/bfs.html[単一始点最短経路 (BFS)]
+* link:./graph/lattice-graph-bfs.html[単一始点最短経路 (BFS, 格子グラフ)]
 * link:./graph/01-bfs.html[単一始点最短経路 (0-1-BFS)]
 * link:./graph/bellman-ford.html[単一始点最短経路 (ベルマンフォード法)]
 * link:./graph/dijkstra.html[単一始点最短経路 (ダイクストラ法, 二分ヒープ)]
@@ -134,6 +135,8 @@ Python3で実装しています。
 
 == 行列・数列
 
+* link:./matrix/matrix-multiplication.html[行列乗算 (naive)]
+* link:./matrix/gaussian-elimination.html[連立一次方程式 (掃き出し法)]
 * link:./sequence/number_of_inversions.html[反転数]
 * link:./matrix/bit_matrix.html[ビット行列 (Bit-Parallel Algorithm)]
 * link:./series/fibonacci.html[フィボナッチ数列]

@@ -1,0 +1,40 @@
+= 行列乗算 (naive)
+:title: {doctitle} - {pagetitle}
+
+Matrix Multiplication
+
+== 概要
+
+$N \times N$ の行列 $A$, $B$ について、 $AB = C$ となる $C$ を計算する。
+
+行列 $A, B, C$ の$i$行$j$列の要素をそれぞれ $a_{ij}, b_{ij}, c_{ij}$ とする時、
+
+$\displaystyle c_{ij} = \sum_{1 \le k \le N} a_{ik} b_{kj}$
+
+で計算される。
+
+== 計算量
+
+$O(N^3)$
+
+== 実装
+
+[source, python]
+----
+include::./python/matrix/matrix-multiplication.py[]
+----
+
+== 実装 (logical matrix)
+
+[source, python]
+----
+include::./python/matrix/matrix-multiplication-logical.py[]
+----
+
+=== Verified
+
+- AOJ: "2624: Graph Automata Player": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4886864#1[source] (Python3, 36.71sec)
+
+***
+
+link:../index.html[戻る]

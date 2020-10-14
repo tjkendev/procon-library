@@ -1,9 +1,11 @@
 = Binary Indexed Tree
 :title: {doctitle} - {pagetitle}
 
+Binary Indexed Tree, BIT, Fenwick Tree
+
 == 概要
 
-Binary Indexed Tree (BIT, Fenwick Tree) は、部分和と要素の更新のクエリを行う木構造である。
+部分和と要素の更新のクエリを行う木構造。
 
 配列 $a_1, a_2, ..., a_N$を管理するBITは以下のクエリを1回$O(\log N)$で処理できる。
 

@@ -13,7 +13,7 @@ $d_x = x_2 - x_1$, $d_y = y_2 - y_1$とする。
 
 $(x - c_x)^2 + (y - c_y)^2 = r^2$を変形すると、 $X = x_1 - c_x$, $Y = y_1 - c_y$ とした時に、
 
-$(d_x^2 + d_y^2) s^2 -2 (d_x X + d_y Y) s + (X^2 + Y^2 - r^2) = 0$
+$(d_x^2 + d_y^2) s^2 + 2 (d_x X + d_y Y) s + (X^2 + Y^2 - r^2) = 0$
 
 が得られるため、この$s$の解を計算する。
 
@@ -35,6 +35,12 @@ include::./python/geometry/circle_line_cross_point.py[]
 * AOJ: "CGL_7_D: Circles - Cross Points of a Circle and a Line": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416269#1[source] (Python2, 0.01sec)
 
 == 実装: 線分と円の交差判定
+
+$st$-平面において $f(s) = (d_x^2 + d_y^2) s^2 + 2 (d_x X + d_y Y) s + (X^2 + Y^2 - r^2)$ が $t = 0 (0 \le s \le 1)$ との交差条件(以下のいずれか)を満たすかを判定している。
+
+1. $f(0) \ge 0$ かつ $f(1) \le 0$
+2. $f(0) \le 0$ かつ $f(1) \ge 0$
+3. $f(0) > 0$ かつ $f(1) > 0$ かつ $f(s)$ が最小値を $0 \le s \le 1$ で取り、その最小値が 0 以下
 
 [source, python]
 ----

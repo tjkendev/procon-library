@@ -21,9 +21,15 @@
 
 で計算できる ($R(\theta)$は$2 \times 2$の回転行列)
 
-== 実装
+=== 頂点から円への接点の計算
 
-AOJ: "CGL_7_E: Circles - Cross Points of Circles"で提出した実装のPython3版
+応用で 中心 $(x_1, y_1)$ 半径 $r_1$ に対する、点 $(x_2, y_2)$ から引いた接線がなす接点を計算できる。
+
+2点 $(x_1, y_1)$ と $(x_2, y_2)$ の距離を $r_0$ とする時、
+
+この接点は 中心 $(x_1, y_1)$ 半径 $r_1$ と 中心$(x_2, y_2)$ 半径 $\sqrt{r_0^2 - r_1^2}$ の交点を計算することで求まる。
+
+== 実装
 
 [source, python]
 ----
@@ -33,6 +39,7 @@ include::./python/geometry/circle_cross_point.py[]
 === Verified
 
 - AOJ: "CGL_7_E: Circles - Cross Points of Circles": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416434#1[source] (Python2, 0.01sec)
+- AOJ: "2697: Runner and Sniper": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4896313#1[source] (Python3, 0.03sec)
 
 ***
 link:../index.html[戻る]

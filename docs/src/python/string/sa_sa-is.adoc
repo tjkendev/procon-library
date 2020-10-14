@@ -1,15 +1,17 @@
 = Suffix Array (SA-IS)
 :title: {doctitle} - {pagetitle}
 
-SA-IS(Suffix Array - Induced Sorting)によるSuffix Arrayの計算
+SA-IS (Suffix Array - Induced Sorting)
 
 == 概要
 
-SA-ISでは、バケットソートをベースにしたInduced SortによってSuffix Arrayをほぼ線形で計算する。
+バケットソートをベースにしたInduced SortによってSuffix Arrayをほぼ線形で計算する。
 
 == 実装
 
 Suffix Arrayとして早いはずだけど、実装が重いのか遅い...
+
+簡単なコメント付き版: https://gist.github.com/tjkendev/99d7330fe5642004b68268b31ba38ad4
 
 [source, python]
 ----
