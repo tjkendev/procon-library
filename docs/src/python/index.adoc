@@ -14,6 +14,7 @@ Python3で実装しています。
 * link:./math/factorial.html[階乗]
 * link:./math/chinese-remainder.html[中国余剰定理]
 * link:./math/baby-step-giant-step.html[離散対数問題 (Baby-step giant-step)]
+* link:./math/tonelli-shanks.html[素数mod上の平方根 (Tonelli-Shanks algorithm)]
 * link:./math/stern-brocot-tree.html[Stern-Brocot tree]
 
 == 素数

@@ -1,0 +1,22 @@
+= 素数mod上の平方根 (Tonelli-Shanks algorithm)
+:title: {doctitle} - {pagetitle}
+
+square roots modulo a prime
+
+== 概要
+
+ある奇素数 $p$ と $p$の平方剰余(Quadratic residue) となる $y$ について $x^2 \equiv y$ (mod $p$) となる $x$ を求めるアルゴリズム。
+
+== 実装
+
+[source, python]
+----
+include::./python/math/tonelli-shanks.py[]
+----
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/Tonelli%E2%80%93Shanks_algorithm[Tonelli-Shanks algorithm - Wikipedia]
+
+***
+link:../index.html[戻る]

@@ -12,8 +12,8 @@ def gcd2(m, n):
 # Extended Euclidean Algorithm
 def extgcd(a, b):
     if b:
-        d, y, x = extgcd(b, a%b)
-        y -= (a/b)*x
+        d, y, x = extgcd(b, a % b)
+        y -= (a // b)*x
         return d, x, y
     else:
         return a, 1, 0
