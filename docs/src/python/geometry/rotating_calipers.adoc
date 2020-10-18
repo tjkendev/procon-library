@@ -11,8 +11,6 @@
 
 == 実装
 
-蟻本ベース実装
-
 link:./graham_scan.html[凸包] と合わせて使う
 
 [source, python]
@@ -23,6 +21,10 @@ include::./python/geometry/rotating_calipers.py[]
 === Verified
 
 - AOJ: "CGL_4_B: Convex Polygon - Diameter of a Convex Polygon": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1894359#1[source] (Python2, 0.35sec)
+
+== 参考
+
+* 秋葉拓哉, 岩田陽一, and 北川宜稔. "プログラミングコンテストチャレンジブック." (2010).
 
 ***
 

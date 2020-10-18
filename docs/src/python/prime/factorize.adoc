@@ -1,11 +1,13 @@
-= 素因数分解
+= 素因数分解 (試し割り法)
 :title: {doctitle} - {pagetitle}
 
 素因数分解 (prime factorization)
 
 == 概要
 
-1つの数$N$を素因数分解する。
+1つの数 $N$ を素因数分解する。
+
+試し割り法 (Trial division) では 2 から $\lfloor \sqrt{N} \rfloor$ まで試し割りを行い、素因数を求める。
 
 == 計算量
 

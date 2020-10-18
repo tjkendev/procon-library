@@ -11,8 +11,6 @@ $O(N \log^2 N)$
 
 == 実装
 
-蟻本ベース実装
-
 [source, python]
 ----
 include::./python/string/sa_manber_and_myers.py[]
@@ -21,6 +19,10 @@ include::./python/string/sa_manber_and_myers.py[]
 === Verified
 
 - AtCoder: "AtCoder Regular Contest 050 - D問題: Suffix Concat": link:https://atcoder.jp/contests/arc050/submissions/3933414[source] (PyPy3, 3072ms)
+
+== 参考
+
+* 秋葉拓哉, 岩田陽一, and 北川宜稔. "プログラミングコンテストチャレンジブック." (2010).
 
 ***
 link:../index.html[戻る]

@@ -11,8 +11,6 @@ Dinic's Algorithm (Maximum flow problem)
 
 == 実装
 
-蟻本ベース実装
-
 [source, cpp]
 ----
 include::./cpp/max_flow/dinic.cpp[]
@@ -21,6 +19,10 @@ include::./cpp/max_flow/dinic.cpp[]
 === Verified
 
 * AOJ: "2313: Box Witch": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1779017[source] (C++, 0.32sec)
+
+== 参考
+
+* 秋葉拓哉, 岩田陽一, and 北川宜稔. "プログラミングコンテストチャレンジブック." (2010).
 
 ***
 

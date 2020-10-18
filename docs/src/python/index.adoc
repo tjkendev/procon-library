@@ -19,7 +19,7 @@ Python3で実装しています。
 
 == 素数
 
-* link:./prime/factorize.html[素因数分解]
+* link:./prime/factorize.html[素因数分解 (試し割り法)]
 * link:./prime/pollards-rho.html[素因数分解 (Pollard's rho algorithm)]
 * link:./prime/sieve.html[素数を求める篩(ふるい)法]
 * link:./prime/eulers-totient-function.html[オイラーのφ関数]
@@ -73,7 +73,6 @@ Python3で実装しています。
 * link:./binary_search_tree/RBST.html[Randomized Binary Search Tree (RBST)]
 * link:./binary_search_tree/persistent_RBST.html[永続RBST]
 * link:./binary_search_tree/red-black-tree.html[赤黒木]
-* AVL木
 * link:./binary_search_tree/splay-tree.html[Splay tree]
 * link:./binary_search_tree/scapegoat-tree.html[Scapegoat tree]
 
