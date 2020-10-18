@@ -1,7 +1,7 @@
 = 素因数分解
 :title: {doctitle} - {pagetitle}
 
-素因数分解(prime factorize)
+素因数分解 (prime factorization)
 
 == 概要
 

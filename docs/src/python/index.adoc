@@ -20,6 +20,7 @@ Python3で実装しています。
 == 素数
 
 * link:./prime/factorize.html[素因数分解]
+* link:./prime/pollards-rho.html[素因数分解 (Pollard's rho algorithm)]
 * link:./prime/sieve.html[素数を求める篩(ふるい)法]
 * link:./prime/eulers-totient-function.html[オイラーのφ関数]
 * link:./prime/carmichael-function.html[カーマイケル関数]

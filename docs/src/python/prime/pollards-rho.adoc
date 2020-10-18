@@ -1,0 +1,25 @@
+= 素因数分解 (Pollard's rho algorithm)
+:title: {doctitle} - {pagetitle}
+
+素因数分解 (prime factorization)
+
+== 概要
+
+素因数分解を行うためのアルゴリズム。
+
+ある数 $N$ について、合成数の因数を確率的に発見する。
+
+== 実装
+
+[source, python]
+----
+include::./python/prime/pollards-rho.py[]
+----
+
+== 参考
+
+- link:https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm[Pollard's rho algorithm - Wikipedia]
+
+***
+
+link:../index.html[戻る]
