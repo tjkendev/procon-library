@@ -110,6 +110,7 @@ Python3で実装しています。
 * link:./graph/tree_diameter.html[木の直径 (double sweep method)]
 * link:./graph/topological_sort.html[トポロジカルソート (Kahn's Algorithm)]
 * link:./graph/scc.html[強連結成分分解 (Kosaraju's Algorithm)]
+* link:./graph/2-sat.html[2-SAT]
 * link:./graph/bridge.html[橋検出 (Path-based DFS)]
 * link:./graph/articulation-points.html[関節点検出 (LowLink)]
 * link:./graph/chain-decomposition.html[橋検出と関節点検出 (chain decomposition)]
