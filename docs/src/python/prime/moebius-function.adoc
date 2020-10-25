@@ -1,0 +1,33 @@
+
+= メビウス関数
+:title: {doctitle} - {pagetitle}
+
+メビウス関数 (Möbius function)
+
+== 概要
+
+メビウス関数 $\mu (n)$ は以下のように定義される。
+
+- $n$ が素数の二乗で割り切れる時 $\mu (n) = 0$
+- それ以外の場合、$n$ が $k$ 個の素因数を持つ時 $\mu (n) = (-1)^k$
+
+=== メビウスの反転公式
+
+以下の関係式を メビウスの反転公式 (Möbius inversion formula) という。
+
+$\displaystyle f(n) = \sum_{d|n} g(d) \Longleftrightarrow g(n) = \sum_{d|n} \mu \left( \frac{n}{d} \right) f(d)$
+
+== 実装
+
+[source, python]
+----
+include::./python/prime/moebius-function.py[]
+----
+
+== 参考
+
+* 秋葉拓哉, 岩田陽一, and 北川宜稔. "プログラミングコンテストチャレンジブック." (2010).
+* link:https://ja.wikipedia.org/wiki/%E3%83%A1%E3%83%93%E3%82%A6%E3%82%B9%E9%96%A2%E6%95%B0[メビウス関数 - Wikipedia]
+
+***
+link:../index.html[戻る]
