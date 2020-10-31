@@ -5,7 +5,7 @@ circumcircle, incircle and excircle of a triangle
 
 == 概要
 
-三点 $\mathbf{p_1}, \mathbf{p_2}, \mathbf{p_3}$ から成る三角形の外接円と内接円を求める。
+三点 $\mathbf{p_1}, \mathbf{p_2}, \mathbf{p_3}$ から成る三角形の外接円と内接円、傍接円を求める。
 
 ここでは、
 
