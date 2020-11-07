@@ -20,7 +20,7 @@ $i = m-2$ から 0 まで $i$ を小さくしながら
 $t^{2^i} \equiv -1$ を満たす $i$ を見つけるたびに $t$ に $z^{2^{m-1-i}Q}$ を掛ける。 +
 (この時、掛けたあとの $t$ は $t^{2^i} \equiv 1$ を満たす)
 
-最終的に $t$ は $\displaystyle t \equiv y^Q z^{2^{j_1}Q} z^{2^{j_2}Q} \cdots z^{2^{j_k}Q} \equiv 1$ $(j_1, j_2, ..., j_k \ge 1)$ の形になるため、 +
+最終的に $t$ は $\displaystyle t \equiv y^Q z^{2^{j_1}Q} z^{2^{j_2}Q} \cdots z^{2^{j_k}Q} \equiv 1$ $(1 \le j_1 < j_2 < ... < j_k \le m-1)$ の形になるため、 +
 $\displaystyle x \equiv (ty)^\frac{1}{2} \equiv y^\frac{Q+1}{2} z^{2^{j_1-1}Q} z^{2^{j_2-1}Q} \cdots z^{2^{j_k-1}Q}$ を計算することで解が得られる。
 
 == 実装

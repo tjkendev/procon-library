@@ -1,0 +1,31 @@
+= モジュラ逆数
+:title: {doctitle} - {pagetitle}
+
+モジュラ逆数 (modular multiplicative inverse)
+
+== 概要
+
+ある $a$, $m$ について $ax \equiv 1$ (mod $m$) となる $x$ を求める。
+
+逆数 $x$ が存在するための必要十分条件は $\gcd(a, m) = 1$ を満たすことである。
+
+=== 拡張ユークリッドの互除法による計算
+
+$ax + my = \gcd(a, m) = 1$ の $x, y$ の解を拡張ユークリッドの互除法で計算する。 +
+この $x$ が $ax \equiv 1$ (mod $m$) を満たす。
+
+=== 累乗による計算
+
+オイラーの $\phi$ 関数 $\phi(m)$ に対し、オイラーの定理より $a^{\phi(m)} \equiv 1$ (mod $m$) を満たすため、 $x \equiv a^{\phi(m)-1}$ を計算することで求まる。
+
+$\phi(m)$ の前計算が必要であるが、 $m$ が素数であれば $\phi(m) = m-1$ であるため、 $x \equiv a^{m-2}$ を計算することで求まる。
+
+== 実装
+
+[source, python]
+----
+include::./python/math/modular-multiplicative-inverse.py[]
+----
+
+***
+link:../index.html[戻る]

@@ -12,6 +12,7 @@ Python3で実装しています。
 * link:./math/rounding_fractions.html[分数の端数処理]
 * link:./math/gcd.html[最大公約数 ((拡張)ユークリッドの互除法)]
 * link:./math/factorial.html[階乗]
+* link:./math/modular-multiplicative-inverse.html[モジュラ逆数]
 * link:./math/chinese-remainder.html[中国余剰定理]
 * link:./math/baby-step-giant-step.html[離散対数問題 (Baby-step giant-step)]
 * link:./math/tonelli-shanks.html[素数mod上の平方根 (Tonelli-Shanks algorithm)]

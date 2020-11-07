@@ -21,7 +21,7 @@ include::./python/graph/dijkstra-radix.py[]
 
 === Verified
 
-* AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3826335#1[source] (Python3, 1.77hsec)
+* AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3826335#1[source] (Python3, 1.77sec)
 * AOJ: "ALDS1_12_C: Graph II - Single Source Shortest Path II": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3826335#1[source] (Python3, 0.39sec)
 
 == 参考ページ

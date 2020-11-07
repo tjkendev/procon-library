@@ -15,8 +15,7 @@ def extgcd(a, b):
         d, y, x = extgcd(b, a % b)
         y -= (a // b)*x
         return d, x, y
-    else:
-        return a, 1, 0
+    return a, 1, 0
 
 # lcm (least common multiple)
 def lcm(m, n):
