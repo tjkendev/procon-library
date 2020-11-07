@@ -5,7 +5,7 @@ Fast Modulo Transform (FMT, 高速剰余変換), Number Theoretical Transform (N
 
 == 概要
 
-ある程度の解説(ブログ): link:http://smijake3.hatenablog.com/entry/2017/01/04/042136[ATC001 - C問題: 高速フーリエ変換 (FMT解法)]
+ある程度の解説(ブログ): link:https://smijake3.hatenablog.com/entry/2017/01/04/042136[ATC001 - C問題: 高速フーリエ変換 (FMT解法)]
 
 mod $P$上で $\omega^i \not = 1$ $(0 < i < N)$, $\omega^N = 1$ となるような $\omega, P, N$ を用いて計算する。
 この時、 $P = A \times N + 1$ を満たす。

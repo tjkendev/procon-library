@@ -17,4 +17,4 @@ link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ラ
 
 * link:https://twitter.com/jken_ull[Twitter: @jken_ull]
 * link:https://github.com/tjkendev[GitHub: tjkendev]
-* link:http://smijake3.hatenablog.com/[ブログ]
+* link:https://smijake3.hatenablog.com/[ブログ]

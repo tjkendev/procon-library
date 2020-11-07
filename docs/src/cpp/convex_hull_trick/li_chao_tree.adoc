@@ -5,7 +5,7 @@
 
 Li-Chao (Segment) Treeはセグメント木を用いてConvex Hull Trickを行うアルゴリズム。
 
-詳細はこちら(ブログ): link:http://smijake3.hatenablog.com/entry/2018/06/16/144548[Li Chao Treeのメモ]
+詳細はこちら(ブログ): link:https://smijake3.hatenablog.com/entry/2018/06/16/144548[Li Chao Treeのメモ]
 
 == 計算量
 
