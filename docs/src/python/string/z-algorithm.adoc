@@ -22,7 +22,7 @@ include::./python/string/z-algorithm.py[]
 
 * AtCoder: "AtCoder Regular Contest 060 - F問題: 最良表現 / Best Representation": link:https://atcoder.jp/contests/arc060/submissions/4615971[source] (Python3, 891ms)
 
-== 参考ページ
+== 参考
 
 - link:https://snuke.hatenablog.com/entry/2014/12/03/214243[文字列の頭良い感じの線形アルゴリズムたち３ - あなたは嘘つきですかと聞かれたら「YES」と答えるブログ]
 

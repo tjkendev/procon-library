@@ -54,7 +54,7 @@ include::./python/range_query/rmq_raq_segment_tree_lp.py[]
 
 * AOJ: "DSL_2_H: Range Query - RMQ and RAQ": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3161315#1[source] (Python3, 4.60sec)
 
-== 参考ページ
+== 参考
 
 * link:https://kagamiz.hatenablog.com/entry/2012/12/18/220849[Introduction to Segment Tree - Lilliput Steps]
 

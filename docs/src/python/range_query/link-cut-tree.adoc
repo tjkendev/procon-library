@@ -46,7 +46,7 @@ Python3だと高速化するが、PyPy3がPython3よりも遅くなる。
 
 * AOJ: "GRL_5_D: Tree - Range Query on a Tree": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227855#1[source] (Python3, 7.80sec)
 
-== 参考ページ
+== 参考
 
 * link:https://www.slideshare.net/iwiwi/2-12188845[プログラミングコンテストでのデータ構造 2　～動的木編～]
 

@@ -28,7 +28,7 @@ include::./python/polynomial/lagrange-polynomial.py[]
 
 * AOJ: "1328: Find the Outlier": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3156519#1[source] (Python3, 0.36sec)
 
-== 参考ページ
+== 参考
 
 * link:https://ja.wikipedia.org/wiki/%E3%83%A9%E3%82%B0%E3%83%A9%E3%83%B3%E3%82%B8%E3%83%A5%E8%A3%9C%E9%96%93[ラグランジュ補完 - Wikipedia]
 

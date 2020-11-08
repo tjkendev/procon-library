@@ -33,7 +33,7 @@ include::./python/graph/lca-hld.py[]
 
 * AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3154691#1[source] (Python3, 1.01sec)
 
-== 参考ページ
+== 参考
 
 * link:https://math314.hateblo.jp/entry/2014/06/24/220107[Heavy-Light Decomposition - math314のブログ]
 

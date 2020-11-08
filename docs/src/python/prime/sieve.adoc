@@ -43,7 +43,7 @@ include::./python/prime/sieve_of_atkin.py[]
 
 - AOJ: "0009 - Prime Number": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3152102[source] (Python3, 0.46sec)
 
-== 参考ページ
+== 参考
 
 * link:https://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n[Fastest way to list all primes below N - stack overflow]
 * link:https://en.wikipedia.org/wiki/Sieve_of_Atkin[Sieve of Atkin - Wikipedia]

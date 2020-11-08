@@ -33,7 +33,7 @@ include::./python/binary_search_tree/scapegoat-tree.py[]
 
 * AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://beta.atcoder.jp/contests/arc033/submissions/3423378[source] (PyPy3, 1630ms)
 
-== 参考ページ
+== 参考
 
 * link:https://en.wikipedia.org/wiki/Scapegoat_tree[Scapegoat tree - Wikipedia]
 * link:https://topcoder.g.hatena.ne.jp/spaghetti_source/20120901/1346460700[Scapegoat Tree - 週刊 spaghetti_source]

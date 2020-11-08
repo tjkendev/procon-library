@@ -20,7 +20,7 @@ $O(|V| + |E|)$
 include::./python/graph/articulation_points.py[]
 ----
 
-== 参考ページ
+== 参考
 
 * link:https://kagamiz.hatenablog.com/entry/2013/10/05/005213[橋と関節点, lowlink - Lilliput Steps]
 

@@ -53,7 +53,7 @@ $H \times W$の2次元BITにおいて、$Q$個のクエリを処理する場合�
 include::./python/range_query/bit2.py[]
 ----
 
-== 参考ページ
+== 参考
 
 - link:http://hos.ac/slides/20140319_bit.pdf[Binary Indexed Tree のはなし]
 

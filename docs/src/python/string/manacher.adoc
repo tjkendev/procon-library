@@ -24,7 +24,7 @@ include::./python/string/manacher.py[]
 
 * AtCoder: "早稲田大学プログラミングコンテスト2019 - E問題: Artist": link:https://atcoder.jp/contests/wupc2019/submissions/4541727[source] (Python3,  232ms)
 
-== 参考ページ
+== 参考
 
 - link:https://snuke.hatenablog.com/entry/2014/12/02/235837[文字列の頭良い感じの線形アルゴリズムたち２ - あなたは嘘つきですかと聞かれたら「YES」と答えるブログ]
 

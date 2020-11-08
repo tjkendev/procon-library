@@ -26,7 +26,7 @@ include::./python/union_find/pp_union_find.py[]
 
 * AtCoder: "CODE THANKS FESTIVAL 2017 - H問題: Union Sets": link:https://beta.atcoder.jp/contests/code-thanks-festival-2017-open/submissions/3331724[source] (Python3, 1364ms)
 
-== 参考ページ
+== 参考
 
 * link:https://camypaper.bitbucket.io/2016/12/18/adc2016/[やぶについて書きます - 紙ぺーぱーめも]
 

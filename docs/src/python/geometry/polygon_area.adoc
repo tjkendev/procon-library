@@ -25,7 +25,7 @@ include::./python/geometry/polygon_area.py[]
 * AOJ: "CGL_3_A: Polygon - Area": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1894030#1[source] (Python2, 0.01sec)
 
 
-== 参考ページ
+== 参考
 
 * link:https://ja.wikipedia.org/wiki/%E5%A4%9A%E8%A7%92%E5%BD%A2[多角形 - Wikipedia]
 

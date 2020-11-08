@@ -23,7 +23,7 @@ include::./python/graph/lca-sqrt.py[]
 
 * AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3156372#1[source] (Python3, 2.08sec)
 
-== 参考ページ
+== 参考
 
 * link:https://www.slideshare.net/iwiwi/ss-3578491[プログラミングコンテストでのデータ構造 - slideshare]
 

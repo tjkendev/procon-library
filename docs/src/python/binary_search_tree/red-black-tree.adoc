@@ -37,7 +37,7 @@ include::./python/binary_search_tree/red-black-tree.py[]
 
 * AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://arc033.contest.atcoder.jp/submissions/3441934[source] (PyPy3, 1406ms)
 
-== 参考ページ
+== 参考
 
 * link:https://en.wikipedia.org/wiki/Red%E2%80%93black_tree[Red-black tree - Wikipedia]
 

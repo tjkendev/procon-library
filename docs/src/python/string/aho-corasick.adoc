@@ -25,7 +25,7 @@ Pythonだと重くてつらい
 * AtCoder: "JAG Practice Contest for ACM-ICPC Asia Regional 2017 - H問題: Separate String": link:https://jag2017autumn.contest.atcoder.jp/submissions/1799538[source] (PyPy3, TLE)
 * AOJ: "2257: Sakura Poetry": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4708551#1[source] (Python3, 18.39sec)
 
-== 参考ページ
+== 参考
 
 - link:http://d.hatena.ne.jp/naoya/20090405/aho_corasick[Aho Corasick法 - naoyaのはてなダイアリー]
 - link:http://algoogle.hadrori.jp/algorithm/aho-corasick.html[Aho-Corasick法 - Algoogle]
