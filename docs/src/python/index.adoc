@@ -127,6 +127,7 @@ Python3で実装しています。
 * link:./graph/lca-hld.html[最小共通祖先 (Heavy-Light Decomposition)]
 * link:./graph/auxiliary_tree.html[Auxiliary Tree (LCAベース)]
 * link:./graph/bron-kerbosch.html[最大クリーク問題 (Bron-Kerbosch Algorithm)]
+* link:./graph/stoer-wagner-algorithm.html[全域最小カット (Stoer-Wagner Algorithm)]
 
 == フロー
 

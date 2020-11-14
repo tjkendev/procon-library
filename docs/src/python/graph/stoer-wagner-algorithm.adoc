@@ -1,0 +1,39 @@
+= 全域最小カット (Stoer-Wagner Algorithm)
+:title: {doctitle} - {pagetitle}
+
+Global Minimum Cut (Stoer-Wagner Algorithm)
+
+== 概要
+
+重み付き無向グラフ $G = (V, E)$ において、頂点集合 $V$ を2つの集合に分割するカット$(S, T)$のうち、カットする辺の重みの総和が最小となるカットを求める。
+
+Stoer-Wagner Algorithm では、グラフ上の 1つの最小$s-t$カット を求めた上でその頂点 $s, t$ の縮約することを繰り返す。
+そして、求めた最小$s-t$カットの中で重みの総和が最小となるカットを全域最小カットとして求める。
+
+フィボナッチヒープ等を利用することで 計算量 $O(|V|(|E| + |V| \log |V|))$ で求められる。
+
+== 隣接行列における実装
+
+計算量 $O(|V|^3)$
+
+[source, python]
+----
+include::./python/graph/stoer-wagner-algorithm-adjacement.py[]
+----
+
+== 二分ヒープを利用した実装
+
+計算量 $O(|V| |E| \log |V|)$
+
+[source, python]
+----
+include::./python/graph/stoer-wagner-algorithm-binary-heap.py[]
+----
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/Stoer%E2%80%93Wagner_algorithm[Stoer-Wagner algorithm - Wikipedia]
+* Stoer, Mechthild, and Frank Wagner. "A simple min-cut algorithm." Journal of the ACM (JACM) 44.4 (1997): 585-591.
+
+***
+link:../index.html[戻る]

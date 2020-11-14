@@ -1,32 +1,15 @@
 from bisect import bisect
+from heapq import merge
 
 def construct(N, A):
-    INF = 10**9
     N0 = 2**(N-1).bit_length()
     data = [None]*(2*N0)
     for i, a in enumerate(A):
         data[N0-1+i] = [a]
     for i in range(N, N0):
-        data[N0-1+i] = [INF]
+        data[N0-1+i] = []
     for i in range(N0-2, -1, -1):
-        p = data[2*i+1]; q = data[2*i+2]
-        pl = len(p); ql = len(q)
-        res = [0]*(pl + ql)
-        a = b = 0
-        while a < pl and b < ql:
-            if p[a] < q[b]:
-                res[a+b] = p[a]
-                a += 1
-            else:
-                res[a+b] = q[b]
-                b += 1
-        while a < pl:
-            res[a+b] = p[a]
-            a += 1
-        while b < ql:
-            res[a+b] = q[b]
-            b += 1
-        data[i] = res
+        *data[i], = merge(data[2*i+1], data[2*i+2])
     return N0, data
 
 # count elements A_i s.t. A_i <= k for i in [l, r)
@@ -56,6 +39,7 @@ def query(N0, data, l, r, a, b):
             L += 1
         L >>= 1; R >>= 1
     return s
+
 
 N = 6
 A = [6, 1, 4, 5, 3, 2]
