@@ -1,0 +1,37 @@
+= 二分探索
+:title: {doctitle} - {pagetitle}
+:no-copy:
+
+binary search
+
+== 概要
+
+二分探索まわりのメモ
+
+=== bisectモジュール
+
+[source, python]
+----
+include::./python/template/bisect-basic.py[]
+----
+
+=== 二分探索の実装
+
+==== 整数値に対する二分探索
+
+[source, python]
+----
+include::./python/template/binary-search-int-basic.py[]
+----
+
+==== 実数値に対する二分探索
+
+巨大な値を扱う場合は精度より停止しなくなる可能性があるため `Decimal` 等の利用を考える。
+
+[source, python]
+----
+include::./python/template/binary-search-float-basic.py[]
+----
+
+***
+link:../index.html[戻る]

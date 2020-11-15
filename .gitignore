@@ -3,6 +3,7 @@ deploy_key
 deploy_key.pub
 vendor
 .bundle
+__pycache__
 
 docs/index.html
 docs/python

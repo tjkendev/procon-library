@@ -6,6 +6,7 @@ Python3で実装しています。
 == テンプレート
 
 * link:./template/interactive.html[インタラクティブ]
+* link:./template/binary-search.html[二分探索]
 
 == 整数・有理数
 
