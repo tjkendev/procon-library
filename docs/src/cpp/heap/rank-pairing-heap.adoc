@@ -1,0 +1,37 @@
+= Rank-Pairing Heap
+:title: {doctitle} - {pagetitle}
+
+Rank-Pairing Heap
+
+== 概要
+
+Rank-Pairing Heap は Fibonacci Heapと同じ性能を持ち、Pairing Heapのようなシンプルさを備えるheapである。
+
+heap は half-ordered half tree という木構造で表現し、各ノードはrankを持ち、tree内で Rank Rule を満たすようにrankを保持する。
+
+Rank-Pairing Heapではこのtreeをリストとして持ち、decrease-key操作等で分離したtreeをリストに追加、delete-min操作を行う際にtree同士をマージする。
+
+== 計算量
+
+- find-min: $O(1)$
+- delete-min: ならし $O(\log N)$
+- insert: $O(1)$
+- decrease-key: ならし $O(1)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/heap/rank-pairing-heap.cpp[]
+----
+
+=== Verified
+
+- AOJ: "GRL_1_A: Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4994124#1[source] (C++14, 0.29sec)
+
+== 参考
+
+* Haeupler, Bernhard, Siddhartha Sen, and Robert E. Tarjan. "Rank-pairing heaps." SIAM Journal on Computing 40.6 (2011): 1463-1485.
+
+***
+link:../index.html[戻る]

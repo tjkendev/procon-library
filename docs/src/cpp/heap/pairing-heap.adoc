@@ -1,0 +1,41 @@
+= Pairing Heap
+:title: {doctitle} - {pagetitle}
+
+Pairing Heap
+
+== 概要
+
+Pairing Heap は比較的シンプルな self-adjusting heap である。
+
+heapは half-ordered half tree という木構造で表現され、heap同士はpairing操作によって $O(1)$ でマージできる。
+
+delete-min 操作では根ノードを削除することで、heapが分離されていくつかのheapになるため、これらのheapをpairing操作を利用し1つのheapにマージする。
+
+== 計算量
+
+今回の実装の計算量は以下
+
+- find-min: $O(1)$
+- delete-min: ならし $O(\log N)$
+- insert: $O(1)$
+- decrease-key: ならし $O(\log N)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/heap/pairing-heap.cpp[]
+----
+
+=== Verified
+
+- AOJ: "GRL_1_A: Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4999682#1[source] (C++14, 0.14sec)
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/Pairing_heap[Pairing heap - Wikipedia]
+* Fredman, Michael L., et al. "The pairing heap: A new form of self-adjusting heap." Algorithmica 1.1-4 (1986): 111-129.
+* Iacono, John. "Improved upper bounds for pairing heaps." arXiv preprint arXiv:1110.4428 (2011).
+
+***
+link:../index.html[戻る]

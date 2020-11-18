@@ -28,7 +28,7 @@ include::./python/range_query/merge-sort-tree.py[]
 === Verified
 
 * AOJ: "2907: Prefix Suffix Search": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4535727#1[source] (Python3, 12.00sec)
-* AOJ: "2426: "Treasure Hunt": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4982281#1[source] (Python3, 7.79sec)
+* AOJ: "2426: Treasure Hunt": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4982281#1[source] (Python3, 7.79sec)
 
 == 参考
 

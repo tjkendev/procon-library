@@ -23,6 +23,11 @@
 
 * link:./union_find/union_find.html[素集合データ構造 (Union-Find)]
 
+== ヒープ
+
+* link:./heap/pairing-heap.html[Pairing Heap]
+* link:./heap/rank-pairing-heap.html[Rank-Pairing Heap]
+
 == 二分木
 
 * link:./binary_search_tree/persistent_RBST.html[永続RBST]
