@@ -126,6 +126,7 @@ Python3で実装しています。
 * link:./graph/lca-dst.html[最小共通祖先 (Disjoint Sparse Table)]
 * link:./graph/lca-sqrt.html[最小共通祖先 (平方分割)]
 * link:./graph/lca-hld.html[最小共通祖先 (Heavy-Light Decomposition)]
+* link:./graph/lca-tarjan.html[最小共通祖先 (オフライン)]
 * link:./graph/auxiliary_tree.html[Auxiliary Tree (LCAベース)]
 * link:./graph/bron-kerbosch.html[最大クリーク問題 (Bron-Kerbosch Algorithm)]
 * link:./graph/stoer-wagner-algorithm.html[全域最小カット (Stoer-Wagner Algorithm)]

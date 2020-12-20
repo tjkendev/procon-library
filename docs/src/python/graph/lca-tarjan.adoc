@@ -1,0 +1,36 @@
+= 最小共通祖先 (オフライン)
+:title: {doctitle} - {pagetitle}
+
+Lowest Common Ancestor (Tarjan's off-line algorithm)
+
+== 概要
+
+根付き木$T$のある頂点$u, v$について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。
+
+オフライン処理では深さ優先探索を行いながら各クエリ $(u, v)$ のLCAを求める。
+
+探索中は、現在の頂点$v$と根頂点間のパス上の各頂点$w$について、(DFSで既に訪れた頂点の中から)頂点$w$が頂点$v$とのLCAとなる頂点$u$の集合を素集合データ構造で管理する。
+
+そして、各頂点$v$ごとに答える必要のあるクエリ $(u, v)$ に対し LCA $w$ を素集合データ構造から求める。
+
+== 実装
+
+計算量は 頂点数 $N$ , クエリ数 $Q$ に対し $O(N \alpha(N) + Q)$ ($\alpha$はアッカーマン関数の逆関数)
+
+[source, python]
+----
+include::./python/graph/lca-tarjan.py[]
+----
+
+=== Verified
+
+* AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5073334#1[source] (Python3, 0.94sec)
+
+== 参考
+
+* link:https://cp-algorithms.com/graph/lca_tarjan.html[Lowest Common Ancestor - Tarjan's off-line algorithm - CP-Algorithms]
+* link:https://en.wikipedia.org/wiki/Tarjan%27s_off-line_lowest_common_ancestors_algorithm[Tarjan's off-line lowest common ancestors algorithm - Wikipedia]
+* Gabow, Harold N., and Robert Endre Tarjan. "A linear-time algorithm for a special case of disjoint set union." Journal of computer and system sciences 30.2 (1985): 209-221.
+
+***
+link:../index.html[戻る]
