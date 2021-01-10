@@ -22,6 +22,7 @@ include::./python/other/dice.py[]
 * AOJ: "1290: Traveling Cube": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4304149#1[source] (Python3, 3.14sec)
 * AOJ: "2379: Bicube": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4673993#1[source] (Python3, 0.04sec)
 * AOJ: "1197: A Die Maker": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4905663#1[source] (Python3, 29.74sec)
+* AOJ: "1118: Nets of Dice": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5124167#1[source] (Python3, 0.05sec)
 
 ***
 link:../index.html[戻る]

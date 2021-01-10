@@ -1,0 +1,37 @@
+= 2つの円の共通部分の面積
+:title: {doctitle} - {pagetitle}
+
+The intersection area of two circles
+
+== 概要
+
+中心 $p_1 = (x_1, y_1)$, 半径 $r_1$ の円1 と 中心 $p_2 = (x_2, y_2)$, 半径 $r_2$ の円2 の共通部分の面積 $S$ を求める。
+
+ここでは2つの円における扇形の面積から、 点$p_1, p_2$ と 2つの円の交点 $c_1, c_2$ から成る四角形の面積を引くことで共通部分の面積を求める。
+
+２つの円の中心同士の距離を $d = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}$ とする。
+
+2つの円同士の交点のうちの1点 $c_1$ に対し、 線分$p_1 - p_2$ と 線分$p_1 - c_1$ のなす角を $\theta_1$, 線分$p_2 - p_1$ と 線分$p_2 - c_1$ のなす角を $\theta_2$ とする。
+
+このとき $\displaystyle \cos \theta_1 = \frac{r_1^2 - r_2^2 + d^2}{2 r_1 d}$, $\displaystyle \cos \theta_2 = \frac{r_2^2 - r_1^2 + d^2}{2 r_2 d}$ となる。
+
+扇形の面積は、円1側は $\displaystyle \frac{1}{2} r_1^2 (2 \theta_1)$, 円2側は $\displaystyle \frac{1}{2} r_2^2 (2 \theta_2)$ となる。
+
+また、四角形の面積は $\displaystyle r_1 d \sin \theta_1 = \frac{\sqrt{4 r_1^2 d^2 - (r_1^2 - r_2^2 + d^2)^2}}{2}$ で求められる。
+
+よって、共通部分の面積 $S$ は $\displaystyle r_1^2 \theta_1 + r_2^2 \theta_2 - \frac{\sqrt{4 r_1^2 d^2 - (r_1^2 - r_2^2 + d^2)^2}}{2}$ で計算できる。
+
+== 実装
+
+[source, python]
+----
+include::./python/geometry/circles_intersection_area.py[]
+----
+
+=== Verified
+
+- AOJ: "CGL_7_I: Area of Intersection between Two Circles": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5108605#1[source] (Python3, 0.03sec)
+
+***
+
+link:../index.html[戻る]
