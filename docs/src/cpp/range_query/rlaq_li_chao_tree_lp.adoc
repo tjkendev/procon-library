@@ -1,0 +1,44 @@
+= 線分追加クエリ, 線分加算クエリ (遅延評価 Li-Chao (Segment) Tree, 動的セグ木)
+:title: {doctitle} - {pagetitle}
+
+Li-Chao (Segment) Tree with Lazy Propagation
+
+== 概要
+
+以下のクエリを処理できる遅延評価 Li Chao (Segment) Tree の実装
+
+- 全ての $a_i$ の初期値は $+\infty$
+- 線分追加: $a_l, ..., a_{r-1}$ の各 $a_i$ について $\min(a_i, a \cdot i + b)$ に更新
+- 線分加算: $a_l, ..., a_{r-1}$ の各 $a_i$ について $a_i + (a \cdot i + b)$ に更新
+- 値取得: $a_i$ の値を求める
+
+=== 実装説明
+
+線分追加, 値取得については従来の Li-Chao Tree と同様。(pushdown等は行う)
+
+線分加算クエリにおいて、ノードを探索している間に現在のノードに存在する線分 $f(x) = ax + b$ の一部分を更新する必要がある場合は、ノードから $f(x)$ を取り出し左右の子ノードのそれぞれに $f(x)$ を線分追加することで線分を分割する。
+
+一回の線分加算クエリでは、ノードが持つ $f(x)$ を子ノードへの線分追加する処理を高々 $O(\log N)$ 回行うことになり、一回の線分追加は $O(\log N)$ であるため、一回の線分加算クエリは $O(\log^2 N)$ となる。
+
+== 計算量
+
+区間 $[0, N)$ に対する各クエリについて
+
+- 線分追加: $O(\log^2 N)$
+- 線分加算: $O(\log^2 N)$
+- 値取得: $O(\log N)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/range_query/rlaq_li_chao_tree_lp.cpp[]
+----
+
+== 参考
+
+- link:https://codeforces.com/blog/entry/86731[[Tutorial\] Li Chao Tree Extended - Codeforces]
+
+***
+
+link:../index.html[戻る]

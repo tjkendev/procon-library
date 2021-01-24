@@ -1,0 +1,48 @@
+= 線分追加クエリ, RAQ, RMQ (遅延評価 Li-Chao (Segment) Tree, 動的セグ木)
+:title: {doctitle} - {pagetitle}
+
+Li-Chao (Segment) Tree with Lazy Propagation
+
+== 概要
+
+以下のクエリを処理できる遅延評価 Li Chao (Segment) Tree の実装
+
+- 全ての $a_i$ の初期値は $+\infty$
+- 線分追加: $a_l, ..., a_{r-1}$ の各 $a_i$ について $\min(a_i, a \cdot i + b)$ に更新
+- 区間加算: $a_l, ..., a_{r-1}$ の各 $a_i$ について $a_i + c$ に更新
+- 区間最小: $a_l, ..., a_{r-1}$ の中の最小値を求める
+
+=== 実装説明
+
+線分追加 は従来の Li-Chao Tree と同様。(pushdown等は行う)
+
+区間加算クエリでは、ノードを探索している間に現在のノードに存在する線分 $f(x) = ax + b$ の一部分を更新する必要がある場合は、ノードから $f(x)$ を取り出し左右の子ノードのそれぞれに $f(x)$ を線分追加することで線分を分割する。
+
+一回の区間加算クエリでは、ノードが持つ $f(x)$ を子ノードへの線分追加する処理を高々 $O(\log N)$ 回行うことになり、一回の線分追加は $O(\log N)$ であるため、一回の区間加算クエリは $O(\log^2 N)$ となる。
+
+== 計算量
+
+区間 $[0, N)$ に対する各クエリについて
+
+- 線分追加: $O(\log^2 N)$
+- 区間加算: $O(\log^2 N)$
+- 区間最小: $O(\log N)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/range_query/rmq_li_chao_tree_lp.cpp[]
+----
+
+=== Verified
+
+* AtCoder: "AtCoder Beginner Contest 177 - F問題: I hate Shortest Path Problem": link:https://atcoder.jp/contests/abc177/submissions/19527163[source] (C++, 824ms)
+
+== 参考
+
+- link:https://codeforces.com/blog/entry/86731[[Tutorial\] Li Chao Tree Extended - Codeforces]
+
+***
+
+link:../index.html[戻る]

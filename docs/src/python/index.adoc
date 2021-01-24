@@ -92,7 +92,7 @@ Python3で実装しています。
 * link:./range_query/merge-sort-tree.html[Merge Sort Tree]
 * link:./range_query/link-cut-tree.html[Link-Cut Tree]
 * link:./range_query/sliding_window_minimum.html[Sliding Window Minimum]
-* link:./convex_hull_trick/li_chao_tree.html[Convex Hull Trick (Li Chao (Segment) Tree)]
+* link:./convex_hull_trick/li_chao_tree.html[Convex Hull Trick (Li-Chao (Segment) Tree)]
 * link:./convex_hull_trick/deque.html[Convex Hull Trick (Deque)]
 * link:./convex_hull_trick/binary_search_tree.html[Convex Hull Trick (平衡二分探索木)]
 
