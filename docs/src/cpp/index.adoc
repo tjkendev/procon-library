@@ -25,6 +25,7 @@
 
 == ヒープ
 
+* link:./heap/leftist-heap.html[Leftist Heap]
 * link:./heap/pairing-heap.html[Pairing Heap]
 * link:./heap/rank-pairing-heap.html[Rank-Pairing Heap]
 

@@ -1,0 +1,35 @@
+= Leftist Heap
+:title: {doctitle} - {pagetitle}
+
+Leftist Heap
+
+== 概要
+
+Leftist Heap は Binary Heap の一種であり、各ノードに Null Path Length (npl) を持たせた Mergeable Heap である。
+
+Leftist Heap では (左子ノードの npl) ≥ (右子ノードの npl) という制約を満たすように各操作を行う。
+
+== 計算量
+
+- find-min: $O(\log N)$
+- delete-min: $O(\log N)$
+- insert: $O(\log N)$
+- decrease-key: $O(\log N)$
+
+== 実装
+
+[source, cpp]
+----
+include::./cpp/heap/leftist-heap.cpp[]
+----
+
+=== Verified
+
+- AOJ: "GRL_1_A: Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5162371#1[source] (C++14, 0.15sec)
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/Leftist_tree[Leftist tree - Wikipedia]
+
+***
+link:../index.html[戻る]
