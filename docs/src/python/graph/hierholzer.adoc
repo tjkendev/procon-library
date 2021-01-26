@@ -1,0 +1,30 @@
+= オイラー路構築 (Hierholzer's Algorithm)
+:title: {doctitle} - {pagetitle}
+
+Constructing an Eulerian Path (Hierholzer's Algorithm)
+
+== 概要
+
+有向グラフ $G = (V, E)$ においてオイラー路を構築するアルゴリズム
+
+== 計算量
+
+$O(|E|)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/hierholzer.py[]
+----
+
+=== Verified
+
+* Codeforces: "508D: Tanya and Password": link:https://codeforces.com/contest/508/submission/105301513[source] (Python3, 577ms), link:https://codeforces.com/contest/508/submission/105301457[source] (PyPy3, 327ms)
+
+== 参考
+
+- link:https://en.wikipedia.org/wiki/Eulerian_path[Eulerian path - Wikipedia] 
+
+***
+link:../index.html[戻る]
