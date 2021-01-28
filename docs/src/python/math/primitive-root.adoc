@@ -1,0 +1,22 @@
+= 原始根
+:title: {doctitle} - {pagetitle}
+
+Primitive Root
+
+== 概要
+
+modulo $n$ における原始根 (primitive root) を求める
+
+== 実装
+
+[source, python]
+----
+include::./python/math/primitive-root.py[]
+----
+
+== 参考
+
+- link:https://cp-algorithms.com/algebra/primitive-root.html[Primitive Root - CP-Algorithms]
+
+***
+link:../index.html[戻る]
