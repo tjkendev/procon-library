@@ -5,15 +5,15 @@ reflection across a line
 
 == 概要
 
-点$(x_0, y_0)$ と 点$(x_1, y_1)$ を通る直線 を対称軸として ある点$(p, q)$ の線対称とする点を求める。
+点 $\mathbf{p_0} = (x_0, y_0)$ と 点 $\mathbf{p_1} = (x_1, y_1)$ を通る直線 を対称軸として ある点 $\mathbf{q_0} = (a_0, b_0)$ の線対称とする点 $\mathbf{q_1}$ を求める。
 
-ベクトル $(p - x_0, q - y_0)$ と $(x_1 - x_0, y_1 - y_0)$ の なす角を $\theta$ とする時、
+まず $\mathbf{q_0}$ の直線への写像 を $\mathbf{q_a}$ とすると、
 
-* $\displaystyle \left( \begin{array}{c} x_0 \\ y_0 \end{array} \right) + R(2\theta) \left( \begin{array}{c} p - x_0 \\ q - y_0 \end{array} \right)$
+* $\displaystyle \mathbf{q_a} = \mathbf{p_0} + \frac{(\mathbf{q_0} - \mathbf{p_0}) \cdot (\mathbf{p_1} - \mathbf{p_0})}{\| \mathbf{p_1} - \mathbf{p_0} \| ^2} (\mathbf{p_1} -\mathbf{p_0})$
 
-を求める。 ($R(\theta)$は$2 \times 2$の回転行列)
+で計算できる。
 
-内積、外積から $\cos \theta$, $\sin \theta$ を求めた上で $\cos 2\theta$, $\sin 2\theta$ を求め、回転行列を計算する。
+そして $\mathbf{q_0}$ の線対称は $\mathbf{q_1} = \mathbf{q_0} + 2(\mathbf{q_a} - \mathbf{q_0})$ で計算できる。
 
 == 実装
 
@@ -24,10 +24,14 @@ include::./python/geometry/reflection_point.py[]
 
 === Verified
 
-- AOJ: "CGL_1_B: Reflection": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4328710#1[source] (Python3, 0.05sec)
-- AOJ: "2596: Points and Lines": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4328717#1[source] (Python3, 0.03sec)
-- AOJ: "2569: Putter": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4800156#1[source] (Python3, 0.33sec)
+- AOJ: "CGL_1_B: Reflection": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5321148#1[source] (Python3, 0.06sec)
+- AOJ: "2596: Points and Lines": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5321173#1[source] (Python3, 0.03sec)
+- AOJ: "2569: Putter": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5321178#1[source] (Python3, 0.31sec)
 - AOJ: "1171: Laser Beam Reflections": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4860127#1[source] (Python3, 3.51sec)
+
+== 参考
+
+- link:https://mathworld.wolfram.com/Reflection.html[Reflection - Wolfram MathWorld]
 
 ***
 link:../index.html[戻る]
