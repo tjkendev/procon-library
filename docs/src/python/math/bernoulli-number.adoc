@@ -1,0 +1,38 @@
+= ベルヌーイ数
+:title: {doctitle} - {pagetitle}
+
+ベルヌーイ数 (Bernoulli number)
+
+== 概要
+
+=== ベルヌーイ数を求める
+
+ベルヌーイ数 $B_n$ は、以下により再帰的に計算できる。
+
+$\displaystyle B_0 = 1$
+
+$\displaystyle B_n = - \frac{1}{n+1} \sum_{k=0}^{n-1} {n+1 \choose k} B_k$
+
+この式を愚直に計算することで $B_0$ から $B_p$ までのベルヌーイ数は (逆数計算を除き) $O(p^2)$ で計算できる。
+
+=== $1^p + 2^p + ... + n^p$ の値を求める
+
+ベルヌーイ数を用いて、以下の式により $\displaystyle \sum_{k=1}^n k^p$ を計算できる。
+
+$\displaystyle \sum_{k=1}^n k^p = \frac{1}{p+1} \sum_{j=0}^p (-1)^j {p+1 \choose j} B_j n^{p+1-j}$
+
+この式は (逆数計算を除き) $O(p)$ で計算できる。
+
+== 実装
+
+[source, python]
+----
+include::./python/math/bernoulli-number.py[]
+----
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/Bernoulli_number[Bernoulli number - Wikipedia]
+
+***
+link:../index.html[戻る]
