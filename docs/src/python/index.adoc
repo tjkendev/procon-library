@@ -112,6 +112,7 @@ Python3で実装しています。
 * link:./graph/dial.html[単一始点最短経路 (Dial's Algorithm)]
 * link:./graph/desopo-pape.html[単一始点最短経路 (D'Esopo-Pape Algorithm)]
 * link:./graph/spfa.html[単一始点最短経路 (SPFA)]
+* link:./graph/difference-constraints-ushi.html[牛ゲー]
 * link:./graph/tree_diameter.html[木の直径 (double sweep method)]
 * link:./graph/topological_sort.html[トポロジカルソート (Kahn's Algorithm)]
 * link:./graph/scc.html[強連結成分分解 (Kosaraju's Algorithm)]
