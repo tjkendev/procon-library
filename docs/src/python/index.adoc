@@ -135,6 +135,7 @@ Python3で実装しています。
 * link:./graph/hierholzer.html[オイラー路構築 (Hierholzer's Algorithm)]
 * link:./graph/bron-kerbosch.html[最大クリーク問題 (Bron-Kerbosch Algorithm)]
 * link:./graph/stoer-wagner-algorithm.html[全域最小カット (Stoer-Wagner Algorithm)]
+* link:./graph/edmonds-blossom.html[最大マッチング (Edmonds' Algorithm)]
 
 == フロー
 

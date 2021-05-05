@@ -1,0 +1,33 @@
+= 最大マッチング (Edmonds' Algorithm)
+:title: {doctitle} - {pagetitle}
+
+Maximum Matching (Edmonds' Algorithm)
+
+== 概要
+
+無向グラフ $G = (V, E)$ における最大マッチングを求める。
+
+各ステップごとに augmenting path を見つけ出し、この path を元にマッチングを一つずつ増やしていく。
+
+== 計算量
+
+$O(|V|^3)$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/edmonds-blossom.py[]
+----
+
+=== Verified
+
+* AtCoder: "JOI春合宿2016 マッチングコンテスト - A問題: 一般最大マッチング": link:https://atcoder.jp/contests/joisc2016matching/submissions/22306877[source] (PyPy3, 258ms)
+
+== 参考
+
+* link:https://speakerdeck.com/yosupo/ban-gurahufalsezui-da-matutingu[一般グラフの最大マッチング - Speaker Deck]
+* B. Korte, J. Vygen. Combinatorial Optimization, 6th Edition. Springer, 2018.
+
+***
+link:../index.html[戻る]
