@@ -1,0 +1,36 @@
+= 最小シュタイナー木 (Dreyfus-Wagner Algorithm)
+:title: {doctitle} - {pagetitle}
+
+Minimum Steiner Tree in Graphs
+
+== 概要
+
+重み付き無向グラフ $G = (V, E)$ を考える。
+
+ある $S \subseteq V$ に対するシュタイナー木は、頂点集合 $S$ を含む木である。 +
+このとき、 $S$ に含まれる頂点は terminal と呼ぶ。
+
+最小シュタイナー木問題では、頂点集合 $S$ に対するシュタイナー木のうち、辺の重みの総和が最小となる木を求める。
+
+== 計算量
+
+$O(3^{|S|} {\text{poly}}(|V|))$
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/dreyfus-wagner.py[]
+----
+
+=== Verified
+
+* AOJ: "1040: Chocolate with Heart Marks": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5462483#1[source] (Python3, 12.76sec)
+
+== 参考
+
+* link:https://en.wikipedia.org/wiki/Steiner_tree_problem[Steiner tree problem - Wikipedia]
+* Dreyfus, Stuart E., and Robert A. Wagner. "The Steiner problem in graphs." Networks 1.3 (1971): 195-207.
+
+***
+link:../index.html[戻る]
