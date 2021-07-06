@@ -11,7 +11,7 @@ def binarization_mst(N, E):
     def root(x):
         if x == p[x]:
             return x
-        p[x] = y = root(x)
+        p[x] = y = root(p[x])
         return y
 
     E.sort()
@@ -23,7 +23,7 @@ def binarization_mst(N, E):
         if pa == pb:
             continue
         W[cur] = c
-        G[cur] = [lb[a], lb[b]]
+        G[cur] = [lb[pa], lb[pb]]
         if pa < pb:
             p[pb] = pa
             lb[pa] = cur
