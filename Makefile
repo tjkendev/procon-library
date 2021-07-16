@@ -47,6 +47,6 @@ docs-local:
 	$(SGEN-CMD) $(BASEPATH) $(SRC) $(DST-LOCAL)
 
 clean:
-	rm -f ./docs/index.html
+	rm -f ./docs/index.html ./docs/sitemap.xml
 	rm -rf $(DSTSUBDIR)
 	rm -rf $(DST-LOCAL)
