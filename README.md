@@ -1,6 +1,6 @@
 # procon-library
 
-[![Build Status](https://travis-ci.org/tjkendev/procon-library.svg?branch=master)](https://travis-ci.org/tjkendev/procon-library)
+[![Build Status](https://app.travis-ci.com/tjkendev/procon-library.svg?branch=master)](https://app.travis-ci.com/tjkendev/procon-library)
 
 競技プログラミング参照用のテンプレートやライブラリ等の置き場
 
