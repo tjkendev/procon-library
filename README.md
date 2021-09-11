@@ -4,26 +4,31 @@
 
 競技プログラミング参照用のテンプレートやライブラリ等の置き場
 
-* webページ: [https://tjkendev.github.io/procon-library/](https://tjkendev.github.io/procon-library/)
+* Webページ: [https://tjkendev.github.io/procon-library/](https://tjkendev.github.io/procon-library/)
 
-## コンパイル
+## ページ生成方法
 
 ### 依存
 
+* Ruby 2.6.0
 * [Asciidoctor Latex](https://github.com/asciidoctor/asciidoctor-latex)
 
-### インストール
+### 準備
 
 ```sh
 # install dependencies from Gemfile
 $ bundle install
 ```
 
-### コンパイル
+### ページ生成
 
 ```sh
-# generate (local test) HTML files in 'docs-local'
+# generate output files in 'docs-local' for development
 $ make docs-local
-# generate HTML files in 'docs'
+# generate output files in 'docs' for production
 $ make docs
 ```
+
+## ページ生成について
+
+* [競プロライブラリのページをAsciiDocで作った話](https://smijake3.hatenablog.com/entry/2018/12/13/224443)
