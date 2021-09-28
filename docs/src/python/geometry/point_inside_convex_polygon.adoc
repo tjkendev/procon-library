@@ -33,6 +33,7 @@ include::./python/geometry/point_inside_convex_polygon.py[]
 === Verified
 
 * AOJ: "2827: Industrial Convex Pillar City": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4374060#1[source] (Python3, 16.71sec)
+* AOJ: "0412: Castle in the Sky": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5899544#1[source] (Python3, 1.09sec)
 
 == 参考
 

@@ -1,4 +1,4 @@
-def solve(N, G):
+def maximum_clique(N, G):
     def dfs(V, P, X):
         if not P and not X:
             # V is a maximal clique
@@ -36,5 +36,5 @@ G[2] |= {0, 1, 3, 4}
 G[3] |= {0, 2, 4}
 G[4] |= {0, 2, 3}
 G[5] |= {1}
-print(solve(6, G))
+print(maximum_clique(6, G))
 # => "{0, 2, 3, 4}"

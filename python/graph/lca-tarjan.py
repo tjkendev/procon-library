@@ -29,21 +29,23 @@ def lca(N, G, s, QS):
     anc = [-1]*N
     # DFS (non-recursive)
     stk = [s]
-    it = [0]*N
+    *it, = map(len, G)
     while stk:
         v = stk[-1]
-        if it[v] == 0:
+        if anc[v] == -1:
             anc[v] = v
         else:
-            anc[unite(v, G[v][it[v]-1])] = v
+            anc[unite(v, G[v][it[v]])] = v
 
-        if it[v] < len(G[v]):
-            stk.append(G[v][it[v]])
-            it[v] += 1
+        while it[v]:
+            it[v] -= 1
+            w = G[v][it[v]]
+            if anc[w] == -1:
+                stk.append(w)
+                break
         else:
-            pv = root(v)
             for w, i in A[v]:
-                if anc[w] != -1 and pv != root(w):
+                if anc[w] != -1 and res[i] == -1:
                     res[i] = anc[root(w)]
             stk.pop()
     return res

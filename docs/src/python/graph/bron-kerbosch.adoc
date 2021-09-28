@@ -28,6 +28,7 @@ include::./python/graph/bron-kerbosch.py[]
 
 - CodeChef: "CodeChef July Challenge 2018: Tom and Jerry": link:https://www.codechef.com/viewsolution/19209051[source] (PyPy2, 2.72sec)
 - AOJ: "2306 - Rabbit Party": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4293211[source] (Python3, 0.35sec)
+- AOJ: "2948 - Great Strategy for Bring Up Grade": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5908565#1[source] (Python3, 6.65sec)
 
 == 参考
 
