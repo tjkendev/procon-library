@@ -1,5 +1,4 @@
 = 離散対数問題 (Baby-step giant-step)
-:title: {doctitle} - {pagetitle}
 
 Baby-step Giant-step
 

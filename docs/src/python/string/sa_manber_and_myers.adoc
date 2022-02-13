@@ -1,5 +1,4 @@
 = Suffix Array (Manber and Myers Algorithm)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

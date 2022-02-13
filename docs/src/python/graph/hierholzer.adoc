@@ -1,5 +1,4 @@
 = オイラー路構築 (Hierholzer's Algorithm)
-:title: {doctitle} - {pagetitle}
 
 Constructing an Eulerian Path (Hierholzer's Algorithm)
 

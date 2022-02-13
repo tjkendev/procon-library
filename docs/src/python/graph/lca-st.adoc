@@ -1,5 +1,4 @@
 = 最小共通祖先 (Sparse Table)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

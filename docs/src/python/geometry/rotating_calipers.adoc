@@ -1,5 +1,4 @@
 = 最遠点対 (キャリパー法)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

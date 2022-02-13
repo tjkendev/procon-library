@@ -1,5 +1,4 @@
 = 最小共通祖先 (Heavy-Light Decomposition)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

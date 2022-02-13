@@ -1,5 +1,4 @@
 = ナップサック問題 (価値が小さいケース)
-:title: {doctitle} - {pagetitle}
 
 Knapsack Problem
 

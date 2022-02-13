@@ -1,5 +1,4 @@
 = kd-tree (2次元)
-:title: {doctitle} - {pagetitle}
 
 kd-tree (k-dimensional tree)
 

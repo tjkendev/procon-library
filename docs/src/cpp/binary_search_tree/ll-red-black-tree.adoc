@@ -1,5 +1,4 @@
 = Left-Leaning Red-Black Tree
-:title: {doctitle} - {pagetitle}
 
 Left-Leaning Red-Black Tree, LLRB Tree
 

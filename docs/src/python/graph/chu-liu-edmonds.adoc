@@ -1,5 +1,4 @@
 = 最小全域有向木問題 (Chu-Liu/Edmonds' Algorithm)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

@@ -1,5 +1,4 @@
 = 区間chminクエリ, RMQ, and RSQ (Segment tree beats)
-:title: {doctitle} - {pagetitle}
 
 Segment tree beats (range minimize/maximize query, rmq, and rsq)
 

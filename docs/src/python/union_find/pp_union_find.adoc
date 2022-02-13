@@ -1,5 +1,4 @@
 = 部分永続Union-Find
-:title: {doctitle} - {pagetitle}
 
 部分永続Union-Find (partially persistent union-find)
 

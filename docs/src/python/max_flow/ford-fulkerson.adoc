@@ -1,5 +1,4 @@
 = 最大フロー (Ford-Fulkerson Algorithm)
-:title: {doctitle} - {pagetitle}
 
 最大フロー問題を解くアルゴリズムの１つ Ford-Fulkerson Algorithm
 

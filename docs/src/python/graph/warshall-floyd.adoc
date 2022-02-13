@@ -1,5 +1,4 @@
 = 全点対最短経路(ワーシャルフロイド法)
-:title: {doctitle} - {pagetitle}
 
 ワーシャルフロイド法 (Warshall-Floyd Algorithm)
 

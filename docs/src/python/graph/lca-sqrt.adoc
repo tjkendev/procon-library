@@ -1,5 +1,4 @@
 = 最小共通祖先 (平方分割)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

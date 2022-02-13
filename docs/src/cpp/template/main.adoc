@@ -1,5 +1,4 @@
 = C++実装テンプレート
-:title: {doctitle} - {pagetitle}
 
 C++でコード書くときのテンプレート
 

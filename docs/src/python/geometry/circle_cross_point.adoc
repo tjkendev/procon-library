@@ -1,5 +1,4 @@
 = 円同士の交点
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

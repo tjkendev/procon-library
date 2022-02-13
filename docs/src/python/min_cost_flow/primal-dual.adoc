@@ -1,5 +1,4 @@
 = 最小費用流問題 (Primal-Dual Algorithm)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

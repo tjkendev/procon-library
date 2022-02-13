@@ -1,5 +1,4 @@
 = Z algorithm
-:title: {doctitle} - {pagetitle}
 
 Z algorithm
 

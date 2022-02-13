@@ -1,5 +1,4 @@
 = Link-Cut Tree
-:title: {doctitle} - {pagetitle}
 
 Link-Cut Tree
 

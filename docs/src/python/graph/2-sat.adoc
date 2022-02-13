@@ -1,5 +1,4 @@
 = 2-SAT
-:title: {doctitle} - {pagetitle}
 
 充足可能性問題 (2-SAT)
 

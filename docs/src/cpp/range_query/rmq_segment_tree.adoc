@@ -1,5 +1,4 @@
 = Range Minimum Query (セグメント木)
-:title: {doctitle} - {pagetitle}
 
 Range Minimum Query (RMQ)
 

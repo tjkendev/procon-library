@@ -1,5 +1,4 @@
 = 凸多角形と直線の交差判定/交点
-:title: {doctitle} - {pagetitle}
 
 Intersection between a convex polygon and a line
 

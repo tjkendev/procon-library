@@ -1,5 +1,4 @@
 = Convex Hull Trick (Deque)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

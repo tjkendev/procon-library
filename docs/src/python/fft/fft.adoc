@@ -1,5 +1,4 @@
 = Fast Fourier Transform
-:title: {doctitle} - {pagetitle}
 
 Fast Fourier Transform (FFT, 高速フーリエ変換)
 

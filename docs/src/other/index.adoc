@@ -1,5 +1,4 @@
 = 実装メモ (その他)
-:title: {doctitle} - {pagetitle}
 
 その他の実装
 

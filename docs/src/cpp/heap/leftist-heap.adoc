@@ -1,5 +1,4 @@
 = Leftist Heap
-:title: {doctitle} - {pagetitle}
 
 Leftist Heap
 

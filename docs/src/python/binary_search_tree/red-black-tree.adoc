@@ -1,5 +1,4 @@
 = 赤黒木
-:title: {doctitle} - {pagetitle}
 
 赤黒木 (Red-black tree)
 

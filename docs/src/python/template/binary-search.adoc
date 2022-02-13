@@ -1,5 +1,4 @@
 = 二分探索
-:title: {doctitle} - {pagetitle}
 :no-copy:
 
 binary search

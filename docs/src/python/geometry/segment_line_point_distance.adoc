@@ -1,5 +1,4 @@
 = 線分と頂点の最短距離
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

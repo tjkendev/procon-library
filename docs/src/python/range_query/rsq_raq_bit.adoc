@@ -1,5 +1,4 @@
 = RSQ and RAQ (BIT)
-:title: {doctitle} - {pagetitle}
 
 Range Sum Query and Range Add Query (RSQ and RAQ)
 

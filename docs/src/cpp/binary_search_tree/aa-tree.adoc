@@ -1,5 +1,4 @@
 = AA Tree
-:title: {doctitle} - {pagetitle}
 
 AA Tree
 

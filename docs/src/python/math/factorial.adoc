@@ -1,5 +1,4 @@
 = 階乗
-:title: {doctitle} - {pagetitle}
 
 階乗 (factorial)
 

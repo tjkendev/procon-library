@@ -1,5 +1,4 @@
 = Range Update Query (セグメント木)
-:title: {doctitle} - {pagetitle}
 
 Range Update Query (RUQ)
 

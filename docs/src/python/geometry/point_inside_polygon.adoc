@@ -1,5 +1,4 @@
 = 多角形の点包含判定
-:title: {doctitle} - {pagetitle}
 
 Check if a point is inside a polygon
 

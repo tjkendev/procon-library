@@ -1,5 +1,4 @@
 = 実装メモ (Python)
-:title: {doctitle} - {pagetitle}
 
 Python3で実装しています。
 

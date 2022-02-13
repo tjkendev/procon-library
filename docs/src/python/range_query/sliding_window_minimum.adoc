@@ -1,5 +1,4 @@
 = Sliding Window Minimum
-:title: {doctitle} - {pagetitle}
 
 スライド最小値, Sliding Window Minimum Algorithm
 

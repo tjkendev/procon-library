@@ -1,5 +1,4 @@
 = 単一始点最短経路(0-1-BFS)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

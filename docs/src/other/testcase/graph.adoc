@@ -1,5 +1,4 @@
 = テストケース生成/グラフ
-:title: {doctitle} - {pagetitle}
 
 テストケース生成の実装
 

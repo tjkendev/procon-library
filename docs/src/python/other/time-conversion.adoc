@@ -1,5 +1,4 @@
 = 日付変換
-:title: {doctitle} - {pagetitle}
 
 日付変換
 

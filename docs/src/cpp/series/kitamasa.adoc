@@ -1,5 +1,4 @@
 = きたまさ法
-:title: {doctitle} - {pagetitle}
 
 きたまさ法 (Kitamasa Method)
 

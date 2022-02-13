@@ -1,5 +1,4 @@
 = 点から凸多角形への接線
-:title: {doctitle} - {pagetitle}
 
 tangent lines from a point to a convex polygon
 

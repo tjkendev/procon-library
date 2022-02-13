@@ -1,5 +1,4 @@
 = 円の共通接線の接点/接線
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

@@ -1,5 +1,4 @@
 = RSQ and RUQ (遅延評価セグメント木)
-:title: {doctitle} - {pagetitle}
 
 Range Sum Query and Range Update Query (RSQ and RUQ)
 

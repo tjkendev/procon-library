@@ -1,5 +1,4 @@
 = 最小共通祖先 (ダブリング)
-:title: {doctitle} - {pagetitle}
 
 最小共通祖先 (Lowest Common Ancestor, LCA)
 

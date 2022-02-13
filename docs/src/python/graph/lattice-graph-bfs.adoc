@@ -1,5 +1,4 @@
 = 単一始点最短経路(BFS, 格子グラフ)
-:title: {doctitle} - {pagetitle}
 
 BFS (Breadth First Search) on a lattice graph
 

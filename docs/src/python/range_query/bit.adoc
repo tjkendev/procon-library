@@ -1,5 +1,4 @@
 = Binary Indexed Tree
-:title: {doctitle} - {pagetitle}
 
 Binary Indexed Tree, BIT, Fenwick Tree
 

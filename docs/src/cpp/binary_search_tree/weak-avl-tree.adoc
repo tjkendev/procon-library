@@ -1,5 +1,4 @@
 = Weak AVL Tree
-:title: {doctitle} - {pagetitle}
 
 Weak AVL Tree, WAVL Tree, WAVL木
 

@@ -1,5 +1,4 @@
 = 単一始点最短経路 (ダイクストラ法, 二分ヒープ)
-:title: {doctitle} - {pagetitle}
 
 二分ヒープによるダイクストラ法 (Dijkstra's Algorithm with Binary Heap)
 

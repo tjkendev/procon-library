@@ -1,5 +1,4 @@
 = 最小全域木 (プリム法)
-:title: {doctitle} - {pagetitle}
 
 クラスカル法 (Prim's Algorithm)
 

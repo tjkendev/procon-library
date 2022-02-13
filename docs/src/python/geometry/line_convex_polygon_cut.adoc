@@ -1,5 +1,4 @@
 = 直線による凸多角形の切断
-:title: {doctitle} - {pagetitle}
 
 Cutting a convex polygon by a line
 

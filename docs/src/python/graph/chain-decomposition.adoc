@@ -1,5 +1,4 @@
 # 橋検出と関節点検出 (chain decomposition)
-:title: {doctitle} - {pagetitle}
 
 橋と関節点 (bridges and articulation points)
 

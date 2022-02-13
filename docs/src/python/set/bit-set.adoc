@@ -1,5 +1,4 @@
 = ビット集合演算
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

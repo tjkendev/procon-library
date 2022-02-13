@@ -1,5 +1,4 @@
 = Rolling Hash
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

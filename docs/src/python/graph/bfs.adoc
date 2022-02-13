@@ -1,5 +1,4 @@
 = 単一始点最短経路(BFS)
-:title: {doctitle} - {pagetitle}
 
 幅優先探索 (Breadth First Search)
 

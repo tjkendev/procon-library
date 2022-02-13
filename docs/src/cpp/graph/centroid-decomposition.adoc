@@ -1,5 +1,4 @@
 = 重心分解
-:title: {doctitle} - {pagetitle}
 
 重心分解(Centroid Decomposition)
 

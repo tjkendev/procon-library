@@ -1,5 +1,4 @@
 = 繰り返し二乗法
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

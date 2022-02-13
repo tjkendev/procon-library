@@ -1,5 +1,4 @@
 = 最長回文 (Manacher's algorithm)
-:title: {doctitle} - {pagetitle}
 
 最長回文 (Manacher's algorithm)
 

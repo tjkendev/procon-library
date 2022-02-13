@@ -1,5 +1,4 @@
 = カーマイケル関数
-:title: {doctitle} - {pagetitle}
 
 カーマイケル関数 (Carmichael function)
 

@@ -1,5 +1,4 @@
 = 凸包 (Graham Scan)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

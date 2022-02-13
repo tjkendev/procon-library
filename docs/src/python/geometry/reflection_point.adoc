@@ -1,5 +1,4 @@
 = 点の線対称
-:title: {doctitle} - {pagetitle}
 
 reflection across a line
 

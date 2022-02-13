@@ -1,5 +1,4 @@
 = プログラムチェッカー
-:title: {doctitle} - {pagetitle}
 
 実装をチェックするためのプログラム
 

@@ -1,5 +1,4 @@
 = 最大フロー (Push-Relabel Algorithm, highest selection)
-:title: {doctitle} - {pagetitle}
 
 Push-Relabel Algorithm, Goldberg-Tarjan Algorithm
 

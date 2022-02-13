@@ -1,5 +1,4 @@
 = 線分追加クエリ, RAQ, RMQ (遅延評価 Li-Chao (Segment) Tree, 動的セグ木)
-:title: {doctitle} - {pagetitle}
 
 Li-Chao (Segment) Tree with Lazy Propagation
 

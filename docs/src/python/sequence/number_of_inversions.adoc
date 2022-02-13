@@ -1,5 +1,4 @@
 = 反転数
-:title: {doctitle} - {pagetitle}
 
 反転数 (the number of inversions)
 

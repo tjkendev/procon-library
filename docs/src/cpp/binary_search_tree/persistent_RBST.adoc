@@ -1,5 +1,4 @@
 = 永続RBST
-:title: {doctitle} - {pagetitle}
 
 永続RBST (Persistent Randomized Binary Search Tree)
 

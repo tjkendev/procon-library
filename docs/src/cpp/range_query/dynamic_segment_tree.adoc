@@ -1,5 +1,4 @@
 = Range Sum Query (動的セグメント木)
-:title: {doctitle} - {pagetitle}
 
 Range Sum Query
 

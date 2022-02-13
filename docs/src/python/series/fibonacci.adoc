@@ -1,5 +1,4 @@
 = フィボナッチ数列
-:title: {doctitle} - {pagetitle}
 
 フィボナッチ数列 (Fibonacci Sequence)
 

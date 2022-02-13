@@ -1,5 +1,4 @@
 = Fast Modulo Transform
-:title: {doctitle} - {pagetitle}
 
 Fast Modulo Transform (FMT, 高速剰余変換), Number Theoretical Transform (NTT, 数論変換)
 

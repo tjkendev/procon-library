@@ -1,5 +1,4 @@
 = 橋検出
-:title: {doctitle} - {pagetitle}
 
 橋検出(Bridge-finding)
 

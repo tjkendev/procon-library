@@ -1,5 +1,4 @@
 = 最長共通部分列
-:title: {doctitle} - {pagetitle}
 
 最長共通部分列 (Longest Common Subsequence ,LCS)
 

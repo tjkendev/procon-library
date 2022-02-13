@@ -1,5 +1,4 @@
 = 最小共通祖先 (オフライン)
-:title: {doctitle} - {pagetitle}
 
 Lowest Common Ancestor (Tarjan's off-line algorithm)
 

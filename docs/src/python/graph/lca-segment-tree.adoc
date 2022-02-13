@@ -1,5 +1,4 @@
 = 最小共通祖先 (セグメント木)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

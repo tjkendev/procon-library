@@ -1,5 +1,4 @@
 = 単一始点最短経路 (ダイクストラ法, Radix Heap)
-:title: {doctitle} - {pagetitle}
 
 Radix Heapによるダイクストラ法 (Dijkstra's Algorithm with Radix Heap)
 

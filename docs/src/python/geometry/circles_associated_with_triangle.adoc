@@ -1,5 +1,4 @@
 = 三角形の外接円/内接円/傍接円
-:title: {doctitle} - {pagetitle}
 
 circumcircle, incircle and excircle of a triangle
 

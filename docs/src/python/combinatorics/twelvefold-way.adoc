@@ -1,5 +1,4 @@
 = 写像12相
-:title: {doctitle} - {pagetitle}
 
 写像12相 (Twelvefold way)
 

@@ -1,5 +1,4 @@
 = Aho-Corasick Algorithm
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

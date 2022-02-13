@@ -1,5 +1,4 @@
 = 座標圧縮
-:title: {doctitle} - {pagetitle}
 
 座標圧縮 (coordinate compression)
 

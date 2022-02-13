@@ -1,5 +1,4 @@
 = Convex Hull Trick (平衡二分探索木)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

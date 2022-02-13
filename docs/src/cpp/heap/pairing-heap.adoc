@@ -1,5 +1,4 @@
 = Pairing Heap
-:title: {doctitle} - {pagetitle}
 
 Pairing Heap
 

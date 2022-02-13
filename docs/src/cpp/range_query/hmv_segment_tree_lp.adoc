@@ -1,5 +1,4 @@
 = histric maximal valueのRMQ (遅延評価セグメント木)
-:title: {doctitle} - {pagetitle}
 
 histric maximal value (histric information) on Segment Tree with Lazy Propagation
 

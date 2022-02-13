@@ -1,5 +1,4 @@
 = 2つの円の共通部分の面積
-:title: {doctitle} - {pagetitle}
 
 The intersection area of two circles
 

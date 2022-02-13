@@ -1,5 +1,4 @@
 = 最大クリーク問題 (Bron-Kerbosch Algorithm)
-:title: {doctitle} - {pagetitle}
 
 最大クリーク問題 (maximum clique problem)
 

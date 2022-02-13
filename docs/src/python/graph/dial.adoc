@@ -1,5 +1,4 @@
 = 単一始点最短経路 (Dial's Algorithm)
-:title: {doctitle} - {pagetitle}
 
 Dial's Algorithm
 

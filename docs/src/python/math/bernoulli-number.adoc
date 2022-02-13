@@ -1,5 +1,4 @@
 = ベルヌーイ数
-:title: {doctitle} - {pagetitle}
 
 ベルヌーイ数 (Bernoulli number)
 

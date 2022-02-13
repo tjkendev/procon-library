@@ -1,5 +1,4 @@
 = 最小全域木の二分木変換
-:title: {doctitle} - {pagetitle}
 
 Binarization of Minimum Spanning Tree
 

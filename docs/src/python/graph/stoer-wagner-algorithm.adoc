@@ -1,5 +1,4 @@
 = 全域最小カット (Stoer-Wagner Algorithm)
-:title: {doctitle} - {pagetitle}
 
 Global Minimum Cut (Stoer-Wagner Algorithm)
 

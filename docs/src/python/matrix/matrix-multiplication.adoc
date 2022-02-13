@@ -1,5 +1,4 @@
 = 行列乗算 (naive)
-:title: {doctitle} - {pagetitle}
 
 Matrix Multiplication
 

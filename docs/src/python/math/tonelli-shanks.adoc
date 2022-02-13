@@ -1,5 +1,4 @@
 = 素数mod上の平方根 (Tonelli-Shanks algorithm)
-:title: {doctitle} - {pagetitle}
 
 square roots modulo a prime
 

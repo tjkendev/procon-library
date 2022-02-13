@@ -1,5 +1,4 @@
 = ラグランジュ補完
-:title: {doctitle} - {pagetitle}
 
 ラグランジュ補完 (Lagrange Polynomial)
 

@@ -11,6 +11,8 @@ Extensions.register do
     postprocessor OGPHeader
     postprocessor OGPDescription
 
+    treeprocessor CustomPageTreeprocessor
+
     postprocessor CustomPage
     postprocessor Canonical
   end

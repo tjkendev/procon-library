@@ -1,5 +1,4 @@
 = 最大マッチング (Edmonds' Algorithm)
-:title: {doctitle} - {pagetitle}
 
 Maximum Matching (Edmonds' Algorithm)
 

@@ -1,5 +1,4 @@
 = インタラクティブ
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

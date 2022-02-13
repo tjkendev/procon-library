@@ -1,5 +1,4 @@
 # カタランの三角形
-:title: {doctitle} - {pagetitle}
 
 Catalan's Triangle
 

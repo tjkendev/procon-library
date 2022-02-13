@@ -1,5 +1,4 @@
 = 分数の端数処理
-:title: {doctitle} - {pagetitle}
 
 Rounding fractions
 

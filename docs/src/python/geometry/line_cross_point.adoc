@@ -1,5 +1,4 @@
 = 直線同士の交点
-:title: {doctitle} - {pagetitle}
 
 the intersection point of two lines
 

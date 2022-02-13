@@ -1,5 +1,4 @@
 = Merge Sort Tree
-:title: {doctitle} - {pagetitle}
 
 Merge Sort Tree
 

@@ -1,5 +1,4 @@
 = AVL Tree
-:title: {doctitle} - {pagetitle}
 
 AVL Tree, AVL木
 

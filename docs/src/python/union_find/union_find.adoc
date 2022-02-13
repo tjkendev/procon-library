@@ -1,5 +1,4 @@
 = 素集合データ構造 (Union-Find)
-:title: {doctitle} - {pagetitle}
 
 素集合データ構造 (Union-Find data structure, Disjoint-set data structure)
 

@@ -1,5 +1,4 @@
 = サイコロ
-:title: {doctitle} - {pagetitle}
 
 サイコロ (Dice)
 

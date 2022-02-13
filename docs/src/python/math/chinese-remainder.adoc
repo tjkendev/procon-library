@@ -1,5 +1,4 @@
 = 中国余剰定理
-:title: {doctitle} - {pagetitle}
 
 中国余剰定理 (Chinese remainder theorem)
 

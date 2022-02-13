@@ -1,5 +1,4 @@
 = ナップサック問題 (重みが小さいケース)
-:title: {doctitle} - {pagetitle}
 
 Knapsack Problem
 

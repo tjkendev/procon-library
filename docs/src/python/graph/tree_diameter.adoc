@@ -1,5 +1,4 @@
 = 木の直径 (double sweep method)
-:title: {doctitle} - {pagetitle}
 
 木の直径(diameter of a tree)
 

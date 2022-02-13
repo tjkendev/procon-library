@@ -1,5 +1,4 @@
 = 素因数分解 (Pollard's rho algorithm)
-:title: {doctitle} - {pagetitle}
 
 素因数分解 (prime factorization)
 

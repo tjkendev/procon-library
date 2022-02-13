@@ -1,5 +1,4 @@
 = 線分同士の交差判定
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

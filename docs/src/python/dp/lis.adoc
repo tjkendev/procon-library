@@ -1,5 +1,4 @@
 = 最長増加部分列
-:title: {doctitle} - {pagetitle}
 
 最長増加部分列 (Longest Increasing Subsequence, LIS)
 

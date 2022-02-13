@@ -1,5 +1,4 @@
 = 最大流問題 (Dinic's Algorithm)
-:title: {doctitle} - {pagetitle}
 
 Dinic's Algorithm (Maximum flow problem)
 

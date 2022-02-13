@@ -1,5 +1,4 @@
 = 全点対最短経路 (Johnson's Algorithm)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

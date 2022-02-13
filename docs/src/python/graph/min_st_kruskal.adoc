@@ -1,5 +1,4 @@
 = 最小全域木 (クラスカル法)
-:title: {doctitle} - {pagetitle}
 
 クラスカル法 (Kruskal's Algorithm)
 

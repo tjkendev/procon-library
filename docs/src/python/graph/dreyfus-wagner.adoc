@@ -1,5 +1,4 @@
 = 最小シュタイナー木 (Dreyfus-Wagner Algorithm)
-:title: {doctitle} - {pagetitle}
 
 Minimum Steiner Tree in Graphs
 

@@ -1,5 +1,4 @@
 = KMP法
-:title: {doctitle} - {pagetitle}
 
 KMP法 (KMP algorithm, Knuth-Morris-Pratt algorithm)
 

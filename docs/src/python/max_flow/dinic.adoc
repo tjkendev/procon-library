@@ -1,5 +1,4 @@
 = 最大フロー (Dinic's Algorithm)
-:title: {doctitle} - {pagetitle}
 
 最大フロー問題を解くアルゴリズムの Dinic's Algorithm
 

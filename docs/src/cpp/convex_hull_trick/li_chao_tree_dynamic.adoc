@@ -1,5 +1,4 @@
 = Convex Hull Trick (Li-Chao (Segment) Tree, 動的セグ木)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

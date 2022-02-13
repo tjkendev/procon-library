@@ -1,5 +1,4 @@
 = Randomized Binary Search Tree (RBST)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

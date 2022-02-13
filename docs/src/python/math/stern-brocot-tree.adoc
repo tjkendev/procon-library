@@ -1,5 +1,4 @@
 = Stern-Brocot Tree
-:title: {doctitle} - {pagetitle}
 
 シュターン-ブロコ木 (Stern-Brocot Tree)
 

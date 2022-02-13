@@ -1,5 +1,4 @@
 = 最大二部マッチング (Hopcroft-Karp Algorithm)
-:title: {doctitle} - {pagetitle}
 
 最大二部マッチング (maximum bipartite matching)
 

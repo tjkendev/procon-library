@@ -1,5 +1,4 @@
 = 高速I/O処理
-:title: {doctitle} - {pagetitle}
 
 高速で入出力を行うためのクラス
 

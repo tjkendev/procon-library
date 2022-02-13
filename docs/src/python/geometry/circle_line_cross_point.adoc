@@ -1,5 +1,4 @@
 = 直線(線分)と円の交点
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

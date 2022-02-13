@@ -1,5 +1,4 @@
 = Scapegoat tree
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

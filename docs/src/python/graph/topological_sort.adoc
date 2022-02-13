@@ -1,5 +1,4 @@
 = トポロジカルソート (Kahn's Algorithm)
-:title: {doctitle} - {pagetitle}
 
 トポロジカルソート(Topological sorting)
 

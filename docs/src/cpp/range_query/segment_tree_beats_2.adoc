@@ -1,5 +1,4 @@
 = 区間chmin/chmaxクエリ, RMQ, RSQ, RAQ, RUQ (Segment tree beats)
-:title: {doctitle} - {pagetitle}
 
 Segment tree beats (range minimize/maximize query, RMQ, RSQ, RAQ, RUQ)
 

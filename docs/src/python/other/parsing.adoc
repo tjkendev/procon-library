@@ -1,5 +1,4 @@
 = 構文解析
-:title: {doctitle} - {pagetitle}
 
 構文解析 (parsing)
 

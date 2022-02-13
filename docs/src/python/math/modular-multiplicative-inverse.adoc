@@ -1,5 +1,4 @@
 = モジュラ逆数
-:title: {doctitle} - {pagetitle}
 
 モジュラ逆数 (modular multiplicative inverse)
 

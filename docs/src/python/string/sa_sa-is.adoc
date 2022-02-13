@@ -1,5 +1,4 @@
 = Suffix Array (SA-IS)
-:title: {doctitle} - {pagetitle}
 
 SA-IS (Suffix Array - Induced Sorting)
 

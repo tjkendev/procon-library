@@ -1,5 +1,4 @@
 = 連立一次方程式 (掃き出し法)
-:title: {doctitle} - {pagetitle}
 
 掃き出し法 (row reduction), ガウスの消去法 (Gaussian Elimination)
 

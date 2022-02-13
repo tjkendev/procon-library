@@ -1,5 +1,4 @@
 = 最近点対 (分割統治法)
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

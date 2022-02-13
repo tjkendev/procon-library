@@ -1,6 +1,5 @@
 
 = メビウス関数
-:title: {doctitle} - {pagetitle}
 
 メビウス関数 (Möbius function)
 

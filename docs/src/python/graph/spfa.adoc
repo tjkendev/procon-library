@@ -1,5 +1,4 @@
 = 単一始点最短経路 (SPFA)
-:title: {doctitle} - {pagetitle}
 
 Shortest Path Faster Algorithm (SPFA)
 

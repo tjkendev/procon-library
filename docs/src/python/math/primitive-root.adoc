@@ -1,5 +1,4 @@
 = 原始根
-:title: {doctitle} - {pagetitle}
 
 Primitive Root
 

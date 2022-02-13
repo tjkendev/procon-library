@@ -1,5 +1,4 @@
 = 単一始点最短経路 (ダイクストラ法, フィボナッチヒープ)
-:title: {doctitle} - {pagetitle}
 
 フィボナッチヒープによるダイクストラ法 (Dijkstra's Algorithm with Fibonacci Heap)
 

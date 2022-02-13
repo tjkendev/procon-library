@@ -1,5 +1,4 @@
 = 素因数分解 (試し割り法)
-:title: {doctitle} - {pagetitle}
 
 素因数分解 (prime factorization)
 

@@ -1,5 +1,4 @@
 = Auxiliary Tree (LCAベース)
-:title: {doctitle} - {pagetitle}
 
 Auxiliary Tree, Virtual Tree
 

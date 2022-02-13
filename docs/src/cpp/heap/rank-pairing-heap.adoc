@@ -1,5 +1,4 @@
 = Rank-Pairing Heap
-:title: {doctitle} - {pagetitle}
 
 Rank-Pairing Heap
 

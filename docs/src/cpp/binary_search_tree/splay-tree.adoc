@@ -1,5 +1,4 @@
 = Splay tree
-:title: {doctitle} - {pagetitle}
 
 == 概要
 

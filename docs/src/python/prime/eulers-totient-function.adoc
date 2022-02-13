@@ -1,5 +1,4 @@
 = オイラーのφ関数
-:title: {doctitle} - {pagetitle}
 
 オイラーのφ関数 (Euler's totient function, phi function)
 

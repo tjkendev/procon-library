@@ -1,5 +1,4 @@
 = 0-1ナップサック問題 (半分全列挙)
-:title: {doctitle} - {pagetitle}
 
 Knapsack Problem (Meet in the middle)
 
