@@ -4,13 +4,13 @@
 
 競技プログラミング参照用のテンプレートやライブラリ等の置き場
 
-* Webページ: [https://tjkendev.github.io/procon-library/](https://tjkendev.github.io/procon-library/)
+* Webページ: <https://tjkendev.github.io/procon-library/>
 
 ## ページ生成方法
 
 ### 依存
 
-* Ruby 2.6.0
+* Ruby 2.7.3
 * [Asciidoctor Latex](https://github.com/asciidoctor/asciidoctor-latex)
 
 ### 準備
