@@ -8,7 +8,7 @@ GEM
       asciidoctor (~> 1.5, >= 1.5.2)
       htmlentities (~> 4.3)
       opal (~> 0.6.3)
-    concurrent-ruby (1.1.8)
+    concurrent-ruby (1.1.9)
     htmlentities (4.3.4)
     json (2.5.1)
     mini_portile2 (2.6.1)
