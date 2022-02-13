@@ -17,7 +17,3 @@ $H \times W$ の 正方格子グラフ (a square lattice graph)
 ----
 include::./python/graph/square-lattice-bfs.py[]
 ----
-
-***
-
-link:../index.html[戻る]

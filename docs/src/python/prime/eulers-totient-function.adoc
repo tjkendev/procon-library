@@ -21,6 +21,3 @@ $a$ と $n$ を互いに素な整数とするとき、 $\displaystyle a^{\varphi
 ----
 include::./python/prime/eulers-totient-function.py[]
 ----
-
-***
-link:../index.html[戻る]

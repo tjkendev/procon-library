@@ -32,6 +32,3 @@ include::./python/geometry/reflection_point.py[]
 == 参考
 
 - link:https://mathworld.wolfram.com/Reflection.html[Reflection - Wolfram MathWorld]
-
-***
-link:../index.html[戻る]

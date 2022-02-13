@@ -88,6 +88,3 @@ include::./python/dp/knapsack4-2.py[]
 
 - AOJ: "DPL_1_I: Combinatorial - Knapsack Problem with Limitations II": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812336#1[source] (Python3, 3.29sec)
 - AtCoder: "AtCoder Regular Contest 096 - F問題: Sweet Alchemy": link:https://atcoder.jp/contests/arc096/submissions/6948625[source] (PyPy3, 484ms)
-
-***
-link:../index.html[戻る]

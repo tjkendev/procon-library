@@ -30,7 +30,3 @@ include::./python/graph/dijkstra.py[]
 == ``queue.PriorityQueue`` を用いた実装
 
 * AOJ: "ALDS1_12_C: Graph II - Single Source Shortest Path II": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3182760#1[source] (Python3, 0.55sec)
-
-***
-
-link:../index.html[戻る]

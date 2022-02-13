@@ -64,6 +64,3 @@ include::./python/combinatorics/stirling-number-2.py[]
 
 * link:https://mathtrain.jp/twelveway[写像の個数（写像12相） - 高校数学の美しい物語]
 * link:http://d.hatena.ne.jp/incognita/20110305/1299344781[数学ガール★分割数(partition number)の漸化式と戯れる - incognita et cognita]
-
-***
-link:../index.html[戻る]

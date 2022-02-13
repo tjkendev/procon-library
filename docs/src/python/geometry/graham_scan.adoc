@@ -22,7 +22,3 @@ include::./python/geometry/graham_scan.py[]
 
 - AOJ: "CGL_4_A: Convex Polygon - Convex Hull": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1894281#1[source] (Python2, 0.63sec)
 - AOJ: "0068: Enclose Pins with a Rubber Band": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4505768#1[source] (Python3, 0.02sec)
-
-***
-
-link:../index.html[戻る]

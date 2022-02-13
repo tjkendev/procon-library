@@ -25,6 +25,3 @@ $N = \max(a, b)$ とすると $O(\log N)$
 ----
 include::./python/math/gcd.py[]
 ----
-
-***
-link:../index.html[戻る]

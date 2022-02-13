@@ -22,6 +22,3 @@ include::./python/math/rounding_fractions.py[]
 == 参考
 
 - link:https://en.wikipedia.org/wiki/Rounding[Rounding - Wikipedia]
-
-***
-link:../index.html[戻る]

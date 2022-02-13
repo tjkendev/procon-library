@@ -28,6 +28,3 @@ include::./python/string/sa_rolling_hash.py[]
 == 参考
 
 - link:https://topcoder.g.hatena.ne.jp/spaghetti_source/20130209/1360403866[Rolling Hashing - 週刊 spaghetti_source]
-
-***
-link:../index.html[戻る]

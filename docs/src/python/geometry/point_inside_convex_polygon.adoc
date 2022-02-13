@@ -38,7 +38,3 @@ include::./python/geometry/point_inside_convex_polygon.py[]
 == 参考
 
 * link:https://cp-algorithms.com/geometry/point-in-convex-polygon.html[Check if point belongs to the convex polygon in O(log N) - CP-Algorithms]
-
-***
-
-link:../index.html[戻る]

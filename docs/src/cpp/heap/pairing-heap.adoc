@@ -36,6 +36,3 @@ include::./cpp/heap/pairing-heap.cpp[]
 * link:https://en.wikipedia.org/wiki/Pairing_heap[Pairing heap - Wikipedia]
 * Fredman, Michael L., et al. "The pairing heap: A new form of self-adjusting heap." Algorithmica 1.1-4 (1986): 111-129.
 * Iacono, John. "Improved upper bounds for pairing heaps." arXiv preprint arXiv:1110.4428 (2011).
-
-***
-link:../index.html[戻る]

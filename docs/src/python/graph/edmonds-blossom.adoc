@@ -28,6 +28,3 @@ include::./python/graph/edmonds-blossom.py[]
 
 * link:https://speakerdeck.com/yosupo/ban-gurahufalsezui-da-matutingu[一般グラフの最大マッチング - Speaker Deck]
 * B. Korte, J. Vygen. Combinatorial Optimization, 6th Edition. Springer, 2018.
-
-***
-link:../index.html[戻る]

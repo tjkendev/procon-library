@@ -17,6 +17,3 @@ $O(N \log N)$
 ----
 include::./python/geometry/compress.py[]
 ----
-
-***
-link:../index.html[戻る]

@@ -57,6 +57,3 @@ include::./python/union_find/union_find_by_index.py[]
 == 参考
 
 - link:https://cp-algorithms.com/data_structures/disjoint_set_union.html[Disjoint Set Union - CP-Algorithms]
-
-***
-link:../index.html[戻る]

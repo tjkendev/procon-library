@@ -21,7 +21,3 @@ include::./python/graph/01-bfs.py[]
 === Verified
 
 * AtCoder: "AtCoder Begineer Contest 077 - D問題: Small Multiple": link:https://atcoder.jp/contests/abc077/submissions/5829348[source] (Python3, 230ms)
-
-***
-
-link:../index.html[戻る]

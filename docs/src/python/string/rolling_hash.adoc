@@ -42,6 +42,3 @@ include::./python/string/rolling_hash-2d.py[]
 
 - AOJ: "ALDS1_14_C: Pattern Search": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4388923#1[source] (Python3, 1.98sec)
 - AOJ: "1312: Where's Wally": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4310474#1[source] (Python3, 16.64sec)
-
-***
-link:../index.html[戻る]

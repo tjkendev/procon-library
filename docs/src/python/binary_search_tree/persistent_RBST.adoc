@@ -23,7 +23,3 @@ include::./python/binary_search_tree/persistent_RBST.py[]
 Pythonにとっては重い
 
 * (TLE) AtCoder: "AtCoder Regular Contest 030 - D問題: グラフではない": (PyPy3) link:https://beta.atcoder.jp/contests/arc030/submissions/2182996[source]
-
-***
-
-link:../index.html[戻る]

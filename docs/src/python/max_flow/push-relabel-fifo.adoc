@@ -49,6 +49,3 @@ include::./python/max_flow/push-relabel-fifo.py[]
 - link:https://en.wikipedia.org/wiki/Push%E2%80%93relabel_maximum_flow_algorithm[Push–relabel maximum flow algorithm - Wikipedia]
 - link:http://www.prefield.com/algorithm/graph/goldberg_tarjan.html[最大流 (Goldberg-Tarjan) - Spaghetti Source]
 - link:https://qiita.com/nariaki3551/items/65baee3c6ef0a6ffa136[Preflow Push-Relabel (プリフロープッシュリラベル) アルゴリズム 改良 - Qiita]
-
-***
-link:../index.html[戻る]

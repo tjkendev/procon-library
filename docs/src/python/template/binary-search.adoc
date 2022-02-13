@@ -32,6 +32,3 @@ include::./python/template/binary-search-int-basic.py[]
 ----
 include::./python/template/binary-search-float-basic.py[]
 ----
-
-***
-link:../index.html[戻る]

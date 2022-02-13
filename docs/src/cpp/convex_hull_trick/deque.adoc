@@ -27,7 +27,3 @@ include::./cpp/convex_hull_trick/deque.cpp[]
 === Verified
 
 * AtCoder: "Educational DP Contest / DP まとめコンテスト - Z問題: Frog 3": link:https://atcoder.jp/contests/dp/submissions/3963619[source] (C++14, 25ms)
-
-***
-
-link:../index.html[戻る]

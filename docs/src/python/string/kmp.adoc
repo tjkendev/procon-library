@@ -35,7 +35,3 @@ include::./python/string/kmp.py[]
 
 - link:https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm[Knuth–Morris–Pratt algorithm - Wikipedia]
 - link:https://snuke.hatenablog.com/entry/2014/12/01/235807[文字列の頭良い感じの線形アルゴリズムたち - あなたは嘘つきですかと聞かれたら「YES」と答えるブログ]
-
-***
-
-link:../index.html[戻る]

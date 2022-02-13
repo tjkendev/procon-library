@@ -19,7 +19,3 @@ $ \displaystyle \left( \begin{array}{c} a_{n+1} \\ a_n \end{array} \right) = \le
 ----
 include::./python/series/fibonacci.py[]
 ----
-
-***
-
-link:../index.html[戻る]

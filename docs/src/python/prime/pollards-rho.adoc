@@ -19,7 +19,3 @@ include::./python/prime/pollards-rho.py[]
 == 参考
 
 - link:https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm[Pollard's rho algorithm - Wikipedia]
-
-***
-
-link:../index.html[戻る]

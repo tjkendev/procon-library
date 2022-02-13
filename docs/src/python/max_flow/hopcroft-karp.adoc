@@ -38,6 +38,3 @@ include::./python/max_flow/hopcroft-karp.py[]
 * AOJ: "GRL_7_A: Matching - Bipartite Matching": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185168#1[source] (Python3, 0.05sec)
 * AOJ: "2251: Merry Christmas": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4552579#1[source] (Python3, 21.25sec)
 * AOJ: "2976: Rooks Game": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5204957#1[source] (Python3, 0.04sec)
-
-***
-link:../index.html[戻る]

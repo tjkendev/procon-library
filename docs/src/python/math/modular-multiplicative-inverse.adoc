@@ -26,6 +26,3 @@ $\varphi(m)$ の前計算が必要であるが、 $m$ が素数であれば $\va
 ----
 include::./python/math/modular-multiplicative-inverse.py[]
 ----
-
-***
-link:../index.html[戻る]

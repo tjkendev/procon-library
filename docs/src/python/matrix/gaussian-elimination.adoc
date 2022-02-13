@@ -32,7 +32,3 @@ include::./python/matrix/gaussian-elimination-logical.py[]
 == 参考
 
 - link:https://en.wikipedia.org/wiki/Gaussian_elimination[Gaussian elimination - Wikipedia]
-
-***
-
-link:../index.html[戻る]

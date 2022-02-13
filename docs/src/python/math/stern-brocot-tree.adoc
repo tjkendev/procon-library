@@ -28,6 +28,3 @@ include::./python/math/stern-brocot-tree.py[]
 
 * link:https://en.wikipedia.org/wiki/Stern%E2%80%93Brocot_tree[Stern–Brocot tree - Wikipedia]
 * link:http://www.prefield.com/algorithm/math/stern_brocot_tree.html[Stern-Brocot木 - Spaghetti Source]
-
-***
-link:../index.html[戻る]

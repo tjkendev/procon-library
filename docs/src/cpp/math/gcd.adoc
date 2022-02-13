@@ -22,6 +22,3 @@ $N = \max(a, b)$ とすると $O(\log N)$
 ----
 include::./cpp/math/gcd.cpp[]
 ----
-
-***
-link:../index.html[戻る]

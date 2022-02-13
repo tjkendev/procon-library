@@ -33,6 +33,3 @@ include::./python/range_query/merge-sort-tree.py[]
 == 参考
 
 - link:https://discuss.codechef.com/t/merge-sort-tree-tutorial/14277/2[Merge Sort Tree - Tutorial]
-
-***
-link:../index.html[戻る]

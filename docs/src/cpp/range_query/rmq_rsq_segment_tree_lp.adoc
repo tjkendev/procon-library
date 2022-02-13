@@ -28,6 +28,3 @@ include::./cpp/range_query/rmq_rsq_segment_tree_lp.cpp[]
 
 * AtCoder: "Educational DP Contest / DP まとめコンテスト - W問題: Intervals": link:https://atcoder.jp/contests/dp/submissions/3959368[source] (C++14, 301ms)
 * AtCoder: "AtCoder Regular Contest 056 - D問題: サケノミ": link:https://atcoder.jp/contests/arc056/submissions/4069896[source] (C++14, 983ms)
-
-***
-link:../index.html[戻る]

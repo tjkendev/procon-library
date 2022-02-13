@@ -25,7 +25,3 @@ include::./cpp/convex_hull_trick/li_chao_tree_dynamic.cpp[]
 === Verified
 
 * AtCoder: "早稲田大学プログラミングコンテスト - I問題: Ramen": link:https://atcoder.jp/contests/wupc2019/submissions/4571384[source] (C++14, 1128ms)
-
-***
-
-link:../index.html[戻る]

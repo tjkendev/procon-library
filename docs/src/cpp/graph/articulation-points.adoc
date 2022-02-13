@@ -28,7 +28,3 @@ include::./cpp/graph/articulation_points.cpp[]
 == 参考
 
 - link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3324597#1[AtCoder Regular Contest 045 解説]
-
-***
-
-link:../index.html[戻る]

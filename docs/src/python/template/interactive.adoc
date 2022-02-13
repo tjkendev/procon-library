@@ -19,6 +19,3 @@
 ----
 include::./python/template/interactive.py[]
 ----
-
-***
-link:../index.html[戻る]

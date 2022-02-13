@@ -26,7 +26,3 @@ include::./cpp/graph/dijkstra-radix.cpp[]
 == 参考
 
 - link:https://www.slideshare.net/yosupo/ss-46612984[色々なダイクストラ高速化 - slideshare]
-
-***
-
-link:../index.html[戻る]

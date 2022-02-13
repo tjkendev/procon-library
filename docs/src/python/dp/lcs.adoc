@@ -35,7 +35,3 @@ include::./python/dp/lcs.py[]
 === Verified
 
 - AtCoder: "Educational DP Contest - F問題: LCS": link:https://atcoder.jp/contests/dp/submissions/6952563[source] (PyPy3, 458ms)
-
-
-***
-link:../index.html[戻る]

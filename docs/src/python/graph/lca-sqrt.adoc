@@ -26,6 +26,3 @@ include::./python/graph/lca-sqrt.py[]
 == 参考
 
 * link:https://www.slideshare.net/iwiwi/ss-3578491[プログラミングコンテストでのデータ構造 - slideshare]
-
-***
-link:../index.html[戻る]

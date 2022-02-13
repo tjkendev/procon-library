@@ -23,7 +23,3 @@ include::./cpp/graph/dijkstra-binary.cpp[]
 === Verified
 
 * AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3796944#1[source] (C++14, 0.13sec)
-
-***
-
-link:../index.html[戻る]

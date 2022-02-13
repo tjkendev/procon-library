@@ -45,6 +45,3 @@ include::./cpp/graph/auxiliary_tree.cpp[]
 
 * Codeforces: "613D: Kingdom and its Cities": link:https://codeforces.com/contest/613/submission/60606853[source] (C++14, 561ms)
 * CodeChef: "ICL2017: Tree Obsession": link:https://www.codechef.com/viewsolution/26228328[source] (C++14, 0.66sec)
-
-***
-link:../index.html[戻る]

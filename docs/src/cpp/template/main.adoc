@@ -7,7 +7,3 @@ C++でコード書くときのテンプレート
 ----
 include::./cpp/template/main.cpp[]
 ----
-
-***
-
-link:../index.html[戻る]

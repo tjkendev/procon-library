@@ -34,7 +34,3 @@ include::./python/geometry/convex_polygons_intersection.py[]
 
 * O'Rourke, Joseph, et al. "A new linear algorithm for intersecting convex polygons." Computer Graphics and Image Processing 19.4 (1982): 384-391.
 * O'rourke, Joseph. Computational geometry in C. Cambridge university press, 1998.
-
-***
-
-link:../index.html[戻る]

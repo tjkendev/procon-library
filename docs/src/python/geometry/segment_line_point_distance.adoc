@@ -26,6 +26,3 @@ include::./python/geometry/segment_line_point_distance.py[]
 
 - AOJ: "1283: Most Distant Point from the Sea": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4301434#1[source] (Python3, 21.95sec)
 - AOJ: "2173: Wind Passages": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4693575#1[source] (Python3, 11.89sec)
-
-***
-link:../index.html[戻る]

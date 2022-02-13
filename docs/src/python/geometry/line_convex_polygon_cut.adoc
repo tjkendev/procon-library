@@ -26,7 +26,3 @@ include::./python/geometry/line_convex_polygon_cut.py[]
 * AOJ: "2160: Voronoi Island": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4546990[source] (Python3, 0.04sec)
 * AOJ: "2385: Shelter": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4802378#1[source] (Python3, 0.32sec)
 * AOJ: "2626: Gravity Point": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4837015#1[source] (Python3, 0.09sec)
-
-***
-
-link:../index.html[戻る]

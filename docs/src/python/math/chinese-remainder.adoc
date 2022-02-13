@@ -42,6 +42,3 @@ include::./python/math/chinese-remainder.py[]
 
 * yukicoder: "No. 187 中華風 (Hard)": link:https://yukicoder.me/submissions/288619[source] (Python3, 865ms)
 * AtCoder: "DISCO presents ディスカバリーチャンネル コードコンテスト2019 予選 - D問題: チップ・ストーリー　〜黄金編〜": link:https://beta.atcoder.jp/contests/ddcc2019-qual/submissions/3649200[source] (Python3, 17ms)
-
-***
-link:../index.html[戻る]

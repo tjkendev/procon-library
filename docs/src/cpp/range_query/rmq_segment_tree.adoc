@@ -38,6 +38,3 @@ include::./cpp/range_query/rmq_segment_tree.cpp[]
 === Verified
 
 * AOJ: "DSL_2_A: Range Query - Range Minimum Query (RMQ)": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3321426#1[source] (C++14, 0.12sec)
-
-***
-link:../index.html[戻る]

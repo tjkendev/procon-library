@@ -34,6 +34,3 @@ include::./python/math/tonelli-shanks.py[]
 
 * link:https://en.wikipedia.org/wiki/Tonelli%E2%80%93Shanks_algorithm[Tonelli-Shanks algorithm - Wikipedia]
 * 和田秀男. 「コンピュータと素因数分解」. 遊星社, 1987.
-
-***
-link:../index.html[戻る]

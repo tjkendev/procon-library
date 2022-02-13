@@ -32,6 +32,3 @@ include::./cpp/heap/rank-pairing-heap.cpp[]
 == 参考
 
 * Haeupler, Bernhard, Siddhartha Sen, and Robert E. Tarjan. "Rank-pairing heaps." SIAM Journal on Computing 40.6 (2011): 1463-1485.
-
-***
-link:../index.html[戻る]

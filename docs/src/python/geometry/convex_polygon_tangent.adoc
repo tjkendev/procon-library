@@ -46,7 +46,3 @@ include::./python/geometry/convex_polygon_tangent.py[]
 == 参考
 
 * Chazelle, Bernard, and David P. Dobkin. "Intersection of convex objects in two and three dimensions." Journal of the ACM (JACM) 34.1 (1987): 1-27.
-
-***
-
-link:../index.html[戻る]

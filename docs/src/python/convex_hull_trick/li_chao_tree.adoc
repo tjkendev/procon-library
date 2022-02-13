@@ -30,7 +30,3 @@ include::./python/convex_hull_trick/li_chao_tree.py[]
 * yukicoder: "No.704 ゴミ拾い Medium": link:https://yukicoder.me/submissions/266423[source] (PyPy3, 1099ms)
 * CodeChef: "June Challenge 2018 - Archi and Tree": link:https://www.codechef.com/viewsolution/18771280[source] (Python3, 13.99sec)
 * CodeChef: "July Challenge 2018 - Pizza Delivery": link:https://www.codechef.com/viewsolution/19144188[source] (PyPy2, 2.68sec)
-
-***
-
-link:../index.html[戻る]

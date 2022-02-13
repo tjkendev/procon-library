@@ -17,6 +17,3 @@
 ----
 include::./other/testcase/tree.py[]
 ----
-
-***
-link:../index.html[戻る]

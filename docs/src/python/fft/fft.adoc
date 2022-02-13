@@ -32,7 +32,3 @@ include::./python/fft/fft.py[]
 環境で``numpy``モジュールがサポートされていれば``fft.fft``と``fft.ifft``を使えば簡単にFFTできる。
 
 * AtCoder: "AtCoder Typical Contest 001 - C問題: 高速フーリエ変換": link:https://atc001.contest.atcoder.jp/submissions/1242734[source] (Python2, 311ms)
-
-***
-
-link:../index.html[戻る]

@@ -19,6 +19,3 @@ include::./cpp/string/sa_manber_and_myers.cpp[]
 == 参考
 
 * 秋葉拓哉, 岩田陽一, and 北川宜稔. "プログラミングコンテストチャレンジブック." (2010).
-
-***
-link:../index.html[戻る]

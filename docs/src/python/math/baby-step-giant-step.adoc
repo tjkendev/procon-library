@@ -33,6 +33,3 @@ include::./python/math/baby-step-giant-step.py[]
 == 参考
 
 * link:https://en.wikipedia.org/wiki/Baby-step_giant-step[Baby-step giant-step - Wikipedia]
-
-***
-link:../index.html[戻る]

@@ -21,6 +21,18 @@ class CustomPage < Extensions::Postprocessor
       }
     end
 
+    contents = doc.search("#content").first
+
+    if !document.attributes.key?('no-back')
+      # add a back button
+      contents.add_child '<hr />'
+      bb_section = Nokogiri::XML::Node::new('div', doc)
+      bb_section.add_class 'sect1'
+      bb_section.inner_html = '<p><a href="../index.html">戻る</a></p>'
+
+      contents.add_child bb_section
+    end
+
     # docinfo-last.html
     docinfo_last = document.docinfo "last"
     if !docinfo_last.empty?

@@ -69,6 +69,3 @@ include::./python/geometry/triangle_incircle_excircle.py[]
 == 参考
 
 - link:https://ja.wikipedia.org/wiki/%E4%B8%89%E8%A7%92%E5%BD%A2%E3%81%AE%E5%86%85%E6%8E%A5%E5%86%86%E3%81%A8%E5%82%8D%E6%8E%A5%E5%86%86[三角形の内接円と傍接円 - Wikipedia]
-
-***
-link:../index.html[戻る]

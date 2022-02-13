@@ -27,7 +27,3 @@ include::./python/graph/chu-liu_edmonds.py[]
 == 参考
 
 - link:http://ti2236.hatenablog.com/entry/2012/12/07/175841[Chu-Liu/Edmonds のアルゴリズム - 情報科学と人口知能のノート]
-
-***
-
-link:../index.html[戻る]

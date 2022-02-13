@@ -182,6 +182,3 @@ Python3で実装しています。
 == リンク
 
 * link:https://gist.github.com/tjkendev/63df75a6831119791ed1a657bc4c1988#file-golf-python2-md[コードゴルフテクニックメモ (gist)]
-
-***
-link:../index.html[戻る]

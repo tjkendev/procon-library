@@ -50,6 +50,3 @@ include::./python/geometry/circle_common_tangent_line.py[]
 === Verified
 
 - AOJ: "2201: Immortal Jewels": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4401736#1[source] (Python3, 6.64sec)
-
-***
-link:../index.html[戻る]

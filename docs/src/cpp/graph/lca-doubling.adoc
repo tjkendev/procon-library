@@ -26,6 +26,3 @@ include::./cpp/graph/lca-doubling.cpp[]
 
 * AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3724146[source] (C++14, 0.18sec)
 * AtCoder: "AtCoder Beginner Contest 133 - F問題: Colorful Tree": link:https://atcoder.jp/contests/abc133/submissions/6301975[source] (C++14, 481ms)
-
-***
-link:../index.html[戻る]

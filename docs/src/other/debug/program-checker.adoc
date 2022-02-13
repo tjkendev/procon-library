@@ -20,6 +20,3 @@
 ----
 include::./other/program-checker.sh[]
 ----
-
-***
-link:../index.html[戻る]

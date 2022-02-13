@@ -17,6 +17,3 @@ include::./python/math/primitive-root.py[]
 == 参考
 
 - link:https://cp-algorithms.com/algebra/primitive-root.html[Primitive Root - CP-Algorithms]
-
-***
-link:../index.html[戻る]

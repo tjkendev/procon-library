@@ -24,7 +24,3 @@ include::./cpp/graph/bridge.cpp[]
 === Verified
 
 - AOJ: "GRL_3_B - Connected Components": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3446672#1[source] (C++14, 0.00sec)
-
-***
-
-link:../index.html[戻る]

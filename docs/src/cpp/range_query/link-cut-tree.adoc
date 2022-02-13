@@ -38,6 +38,3 @@ include::./cpp/range_query/link-cut-tree.cpp[]
 == 参考
 
 * link:https://www.slideshare.net/iwiwi/2-12188845[プログラミングコンテストでのデータ構造 2　～動的木編～]
-
-***
-link:../index.html[戻る]

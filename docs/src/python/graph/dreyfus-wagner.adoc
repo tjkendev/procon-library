@@ -31,6 +31,3 @@ include::./python/graph/dreyfus-wagner.py[]
 
 * link:https://en.wikipedia.org/wiki/Steiner_tree_problem[Steiner tree problem - Wikipedia]
 * Dreyfus, Stuart E., and Robert A. Wagner. "The Steiner problem in graphs." Networks 1.3 (1971): 195-207.
-
-***
-link:../index.html[戻る]

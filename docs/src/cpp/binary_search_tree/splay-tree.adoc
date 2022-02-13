@@ -32,6 +32,3 @@ include::./cpp/binary_search_tree/splay-tree.cpp[]
 
 * link:https://www.slideshare.net/iwiwi/2-12188757[プログラミングコンテストでのデータ構造 2　～平衡二分探索木編～]
 * link:https://en.wikipedia.org/wiki/Splay_tree[Splay tree - Wikipedia]
-
-***
-link:../index.html[戻る]

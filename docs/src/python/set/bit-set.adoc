@@ -46,6 +46,3 @@ while v < (1 << N):
 === Verified
 
 * AOJ: "ITP2_11_D: Bitset II - Enumeration of Combinations": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176932#1[source] (Python3, 0.45sec)
-
-***
-link:../index.html[戻る]

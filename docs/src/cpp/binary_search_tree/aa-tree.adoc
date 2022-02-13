@@ -48,6 +48,3 @@ include::./cpp/binary_search_tree/aa-tree.cpp[]
 
 * link:https://en.wikipedia.org/wiki/AA_tree[AA tree - Wikipedia]
 * Andersson, Arne. "Balanced search trees made simple." Workshop on Algorithms and Data Structures. Springer, Berlin, Heidelberg, 1993.
-
-***
-link:../index.html[戻る]

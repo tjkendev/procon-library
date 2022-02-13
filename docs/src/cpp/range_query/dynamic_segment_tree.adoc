@@ -28,6 +28,3 @@ include::./cpp/range_query/dynamic_segment_tree.cpp[]
 === Verified
 
 * AtCoder: "AtCoder Regular Contest 054 - D問題: バブルソート": link:https://atcoder.jp/contests/arc054/submissions/4032958[source] (C++14, 650ms)
-
-***
-link:../index.html[戻る]

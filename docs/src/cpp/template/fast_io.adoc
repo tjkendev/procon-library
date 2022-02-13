@@ -25,7 +25,3 @@ include::./cpp/template/fast_io.cpp[]
 == 参考
 
 - link:https://codeforces.com/blog/entry/8080[Fast IO c++ - codeforces]
-
-***
-
-link:../index.html[戻る]

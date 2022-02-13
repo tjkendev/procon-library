@@ -40,7 +40,3 @@ include::./python/binary_search_tree/red-black-tree.py[]
 == 参考
 
 * link:https://en.wikipedia.org/wiki/Red%E2%80%93black_tree[Red-black tree - Wikipedia]
-
-
-***
-link:../index.html[戻る]

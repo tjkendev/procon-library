@@ -55,6 +55,3 @@ include::./python/range_query/rmq_segment_tree_special.py[]
 == 参考
 
 - link:http://d.hatena.ne.jp/komiyam/20131202/1385992406[Segment Treeをちょっと高速化したい - komiyamの日記]
-
-***
-link:../index.html[戻る]

@@ -25,6 +25,3 @@ $O(\alpha(n))$
 ----
 include::./cpp/union_find/union_find.cpp[]
 ----
-
-***
-link:../index.html[戻る]

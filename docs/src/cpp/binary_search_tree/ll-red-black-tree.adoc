@@ -31,7 +31,3 @@ include::./cpp/binary_search_tree/ll-red-black-tree.cpp[]
 
 * link:https://en.wikipedia.org/wiki/Left-leaning_red%E2%80%93black_tree[Left-leaning red-black tree - Wikipedia]
 * Sedgewick, Robert. "Left-leaning red-black trees." Dagstuhl Workshop on Data Structures. 2008.
-
-***
-
-link:../index.html[戻る]

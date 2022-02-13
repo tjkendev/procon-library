@@ -48,6 +48,3 @@ include::./python/prime/sieve_of_atkin.py[]
 * link:https://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n[Fastest way to list all primes below N - stack overflow]
 * link:https://en.wikipedia.org/wiki/Sieve_of_Atkin[Sieve of Atkin - Wikipedia]
 * link:https://stackoverflow.com/questions/2398894/why-is-my-implementation-of-the-sieve-of-atkin-overlooking-numbers-close-to-the[Why is my implementation of the Sieve of Atkin overlooking numbers close to the specified limit? - stack overflow]
-
-***
-link:../index.html[戻る]

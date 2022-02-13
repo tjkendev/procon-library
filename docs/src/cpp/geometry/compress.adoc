@@ -17,6 +17,3 @@ $O(N \log N)$
 ----
 include::./cpp/geometry/compress.cpp[]
 ----
-
-***
-link:../index.html[戻る]

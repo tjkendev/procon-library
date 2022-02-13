@@ -21,6 +21,3 @@ $N$ と順列 $a_1, a_2, ..., a_N (1 \le a_i \le N, a_i \not = a_j \text{ if } i
 ----
 include::./python/sequence/number_of_inversions.py[]
 ----
-
-***
-link:../index.html[戻る]

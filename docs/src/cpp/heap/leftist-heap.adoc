@@ -30,6 +30,3 @@ include::./cpp/heap/leftist-heap.cpp[]
 == 参考
 
 * link:https://en.wikipedia.org/wiki/Leftist_tree[Leftist tree - Wikipedia]
-
-***
-link:../index.html[戻る]

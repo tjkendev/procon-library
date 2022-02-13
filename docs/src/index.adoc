@@ -1,6 +1,7 @@
 :doctitle: {pagetitle}
 :title: トップページ - {pagetitle}
 :canonical:
+:no-back:
 
 link:https://github.com/tjkendev[yaketake08] の競プロ テンプレート/ライブラリ、知識等の置き場
 

@@ -37,7 +37,3 @@ include::./cpp/graph/centroid_decomposition.cpp[]
 
 - AtCoder: "全国統一プログラミング王決定戦本戦 - G問題: Greatest Journey": link:https://atcoder.jp/contests/nikkei2019-final/submissions/4352791[source] (C++14, 1485ms)
 - CodeChef: "CodeChef February Challenge 2019: Yet Another Tree Problem": link:https://www.codechef.com/viewsolution/23017576[source] (C++14, 1.87sec)
-
-***
-
-link:../index.html[戻る]

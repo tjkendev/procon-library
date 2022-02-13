@@ -28,6 +28,3 @@ include::./cpp/range_query/kd-tree.cpp[]
 == 参考
 
 - link:https://en.wikipedia.org/wiki/K-d_tree#Complexity[k-d tree - Wikipedia]
-
-***
-link:../index.html[戻る]

@@ -33,7 +33,3 @@ include::./cpp/graph/scc.cpp[]
 - AOJ: "2598: Website Tour": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867998[source] (C++, 0.17sec)
 - AtCoder: "AtCoder Regular Contest 010 - D問題: 情報伝搬": link:https://beta.atcoder.jp/contests/arc010/submissions/3585181[source] (C++14, 3392ms)
 - CodeChef: "CodeChef February Challenge 2019: Maximize the Tax": link:https://www.codechef.com/viewsolution/22884137[source] (C++14, 0.30sec)
-
-***
-
-link:../index.html[戻る]

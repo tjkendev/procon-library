@@ -10,6 +10,3 @@
 == テストケース
 
 * link:./testcase/graph.html[グラフ]
-
-***
-link:../index.html[戻る]

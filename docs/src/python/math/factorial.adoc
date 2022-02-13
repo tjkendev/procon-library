@@ -19,6 +19,3 @@ $O(N)$
 ----
 include::./python/math/factorial.py[]
 ----
-
-***
-link:../index.html[戻る]

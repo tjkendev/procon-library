@@ -35,6 +35,3 @@ include::./python/math/bernoulli-number.py[]
 == 参考
 
 * link:https://en.wikipedia.org/wiki/Bernoulli_number[Bernoulli number - Wikipedia]
-
-***
-link:../index.html[戻る]

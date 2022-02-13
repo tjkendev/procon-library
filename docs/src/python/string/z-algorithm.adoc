@@ -25,6 +25,3 @@ include::./python/string/z-algorithm.py[]
 == 参考
 
 - link:https://snuke.hatenablog.com/entry/2014/12/03/214243[文字列の頭良い感じの線形アルゴリズムたち３ - あなたは嘘つきですかと聞かれたら「YES」と答えるブログ]
-
-***
-link:../index.html[戻る]

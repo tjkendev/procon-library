@@ -28,7 +28,3 @@ include::./python/fft/fmt.py[]
 === Verified
 
 * AtCoder: "AtCoder Typical Contest 001 - C問題: 高速フーリエ変換": link:https://atc001.contest.atcoder.jp/submissions/1051733[source] (Python2, 3704ms)
-
-***
-
-link:../index.html[戻る]

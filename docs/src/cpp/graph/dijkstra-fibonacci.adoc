@@ -32,7 +32,3 @@ include::./cpp/graph/dijkstra-fibonacci.cpp[]
 
 - link:https://kenkoooo.hatenablog.com/entry/2017/12/01/184539[フィボナッチヒープ - 宇宙ツイッタラーXの憂鬱]
 - link:https://en.wikipedia.org/wiki/Fibonacci_heap[Fibonacci heap - Wikipedia]
-
-***
-
-link:../index.html[戻る]

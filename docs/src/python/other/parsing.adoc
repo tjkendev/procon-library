@@ -25,6 +25,3 @@ include::./python/other/parsing1.py[]
 == 参考
 
 * link:https://gist.github.com/draftcode/1357281[構文解析 Howto]
-
-***
-link:../index.html[戻る]

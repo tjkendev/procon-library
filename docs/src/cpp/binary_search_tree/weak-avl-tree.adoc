@@ -42,6 +42,3 @@ include::./cpp/binary_search_tree/weak-avl-tree.cpp[]
 
 * link:https://en.wikipedia.org/wiki/WAVL_tree[WAVL tree - Wikipedia]
 * Haeupler, Bernhard, Siddhartha Sen, and Robert E. Tarjan. "Rank-balanced trees." ACM Transactions on Algorithms (TALG) 11.4 (2015): 1-26.
-
-***
-link:../index.html[戻る]

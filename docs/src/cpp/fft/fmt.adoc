@@ -40,7 +40,3 @@ include::./cpp/fft/fmt.cpp[]
 === Verified
 
 * AtCoder: "AtCoder Typical Contest 001 - C問題: 高速フーリエ変換": link:https://atc001.contest.atcoder.jp/submissions/4499982[source] (C++14, 436ms)
-
-***
-
-link:../index.html[戻る]

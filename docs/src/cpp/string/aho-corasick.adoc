@@ -23,7 +23,3 @@ include::./cpp/string/aho-corasick.cpp[]
 === Verified
 
 * AtCoder: "JAG Practice Contest for ACM-ICPC Asia Regional 2017 - H問題: Separate String": link:https://jag2017autumn.contest.atcoder.jp/submissions/1799531[source] (C++14, 396ms)
-
-***
-
-link:../index.html[戻る]

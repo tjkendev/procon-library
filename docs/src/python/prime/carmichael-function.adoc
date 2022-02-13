@@ -38,6 +38,3 @@ include::./python/prime/carmichael-function.py[]
 == 参考
 
 * link:https://en.wikipedia.org/wiki/Carmichael_function[Carmichael function - Wikipedia]
-
-***
-link:../index.html[戻る]

@@ -30,6 +30,3 @@ include::./cpp/range_query/segment_tree_beats_2.cpp[]
 == 参考
 
 * link:https://codeforces.com/blog/entry/57319[A simple introduction to "Segment tree beats"]
-
-***
-link:../index.html[戻る]

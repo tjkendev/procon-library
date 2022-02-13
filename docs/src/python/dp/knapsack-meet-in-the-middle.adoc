@@ -40,6 +40,3 @@ include::./python/dp/knapsack5.py[]
 === Verified
 
 - AOJ: "DPL_1_H: Combinatorial - Huge Knapsack Problem": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176389#1[source] (Python3, 4.32sec)
-
-***
-link:../index.html[戻る]

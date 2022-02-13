@@ -29,7 +29,3 @@ Pythonだと重くてつらい
 
 - link:http://d.hatena.ne.jp/naoya/20090405/aho_corasick[Aho Corasick法 - naoyaのはてなダイアリー]
 - link:http://algoogle.hadrori.jp/algorithm/aho-corasick.html[Aho-Corasick法 - Algoogle]
-
-***
-
-link:../index.html[戻る]

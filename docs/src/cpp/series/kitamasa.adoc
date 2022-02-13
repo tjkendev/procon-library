@@ -23,7 +23,3 @@ include::./cpp/series/kitamasa.cpp[]
 === Verified
 
 - AtCoder: "Typical DP Contest - T問題: フィボナッチ": link:https://beta.atcoder.jp/contests/tdpc/submissions/3489610[source] (C++14, 212ms)
-
-***
-
-link:../index.html[戻る]

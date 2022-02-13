@@ -23,6 +23,3 @@ include::./python/other/time-conversion.py[]
 == 参考
 
 * link:https://ja.wikipedia.org/wiki/%E3%83%A6%E3%83%AA%E3%82%A6%E3%82%B9%E9%80%9A%E6%97%A5[ユリウス通日 - Wikipedia]
-
-***
-link:../index.html[戻る]

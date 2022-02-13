@@ -50,6 +50,3 @@ include::./python/geometry/circle_line_segment_intersection.py[]
 === Verified
 
 * AOJ: "0129: Hide-and-Seek Supporting System": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4432301#1[source] (Python3, 0.06sec)
-
-***
-link:../index.html[戻る]

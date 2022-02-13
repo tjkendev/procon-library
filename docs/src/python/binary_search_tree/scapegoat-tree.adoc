@@ -37,7 +37,3 @@ include::./python/binary_search_tree/scapegoat-tree.py[]
 
 * link:https://en.wikipedia.org/wiki/Scapegoat_tree[Scapegoat tree - Wikipedia]
 * link:https://topcoder.g.hatena.ne.jp/spaghetti_source/20120901/1346460700[Scapegoat Tree - 週刊 spaghetti_source]
-
-
-***
-link:../index.html[戻る]

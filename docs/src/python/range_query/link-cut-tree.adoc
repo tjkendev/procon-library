@@ -49,6 +49,3 @@ Python3だと高速化するが、PyPy3がPython3よりも遅くなる。
 == 参考
 
 * link:https://www.slideshare.net/iwiwi/2-12188845[プログラミングコンテストでのデータ構造 2　～動的木編～]
-
-***
-link:../index.html[戻る]

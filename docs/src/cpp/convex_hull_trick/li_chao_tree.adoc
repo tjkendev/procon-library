@@ -28,7 +28,3 @@ include::./cpp/convex_hull_trick/li_chao_tree.cpp[]
 
 ==== 線分処理
 * yukicoder: "No.704 ゴミ拾い Medium": link:https://yukicoder.me/submissions/297285[source] (C++14, 711ms)
-
-***
-
-link:../index.html[戻る]

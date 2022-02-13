@@ -27,6 +27,3 @@ include::./python/string/manacher.py[]
 == 参考
 
 - link:https://snuke.hatenablog.com/entry/2014/12/02/235837[文字列の頭良い感じの線形アルゴリズムたち２ - あなたは嘘つきですかと聞かれたら「YES」と答えるブログ]
-
-***
-link:../index.html[戻る]

@@ -42,7 +42,3 @@ include::./cpp/range_query/rmq_li_chao_tree_lp.cpp[]
 == 参考
 
 - link:https://codeforces.com/blog/entry/86731[[Tutorial\] Li Chao Tree Extended - Codeforces]
-
-***
-
-link:../index.html[戻る]

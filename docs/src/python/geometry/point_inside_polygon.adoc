@@ -48,7 +48,3 @@ include::./python/geometry/point_inside_polygon.py[]
 
 * link:https://en.wikipedia.org/wiki/Point_in_polygon[Point in polygon - Wikipedia]
 * O'rourke, Joseph. Computational geometry in C. Cambridge university press, 1998.
-
-***
-
-link:../index.html[戻る]

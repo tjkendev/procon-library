@@ -29,7 +29,3 @@ include::./cpp/binary_search_tree/persistent_RBST.cpp[]
 
 
 * AtCoder: "AtCoder Regular Contest 030 - D問題: グラフではない": link:https://atcoder.jp/contests/arc030/submissions/3913175[source] (C++14, 819ms)
-
-***
-
-link:../index.html[戻る]
