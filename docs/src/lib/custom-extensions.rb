@@ -4,18 +4,17 @@ RUBY_ENGINE == 'opal' ? (require 'relative-path/extension') : (require_relative 
 RUBY_ENGINE == 'opal' ? (require 'canonical/extension') : (require_relative 'canonical/extension')
 
 Extensions.register do
-  preprocessor OGP
-  preprocessor RelativePath
+  preprocessor RelativePathPreprocessor
 
   if (@document.basebackend? 'html')
-    postprocessor OGPHeader
-    postprocessor OGPDescription
-
     treeprocessor CustomPageTreeprocessor
+    treeprocessor OGPHeaderTreeprocessor
 
-    postprocessor CustomPage
-    postprocessor Canonical
+    postprocessor OGPHeaderPostprocessor
+    postprocessor OGPDescriptionPostprocessor
+    postprocessor CustomPagePostprocessor
+    postprocessor CanonicalPostprocessor
   end
 
-  inline_macro OGPLinkMacro
+  inline_macro OGPLinkInlineMacroProcessor
 end

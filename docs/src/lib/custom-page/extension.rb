@@ -24,7 +24,7 @@ class CustomPageTreeprocessor < Extensions::Treeprocessor
   end
 end
 
-class CustomPage < Extensions::Postprocessor
+class CustomPagePostprocessor < Extensions::Postprocessor
   def process document, output
     doc = Nokogiri::HTML.parse(output)
 
@@ -60,7 +60,7 @@ class CustomPage < Extensions::Postprocessor
   end
 end
 
-class OGPLinkMacro < Extensions::InlineMacroProcessor
+class OGPLinkInlineMacroProcessor < Extensions::InlineMacroProcessor
   use_dsl
 
   named :dlink

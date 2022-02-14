@@ -2,14 +2,14 @@ require 'asciidoctor/extensions' unless RUBY_ENGINE == 'opal'
 
 include Asciidoctor
 
-class RelativePath < Extensions::Preprocessor
+class RelativePathPreprocessor < Extensions::Preprocessor
   def process document, reader
-    doc_attrs = document.attributes
+    attrs = document.attributes
 
-    basedir = doc_attrs['basedir']
-    docfile = doc_attrs['docfile']
-    docfilesuffix = doc_attrs['docfilesuffix']
-    outfilesuffix = doc_attrs['outfilesuffix']
+    basedir = attrs['basedir']
+    docfile = attrs['docfile']
+    docfilesuffix = attrs['docfilesuffix']
+    outfilesuffix = attrs['outfilesuffix']
 
     docfile.slice! basedir
 
@@ -21,7 +21,7 @@ class RelativePath < Extensions::Preprocessor
     else
       relpath = dirname + '/' + filename
     end
-    doc_attrs['relpath'] = relpath
+    attrs['relpath'] = relpath
 
     nil
   end

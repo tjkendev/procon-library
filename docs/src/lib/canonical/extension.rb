@@ -4,7 +4,7 @@ include Asciidoctor
 
 require 'nokogiri'
 
-class Canonical < Extensions::Postprocessor
+class CanonicalPostprocessor < Extensions::Postprocessor
 
   def add_canonical document, output, url
     return output unless document.attributes.key? 'baseurl'

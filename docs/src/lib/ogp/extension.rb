@@ -4,14 +4,14 @@ include Asciidoctor
 
 require 'nokogiri'
 
-class OGP < Extensions::Preprocessor
-  def process document, reader
-    doc_attrs = document.attributes
+class OGPHeaderTreeprocessor < Extensions::Treeprocessor
+  def process document
+    attrs = document.attributes
 
-    basedir = doc_attrs['basedir']
-    docfile = doc_attrs['docfile']
-    docfilesuffix = doc_attrs['docfilesuffix']
-    outfilesuffix = doc_attrs['outfilesuffix']
+    basedir = attrs['basedir']
+    docfile = attrs['docfile']
+    docfilesuffix = attrs['docfilesuffix']
+    outfilesuffix = attrs['outfilesuffix']
 
     docfile.slice! basedir
 
@@ -19,30 +19,24 @@ class OGP < Extensions::Preprocessor
     filename = File.basename(docfile, docfilesuffix)
 
     if dirname == '.' && filename == 'index'
-      doc_attrs['og-desc'] = 'トップページ'
-      doc_attrs['og-type'] = 'website'
+      attrs['og-desc'] = 'トップページ'
+      attrs['og-type'] = 'website'
     else
-      # update 'og-desc' when 'doctitle' is updated
-      def doc_attrs.[]=(k, v)
-        super k, v
-        if k == 'doctitle'
-          super 'og-desc', v
-        end
-      end
-      doc_attrs['og-type'] = 'article'
+      attrs['og-desc'] = attrs['doctitle']
+      attrs['og-type'] = 'article'
     end
 
-    nil
+    document
   end
 end
 
-class OGPHeader < Extensions::Postprocessor
+class OGPHeaderPostprocessor < Extensions::Postprocessor
   def process document, output
     output.sub "<head>", "<head prefix=\"og: http://ogp.me/ns# website: http://ogp.me/ns/website#\">"
   end
 end
 
-class OGPDescription < Extensions::Postprocessor
+class OGPDescriptionPostprocessor < Extensions::Postprocessor
   def process document, output
       doc = Nokogiri::HTML.parse(output)
       body = doc.search("#content").text.gsub(/\n+/, ' ')
