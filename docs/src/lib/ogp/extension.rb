@@ -6,12 +6,10 @@ require 'nokogiri'
 
 class OGPHeaderTreeprocessor < Extensions::Treeprocessor
   def process document
-    attrs = document.attributes
-
-    basedir = attrs['basedir']
-    docfile = attrs['docfile']
-    docfilesuffix = attrs['docfilesuffix']
-    outfilesuffix = attrs['outfilesuffix']
+    basedir = document.attr 'basedir'
+    docfile = document.attr 'docfile'
+    docfilesuffix = document.attr 'docfilesuffix'
+    outfilesuffix = document.attr 'outfilesuffix'
 
     docfile.slice! basedir
 
@@ -19,11 +17,11 @@ class OGPHeaderTreeprocessor < Extensions::Treeprocessor
     filename = File.basename(docfile, docfilesuffix)
 
     if dirname == '.' && filename == 'index'
-      attrs['og-desc'] = 'トップページ'
-      attrs['og-type'] = 'website'
+      document.set_attr 'og-desc', 'トップページ'
+      document.set_attr 'og-type', 'website'
     else
-      attrs['og-desc'] = attrs['doctitle']
-      attrs['og-type'] = 'article'
+      document.set_attr 'og-desc', document.attr('doctitle')
+      document.set_attr 'og-type', 'article'
     end
 
     document

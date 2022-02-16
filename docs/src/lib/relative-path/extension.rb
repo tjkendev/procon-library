@@ -4,12 +4,10 @@ include Asciidoctor
 
 class RelativePathPreprocessor < Extensions::Preprocessor
   def process document, reader
-    attrs = document.attributes
-
-    basedir = attrs['basedir']
-    docfile = attrs['docfile']
-    docfilesuffix = attrs['docfilesuffix']
-    outfilesuffix = attrs['outfilesuffix']
+    basedir = document.attr 'basedir'
+    docfile = document.attr 'docfile'
+    docfilesuffix = document.attr 'docfilesuffix'
+    outfilesuffix = document.attr 'outfilesuffix'
 
     docfile.slice! basedir
 
@@ -21,7 +19,7 @@ class RelativePathPreprocessor < Extensions::Preprocessor
     else
       relpath = dirname + '/' + filename
     end
-    attrs['relpath'] = relpath
+    document.set_attr 'relpath', relpath
 
     nil
   end

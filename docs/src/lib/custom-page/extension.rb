@@ -8,15 +8,13 @@ require 'cgi'
 
 class CustomPageTreeprocessor < Extensions::Treeprocessor
   def process document
-    attrs = document.attributes
-
-    if !attrs.key?("title")
+    if !document.attr? 'title'
       # set the page's title
-      doctitle = attrs["doctitle"]
-      pagetitle = attrs["pagetitle"]
+      doctitle = document.doctitle
+      pagetitle = document.attr 'pagetitle'
 
       if !doctitle.empty? && !pagetitle.empty?
-        attrs["title"] = "#{doctitle} - #{pagetitle}"
+        document.set_attr 'title', "#{doctitle} - #{pagetitle}"
       end
     end
 
@@ -28,7 +26,7 @@ class CustomPagePostprocessor < Extensions::Postprocessor
   def process document, output
     doc = Nokogiri::HTML.parse(output)
 
-    if !document.attributes.key?('no-copy')
+    if !document.attr? 'no-copy'
       # :no-copy: が定義されていなければボタンを生成する
 
       # add "Copy to clipboard" button
@@ -40,7 +38,7 @@ class CustomPagePostprocessor < Extensions::Postprocessor
     end
 
     contents = doc.search("#content").first
-    if !document.attributes.key?('no-back')
+    if !document.attr? 'no-back'
       # add a back button
       contents.add_child '<hr />'
       bb_section = Nokogiri::XML::Node::new('div', doc)
