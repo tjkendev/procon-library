@@ -2,14 +2,9 @@
 
 掃き出し法 (row reduction), ガウスの消去法 (Gaussian Elimination)
 
-[env.texmacro]
---
-\newcommand{\vec}[1]{\boldsymbol{#1}}
---
-
 == 概要
 
-連立方程式 $A \vec{x} = \vec{b}$ を解くためのアルゴリズム。
+連立方程式 $A \boldsymbol{x} = \boldsymbol{b}$ を解くためのアルゴリズム。
 
 拡大係数行列を行基本変形で上三角の形に変形し、唯一解、解なし、いくつも解ありのいずれかかを判別する。
 
