@@ -11,7 +11,7 @@
 ### 依存
 
 * Ruby 2.7.3
-* [Asciidoctor Latex](https://github.com/asciidoctor/asciidoctor-latex)
+* [Asciidoctor](https://github.com/asciidoctor/asciidoctor)
 
 ### 準備
 

@@ -2,7 +2,7 @@
 
 BASEPATH = https://tjkendev.github.io/procon-library/
 
-CMD := bundle exec asciidoctor-latex
+CMD := bundle exec asciidoctor
 FMT := html
 SRC := ./docs/src
 DST := ./docs
@@ -30,7 +30,7 @@ docs:
 		-a pagetitle=$(TITLE) -a source-highlighter=$(HIGHLIGHTER) \
 		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(STATICDIR) \
 		-a jsdir=$(STATICDIR) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
-		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) \
+		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) -a stem=latexmath \
 		-a nofooter -a inject_javascript=no -a lang=ja \
 		-a attribute-missing=warn --failure-level=WARN
 	@$(SGEN-CMD) $(BASEPATH) $(SRC) $(DST)
@@ -41,7 +41,7 @@ docs-local:
 		-a pagetitle=$(TITLE) -a source-highlighter=$(HIGHLIGHTER) \
 		-a stylesheet=$(STYLESHEET) -a linkcss -a stylesdir=$(STATICDIR-LOCAL) \
 		-a jsdir=$(STATICDIR-LOCAL) -a docinfo1 -a docinfodir=$(SRCDIR-LOCAL) \
-		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) \
+		-a basedir=$(ASRC) -a baseurl=$(BASEPATH) -a stem=latexmath \
 		-a nofooter -a inject_javascript=no -a lang=ja \
 		-a attribute-missing=warn --failure-level=WARN
 	$(SGEN-CMD) $(BASEPATH) $(SRC) $(DST-LOCAL)

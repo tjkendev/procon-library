@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-gem "asciidoctor-latex"
+gem "asciidoctor", "1.5.8"
 
 gem "nokogiri"
 gem "opengraph_parser"
