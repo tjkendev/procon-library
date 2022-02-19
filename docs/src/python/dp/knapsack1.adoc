@@ -6,21 +6,21 @@ Knapsack Problem
 
 以下のような問題
 
-- $N$種類の品物がある
-- $i$番目の品物の価値は$v_i$, 容量は$w_i$, 個数は$c_i$
-- 重さの総和$W$まで入るナップサックに入れる
+- latexmath:[N] 種類の品物がある
+- latexmath:[i] 番目の品物の価値は latexmath:[v_i], 容量は latexmath:[w_i], 個数は latexmath:[c_i]
+- 重さの総和 latexmath:[W] まで入るナップサックに入れる
 - ナップサックに入る品物の価値を最大化する
 
-== 0-1ナップサック問題: $O(NW)$
+== 0-1ナップサック問題: latexmath:[O(NW)]
 
 制約の一例は以下
 
 ****
-- $1 \le N \le 100$
-- $1 \le W \le 10^4$
-- $1 \le v_i \le 10^9$
-- $1 \le w_i \le 10^4$
-- $c_i = 1$
+- latexmath:[1 \le N \le 100]
+- latexmath:[1 \le W \le 10^4]
+- latexmath:[1 \le v_i \le 10^9]
+- latexmath:[1 \le w_i \le 10^4]
+- latexmath:[c_i = 1]
 ****
 
 基本的な制約。
@@ -36,16 +36,16 @@ include::./python/dp/knapsack1-1.py[]
 
 - AOJ: "DPL_1_B: Combinatorial - 0-1 Knapsack Problem": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812183#1[source] (Python3, 0.52sec)
 
-== 個数制限なしナップサック問題: $O(NW)$
+== 個数制限なしナップサック問題: latexmath:[O(NW)]
 
 制約の一例は以下
 
 ****
-- $1 \le N \le 100$
-- $1 \le W \le 10^4$
-- $1 \le v_i \le 10^9$
-- $1 \le w_i \le 10^4$
-- ($c_i$ は無制限)
+- latexmath:[1 \le N \le 100]
+- latexmath:[1 \le W \le 10^4]
+- latexmath:[1 \le v_i \le 10^9]
+- latexmath:[1 \le w_i \le 10^4]
+- (latexmath:[c_i] は無制限)
 ****
 
 一次配列を用いたdpで、インデックス順に回せばよい。
@@ -59,20 +59,20 @@ include::./python/dp/knapsack1-2.py[]
 
 - AOJ: "DPL_1_C: Combinatorial - Knapsack Problem": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812191#1[source] (Python3, 0.55sec)
 
-== 個数制限付きナップサック問題: $O(NW)$
+== 個数制限付きナップサック問題: latexmath:[O(NW)]
 
 制約の一例は以下
 
 ****
-- $1 \le N \le 100$
-- $1 \le W \le 10^4$
-- $1 \le v_i \le 10^9$
-- $1 \le w_i \le 10^4$
-- $1 \le c_i \le 10^9$
+- latexmath:[1 \le N \le 100]
+- latexmath:[1 \le W \le 10^4]
+- latexmath:[1 \le v_i \le 10^9]
+- latexmath:[1 \le w_i \le 10^4]
+- latexmath:[1 \le c_i \le 10^9]
 ****
 
 dequeを用いたSliding Window Maximumを利用した解法 +
-各 $0 \le k < w_i$ ごとに $m_i$ 個前までの価値の最大値を管理しながら、重さが $k + w_i \cdot j$ の時の価値の最大値を計算する。
+各 latexmath:[0 \le k < w_i] ごとに latexmath:[m_i] 個前までの価値の最大値を管理しながら、重さが latexmath:[k + w_i \cdot j] の時の価値の最大値を計算する。
 
 [source, python]
 ----
@@ -83,11 +83,11 @@ include::./python/dp/knapsack2-1.py[]
 
 - AOJ: "DPL_1_G: Combinatorial - Knapsack Problem with Limitations": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812207#1[source] (Python3, 1.46sec)
 
-== 個数制限付きナップサック問題: $O(NW \log \max_i c_i)$
+== 個数制限付きナップサック問題: latexmath:[O(NW \log \max_i c_i)]
 
-各品物を $c_i = 2^0 + 2^1 + ... + 2^{k-1} + 2^k + R$ ($R \le 2^{k+1}$) という感じに分け、 +
-分けた品物ごとに1つの品物($A$個の品物は 重さ $w_i \cdot A$, 価値 $v_i \cdot A$ の1つの品物)とみなすことで、 +
-品物が $O(N \log \max_i c_i)$ 個の0-1ナップサック問題として解くことができる。
+各品物を latexmath:[c_i = 2^0 + 2^1 + ... + 2^{k-1} + 2^k + R] (latexmath:[R \le 2^{k+1}]) という感じに分け、 +
+分けた品物ごとに1つの品物(latexmath:[A] 個の品物は 重さ latexmath:[w_i \cdot A], 価値 latexmath:[v_i \cdot A] の1つの品物)とみなすことで、 +
+品物が latexmath:[O(N \log \max_i c_i)] 個の0-1ナップサック問題として解くことができる。
 
 [source, python]
 ----

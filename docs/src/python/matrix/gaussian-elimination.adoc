@@ -4,13 +4,13 @@
 
 == 概要
 
-連立方程式 $A \boldsymbol{x} = \boldsymbol{b}$ を解くためのアルゴリズム。
+連立方程式 latexmath:[A \boldsymbol{x} = \boldsymbol{b}] を解くためのアルゴリズム。
 
 拡大係数行列を行基本変形で上三角の形に変形し、唯一解、解なし、いくつも解ありのいずれかかを判別する。
 
 == 計算量
 
-$O(N^3)$
+latexmath:[O(N^3)]
 
 == 実装 (logical matrix)
 

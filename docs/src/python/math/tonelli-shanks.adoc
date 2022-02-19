@@ -4,23 +4,23 @@ square roots modulo a prime
 
 == 概要
 
-ある奇素数 $p$ と $p$の平方剰余(Quadratic residue) となる $y$ について $x^2 \equiv y$ (mod $p$) となる $x$ を求めるアルゴリズム。
+ある奇素数 latexmath:[p] と latexmath:[p] の平方剰余(Quadratic residue) となる latexmath:[y] について latexmath:[x^2 \equiv y] (mod latexmath:[p]) となる latexmath:[x] を求めるアルゴリズム。
 
 === 具体的な計算
 
-$p-1 = 2^mQ$ とする。($m \ge 0$, $Q$ は奇数)
+latexmath:[p-1 = 2^mQ] とする。(latexmath:[m \ge 0], latexmath:[Q] は奇数)
 
-まず平方非剰余となる $z$ を一つ見つける。 (平方非剰余となる数は1からp-1の間に半分は存在する) +
-この $z$ は オイラーの規準(Euler's criterion) より $z^\frac{p-1}{2} \equiv z^{2^{m-1}Q} \equiv -1$ を満たす。
+まず平方非剰余となる latexmath:[z] を一つ見つける。 (平方非剰余となる数は1からp-1の間に半分は存在する) +
+この latexmath:[z] は オイラーの規準(Euler's criterion) より latexmath:[z^\frac{p-1}{2} \equiv z^{2^{m-1}Q} \equiv -1] を満たす。
 
-$t \equiv y^Q$ とする。この $t$ はオイラーの規準 より $t^{2^{m-1}} \equiv 1$ を満たす。
+latexmath:[t \equiv y^Q] とする。この latexmath:[t] はオイラーの規準 より latexmath:[t^{2^{m-1}} \equiv 1] を満たす。
 
-$i = m-2$ から 0 まで $i$ を小さくしながら
-$t^{2^i} \equiv -1$ を満たす $i$ を見つけるたびに $t$ に $z^{2^{m-1-i}Q}$ を掛ける。 +
-(この時、掛けたあとの $t$ は $t^{2^i} \equiv 1$ を満たす)
+latexmath:[i = m-2] から 0 まで latexmath:[i] を小さくしながら
+latexmath:[t^{2^i} \equiv -1] を満たす latexmath:[i] を見つけるたびに latexmath:[t] に latexmath:[z^{2^{m-1-i}Q}] を掛ける。 +
+(この時、掛けたあとの latexmath:[t] は latexmath:[t^{2^i} \equiv 1] を満たす)
 
-最終的に $t$ は $\displaystyle t \equiv y^Q z^{2^{j_1}Q} z^{2^{j_2}Q} \cdots z^{2^{j_k}Q} \equiv 1$ $(1 \le j_1 < j_2 < ... < j_k \le m-1)$ の形になるため、 +
-$\displaystyle x \equiv (ty)^\frac{1}{2} \equiv y^\frac{Q+1}{2} z^{2^{j_1-1}Q} z^{2^{j_2-1}Q} \cdots z^{2^{j_k-1}Q}$ を計算することで解が得られる。
+最終的に latexmath:[t] は latexmath:[\displaystyle t \equiv y^Q z^{2^{j_1}Q} z^{2^{j_2}Q} \cdots z^{2^{j_k}Q} \equiv 1] latexmath:[(1 \le j_1 < j_2 < ... < j_k \le m-1)] の形になるため、 +
+latexmath:[\displaystyle x \equiv (ty)^\frac{1}{2} \equiv y^\frac{Q+1}{2} z^{2^{j_1-1}Q} z^{2^{j_2-1}Q} \cdots z^{2^{j_k-1}Q}] を計算することで解が得られる。
 
 == 実装
 

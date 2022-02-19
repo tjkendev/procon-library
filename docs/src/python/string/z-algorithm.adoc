@@ -4,11 +4,11 @@ Z algorithm
 
 == 概要
 
-長さ$N$の文字列$S$について、各$i$に対し、 $S$ と $S[i:|S|-1\]$ の最長共通接頭辞を求める。
+長さ latexmath:[N] の文字列 latexmath:[S] について、各 latexmath:[i] に対し、 latexmath:[S] と latexmath:[S[i:|S|-1\]] の最長共通接頭辞を求める。
 
 == 計算量
 
-$O(N)$
+latexmath:[O(N)]
 
 == 実装
 

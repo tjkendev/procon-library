@@ -2,7 +2,7 @@
 
 == 概要
 
-エラトステネスの篩等の篩法を用いることで、$N$以下の全ての素数を見つけることができる。
+エラトステネスの篩等の篩法を用いることで、 latexmath:[N] 以下の全ての素数を見つけることができる。
 
 == エラトステネスの篩
 
@@ -10,7 +10,7 @@
 
 === 計算量
 
-$O(N \log \log N)$
+latexmath:[O(N \log \log N)]
 
 === 実装
 
@@ -29,7 +29,7 @@ include::./python/prime/sieve_of_eratosthenes.py[]
 
 === 計算量
 
-$\displaystyle O \left( \frac{N}{\log \log N} \right)$
+latexmath:[\displaystyle O \left( \frac{N}{\log \log N} \right)]
 
 === 実装
 

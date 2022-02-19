@@ -4,21 +4,21 @@
 
 == 概要
 
-$N$ 個の変数 $x_i$, $M$ 個の 差分制約式(difference constraints) $x_j - x_i \le b_k$ の元で、2つの変数からなる式 $x_t - x_s$ を最大化する問題。
+latexmath:[N] 個の変数 latexmath:[x_i], latexmath:[M] 個の 差分制約式(difference constraints) latexmath:[x_j - x_i \le b_k] の元で、2つの変数からなる式 latexmath:[x_t - x_s] を最大化する問題。
 この問題は通称「牛ゲー」と呼ばれている。
 
 この問題は 2頂点間の最短経路問題 の双対問題であり、 Bellman-Ford Algorithm で解くことができる。
 
-変数 $x_i$ を 頂点 $v_i$ に対応させ、差分制約式 $x_j - x_i \le b_k$ を 重み $b_k$ を持つ $v_i$ から $v_j$ への有向辺に対応させた グラフを構築する。 +
-このグラフ上で、$v_s$ を始点として $v_t$ への最短路を求める。
+変数 latexmath:[x_i] を 頂点 latexmath:[v_i] に対応させ、差分制約式 latexmath:[x_j - x_i \le b_k] を 重み latexmath:[b_k] を持つ latexmath:[v_i] から latexmath:[v_j] への有向辺に対応させた グラフを構築する。 +
+このグラフ上で、 latexmath:[v_s] を始点として latexmath:[v_t] への最短路を求める。
 
 負閉路がある場合は解なし。 +
-それ以外の場合であれば 頂点 $v_s$ からの 頂点 $v_t$ までの最短距離が $x_t - x_s$ の最大値と一致する。 +
-頂点 $v_s$ から 頂点 $v_t$ まで到達できない場合は $x_t - x_s$ はいくらでも大きくできることになる。
+それ以外の場合であれば 頂点 latexmath:[v_s] からの 頂点 latexmath:[v_t] までの最短距離が latexmath:[x_t - x_s] の最大値と一致する。 +
+頂点 latexmath:[v_s] から 頂点 latexmath:[v_t] まで到達できない場合は latexmath:[x_t - x_s] はいくらでも大きくできることになる。
 
 == 計算量
 
-$O(NM)$
+latexmath:[O(NM)]
 
 == 実装
 

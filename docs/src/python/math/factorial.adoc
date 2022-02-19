@@ -4,13 +4,13 @@
 
 == 概要
 
-$0 \le K \le N$ について $K!$ (MOD $10^9 + 7$) を計算する。
+latexmath:[0 \le K \le N] について latexmath:[K!] (MOD latexmath:[10^9 + 7]) を計算する。
 
-また、$0 \le K \le N$ について $K! \times R \equiv 1$ (MOD $10^9 + 7$) となるような $R$ を求める。
+また、 latexmath:[0 \le K \le N] について latexmath:[K! \times R \equiv 1] (MOD latexmath:[10^9 + 7]) となるような latexmath:[R] を求める。
 
 == 計算量
 
-$O(N)$
+latexmath:[O(N)]
 
 == 実装
 

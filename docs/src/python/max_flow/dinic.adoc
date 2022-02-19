@@ -4,7 +4,7 @@
 
 == 概要
 
-最大流問題は、有向グラフ$G = (V, E)$の各辺$e \in E$に容量$c(u, v)$がついており、このグラフ上のsourceからsinkへ流せる流量を求める問題である。
+最大流問題は、有向グラフ latexmath:[G = (V, E)] の各辺 latexmath:[e \in E] に容量 latexmath:[c(u, v)] がついており、このグラフ上のsourceからsinkへ流せる流量を求める問題である。
 
 最大フロー最小カット定理が成り立つため、最小カット問題も解くことができる。
 
@@ -13,12 +13,12 @@
 Ford-Fulkerson algorithmよりも早い最大流アルゴリズム。
 以下の処理をフローを流しきるまで繰り返す。
 
-1. BFSでsourceから各頂点までの距離($level$)を計算
+1. BFSでsourceから各頂点までの距離(latexmath:[level])を計算
 2. DFSで、sourceからの距離が遠くなるようなパスを見つけ、フローを流す
 
 == 計算量
 
-$O(|V|^2|E|)$
+latexmath:[O(|V|^2|E|)]
 
 == 実装
 

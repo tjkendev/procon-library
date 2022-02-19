@@ -6,13 +6,13 @@
 
 部分永続Union-Findでは以下の操作を行える。
 
-* $union(u, v, t)$: 時刻tにて頂点uの属するグループと要素vの属するグループを1つにまとめる
-* $find(u, t)$: 時刻tにおける頂点uの親頂点を求める
-* $size(u, t)$: 時刻tにおける頂点uの属するグループの頂点数を求める
+* latexmath:[union(u, v, t)] : 時刻tにて頂点uの属するグループと要素vの属するグループを1つにまとめる
+* latexmath:[find(u, t)] : 時刻tにおける頂点uの親頂点を求める
+* latexmath:[size(u, t)] : 時刻tにおける頂点uの属するグループの頂点数を求める
 
 == 計算量
 
-$O(\log N)$
+latexmath:[O(\log N)]
 
 == 実装
 

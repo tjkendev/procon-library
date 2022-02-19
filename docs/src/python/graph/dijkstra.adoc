@@ -12,7 +12,7 @@ Pythonでは標準の ``heapq`` モジュールの ``heappush`` と ``heappop`` 
 
 == 計算量
 
-$O((|E| + |V|) \log |V|)$
+latexmath:[O((|E| + |V|) \log |V|)]
 
 == 実装
 [source, python]

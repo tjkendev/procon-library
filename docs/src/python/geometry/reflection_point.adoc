@@ -4,15 +4,15 @@ reflection across a line
 
 == 概要
 
-点 $\mathbf{p_0} = (x_0, y_0)$ と 点 $\mathbf{p_1} = (x_1, y_1)$ を通る直線 を対称軸として ある点 $\mathbf{q_0} = (a_0, b_0)$ の線対称とする点 $\mathbf{q_1}$ を求める。
+点 latexmath:[\mathbf{p_0} = (x_0, y_0)] と 点 latexmath:[\mathbf{p_1} = (x_1, y_1)] を通る直線 を対称軸として ある点 latexmath:[\mathbf{q_0} = (a_0, b_0)] の線対称とする点 latexmath:[\mathbf{q_1}] を求める。
 
-まず $\mathbf{q_0}$ の直線への写像 を $\mathbf{q_a}$ とすると、
+まず latexmath:[\mathbf{q_0}] の直線への写像 を latexmath:[\mathbf{q_a}] とすると、
 
-* $\displaystyle \mathbf{q_a} = \mathbf{p_0} + \frac{(\mathbf{q_0} - \mathbf{p_0}) \cdot (\mathbf{p_1} - \mathbf{p_0})}{\| \mathbf{p_1} - \mathbf{p_0} \| ^2} (\mathbf{p_1} -\mathbf{p_0})$
+* latexmath:[\displaystyle \mathbf{q_a} = \mathbf{p_0} + \frac{(\mathbf{q_0} - \mathbf{p_0}) \cdot (\mathbf{p_1} - \mathbf{p_0})}{\| \mathbf{p_1} - \mathbf{p_0} \| ^2} (\mathbf{p_1} -\mathbf{p_0})]
 
 で計算できる。
 
-そして $\mathbf{q_0}$ の線対称は $\mathbf{q_1} = \mathbf{q_0} + 2(\mathbf{q_a} - \mathbf{q_0})$ で計算できる。
+そして latexmath:[\mathbf{q_0}] の線対称は latexmath:[\mathbf{q_1} = \mathbf{q_0} + 2(\mathbf{q_a} - \mathbf{q_0})] で計算できる。
 
 == 実装
 

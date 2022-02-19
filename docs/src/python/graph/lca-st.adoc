@@ -2,14 +2,14 @@
 
 == 概要
 
-根付き木$T$のある頂点$u, v$について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。
+根付き木 latexmath:[T] のある頂点 latexmath:[u, v] について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。
 
 Sparse Tableを使ったアルゴリズムでは、セグメント木と同様にEuler tour techniqueを用いてLCAを計算する。
 
 == 計算量
 
-- 前計算: $O(N \log N)$
-- クエリ処理: $O(1)$
+- 前計算: latexmath:[O(N \log N)]
+- クエリ処理: latexmath:[O(1)]
 
 == 実装
 

@@ -4,13 +4,13 @@
 
 == 概要
 
-1つの数 $N$ を素因数分解する。
+1つの数 latexmath:[N] を素因数分解する。
 
-試し割り法 (Trial division) では 2 から $\lfloor \sqrt{N} \rfloor$ まで試し割りを行い、素因数を求める。
+試し割り法 (Trial division) では 2 から latexmath:[\lfloor \sqrt{N} \rfloor] まで試し割りを行い、素因数を求める。
 
 == 計算量
 
-$O(\sqrt{N})$
+latexmath:[O(\sqrt{N})]
 
 == 実装
 

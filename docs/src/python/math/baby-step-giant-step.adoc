@@ -6,21 +6,21 @@ Baby-step Giant-step
 
 離散対数問題(Discrete Logarithm Problem)を解くアルゴリズム。
 
-ある$X, Y, M$ について $X^K \equiv Y$ (mod $M$) となる $K$ を求める。
+ある latexmath:[X, Y, M] について latexmath:[X^K \equiv Y] (mod latexmath:[M]) となる latexmath:[K] を求める。
 
 === 具体的計算
 
 ==== 1. Baby-step
-$m = \lceil \sqrt{M} \rceil$ とし、$X^0, X^1, ..., X^{m-1}$ を求めておく。
+latexmath:[m = \lceil \sqrt{M} \rceil] とし、 latexmath:[X^0, X^1, ..., X^{m-1}] を求めておく。
 
 ==== 2. Giant-step
-$R = X^{-m}$ を計算し、$a = 0$ から $Y \times R^a \equiv X^b$ (mod $M$) となる $0 \le b \le m-1$ が見つかるまで計算する。 (この計算は高々 $O(m)$ 回)
+latexmath:[R = X^{-m}] を計算し、 latexmath:[a = 0] から latexmath:[Y \times R^a \equiv X^b] (mod latexmath:[M]) となる latexmath:[0 \le b \le m-1] が見つかるまで計算する。 (この計算は高々 latexmath:[O(m)] 回)
 
-$K = ma + b$ を解として出力する。
+latexmath:[K = ma + b] を解として出力する。
 
 == 計算量
 
-$O(\sqrt{M})$
+latexmath:[O(\sqrt{M})]
 
 == 実装
 

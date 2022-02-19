@@ -4,13 +4,13 @@
 
 == 概要
 
-木$T = (V, E)$の直径をなすパスの両端の頂点$u, v$とその長さ$d$を求める。
+木 latexmath:[T = (V, E)] の直径をなすパスの両端の頂点 latexmath:[u, v] とその長さ latexmath:[d] を求める。
 
-1回目のBFSで一方の頂点$u$を見つけ、2回目のBFSでもう一方の頂点$v$を見つける。
+1回目のBFSで一方の頂点 latexmath:[u] を見つけ、2回目のBFSでもう一方の頂点 latexmath:[v] を見つける。
 
 == 計算量
 
-$O(|V| + |E|)$
+latexmath:[O(|V| + |E|)]
 
 == 実装
 

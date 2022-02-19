@@ -6,26 +6,26 @@ Li-Chao (Segment) Tree with Lazy Propagation
 
 以下のクエリを処理できる遅延評価 Li Chao (Segment) Tree の実装
 
-- 全ての $a_i$ の初期値は $+\infty$
-- 線分追加: $a_l, ..., a_{r-1}$ の各 $a_i$ について $\min(a_i, a \cdot i + b)$ に更新
-- 線分加算: $a_l, ..., a_{r-1}$ の各 $a_i$ について $a_i + (a \cdot i + b)$ に更新
-- 値取得: $a_i$ の値を求める
+- 全ての latexmath:[a_i] の初期値は latexmath:[+\infty]
+- 線分追加: latexmath:[a_l, ..., a_{r-1}] の各 latexmath:[a_i] について latexmath:[\min(a_i, a \cdot i + b)] に更新
+- 線分加算: latexmath:[a_l, ..., a_{r-1}] の各 latexmath:[a_i] について latexmath:[a_i + (a \cdot i + b)] に更新
+- 値取得: latexmath:[a_i] の値を求める
 
 === 実装説明
 
 線分追加, 値取得については従来の Li-Chao Tree と同様。(pushdown等は行う)
 
-線分加算クエリにおいて、ノードを探索している間に現在のノードに存在する線分 $f(x) = ax + b$ の一部分を更新する必要がある場合は、ノードから $f(x)$ を取り出し左右の子ノードのそれぞれに $f(x)$ を線分追加することで線分を分割する。
+線分加算クエリにおいて、ノードを探索している間に現在のノードに存在する線分 latexmath:[f(x) = ax + b] の一部分を更新する必要がある場合は、ノードから latexmath:[f(x)] を取り出し左右の子ノードのそれぞれに latexmath:[f(x)] を線分追加することで線分を分割する。
 
-一回の線分加算クエリでは、ノードが持つ $f(x)$ を子ノードへの線分追加する処理を高々 $O(\log N)$ 回行うことになり、一回の線分追加は $O(\log N)$ であるため、一回の線分加算クエリは $O(\log^2 N)$ となる。
+一回の線分加算クエリでは、ノードが持つ latexmath:[f(x)] を子ノードへの線分追加する処理を高々 latexmath:[O(\log N)] 回行うことになり、一回の線分追加は latexmath:[O(\log N)] であるため、一回の線分加算クエリは latexmath:[O(\log^2 N)] となる。
 
 == 計算量
 
-区間 $[0, N)$ に対する各クエリについて
+区間 latexmath:[[0, N)] に対する各クエリについて
 
-- 線分追加: $O(\log^2 N)$
-- 線分加算: $O(\log^2 N)$
-- 値取得: $O(\log N)$
+- 線分追加: latexmath:[O(\log^2 N)]
+- 線分加算: latexmath:[O(\log^2 N)]
+- 値取得: latexmath:[O(\log N)]
 
 == 実装
 

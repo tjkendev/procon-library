@@ -8,21 +8,21 @@
 
 === ベルヌーイ数を求める
 
-ベルヌーイ数 $B_n$ は、以下により再帰的に計算できる。
+ベルヌーイ数 latexmath:[B_n] は、以下により再帰的に計算できる。
 
-$\displaystyle B_0 = 1$
+latexmath:[\displaystyle B_0 = 1]
 
-$\displaystyle B_n = - \frac{1}{n+1} \sum_{k=0}^{n-1} {n+1 \choose k} B_k$
+latexmath:[\displaystyle B_n = - \frac{1}{n+1} \sum_{k=0}^{n-1} {n+1 \choose k} B_k]
 
-この式を愚直に計算することで $B_0$ から $B_p$ までのベルヌーイ数は (逆数計算を除き) $O(p^2)$ で計算できる。
+この式を愚直に計算することで latexmath:[B_0] から latexmath:[B_p] までのベルヌーイ数は (逆数計算を除き) latexmath:[O(p^2)] で計算できる。
 
-=== $1^p + 2^p + ... + n^p$ の値を求める
+=== latexmath:[1^p + 2^p + ... + n^p] の値を求める
 
-ベルヌーイ数を用いて、以下の式により $\displaystyle \sum_{k=1}^n k^p$ を計算できる。
+ベルヌーイ数を用いて、以下の式により latexmath:[\displaystyle \sum_{k=1}^n k^p] を計算できる。
 
-$\displaystyle \sum_{k=1}^n k^p = \frac{1}{p+1} \sum_{j=0}^p (-1)^j {p+1 \choose j} B_j n^{p+1-j}$
+latexmath:[\displaystyle \sum_{k=1}^n k^p = \frac{1}{p+1} \sum_{j=0}^p (-1)^j {p+1 \choose j} B_j n^{p+1-j}]
 
-この式は (逆数計算を除き) $O(p)$ で計算できる。
+この式は (逆数計算を除き) latexmath:[O(p)] で計算できる。
 
 == 実装
 

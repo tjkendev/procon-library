@@ -2,23 +2,23 @@
 
 == 概要
 
-2点$(x_1, y_1), (x_2, y_2)$を通る直線と円: 中心$(c_x, c_y)$ 半径$r$との交点を計算する。
+2点 latexmath:[(x_1, y_1), (x_2, y_2)] を通る直線と円: 中心 latexmath:[(c_x, c_y)] 半径 latexmath:[r] との交点を計算する。
 
-$d_x = x_2 - x_1$, $d_y = y_2 - y_1$とする。
+latexmath:[d_x = x_2 - x_1], latexmath:[d_y = y_2 - y_1] とする。
 
-直線を通る点を $(x, y) = (x_1, y_1) + s(d_x, d_y)$ とした時、$(x - c_x)^2 + (y - c_y)^2 = r^2$ となる $s$ を求める。
+直線を通る点を latexmath:[(x, y) = (x_1, y_1) + s(d_x, d_y)] とした時、 latexmath:[(x - c_x)^2 + (y - c_y)^2 = r^2] となる latexmath:[s] を求める。
 
 === 具体的計算
 
-$(x - c_x)^2 + (y - c_y)^2 = r^2$を変形すると、 $X = x_1 - c_x$, $Y = y_1 - c_y$ とした時に、
+latexmath:[(x - c_x)^2 + (y - c_y)^2 = r^2] を変形すると、 latexmath:[X = x_1 - c_x], latexmath:[Y = y_1 - c_y] とした時に、
 
-$(d_x^2 + d_y^2) s^2 + 2 (d_x X + d_y Y) s + (X^2 + Y^2 - r^2) = 0$
+latexmath:[(d_x^2 + d_y^2) s^2 + 2 (d_x X + d_y Y) s + (X^2 + Y^2 - r^2) = 0]
 
-が得られるため、この$s$の解を計算する。
+が得られるため、この latexmath:[s] の解を計算する。
 
-そして、この$s$から交点$(x, y)$を求める。
+そして、この latexmath:[s] から交点 latexmath:[(x, y)] を求める。
 
-この時、 $0 \le s \le 1$ に制限することで、線分と円の交点を求めることができる。
+この時、 latexmath:[0 \le s \le 1] に制限することで、線分と円の交点を求めることができる。
 
 == 実装: 直線と円の交点計算
 
@@ -35,11 +35,11 @@ include::./python/geometry/circle_line_cross_point.py[]
 
 == 実装: 線分と円の交差判定
 
-$st$-平面において $f(s) = (d_x^2 + d_y^2) s^2 + 2 (d_x X + d_y Y) s + (X^2 + Y^2 - r^2)$ が $t = 0 (0 \le s \le 1)$ との交差条件(以下のいずれか)を満たすかを判定している。
+latexmath:[st] -平面において latexmath:[f(s) = (d_x^2 + d_y^2) s^2 + 2 (d_x X + d_y Y) s + (X^2 + Y^2 - r^2)] が latexmath:[t = 0 (0 \le s \le 1)] との交差条件(以下のいずれか)を満たすかを判定している。
 
-1. $f(0) \ge 0$ かつ $f(1) \le 0$
-2. $f(0) \le 0$ かつ $f(1) \ge 0$
-3. $f(0) > 0$ かつ $f(1) > 0$ かつ $f(s)$ が最小値を $0 \le s \le 1$ で取り、その最小値が 0 以下
+1. latexmath:[f(0) \ge 0] かつ latexmath:[f(1) \le 0]
+2. latexmath:[f(0) \le 0] かつ latexmath:[f(1) \ge 0]
+3. latexmath:[f(0) > 0] かつ latexmath:[f(1) > 0] かつ latexmath:[f(s)] が最小値を latexmath:[0 \le s \le 1] で取り、その最小値が 0 以下
 
 [source, python]
 ----

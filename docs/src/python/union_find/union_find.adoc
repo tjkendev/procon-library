@@ -6,20 +6,20 @@
 
 Union-Findでは以下の操作を行うことができる
 
-* $union(u, v)$: 要素uの属するグループと要素vが属するグループを１つにまとめる
+* latexmath:[union(u, v)] : 要素uの属するグループと要素vが属するグループを１つにまとめる
 
-* $find(u)$: 要素uが属するグループを求める
+* latexmath:[find(u)] : 要素uが属するグループを求める
 
-$find(u) = find(v)$であればuとvは同じグループに属することが分かる
+latexmath:[find(u) = find(v)] であればuとvは同じグループに属することが分かる
 
 == 計算量
 
-以下を行うことにより $O(\alpha(n))$ になる。 ($\alpha$はアッカーマン関数の逆関数)
+以下を行うことにより latexmath:[O(\alpha(n))] になる。 (latexmath:[\alpha] はアッカーマン関数の逆関数)
 
 - rankもしくはsizeによるマージ先の選択
 - 経路圧縮
 
-片方のみだと $O(\log n)$ になる。
+片方のみだと latexmath:[O(\log n)] になる。
 
 == 実装 (Union by rank)
 

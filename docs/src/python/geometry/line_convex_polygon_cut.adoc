@@ -4,11 +4,11 @@ Cutting a convex polygon by a line
 
 == 概要
 
-凸多角形 $P = (v_1, v_2, ..., v_N)$ を 点$p_0, p_1$ で切断し、その左側にできる凸多角形 $P'$ を求める
+凸多角形 latexmath:[P = (v_1, v_2, ..., v_N)] を 点 latexmath:[p_0, p_1] で切断し、その左側にできる凸多角形 latexmath:[P'] を求める
 
 == 計算量
 
-$O(N)$
+latexmath:[O(N)]
 
 == 実装
 

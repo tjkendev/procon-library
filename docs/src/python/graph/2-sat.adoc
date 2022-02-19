@@ -10,25 +10,25 @@
 
 === グラフの構築
 
-$N$ 個の論理変数 $x_1, ..., x_N$ を含む論理式について各変数ごとに $x_i$ と $\lnot x_i$ を表す $2$ 個の頂点、全体で $2N$ 個の頂点を用意する。
+latexmath:[N] 個の論理変数 latexmath:[x_1, ..., x_N] を含む論理式について各変数ごとに latexmath:[x_i] と latexmath:[\lnot x_i] を表す latexmath:[2] 個の頂点、全体で latexmath:[2N] 個の頂点を用意する。
 
-論理和 $(a \lor b)$ を $(\lnot a \Rightarrow b) \land (\lnot b \Rightarrow a)$ と考え、 $\lnot a$ から $b$ への辺 と $\lnot b$ から $a$ への辺 を追加する。
+論理和 latexmath:[(a \lor b)] を latexmath:[(\lnot a \Rightarrow b) \land (\lnot b \Rightarrow a)] と考え、 latexmath:[\lnot a] から latexmath:[b] への辺 と latexmath:[\lnot b] から latexmath:[a] への辺 を追加する。
 
-この $v_0$ から $v_1$ への辺は、 $v_0$ が真の場合に $v_1$ も真にする必要があることを表す。
+この latexmath:[v_0] から latexmath:[v_1] への辺は、 latexmath:[v_0] が真の場合に latexmath:[v_1] も真にする必要があることを表す。
 
 === 充足可能性の判定
 
-構築したグラフのSCCを求め、各変数 $x_i$ と $\lnot x_i$ が同じ強連結成分に含まれていないかを判定する。
+構築したグラフのSCCを求め、各変数 latexmath:[x_i] と latexmath:[\lnot x_i] が同じ強連結成分に含まれていないかを判定する。
 
 === 論理式を満たす割り当て
 
 強連結成分ごとのトポロジカル順序をもとに論理式が真になる時の各変数の割り当てを決定できる。
 
-トポロジカル順序で $\lnot x_i$ が $x_i$ より先にくる場合は $x_i$ を真、それ以外の場合は偽を割り当てる。
+トポロジカル順序で latexmath:[\lnot x_i] が latexmath:[x_i] より先にくる場合は latexmath:[x_i] を真、それ以外の場合は偽を割り当てる。
 
 == 計算量
 
-論理変数の数を $N$, 節の数を $M$ とした場合 $O(N + M)$
+論理変数の数を latexmath:[N], 節の数を latexmath:[M] とした場合 latexmath:[O(N + M)]
 
 == 実装
 

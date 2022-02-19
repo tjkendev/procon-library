@@ -5,16 +5,16 @@
 
 == 概要
 
-メビウス関数 $\mu (n)$ は以下のように定義される。
+メビウス関数 latexmath:[\mu (n)] は以下のように定義される。
 
-- $n$ が素数の二乗で割り切れる時 $\mu (n) = 0$
-- それ以外の場合、$n$ が $k$ 個の素因数を持つ時 $\mu (n) = (-1)^k$
+- latexmath:[n] が素数の二乗で割り切れる時 latexmath:[\mu (n) = 0]
+- それ以外の場合、 latexmath:[n] が latexmath:[k] 個の素因数を持つ時 latexmath:[\mu (n) = (-1)^k]
 
 === メビウスの反転公式
 
 以下の関係式を メビウスの反転公式 (Möbius inversion formula) という。
 
-$\displaystyle f(n) = \sum_{d|n} g(d) \Longleftrightarrow g(n) = \sum_{d|n} \mu \left( \frac{n}{d} \right) f(d)$
+latexmath:[\displaystyle f(n) = \sum_{d|n} g(d) \Longleftrightarrow g(n) = \sum_{d|n} \mu \left( \frac{n}{d} \right) f(d)]
 
 == 実装
 

@@ -8,9 +8,9 @@ Li-Chao (Segment) Treeはセグメント木を用いてConvex Hull Trickを行�
 
 == 計算量
 
-- 直線追加: $O(\log N)$
-- 線分追加: $O(\log^2 N)$
-- 最小値計算: $O(\log N)$
+- 直線追加: latexmath:[O(\log N)]
+- 線分追加: latexmath:[O(\log^2 N)]
+- 最小値計算: latexmath:[O(\log N)]
 
 == 実装
 

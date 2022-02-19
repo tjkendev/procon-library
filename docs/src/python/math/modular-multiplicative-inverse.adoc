@@ -4,20 +4,20 @@
 
 == 概要
 
-ある $a$, $m$ について $ax \equiv 1$ (mod $m$) となる $x$ を求める。
+ある latexmath:[a], latexmath:[m] について latexmath:[ax \equiv 1] (mod latexmath:[m]) となる latexmath:[x] を求める。
 
-逆数 $x$ が存在するための必要十分条件は $\gcd(a, m) = 1$ を満たすことである。
+逆数 latexmath:[x] が存在するための必要十分条件は latexmath:[\gcd(a, m) = 1] を満たすことである。
 
 === 拡張ユークリッドの互除法による計算
 
-$ax + my = \gcd(a, m) = 1$ の $x, y$ の解を拡張ユークリッドの互除法で計算する。 +
-この $x$ が $ax \equiv 1$ (mod $m$) を満たす。
+latexmath:[ax + my = \gcd(a, m) = 1] の latexmath:[x, y] の解を拡張ユークリッドの互除法で計算する。 +
+この latexmath:[x] が latexmath:[ax \equiv 1] (mod latexmath:[m]) を満たす。
 
 === 累乗による計算
 
-オイラーの $\varphi$ 関数 $\varphi(m)$ に対し、オイラーの定理より $a^{\varphi(m)} \equiv 1$ (mod $m$) を満たすため、 $x \equiv a^{\varphi(m)-1}$ を計算することで求まる。
+オイラーの latexmath:[\varphi] 関数 latexmath:[\varphi(m)] に対し、オイラーの定理より latexmath:[a^{\varphi(m)} \equiv 1] (mod latexmath:[m]) を満たすため、 latexmath:[x \equiv a^{\varphi(m)-1}] を計算することで求まる。
 
-$\varphi(m)$ の前計算が必要であるが、 $m$ が素数であれば $\varphi(m) = m-1$ であるため、 $x \equiv a^{m-2}$ を計算することで求まる。
+latexmath:[\varphi(m)] の前計算が必要であるが、 latexmath:[m] が素数であれば latexmath:[\varphi(m) = m-1] であるため、 latexmath:[x \equiv a^{m-2}] を計算することで求まる。
 
 == 実装
 

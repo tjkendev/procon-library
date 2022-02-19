@@ -6,17 +6,17 @@
 
 Union-Findでは以下の操作を行うことができる
 
-* $union(u, v)$: 要素uの属するグループと要素vが属するグループを１つにまとめる
+* latexmath:[union(u, v)] : 要素uの属するグループと要素vが属するグループを１つにまとめる
 
-* $find(u)$: 要素uが属するグループを求める
+* latexmath:[find(u)] : 要素uが属するグループを求める
 
-$find(u) = find(v)$であればuとvは同じグループに属することが分かる
+latexmath:[find(u) = find(v)] であればuとvは同じグループに属することが分かる
 
 == 計算量
 
-$O(\alpha(n))$
+latexmath:[O(\alpha(n))]
 
-(ただし、$\alpha$はアッカーマン関数の逆関数)
+(ただし、 latexmath:[\alpha] はアッカーマン関数の逆関数)
 
 == 実装 (Linking by index)
 

@@ -10,8 +10,8 @@ Suffix Arrayは、LCPの計算を利用しながらソートを行って構築�
 
 == 計算量
 
-- SuffixArrayの構築: $O(N \log^2 N)$
-- LCPの計算: $O(\log N)$
+- SuffixArrayの構築: latexmath:[O(N \log^2 N)]
+- LCPの計算: latexmath:[O(\log N)]
 
 == 実装
 

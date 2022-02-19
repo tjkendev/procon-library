@@ -8,9 +8,9 @@ kd-tree (k-dimensional tree)
 
 == 計算量
 
-- 構築: $O(N \log^2 N)$
-- 領域探索クエリ: $O(\sqrt{N} + K)$ ($K$は出力する点の数)
-- (一様分布の点集合における)最近傍点クエリ: $O(\log N)$
+- 構築: latexmath:[O(N \log^2 N)]
+- 領域探索クエリ: latexmath:[O(\sqrt{N} + K)] (latexmath:[K] は出力する点の数)
+- (一様分布の点集合における)最近傍点クエリ: latexmath:[O(\log N)]
 
 == 実装
 

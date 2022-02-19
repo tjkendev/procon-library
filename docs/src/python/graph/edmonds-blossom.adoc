@@ -4,13 +4,13 @@ Maximum Matching (Edmonds' Algorithm)
 
 == 概要
 
-無向グラフ $G = (V, E)$ における最大マッチングを求める。
+無向グラフ latexmath:[G = (V, E)] における最大マッチングを求める。
 
 各ステップごとに augmenting path を見つけ出し、この path を元にマッチングを一つずつ増やしていく。
 
 == 計算量
 
-$O(|V|^3)$
+latexmath:[O(|V|^3)]
 
 == 実装
 

@@ -4,16 +4,16 @@
 
 == 概要
 
-2つの数 $a, b$ について、$a = a'g$, $b = b'g$ ($a', b'$ は互いに素)となるような$g = gcd(a, b)$を計算する。
+2つの数 latexmath:[a, b] について、 latexmath:[a = a'g], latexmath:[b = b'g] (latexmath:[a', b'] は互いに素)となるような latexmath:[g = gcd(a, b)] を計算する。
 
-拡張されたGCDでは、 $ax + by = g$ となるような $x, y, g$ を計算する。
+拡張されたGCDでは、 latexmath:[ax + by = g] となるような latexmath:[x, y, g] を計算する。
 
 
-また、最小公倍数(least common multiple, LCM)は $\displaystyle \frac{ab}{gcd(a, b)}$ で計算する。
+また、最小公倍数(least common multiple, LCM)は latexmath:[\displaystyle \frac{ab}{gcd(a, b)}] で計算する。
 
 == 計算量
 
-$N = \max(a, b)$ とすると $O(\log N)$
+latexmath:[N = \max(a, b)] とすると latexmath:[O(\log N)]
 
 == 実装
 

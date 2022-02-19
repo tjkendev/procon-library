@@ -6,13 +6,13 @@ Range Minimum Query and Range Update Query (RMQ and RUQ)
 
 以下のクエリが処理できる遅延評価セグメント木の実装
 
-- $a_l, a_{l+1}, ..., a_{r-1}$ の値を $x$ に更新
-- $a_l, a_{l+1}, ..., a_{r-1}$ の内の最小値を求める
+- latexmath:[a_l, a_{l+1}, ..., a_{r-1}] の値を latexmath:[x] に更新
+- latexmath:[a_l, a_{l+1}, ..., a_{r-1}] の内の最小値を求める
 
 == 計算量
 
-- 区間更新: $O(\log N)$
-- 最小値計算: $O(\log N)$
+- 区間更新: latexmath:[O(\log N)]
+- 最小値計算: latexmath:[O(\log N)]
 
 == 実装
 

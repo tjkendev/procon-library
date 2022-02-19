@@ -4,15 +4,15 @@
 
 動的セグメント木上でLi-Chao (Segment) Treeを処理する。
 
-動的セグメント木上で処理することで、座標先読みなしで大きい区間$[0, N\]$に対するConvex Hull Trickの問題を解くことができる。
+動的セグメント木上で処理することで、座標先読みなしで大きい区間 latexmath:[[0, N\]] に対するConvex Hull Trickの問題を解くことができる。
 
 == 計算量
 
-扱う区間を$[0, N\]$とした時、
+扱う区間を latexmath:[[0, N\]] とした時、
 
-- 直線追加: $O(\log N)$
-- 線分追加: $O(\log^2 N)$
-- 最小値計算: $O(\log N)$
+- 直線追加: latexmath:[O(\log N)]
+- 線分追加: latexmath:[O(\log^2 N)]
+- 最小値計算: latexmath:[O(\log N)]
 
 == 実装
 

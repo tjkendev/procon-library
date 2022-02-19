@@ -6,22 +6,22 @@ Range Update Query (RUQ)
 
 以下のクエリが処理できるセグメント木の実装
 
-- $a_l, a_{l+1}, ..., a_{r-1}$ の値を $x$ に更新
-- $a_i$ の現在の値を計算
+- latexmath:[a_l, a_{l+1}, ..., a_{r-1}] の値を latexmath:[x] に更新
+- latexmath:[a_i] の現在の値を計算
 
 === 計算方法
 
-セグメント木で各区間$[l, r)$において、その区間全体が更新された時刻$t$とその値$x$のtuple値$(t, x)$を持つ。
+セグメント木で各区間 latexmath:[[l, r)] において、その区間全体が更新された時刻 latexmath:[t] とその値 latexmath:[x] のtuple値 latexmath:[(t, x)] を持つ。
 
-時刻$t$に区間$[l, r)$を値$x$で更新する際は、区間$[l, r)$を覆う最小個数の区間をtuple値$(t, x)$で更新する。
+時刻 latexmath:[t] に区間 latexmath:[[l, r)] を値 latexmath:[x] で更新する際は、区間 latexmath:[[l, r)] を覆う最小個数の区間をtuple値 latexmath:[(t, x)] で更新する。
 
-$a_i$ の値を取得する際は、 $i$を含む全ての区間$[l, r)$のtuple値をチェックし、最も$t$が大きいtuple値$(t, x)$を求め、
-その$x$を現在の値とする。
+latexmath:[a_i] の値を取得する際は、 latexmath:[i] を含む全ての区間 latexmath:[[l, r)] のtuple値をチェックし、最も latexmath:[t] が大きいtuple値 latexmath:[(t, x)] を求め、
+その latexmath:[x] を現在の値とする。
 
 == 計算量
 
-- 区間更新: $O(\log N)$
-- 値取得: $O(\log N)$
+- 区間更新: latexmath:[O(\log N)]
+- 値取得: latexmath:[O(\log N)]
 
 == 実装
 

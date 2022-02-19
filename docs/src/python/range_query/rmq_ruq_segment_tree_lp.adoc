@@ -6,39 +6,39 @@ Range Minimum Query and Range Update Query (RMQ and RUQ)
 
 以下のクエリが処理できる遅延評価セグメント木の実装
 
-- $a_l, a_{l+1}, ..., a_{r-1}$ の値を $x$ に更新
-- $a_l, a_{l+1}, ..., a_{r-1}$ の内の最小値を求める
+- latexmath:[a_l, a_{l+1}, ..., a_{r-1}] の値を latexmath:[x] に更新
+- latexmath:[a_l, a_{l+1}, ..., a_{r-1}] の内の最小値を求める
 
 === 具体的計算
 
 遅延評価セグメント木(Segment Tree with Lazy Propagation)の実装では、
-各区間Iには区間の値value[$I$]と遅延させている値lazy[$I$]を持たせる。
+各区間Iには区間の値value[ latexmath:[I] ]と遅延させている値lazy[ latexmath:[I] ]を持たせる。
 
 ==== 区間更新
 
-区間$I = [l, r)$の値更新処理では、以下を行う。
+区間 latexmath:[I = [l, r)] の値更新処理では、以下を行う。
 
 1. 更新する区間が含まれる全ての区間で遅延させている値lazyをトップダウンに伝搬
-    - 伝搬させる区間は $2 \lceil \log N \rceil + 1$ 個以下
-2. 区間$I$に含まれる(最小個の)区間の値を全て更新
-    - 更新する区間は高々 $2 \lceil \log N \rceil - 2$ 個
-    - value[$I$] = lazy[$I$] = x
+    - 伝搬させる区間は latexmath:[2 \lceil \log N \rceil + 1] 個以下
+2. 区間 latexmath:[I] に含まれる(最小個の)区間の値を全て更新
+    - 更新する区間は高々 latexmath:[2 \lceil \log N \rceil - 2] 個
+    - value[ latexmath:[I] ] = lazy[ latexmath:[I] ] = x
 3. 更新する区間を含む全ての区間の値valueをボトムアップに更新
     - 遅延値を伝搬した1の区間を更新する
 
 ==== 最小値計算
 
-区間$I = [l, r)$内の最小値計算は、以下のように行う。
+区間 latexmath:[I = [l, r)] 内の最小値計算は、以下のように行う。
 
 1. 2の計算で参照する区間が含まれる全ての区間で遅延させている値lazyをトップダウンに伝搬
-    - 伝搬させる区間は $2 \lceil \log N \rceil + 1$ 個以下
-2. 区間$I$に含まれる(最小個の)区間から最小値を求める
-    - 確認する区間は高々 $2 \lceil \log N \rceil - 2$ 個
+    - 伝搬させる区間は latexmath:[2 \lceil \log N \rceil + 1] 個以下
+2. 区間 latexmath:[I] に含まれる(最小個の)区間から最小値を求める
+    - 確認する区間は高々 latexmath:[2 \lceil \log N \rceil - 2] 個
 
 == 計算量
 
-- 区間更新: $O(\log N)$
-- 最小値計算: $O(\log N)$
+- 区間更新: latexmath:[O(\log N)]
+- 最小値計算: latexmath:[O(\log N)]
 
 == 実装
 

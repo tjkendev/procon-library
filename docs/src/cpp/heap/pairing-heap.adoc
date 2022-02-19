@@ -6,7 +6,7 @@ Pairing Heap
 
 Pairing Heap は比較的シンプルな self-adjusting heap である。
 
-heapは half-ordered half tree という木構造で表現され、heap同士はpairing操作によって $O(1)$ でマージできる。
+heapは half-ordered half tree という木構造で表現され、heap同士はpairing操作によって latexmath:[O(1)] でマージできる。
 
 delete-min 操作では根ノードを削除することで、heapが分離されていくつかのheapになるため、これらのheapをpairing操作を利用し1つのheapにマージする。
 
@@ -14,10 +14,10 @@ delete-min 操作では根ノードを削除することで、heapが分離さ�
 
 今回の実装の計算量は以下
 
-- find-min: $O(1)$
-- delete-min: ならし $O(\log N)$
-- insert: $O(1)$
-- decrease-key: ならし $O(\log N)$
+- find-min: latexmath:[O(1)]
+- delete-min: ならし latexmath:[O(\log N)]
+- insert: latexmath:[O(1)]
+- decrease-key: ならし latexmath:[O(\log N)]
 
 == 実装
 

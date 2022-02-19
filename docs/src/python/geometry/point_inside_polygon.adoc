@@ -4,25 +4,25 @@ Check if a point is inside a polygon
 
 == 概要
 
-多角形 $P = (v_1, v_2, ..., v_N)$ に点 $w$ が含まれているかを判定する。
+多角形 latexmath:[P = (v_1, v_2, ..., v_N)] に点 latexmath:[w] が含まれているかを判定する。
 
 === Ray Casting Algorithm
 
-点$w$ から半直線を出し、多角形$P$と何回交差するかで包含判定する。
+点 latexmath:[w] から半直線を出し、多角形 latexmath:[P] と何回交差するかで包含判定する。
 
-多角形$P$ と奇数回交差している場合に包含されていると判定する。
+多角形 latexmath:[P] と奇数回交差している場合に包含されていると判定する。
 
-計算量: $O(N)$
+計算量: latexmath:[O(N)]
 
 === Winding Number Algorithm
 
-点$w$ から見て、多角形$P$ 上を移動する時に何回転するかによって包含判定を行う。この時、回転しなければ包含されず、1回転以上すれば包含していることを意味する。
+点 latexmath:[w] から見て、多角形 latexmath:[P] 上を移動する時に何回転するかによって包含判定を行う。この時、回転しなければ包含されず、1回転以上すれば包含していることを意味する。
 
-半直線 $wv_i$ と 半直線 $wv_{i+1}$ のなす角 $\theta_i$ を求め、その総和 $\displaystyle \sum_{1 \le i \le N} \theta_i$ を確認する。
+半直線 latexmath:[wv_i] と 半直線 latexmath:[wv_{i+1}] のなす角 latexmath:[\theta_i] を求め、その総和 latexmath:[\displaystyle \sum_{1 \le i \le N} \theta_i] を確認する。
 
-この値が 0 以外 (この時は $2 \pi$ またはその倍数) になれば包含され、0の場合は包含されないことが分かる。
+この値が 0 以外 (この時は latexmath:[2 \pi] またはその倍数) になれば包含され、0の場合は包含されないことが分かる。
 
-計算量: $O(N)$
+計算量: latexmath:[O(N)]
 
 == 実装
 

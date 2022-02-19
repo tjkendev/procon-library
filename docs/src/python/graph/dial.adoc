@@ -7,13 +7,13 @@ Dial's Algorithm
 単一始点最短経路問題(SSSP)を解くアルゴリズム。
 
 コストごとにbucketを用意し、コストが小さい順にbucketに含まれる頂点から探索する。 +
-各bucketでは頂点をDoubly Linked Listで管理し、頂点のコストが更新された時に追加削除を $O(1)$ でできるようにする。
+各bucketでは頂点をDoubly Linked Listで管理し、頂点のコストが更新された時に追加削除を latexmath:[O(1)] でできるようにする。
 
 辺のコストが小さい場合に高速になる。
 
 == 計算量
 
-グラフ$G = (V, E)$ に含まれる辺の最大コストを $W$ とすると $O(|E| + W |V|)$
+グラフ latexmath:[G = (V, E)] に含まれる辺の最大コストを latexmath:[W] とすると latexmath:[O(|E| + W |V|)]
 
 == 実装
 [source, python]

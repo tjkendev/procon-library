@@ -4,33 +4,33 @@ the intersection point of two lines
 
 == 概要
 
-点$(x_0, y_0)$と点$(x_1, y_1)$を通る直線1と点$(x_2, y_2)$と点$(x_3, y_3)$を通る直線2の交点を求める。
+点 latexmath:[(x_0, y_0)] と点 latexmath:[(x_1, y_1)] を通る直線1と点 latexmath:[(x_2, y_2)] と点 latexmath:[(x_3, y_3)] を通る直線2の交点を求める。
 
 === 具体的計算
 
-$a_0 = x_1 - x_0, b_0 = y_1 - y_0$ +
-$a_2 = x_3 - x_2, b_2 = y_3 - y_2$
+latexmath:[a_0 = x_1 - x_0, b_0 = y_1 - y_0] +
+latexmath:[a_2 = x_3 - x_2, b_2 = y_3 - y_2]
 
 とする。
 
-2つの直線上の点 $(x, y)$ は
+2つの直線上の点 latexmath:[(x, y)] は
 
-$\displaystyle \left( \begin{array}{c} x \\ y \end{array} \right) = \left( \begin{array}{c} x_0 \\ y_0 \end{array} \right) + s \left( \begin{array}{c} a_0 \\ b_0 \end{array} \right)$, 
-$\displaystyle \left( \begin{array}{c} x \\ y \end{array} \right) = \left( \begin{array}{c} x_2 \\ y_2 \end{array} \right) + t \left( \begin{array}{c} a_2 \\ b_2 \end{array} \right)$
+latexmath:[\displaystyle \left( \begin{array}{c} x \\ y \end{array} \right) = \left( \begin{array}{c} x_0 \\ y_0 \end{array} \right) + s \left( \begin{array}{c} a_0 \\ b_0 \end{array} \right)], 
+latexmath:[\displaystyle \left( \begin{array}{c} x \\ y \end{array} \right) = \left( \begin{array}{c} x_2 \\ y_2 \end{array} \right) + t \left( \begin{array}{c} a_2 \\ b_2 \end{array} \right)]
 
 と表すことができるため、この交点は
 
-$\displaystyle \left( \begin{array}{c} x_0 \\ y_0 \end{array} \right) + s \left( \begin{array}{c} a_0 \\ b_0 \end{array} \right) = \left( \begin{array}{c} x_2 \\ y_2 \end{array} \right) + t \left( \begin{array}{c} a_2 \\ b_2 \end{array} \right)$
+latexmath:[\displaystyle \left( \begin{array}{c} x_0 \\ y_0 \end{array} \right) + s \left( \begin{array}{c} a_0 \\ b_0 \end{array} \right) = \left( \begin{array}{c} x_2 \\ y_2 \end{array} \right) + t \left( \begin{array}{c} a_2 \\ b_2 \end{array} \right)]
 
-となる $s, t$ を求めれば計算できる。
+となる latexmath:[s, t] を求めれば計算できる。
 
-この $s, t$ は、以下を計算することで求められる。
+この latexmath:[s, t] は、以下を計算することで求められる。
 
-$\displaystyle \left( \begin{array}{c} s \\ t \end{array} \right) = \frac{1}{a_0b_2 - a_2b_0} \left( \begin{array}{cc} b_2 & -a_2 \\ b_0 & -a_0 \end{array} \right) \left( \begin{array}{cc} x_2 - x_0 \\ y_2 - y_0 \end{array} \right)$
+latexmath:[\displaystyle \left( \begin{array}{c} s \\ t \end{array} \right) = \frac{1}{a_0b_2 - a_2b_0} \left( \begin{array}{cc} b_2 & -a_2 \\ b_0 & -a_0 \end{array} \right) \left( \begin{array}{cc} x_2 - x_0 \\ y_2 - y_0 \end{array} \right)]
 
-2つの直線は平行の場合、 $a_0b_2 - a_2b_0 = 0$ となる。 (解なし、もしくは無数に解が存在する)
+2つの直線は平行の場合、 latexmath:[a_0b_2 - a_2b_0 = 0] となる。 (解なし、もしくは無数に解が存在する)
 
-また、 $0 \le s \le 1$ や $0 \le t \le 1$ に絞ることで線分上に点が存在するかを判定できる。
+また、 latexmath:[0 \le s \le 1] や latexmath:[0 \le t \le 1] に絞ることで線分上に点が存在するかを判定できる。
 
 == 実装
 

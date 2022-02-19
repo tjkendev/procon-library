@@ -4,13 +4,13 @@
 
 == 概要
 
-トポロジカルソートは、DAGなグラフ$G = (V, E)$のトポロジカル順序を求める。
+トポロジカルソートは、DAGなグラフ latexmath:[G = (V, E)] のトポロジカル順序を求める。
 
 Kahn's Algorithmでは、incoming edgeがなくなった辺からqueueに入れて順序を決定する。
 
 == 計算量
 
-$O(|V| + |E|)$
+latexmath:[O(|V| + |E|)]
 
 == 実装
 

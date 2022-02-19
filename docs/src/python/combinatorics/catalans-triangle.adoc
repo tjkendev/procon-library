@@ -4,16 +4,16 @@ Catalan's Triangle
 
 == 概要
 
-$N$ 個の $X$ と $K$ 個の $Y$ を1列に並べる時に、全ての接頭辞において $Y$ の個数が $X$ の個数を超えないように並べる場合の通り数を $C(N, K)$ とする。
+latexmath:[N] 個の latexmath:[X] と latexmath:[K] 個の latexmath:[Y] を1列に並べる時に、全ての接頭辞において latexmath:[Y] の個数が latexmath:[X] の個数を超えないように並べる場合の通り数を latexmath:[C(N, K)] とする。
 
-カタランの三角形は、この $C(N, K)$ を項とする number triangle である。
+カタランの三角形は、この latexmath:[C(N, K)] を項とする number triangle である。
 
-また、 $N = K$ の場合の数は カタラン数(Catalan numbers) と呼ばれる。
+また、 latexmath:[N = K] の場合の数は カタラン数(Catalan numbers) と呼ばれる。
 
-$C(N, K)$ は以下の式で表せる
+latexmath:[C(N, K)] は以下の式で表せる
 
-- $\displaystyle C(N, K) = \frac{(N+K)!(N-K+1)}{K!(N+1)!}$
-- $k > 0$ について $\displaystyle C(N, K) = {}_{N+K}C_{K} - {}_{N+K}C_{K-1}$
+- latexmath:[\displaystyle C(N, K) = \frac{(N+K)!(N-K+1)}{K!(N+1)!}]
+- latexmath:[k > 0] について latexmath:[\displaystyle C(N, K) = {}_{N+K}C_{K} - {}_{N+K}C_{K-1}]
 
 == 実装
 

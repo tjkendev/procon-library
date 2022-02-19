@@ -2,12 +2,12 @@
 
 == 概要
 
-集合$S$を1つの数値のbitで扱う。
-具体的に、要素$i$が含まれることを ``S & (1 << i) > 0`` で表す。
+集合 latexmath:[S] を1つの数値のbitで扱う。
+具体的に、要素 latexmath:[i] が含まれることを ``S & (1 << i) > 0`` で表す。
 
 == 部分集合の列挙
 
-$T \subseteq S$ となる部分集合$T$を列挙する。
+latexmath:[T \subseteq S] となる部分集合 latexmath:[T] を列挙する。
 
 [source, python]
 ----
@@ -24,11 +24,11 @@ while v:
 
 * AOJ: "ITP2_11_C: Bitset II - Enumeration of Subsets III": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176925#1[source] (Python3, 2.28sec)
 
-== サイズ$K$の部分集合の列挙
+== サイズ latexmath:[K] の部分集合の列挙
 
 蟻本ベースfootnote:[プログラミングコンテストチャレンジブック [第2版\] p.144]の実装
 
-$T \subseteq \{0, 1, ..., N-1\}$, $|T| = K$となる部分集合$T$を列挙する。
+latexmath:[T \subseteq \{0, 1, ..., N-1\}], latexmath:[|T| = K] となる部分集合 latexmath:[T] を列挙する。
 
 [source, python]
 ----

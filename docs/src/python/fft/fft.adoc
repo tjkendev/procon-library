@@ -4,11 +4,11 @@ Fast Fourier Transform (FFT, 高速フーリエ変換)
 
 == 概要
 
-高速フーリエ変換は以下の離散フーリエ変換(逆変換)を 計算量 $O(N \log N)$ で行うアルゴリズムである。
+高速フーリエ変換は以下の離散フーリエ変換(逆変換)を 計算量 latexmath:[O(N \log N)] で行うアルゴリズムである。
 
-順変換: $\displaystyle F(t) = \sum_{x=0}^{N-1} f(x) e^{-i \frac{2 \pi t x}{N}}$
+順変換: latexmath:[\displaystyle F(t) = \sum_{x=0}^{N-1} f(x) e^{-i \frac{2 \pi t x}{N}}]
 
-逆変換: $\displaystyle f(x) = \frac{1}{N} \sum_{t=0}^{N-1} F(t) e^{i \frac{2 \pi t x}{N}}$
+逆変換: latexmath:[\displaystyle f(x) = \frac{1}{N} \sum_{t=0}^{N-1} F(t) e^{i \frac{2 \pi t x}{N}}]
 
 Pythonは標準で複素数をサポートしているため、簡単に実装できる。
 

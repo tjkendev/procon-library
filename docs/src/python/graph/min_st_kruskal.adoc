@@ -4,13 +4,13 @@
 
 == 概要
 
-グラフ$G$上の最小全域木(Minimum Spanning Tree)を求める。
+グラフ latexmath:[G] 上の最小全域木(Minimum Spanning Tree)を求める。
 
 クラスカル法では、コストが小さい辺から、連結でない頂点同士を繋いでいくことで、最小全域木を求める。
 
 == 計算量
 
-$O(|E| \log |V|)$
+latexmath:[O(|E| \log |V|)]
 
 == 実装
 

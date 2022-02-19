@@ -4,17 +4,17 @@
 
 == 概要
 
-反転数は列 $a_1, a_2, ..., a_N$ を隣接要素を交換しながらソートする時に必要な(最小)交換回数を表す。
+反転数は列 latexmath:[a_1, a_2, ..., a_N] を隣接要素を交換しながらソートする時に必要な(最小)交換回数を表す。
 
-単純にバブルソートで反転数を計算すると $O(N^2)$ かかるが、BITを用いると $O(N \log N)$ で計算できる。
+単純にバブルソートで反転数を計算すると latexmath:[O(N^2)] かかるが、BITを用いると latexmath:[O(N \log N)] で計算できる。
 
 == 計算量
 
-$O(N \log N)$
+latexmath:[O(N \log N)]
 
 == 実装
 
-$N$ と順列 $a_1, a_2, ..., a_N (1 \le a_i \le N, a_i \not = a_j \text{ if } i \not = j)$ を受け取り反転数を計算する例
+latexmath:[N] と順列 latexmath:[a_1, a_2, ..., a_N (1 \le a_i \le N, a_i \not = a_j \text{ if } i \not = j)] を受け取り反転数を計算する例
 
 [source, python]
 ----

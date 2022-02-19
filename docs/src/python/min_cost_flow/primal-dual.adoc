@@ -2,21 +2,21 @@
 
 == 概要
 
-各辺$e$が容量$c_e$と単位コスト$d_e$を持つ、有向グラフ$G = (V, E)$に対し、
-特定のsourceとsinkの間に流量$F$を流す時の最小コストを求める。
+各辺 latexmath:[e] が容量 latexmath:[c_e] と単位コスト latexmath:[d_e] を持つ、有向グラフ latexmath:[G = (V, E)] に対し、
+特定のsourceとsinkの間に流量 latexmath:[F] を流す時の最小コストを求める。
 
 蟻本footnote:[プログラミングコンテストチャレンジブック [第2版\] p.199]を参考にして実装。
 
 == with Bellman-Ford Algorithm
 
-以下を、流量$F$を流しきるまで繰り返す
+以下を、流量 latexmath:[F] を流しきるまで繰り返す
 
 1. Bellman-Ford Algorithmでsourceとsinkの間の最小コストとなるパスを求める
 2. そのパスに流せる限り流す
 
 === 計算量
 
-$O(F |V| |E|)$
+latexmath:[O(F |V| |E|)]
 
 === 実装
 
@@ -35,7 +35,7 @@ include::./python/min_cost_flow/primal-dual_bf.py[]
 
 === 計算量
 
-$O(F |E| \log |V|)$
+latexmath:[O(F |E| \log |V|)]
 
 === 実装
 

@@ -4,7 +4,7 @@ Primitive Root
 
 == 概要
 
-modulo $n$ における原始根 (primitive root) を求める
+modulo latexmath:[n] における原始根 (primitive root) を求める
 
 == 実装
 

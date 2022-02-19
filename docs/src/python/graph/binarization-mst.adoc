@@ -4,26 +4,26 @@ Binarization of Minimum Spanning Tree
 
 == 概要
 
-辺に重みがある$N$頂点からなるグラフ $G$ の最小全域木$T$を求めた上で、木を頂点に重みがある二分木 $U$ に変換する。
+辺に重みがある latexmath:[N] 頂点からなるグラフ latexmath:[G] の最小全域木 latexmath:[T] を求めた上で、木を頂点に重みがある二分木 latexmath:[U] に変換する。
 
-具体的には、グラフ$G$の$N$個の頂点に対応する頂点(番号$1, 2, ..., N$)を用意し、グラフ$G$上においてKruskal法で2頂点をマージする順序に合わせて($i$番目に頂点$u_i, v_i$を重み$c_i$の辺でマージするとする)、
-頂点$u_i, v_i$をそれぞれ含む2つの二分木を子として持ち、新しい頂点(番号$N+i$)を根頂点とする1つの二分木を生成する。(この時、新しい根頂点の重みを$c_i$とする)
+具体的には、グラフ latexmath:[G] の latexmath:[N] 個の頂点に対応する頂点(番号 latexmath:[1, 2, ..., N])を用意し、グラフ latexmath:[G] 上においてKruskal法で2頂点をマージする順序に合わせて(latexmath:[i] 番目に頂点 latexmath:[u_i, v_i] を重み latexmath:[c_i] の辺でマージするとする)、
+頂点 latexmath:[u_i, v_i] をそれぞれ含む2つの二分木を子として持ち、新しい頂点(番号 latexmath:[N+i])を根頂点とする1つの二分木を生成する。(この時、新しい根頂点の重みを latexmath:[c_i] とする)
 
-そして、$N-1$回のマージによって最終的に1つの二分木 $U$ を生成する。
+そして、 latexmath:[N-1] 回のマージによって最終的に1つの二分木 latexmath:[U] を生成する。
 
-この二分木 $U$ は以下の特徴を持つ
+この二分木 latexmath:[U] は以下の特徴を持つ
 
-- $2N - 1$ 個の頂点からなり、それぞれ $1, 2, ..., N, N+1, ..., 2N-1$ の番号が付いている
-- 頂点$2N - 1$ が根頂点となる
-- 二分木$U$ の頂点$v$ ($1 \le v \le N$) はMST $T$上の頂点 $v$ と対応しており、二分木$U$ の葉となる。
-- MST $T$の任意の頂点ペア$(u, v)$ ($1 \le u, v \le N$)について、二分木 $U$ 上の頂点 $u$ と頂点 $v$ のLCAとなる頂点の重みは
-  MST $T$上の頂点 $u, v$ 間のパスに含まれる辺の中の最大の重みになる
+- latexmath:[2N - 1] 個の頂点からなり、それぞれ latexmath:[1, 2, ..., N, N+1, ..., 2N-1] の番号が付いている
+- 頂点 latexmath:[2N - 1] が根頂点となる
+- 二分木 latexmath:[U] の頂点 latexmath:[v] (latexmath:[1 \le v \le N]) はMST latexmath:[T] 上の頂点 latexmath:[v] と対応しており、二分木 latexmath:[U] の葉となる。
+- MST latexmath:[T] の任意の頂点ペア latexmath:[(u, v)] (latexmath:[1 \le u, v \le N])について、二分木 latexmath:[U] 上の頂点 latexmath:[u] と頂点 latexmath:[v] のLCAとなる頂点の重みは
+  MST latexmath:[T] 上の頂点 latexmath:[u, v] 間のパスに含まれる辺の中の最大の重みになる
 
-この二分木$U$上で二頂点のLCAを求められるようにすることで、MST上のある二頂点を繋ぐパス上の辺の重みの最大値が $O(\log N)$ 等で求められる。
+この二分木 latexmath:[U] 上で二頂点のLCAを求められるようにすることで、MST上のある二頂点を繋ぐパス上の辺の重みの最大値が latexmath:[O(\log N)] 等で求められる。
 
 == 計算量
 
-辺数を$M$ とすると $O(M \log M)$
+辺数を latexmath:[M] とすると latexmath:[O(M \log M)]
 
 == 実装
 

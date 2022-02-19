@@ -4,19 +4,19 @@
 
 Binary Indexed Tree (BIT, Fenwick Tree) は、部分和と要素の更新のクエリを行う木構造である。
 
-配列 $a_1, a_2, ..., a_N$を管理するBITは以下のクエリを1回$O(\log N)$で処理できる。
+配列 latexmath:[a_1, a_2, ..., a_N] を管理するBITは以下のクエリを1回 latexmath:[O(\log N)] で処理できる。
 
-- 部分和 $a_1 + a_2 + ... + a_i$ を求める
-- $a_i$に$x$を加える
+- 部分和 latexmath:[a_1 + a_2 + ... + a_i] を求める
+- latexmath:[a_i] に latexmath:[x] を加える
 
 このBITは、以下の操作が行えるデータ構造とも見なすこともできる
 
-- $a_i$ の値を求める
-- $a_i, a_{i+1}, ..., a_{N}$ に$x$を加える
+- latexmath:[a_i] の値を求める
+- latexmath:[a_i, a_{i+1}, ..., a_{N}] に latexmath:[x] を加える
 
 == 実装(1次元BIT)
 
-$Q$個のクエリを処理する場合の計算量は$O(Q \log N)$
+latexmath:[Q] 個のクエリを処理する場合の計算量は latexmath:[O(Q \log N)]
 
 [source, cpp]
 ----

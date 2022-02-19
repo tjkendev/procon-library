@@ -4,17 +4,17 @@ Lowest Common Ancestor (Tarjan's off-line algorithm)
 
 == 概要
 
-根付き木$T$のある頂点$u, v$について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。
+根付き木 latexmath:[T] のある頂点 latexmath:[u, v] について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。
 
-オフライン処理では深さ優先探索を行いながら各クエリ $(u, v)$ のLCAを求める。
+オフライン処理では深さ優先探索を行いながら各クエリ latexmath:[(u, v)] のLCAを求める。
 
-探索中は、現在の頂点$v$と根頂点間のパス上の各頂点$w$について、(DFSで既に訪れた頂点の中から)頂点$w$が頂点$v$とのLCAとなる頂点$u$の集合を素集合データ構造で管理する。
+探索中は、現在の頂点 latexmath:[v] と根頂点間のパス上の各頂点 latexmath:[w] について、(DFSで既に訪れた頂点の中から)頂点 latexmath:[w] が頂点 latexmath:[v] とのLCAとなる頂点 latexmath:[u] の集合を素集合データ構造で管理する。
 
-そして、各頂点$v$ごとに答える必要のあるクエリ $(u, v)$ に対し LCA $w$ を素集合データ構造から求める。
+そして、各頂点 latexmath:[v] ごとに答える必要のあるクエリ latexmath:[(u, v)] に対し LCA latexmath:[w] を素集合データ構造から求める。
 
 == 実装
 
-計算量は 頂点数 $N$ , クエリ数 $Q$ に対し $O(N \alpha(N) + Q)$ ($\alpha$はアッカーマン関数の逆関数)
+計算量は 頂点数 latexmath:[N] , クエリ数 latexmath:[Q] に対し latexmath:[O(N \alpha(N) + Q)] (latexmath:[\alpha] はアッカーマン関数の逆関数)
 
 [source, python]
 ----

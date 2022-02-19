@@ -11,7 +11,7 @@
 
 == 計算量
 
-$O((|E| + |V|) \log |V|)$
+latexmath:[O((|E| + |V|) \log |V|)]
 
 == 実装
 [source, cpp]

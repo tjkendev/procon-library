@@ -4,21 +4,21 @@ Check if a point is inside a convex polygon
 
 == 概要
 
-凸多角形 $P = (v_1, v_2, ..., v_N)$ に点 $w$ が含まれているかを判定する。
+凸多角形 latexmath:[P = (v_1, v_2, ..., v_N)] に点 latexmath:[w] が含まれているかを判定する。
 
 === 外積による判定
 
 各辺に対し、同じ側に含まれているかを判定する。
 
-具体的には、全ての $1 \le i \le N$ について外積 $(v_{i+1} - v_i) \times (w - v_i)$ が同じ符号(0含む)になるかを確認する。
+具体的には、全ての latexmath:[1 \le i \le N] について外積 latexmath:[(v_{i+1} - v_i) \times (w - v_i)] が同じ符号(0含む)になるかを確認する。
 
-計算量: $O(N)$
+計算量: latexmath:[O(N)]
 
 === 二分探索による判定
 
-凸多角形 $P$ を $v_1v_iv_{i+1}$ ($2 \le i \le N-2$) の $N-2$個の三角形に分割し、点$w$がどの三角形に含まれるかを外積 $(v_i - v_1) \times (w - v_1)$ の符号によって判定しながら二分探索し、包含判定を行う。
+凸多角形 latexmath:[P] を latexmath:[v_1v_iv_{i+1}] (latexmath:[2 \le i \le N-2]) の latexmath:[N-2] 個の三角形に分割し、点 latexmath:[w] がどの三角形に含まれるかを外積 latexmath:[(v_i - v_1) \times (w - v_1)] の符号によって判定しながら二分探索し、包含判定を行う。
 
-計算量: $O(\log N)$
+計算量: latexmath:[O(\log N)]
 
 == 実装
 

@@ -12,10 +12,10 @@ Rank-Pairing Heapではこのtreeをリストとして持ち、decrease-key操�
 
 == 計算量
 
-- find-min: $O(1)$
-- delete-min: ならし $O(\log N)$
-- insert: $O(1)$
-- decrease-key: ならし $O(1)$
+- find-min: latexmath:[O(1)]
+- delete-min: ならし latexmath:[O(\log N)]
+- insert: latexmath:[O(1)]
+- decrease-key: ならし latexmath:[O(1)]
 
 == 実装
 

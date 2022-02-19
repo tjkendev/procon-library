@@ -4,17 +4,17 @@ Matrix Multiplication
 
 == 概要
 
-$N \times N$ の行列 $A$, $B$ について、 $AB = C$ となる $C$ を計算する。
+latexmath:[N \times N] の行列 latexmath:[A], latexmath:[B] について、 latexmath:[AB = C] となる latexmath:[C] を計算する。
 
-行列 $A, B, C$ の$i$行$j$列の要素をそれぞれ $a_{ij}, b_{ij}, c_{ij}$ とする時、
+行列 latexmath:[A, B, C] の latexmath:[i] 行 latexmath:[j] 列の要素をそれぞれ latexmath:[a_{ij}, b_{ij}, c_{ij}] とする時、
 
-$\displaystyle c_{ij} = \sum_{1 \le k \le N} a_{ik} b_{kj}$
+latexmath:[\displaystyle c_{ij} = \sum_{1 \le k \le N} a_{ik} b_{kj}]
 
 で計算される。
 
 == 計算量
 
-$O(N^3)$
+latexmath:[O(N^3)]
 
 == 実装
 

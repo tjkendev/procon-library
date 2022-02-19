@@ -2,14 +2,14 @@
 
 == 概要
 
-有向木$G = (V, E)$に対する最小全域木を求める問題
+有向木 latexmath:[G = (V, E)] に対する最小全域木を求める問題
 
 解説を付けたコード:
 link:https://gist.github.com/tjkendev/231897301fde67d4a81f51c3f0873936[]
 
 == 計算量
 
-$O(|V||E|)$
+latexmath:[O(|V||E|)]
 
 == 実装
 

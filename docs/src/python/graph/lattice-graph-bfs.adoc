@@ -8,9 +8,9 @@ BFS (Breadth First Search) on a lattice graph
 
 == 実装 (正方格子グラフ)
 
-$H \times W$ の 正方格子グラフ (a square lattice graph)
+latexmath:[H \times W] の 正方格子グラフ (a square lattice graph)
 
-計算量は $O(HW)$
+計算量は latexmath:[O(HW)]
 
 [source, python]
 ----

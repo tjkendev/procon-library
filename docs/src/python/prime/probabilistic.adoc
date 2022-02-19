@@ -23,7 +23,7 @@ include::./python/prime/fermat.py[]
 
 ミラーラビン素数判定法 (Miller-Rabin primality test)
 
-異なる $k$ 個の乱数で素数判定を行った場合、誤って素数と判定してしまう確率は $\frac{1}{4^k}$ 以下になる。
+異なる latexmath:[k] 個の乱数で素数判定を行った場合、誤って素数と判定してしまう確率は latexmath:[\frac{1}{4^k}] 以下になる。
 
 [source, python]
 ----

@@ -4,31 +4,31 @@
 
 == 概要
 
-未知の$A$について、
+未知の latexmath:[A] について、
 
-- $A \equiv X_i$ (mod $Y_i$) ($i = 1, 2, ..., N$)
+- latexmath:[A \equiv X_i] (mod latexmath:[Y_i]) (latexmath:[i = 1, 2, ..., N])
 
-となる$X_i$が分かっている時に、
+となる latexmath:[X_i] が分かっている時に、
 
-- $A \equiv X$  (mod $\text{LCM}(Y_1, Y_2, ..., Y_N)$)
+- latexmath:[A \equiv X]  (mod latexmath:[\text{LCM}(Y_1, Y_2, ..., Y_N)])
 
-となる、一意の$X$を計算する。
+となる、一意の latexmath:[X] を計算する。
 
 === 具体的計算
 
-$A \equiv a$ (mod $P$) と $A \equiv b$ (mod $Q$) から $A \equiv c$ (mod LCM($P$, $Q$)) の値を計算する。
+latexmath:[A \equiv a] (mod latexmath:[P]) と latexmath:[A \equiv b] (mod latexmath:[Q]) から latexmath:[A \equiv c] (mod LCM(latexmath:[P], latexmath:[Q])) の値を計算する。
 
-$g = \text{gcd}(P, Q)$ として、
+latexmath:[g = \text{gcd}(P, Q)] として、
 
-$P x + Q y = g$ となる $x, y$ を拡張ユークリッドの互除法で求める。
+latexmath:[P x + Q y = g] となる latexmath:[x, y] を拡張ユークリッドの互除法で求める。
 
-そして、($\displaystyle \frac{Q y}{g} \equiv 1 (\text{mod } \frac{P}{g})$, $\displaystyle \frac{P x}{g} \equiv 1 (\text{mod } \frac{Q}{g}$) が成り立つことを利用して)
+そして、(latexmath:[\displaystyle \frac{Q y}{g} \equiv 1 (\text{mod } \frac{P}{g})], latexmath:[\displaystyle \frac{P x}{g} \equiv 1 (\text{mod } \frac{Q}{g}]) が成り立つことを利用して)
 
-$\displaystyle c = a \frac{Q y}{g} + b \frac{P x}{g}$ (mod LCM($P$, $Q$)) とする。
+latexmath:[\displaystyle c = a \frac{Q y}{g} + b \frac{P x}{g}] (mod LCM(latexmath:[P], latexmath:[Q])) とする。
 
 == 計算量
 
-$\displaystyle O(N \log \max_i(Y_i))$
+latexmath:[\displaystyle O(N \log \max_i(Y_i))]
 
 == 実装
 

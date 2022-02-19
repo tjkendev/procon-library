@@ -4,13 +4,13 @@
 
 乱択アルゴリズムを用いた平衡二分探索木。
 
-サイズ $N$ の(部分)木について、各keyが根になる確率が $\frac{1}{N}$ (= a random binary search tree) になるようにランダムに木の要素を操作する。
+サイズ latexmath:[N] の(部分)木について、各keyが根になる確率が latexmath:[\frac{1}{N}] (= a random binary search tree) になるようにランダムに木の要素を操作する。
 
-この時、高さの期待値が $O(\log N)$ になる。
+この時、高さの期待値が latexmath:[O(\log N)] になる。
 
 == 計算量
 
-各クエリ(期待値) $O(\log N)$
+各クエリ(期待値) latexmath:[O(\log N)]
 
 == 実装
 

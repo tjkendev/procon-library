@@ -10,7 +10,7 @@ DFS-treeからchain decompositionを求め、これをベースに橋と関節�
 
 == 計算量
 
-- $O(|V| + |E|)$
+- latexmath:[O(|V| + |E|)]
 
 == 実装
 

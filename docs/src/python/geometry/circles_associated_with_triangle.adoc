@@ -4,41 +4,41 @@ circumcircle, incircle and excircle of a triangle
 
 == 概要
 
-三点 $\mathbf{p_1}, \mathbf{p_2}, \mathbf{p_3}$ から成る三角形の外接円と内接円、傍接円を求める。
+三点 latexmath:[\mathbf{p_1}, \mathbf{p_2}, \mathbf{p_3}] から成る三角形の外接円と内接円、傍接円を求める。
 
 ここでは、
 
-$\mathbf{p_1} = (x_1, y_1)$, $\mathbf{p_2} = (x_2, y_2)$, $\mathbf{p_3} = (x_3, y_3)$
-$d_1 = \|\mathbf{p_2} - \mathbf{p_3}\|$, $d_2 = \|\mathbf{p_3} - \mathbf{p_1}\|$, $d_3 = \|\mathbf{p_1} - \mathbf{p_2}\|$
+latexmath:[\mathbf{p_1} = (x_1, y_1)], latexmath:[\mathbf{p_2} = (x_2, y_2)], latexmath:[\mathbf{p_3} = (x_3, y_3)]
+latexmath:[d_1 = \|\mathbf{p_2} - \mathbf{p_3}\|], latexmath:[d_2 = \|\mathbf{p_3} - \mathbf{p_1}\|], latexmath:[d_3 = \|\mathbf{p_1} - \mathbf{p_2}\|]
 
 と定義する。
 
 === 外接円 (circumcircle)
 
-各 $i = 1, 2, 3$ の $(x - x_i)^2 + (y - y_i)^2 = r$ から成る連立方程式を計算し、
-外接円の中心 $(x, y)$ (= 外心, circumcenter) と 半径 $r$ を求める。
+各 latexmath:[i = 1, 2, 3] の latexmath:[(x - x_i)^2 + (y - y_i)^2 = r] から成る連立方程式を計算し、
+外接円の中心 latexmath:[(x, y)] (= 外心, circumcenter) と 半径 latexmath:[r] を求める。
 
-1つの式から別の式を引くと以下の方程式になり $x, y$ を求められる。
+1つの式から別の式を引くと以下の方程式になり latexmath:[x, y] を求められる。
 
-$ \displaystyle 2 \left( \begin{array}{cc} x_1 - x_2 & y_1 - y_2 \\ x_1 - x_3 & y_1 - y_3 \end{array} \right) \left( \begin{array}{c} x \\ y \end{array} \right) = \left( \begin{array}{c} (x_1^2 - x_2^2) + (y_1^2 - y_2^2) \\ (x_1^2 - x_3^2) + (y_1^2 - y_3^2) \end{array} \right)$
+latexmath:[ \displaystyle 2 \left( \begin{array}{cc} x_1 - x_2 & y_1 - y_2 \\ x_1 - x_3 & y_1 - y_3 \end{array} \right) \left( \begin{array}{c} x \\ y \end{array} \right) = \left( \begin{array}{c} (x_1^2 - x_2^2) + (y_1^2 - y_2^2) \\ (x_1^2 - x_3^2) + (y_1^2 - y_3^2) \end{array} \right)]
 
 === 内接円 (incircle)
 
-内接円の中心 $(x, y)$ (= 内心, incenter) は以下の式で計算できる。
+内接円の中心 latexmath:[(x, y)] (= 内心, incenter) は以下の式で計算できる。
 
-$\displaystyle \left( \frac{d_1 x_1 + d_2 x_2 + d_3 x_3}{d_1 + d_2 + d_3}, \frac{d_1 y_1 + d_2 y_2 + d_3 y_3}{d_1 + d_2 + d_3} \right)$
+latexmath:[\displaystyle \left( \frac{d_1 x_1 + d_2 x_2 + d_3 x_3}{d_1 + d_2 + d_3}, \frac{d_1 y_1 + d_2 y_2 + d_3 y_3}{d_1 + d_2 + d_3} \right)]
 
-内接円の半径 $r$ は $\displaystyle \frac{2S}{d_1 + d_2 + d_3}$ で求められる。
+内接円の半径 latexmath:[r] は latexmath:[\displaystyle \frac{2S}{d_1 + d_2 + d_3}] で求められる。
 
 === 傍接円 (excircle)
 
-三角形に対する傍接円は3つあるが、ここでは 辺 $\mathbf{p_2}-\mathbf{p_3}$ に対する傍接円を考える。
+三角形に対する傍接円は3つあるが、ここでは 辺 latexmath:[\mathbf{p_2}-\mathbf{p_3}] に対する傍接円を考える。
 
-この傍接円の中心 $(x, y)$ (= 傍心, excenter) は以下の式で計算できる。
+この傍接円の中心 latexmath:[(x, y)] (= 傍心, excenter) は以下の式で計算できる。
 
-$\displaystyle \left( \frac{- d_1 x_1 + d_2 x_2 + d_3 x_3}{- d_1 + d_2 + d_3}, \frac{- d_1 y_1 + d_2 y_2 + d_3 y_3}{- d_1 + d_2 + d_3} \right)$
+latexmath:[\displaystyle \left( \frac{- d_1 x_1 + d_2 x_2 + d_3 x_3}{- d_1 + d_2 + d_3}, \frac{- d_1 y_1 + d_2 y_2 + d_3 y_3}{- d_1 + d_2 + d_3} \right)]
 
-また、この傍接円の半径 $r$ は $\displaystyle \frac{2S}{- d_1 + d_2 + d_3}$ で求められる。
+また、この傍接円の半径 latexmath:[r] は latexmath:[\displaystyle \frac{2S}{- d_1 + d_2 + d_3}] で求められる。
 
 == 実装: 外接円
 

@@ -8,12 +8,12 @@ Merge Sort Tree
 
 その上で、以下のクエリを処理する。
 
-- 区間$[l, r)$ において $a_i \le K$ を満たす要素の数を求める
+- 区間 latexmath:[[l, r)] において latexmath:[a_i \le K] を満たす要素の数を求める
 
 == 計算量
 
-- 前計算: $O(N \log N)$
-- クエリ: 1クエリ $O(\log^2 N)$
+- 前計算: latexmath:[O(N \log N)]
+- クエリ: 1クエリ latexmath:[O(\log^2 N)]
 
 == 実装
 

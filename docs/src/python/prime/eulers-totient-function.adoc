@@ -4,15 +4,15 @@
 
 == 概要
 
-自然数$n$の素因数分解が $n = p_1^{e_1} p_2^{e_2} ... p_k^{e_k}$ ($p_1, ..., p_k$ はそれぞれ異なる素数) と表される時、
+自然数 latexmath:[n] の素因数分解が latexmath:[n = p_1^{e_1} p_2^{e_2} ... p_k^{e_k}] (latexmath:[p_1, ..., p_k] はそれぞれ異なる素数) と表される時、
 
-オイラーのφ関数: $\displaystyle \varphi(n) = n \prod_i \frac{p_i - 1}{p_i}$
+オイラーのφ関数: latexmath:[\displaystyle \varphi(n) = n \prod_i \frac{p_i - 1}{p_i}]
 
 === オイラーの定理・フェルマーの小定理
 
-$a$ と $n$ を互いに素な整数とするとき、 $\displaystyle a^{\varphi(n)} \equiv 1$ (mod $n$) が成り立つ。
+latexmath:[a] と latexmath:[n] を互いに素な整数とするとき、 latexmath:[\displaystyle a^{\varphi(n)} \equiv 1] (mod latexmath:[n]) が成り立つ。
 
-特に $n$ が素数の時は $\varphi(n) = n-1$ から、 $a^{n-1} \equiv 1$ (mod $n$) が成り立つ。 (フェルマーの小定理)
+特に latexmath:[n] が素数の時は latexmath:[\varphi(n) = n-1] から、 latexmath:[a^{n-1} \equiv 1] (mod latexmath:[n]) が成り立つ。 (フェルマーの小定理)
 
 == 実装
 

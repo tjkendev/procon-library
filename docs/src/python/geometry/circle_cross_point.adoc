@@ -2,31 +2,31 @@
 
 == 概要
 
-円1: 中心$(x_1, y_1)$ 半径$r_1$ と 円2: 中心$(x_2, y_2)$ 半径$r_2$ の2つの円について交点を計算する。
+円1: 中心 latexmath:[(x_1, y_1)] 半径 latexmath:[r_1] と 円2: 中心 latexmath:[(x_2, y_2)] 半径 latexmath:[r_2] の2つの円について交点を計算する。
 
-円1と円の交点のうちの1点がなす角$\theta$の $\cos \theta$ と $\sin \theta$ の値を計算し、交点の座標を求める。
+円1と円の交点のうちの1点がなす角 latexmath:[\theta] の latexmath:[\cos \theta] と latexmath:[\sin \theta] の値を計算し、交点の座標を求める。
 
 === 具体的計算
 
-2つの円の中心同士の距離を$r_0$とし、なす角$\theta$を計算
+2つの円の中心同士の距離を latexmath:[r_0] とし、なす角 latexmath:[\theta] を計算
 
-* $\displaystyle \cos \theta = \frac{r_0^2 + r_1^2 - r_2^2}{2 r_0 r_1}$
-* $\displaystyle \sin \theta = \sqrt{1 - \cos^2 \theta} = \frac{\sqrt{4 r_0^2 r_1^2 - (r_0^2 + r_1^2 - r_2^2)^2}}{2 r_0 r_1}$
+* latexmath:[\displaystyle \cos \theta = \frac{r_0^2 + r_1^2 - r_2^2}{2 r_0 r_1}]
+* latexmath:[\displaystyle \sin \theta = \sqrt{1 - \cos^2 \theta} = \frac{\sqrt{4 r_0^2 r_1^2 - (r_0^2 + r_1^2 - r_2^2)^2}}{2 r_0 r_1}]
 
-そして、$d_x = x_2 - x_1$, $d_y = y_2 - y_1$ とすると、2つの交点は、
+そして、 latexmath:[d_x = x_2 - x_1], latexmath:[d_y = y_2 - y_1] とすると、2つの交点は、
 
-* $\displaystyle \left( \begin{array}{c} x_1 \\ y_2 \end{array} \right) + \frac{r_1}{r_0} R(\theta) \left( \begin{array}{c} d_x \\ d_y \end{array} \right)$
-* $\displaystyle \left( \begin{array}{c} x_1 \\ y_2 \end{array} \right) + \frac{r_1}{r_0} R(-\theta) \left( \begin{array}{c} d_x \\ d_y \end{array} \right)$
+* latexmath:[\displaystyle \left( \begin{array}{c} x_1 \\ y_2 \end{array} \right) + \frac{r_1}{r_0} R(\theta) \left( \begin{array}{c} d_x \\ d_y \end{array} \right)]
+* latexmath:[\displaystyle \left( \begin{array}{c} x_1 \\ y_2 \end{array} \right) + \frac{r_1}{r_0} R(-\theta) \left( \begin{array}{c} d_x \\ d_y \end{array} \right)]
 
-で計算できる ($R(\theta)$は$2 \times 2$の回転行列)
+で計算できる (latexmath:[R(\theta)] は latexmath:[2 \times 2] の回転行列)
 
 === 頂点から円への接点の計算
 
-応用で 中心 $(x_1, y_1)$ 半径 $r_1$ に対する、点 $(x_2, y_2)$ から引いた接線がなす接点を計算できる。
+応用で 中心 latexmath:[(x_1, y_1)] 半径 latexmath:[r_1] に対する、点 latexmath:[(x_2, y_2)] から引いた接線がなす接点を計算できる。
 
-2点 $(x_1, y_1)$ と $(x_2, y_2)$ の距離を $r_0$ とする時、
+2点 latexmath:[(x_1, y_1)] と latexmath:[(x_2, y_2)] の距離を latexmath:[r_0] とする時、
 
-この接点は 中心 $(x_1, y_1)$ 半径 $r_1$ と 中心$(x_2, y_2)$ 半径 $\sqrt{r_0^2 - r_1^2}$ の交点を計算することで求まる。
+この接点は 中心 latexmath:[(x_1, y_1)] 半径 latexmath:[r_1] と 中心 latexmath:[(x_2, y_2)] 半径 latexmath:[\sqrt{r_0^2 - r_1^2}] の交点を計算することで求まる。
 
 == 実装
 

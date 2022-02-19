@@ -6,15 +6,15 @@ Range Minimum Query (RMQ)
 
 以下のクエリが処理できるセグメント木の実装
 
-- $a_i$ の値を $x$ に更新
-- $a_l, a_{l+1}, ..., a_{r-1}$ の最小値を求める
+- latexmath:[a_i] の値を latexmath:[x] に更新
+- latexmath:[a_l, a_{l+1}, ..., a_{r-1}] の最小値を求める
 
 セグメント木の最も基本的な形。
 
 == 計算量
 
-- 更新: $O(\log N)$
-- 区間最小値: $O(\log N)$
+- 更新: latexmath:[O(\log N)]
+- 区間最小値: latexmath:[O(\log N)]
 
 == 実装(再起版)
 

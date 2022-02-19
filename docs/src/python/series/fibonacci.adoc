@@ -4,13 +4,13 @@
 
 == 概要
 
-フィボナッチ数列 $a_{i+1} = a_i + a_{i-1}$ ($a_0 = 0$, $a_1 = 1$) について $a_N$ を求める。
+フィボナッチ数列 latexmath:[a_{i+1} = a_i + a_{i-1}] (latexmath:[a_0 = 0], latexmath:[a_1 = 1]) について latexmath:[a_N] を求める。
 
-$a_0, a_1$ から順番に $a_2, a_3, ..., a_N$ を計算することで $O(N)$ で計算できる。
+latexmath:[a_0, a_1] から順番に latexmath:[a_2, a_3, ..., a_N] を計算することで latexmath:[O(N)] で計算できる。
 
-また、 $a_{i+1}, a_i, a_{i-1}$ の関係を行列を用いて以下のように表せるため、行列累乗によって $a_N$ を $O(\log N)$ で計算できる。
+また、 latexmath:[a_{i+1}, a_i, a_{i-1}] の関係を行列を用いて以下のように表せるため、行列累乗によって latexmath:[a_N] を latexmath:[O(\log N)] で計算できる。
 
-$ \displaystyle \left( \begin{array}{c} a_{n+1} \\ a_n \end{array} \right) = \left( \begin{array}{cc} 1 & 1 \\ 1 & 0 \end{array} \right) \left( \begin{array}{c} a_n \\ a_{n-1} \end{array} \right) = \left( \begin{array}{cc} 1 & 1 \\ 1 & 0 \end{array} \right)^n \left( \begin{array}{c} a_1 \\ a_0 \end{array} \right)$
+latexmath:[ \displaystyle \left( \begin{array}{c} a_{n+1} \\ a_n \end{array} \right) = \left( \begin{array}{cc} 1 & 1 \\ 1 & 0 \end{array} \right) \left( \begin{array}{c} a_n \\ a_{n-1} \end{array} \right) = \left( \begin{array}{cc} 1 & 1 \\ 1 & 0 \end{array} \right)^n \left( \begin{array}{c} a_1 \\ a_0 \end{array} \right)]
 
 == 実装
 

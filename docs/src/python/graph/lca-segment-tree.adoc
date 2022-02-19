@@ -2,7 +2,7 @@
 
 == 概要
 
-根付き木$T$のある頂点$u, v$について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。
+根付き木 latexmath:[T] のある頂点 latexmath:[u, v] について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。
 
 セグメント木を使ったアルゴリズムでは、Euler tour techniqueを用いてLCAを計算する。
 
@@ -10,20 +10,20 @@
 
 蟻本ベースfootnote:[プログラミングコンテストチャレンジブック [第2版\] p.295]の説明
 
-DFSでグラフ$T$を根から探索した際の頂点の訪問順を並べた列$S = (v_0, v_1, ..., v_{M-1})$を求め、これをセグメント木に載せる。
-また、頂点$v$の根からの深さ$depth_v$と、頂点$v$がこの列に最初に出現した位置$F_v$も計算しておく。
+DFSでグラフ latexmath:[T] を根から探索した際の頂点の訪問順を並べた列 latexmath:[S = (v_0, v_1, ..., v_{M-1})] を求め、これをセグメント木に載せる。
+また、頂点 latexmath:[v] の根からの深さ latexmath:[depth_v] と、頂点 latexmath:[v] がこの列に最初に出現した位置 latexmath:[F_v] も計算しておく。
 
-セグメント木の$i$番目の要素には、$(depth_{v_i} , v_i)$を持たせておく。
+セグメント木の latexmath:[i] 番目の要素には、 latexmath:[(depth_{v_i} , v_i)] を持たせておく。
 
-頂点$u, v$のLCAの計算では、$\min(F_u, F_v) \le i \le \max(F_u, F_v)$となる$i$の中で、
-$depth_{v_i}$が最小となるような$i$を求め、$v_i$をLCAとする。
+頂点 latexmath:[u, v] のLCAの計算では、 latexmath:[\min(F_u, F_v) \le i \le \max(F_u, F_v)] となる latexmath:[i] の中で、
+latexmath:[depth_{v_i}] が最小となるような latexmath:[i] を求め、 latexmath:[v_i] をLCAとする。
 
-前計算は計算量 $O(N)$ となり、各クエリごとに $O(\log N)$ となる。
+前計算は計算量 latexmath:[O(N)] となり、各クエリごとに latexmath:[O(\log N)] となる。
 
 == 計算量
 
-- 前計算: $O(N)$
-- クエリ処理: $O(\log N)$
+- 前計算: latexmath:[O(N)]
+- クエリ処理: latexmath:[O(\log N)]
 
 == 実装
 

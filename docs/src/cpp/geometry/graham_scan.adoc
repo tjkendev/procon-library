@@ -6,7 +6,7 @@
 
 == 計算量
 
-$O(N \log N)$
+latexmath:[O(N \log N)]
 
 == 実装
 

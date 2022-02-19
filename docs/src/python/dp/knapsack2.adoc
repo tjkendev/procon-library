@@ -6,24 +6,24 @@ Knapsack Problem
 
 以下のような問題
 
-- $N$種類の品物がある
-- $i$番目の品物の価値は$v_i$, 容量は$w_i$, 個数は$c_i$
-- 重さの総和$W$まで入るナップサックに入れる
+- latexmath:[N] 種類の品物がある
+- latexmath:[i] 番目の品物の価値は latexmath:[v_i], 容量は latexmath:[w_i], 個数は latexmath:[c_i]
+- 重さの総和 latexmath:[W] まで入るナップサックに入れる
 - ナップサックに入る品物の価値を最大化する
 
-== 0-1ナップサック問題: $O(N^2 \max_i{v_i})$
+== 0-1ナップサック問題: latexmath:[O(N^2 \max_i{v_i})]
 
 制約の一例は以下
 
 ****
-- $1 \le N \le 100$
-- $1 \le W \le 10^9$
-- $1 \le v_i \le 100$
-- $1 \le w_i \le 10^9$
-- $c_i = 1$
+- latexmath:[1 \le N \le 100]
+- latexmath:[1 \le W \le 10^9]
+- latexmath:[1 \le v_i \le 100]
+- latexmath:[1 \le w_i \le 10^9]
+- latexmath:[c_i = 1]
 ****
 
-各価値$v (\le \sum_i v_i)$の最小の重みを求める
+各価値 latexmath:[v (\le \sum_i v_i)] の最小の重みを求める
 
 [source, python]
 ----
@@ -34,49 +34,49 @@ include::./python/dp/knapsack3-1.py[]
 
 - AOJ: "DPL_1_F: Combinatorial - 0-1 Knapsack Problem II": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812240#1[source] (Python3, 0.58sec)
 
-== 個数制限付きナップサック問題: $O(N^2 \max_i{v_i} \max_i{c_i})$
+== 個数制限付きナップサック問題: latexmath:[O(N^2 \max_i{v_i} \max_i{c_i})]
 
 制約の一例は以下
 
 ****
-- $1 \le N \le 50$
-- $1 \le W \le 10^9$
-- $1 \le v_i \le 50$
-- $1 \le w_i \le 10^9$
-- $1 \le c_i \le 50$
+- latexmath:[1 \le N \le 50]
+- latexmath:[1 \le W \le 10^9]
+- latexmath:[1 \le v_i \le 50]
+- latexmath:[1 \le w_i \le 10^9]
+- latexmath:[1 \le c_i \le 50]
 ****
 
 dequeを用いたSliding Window Minimumを利用する
 
-各価値$v (\le \sum_i v_i \cdot c_i)$の最小の重みを求める
+各価値 latexmath:[v (\le \sum_i v_i \cdot c_i)] の最小の重みを求める
 
 [source, python]
 ----
 include::./python/dp/knapsack4-1.py[]
 ----
-== 個数制限付きナップサック問題: $O(N^2 \max_i{v_i}^2)$
+== 個数制限付きナップサック問題: latexmath:[O(N^2 \max_i{v_i}^2)]
 
 制約の一例は以下
 
 ****
-- $1 \le N \le 50$
-- $1 \le W \le 10^9$
-- $1 \le v_i \le 50$
-- $1 \le w_i \le 10^9$
-- $1 \le c_i \le 10^9$
+- latexmath:[1 \le N \le 50]
+- latexmath:[1 \le W \le 10^9]
+- latexmath:[1 \le v_i \le 50]
+- latexmath:[1 \le w_i \le 10^9]
+- latexmath:[1 \le c_i \le 10^9]
 ****
 
-1. 各品物 $m_i = \min(\max_j v_j, c_i)$ 個に絞った個数制限付きナップサック問題を解く
-    - 各価値$v (\le \sum_i v_i \cdot m_i)$の最小の重みを求める
+1. 各品物 latexmath:[m_i = \min(\max_j v_j, c_i)] 個に絞った個数制限付きナップサック問題を解く
+    - 各価値 latexmath:[v (\le \sum_i v_i \cdot m_i)] の最小の重みを求める
     - dequeを用いたSliding Window Minimumを利用
-    - これらの最小重みを求めるのに全体で $O(N^2 \max_i{v_i}^2)$
-2. (1)で求めた各価値$v$とその最小の重み$w$に対し、$W - w$の容量に品物を貪欲に詰めていく
-    - $\frac{v_i}{w_i}$ (つまり、重み単位に対する価値) が大きい品物から最大$(c_i - m_i)$個を順番に詰める
-    - 貪欲に詰めれた商品の価値の総和 + 価値v が1つの解 (各価値ごとに $O(N)$)
-    - 各$(v, w)$ に対しこれを求め、価値の最大を求める
-    - 全ての価値$v$に対する計算量は $O(N^2 \max_i{v_i}^2)$
+    - これらの最小重みを求めるのに全体で latexmath:[O(N^2 \max_i{v_i}^2)]
+2. (1)で求めた各価値 latexmath:[v] とその最小の重み latexmath:[w] に対し、 latexmath:[W - w] の容量に品物を貪欲に詰めていく
+    - latexmath:[\frac{v_i}{w_i}] (つまり、重み単位に対する価値) が大きい品物から最大 latexmath:[(c_i - m_i)] 個を順番に詰める
+    - 貪欲に詰めれた商品の価値の総和 + 価値v が1つの解 (各価値ごとに latexmath:[O(N)])
+    - 各 latexmath:[(v, w)] に対しこれを求め、価値の最大を求める
+    - 全ての価値 latexmath:[v] に対する計算量は latexmath:[O(N^2 \max_i{v_i}^2)]
 
-全体の計算量は $O(N^2 \max_i{v_i}^2)$
+全体の計算量は latexmath:[O(N^2 \max_i{v_i}^2)]
 
 [source, python]
 ----

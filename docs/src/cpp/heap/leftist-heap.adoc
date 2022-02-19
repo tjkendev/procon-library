@@ -10,10 +10,10 @@ Leftist Heap では (左子ノードの npl) ≥ (右子ノードの npl) とい
 
 == 計算量
 
-- find-min: $O(\log N)$
-- delete-min: $O(\log N)$
-- insert: $O(\log N)$
-- decrease-key: $O(\log N)$
+- find-min: latexmath:[O(\log N)]
+- delete-min: latexmath:[O(\log N)]
+- insert: latexmath:[O(\log N)]
+- decrease-key: latexmath:[O(\log N)]
 
 == 実装
 

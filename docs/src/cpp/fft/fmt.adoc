@@ -6,28 +6,28 @@ Fast Modulo Transform (FMT, 高速剰余変換), Number Theoretical Transform (N
 
 ある程度の解説(ブログ): link:https://smijake3.hatenablog.com/entry/2017/01/04/042136[ATC001 - C問題: 高速フーリエ変換 (FMT解法)]
 
-mod $P$上で $\omega^i \not = 1$ $(0 < i < N)$, $\omega^N = 1$ となるような $\omega, P, N$ を用いて計算する。
-この時、 $P = A \times N + 1$ を満たす。
+mod latexmath:[P] 上で latexmath:[\omega^i \not = 1] latexmath:[(0 < i < N)], latexmath:[\omega^N = 1] となるような latexmath:[\omega, P, N] を用いて計算する。
+この時、 latexmath:[P = A \times N + 1] を満たす。
 
-順変換では $\displaystyle f_k = \sum_{i=0}^{N-1} a_i \omega^{ik}$ (mod $P$) を計算し、
+順変換では latexmath:[\displaystyle f_k = \sum_{i=0}^{N-1} a_i \omega^{ik}] (mod latexmath:[P]) を計算し、
 
-逆変換では $\displaystyle a_i = \frac{1}{N} \sum_{k=0}^{N-1} f_k \omega^{-ik}$ (mod $P$) を計算する。
+逆変換では latexmath:[\displaystyle a_i = \frac{1}{N} \sum_{k=0}^{N-1} f_k \omega^{-ik}] (mod latexmath:[P]) を計算する。
 
-=== 利用できる原始根と$P$
+=== 利用できる原始根と latexmath:[P]
  
 [cols="^.^33,^.^34,^.^33"]
 |===
-|$P$|$P-1$|原始根
-|998244353|$7 \cdot 17 \cdot 2^{23}$|3
-|1004535809|$479 \cdot 2^{21}$|3
-|4253024257|$3 \cdot 13 \cdot 13 \cdot 2^{23}$|23
+|latexmath:[P]|latexmath:[P-1]|原始根
+|998244353|latexmath:[7 \cdot 17 \cdot 2^{23}]|3
+|1004535809|latexmath:[479 \cdot 2^{21}]|3
+|4253024257|latexmath:[3 \cdot 13 \cdot 13 \cdot 2^{23}]|23
 |===
 
-原始根$g$と$P$に対し、$N = 2^k$ で計算する場合、$\omega = g^{(P-1)/N}$とすればよい。
+原始根 latexmath:[g] と latexmath:[P] に対し、 latexmath:[N = 2^k] で計算する場合、 latexmath:[\omega = g^{(P-1)/N}] とすればよい。
 
 == 計算量
 
-$O(N \log N)$
+latexmath:[O(N \log N)]
 
 == 実装
 

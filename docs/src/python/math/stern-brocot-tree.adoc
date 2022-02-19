@@ -7,12 +7,12 @@
 各頂点に有理数が紐づく、無限に続く二分木。
 
 - 各頂点には開区間が紐づく
-- 根頂点は 区間$(0/1, 1/0)$ が紐づく
-- $(a/b, c/d)$ の左右の子頂点は $(a/b, (a+c)/(b+d))$ と $((a+c)/(b+d), c/d)$ が紐づく
+- 根頂点は 区間 latexmath:[(0/1, 1/0)] が紐づく
+- latexmath:[(a/b, c/d)] の左右の子頂点は latexmath:[(a/b, (a+c)/(b+d))] と latexmath:[((a+c)/(b+d), c/d)] が紐づく
 
 == 実装
 
-$a, b, c, d \le n$ を満たす中で $\sqrt{p}$ に最も近い2つの分数 $a/b < \sqrt{p}$ と $ \sqrt{p} < c/d$ を求める。
+latexmath:[a, b, c, d \le n] を満たす中で latexmath:[\sqrt{p}] に最も近い2つの分数 latexmath:[a/b < \sqrt{p}] と latexmath:[ \sqrt{p} < c/d] を求める。
 
 [source, python]
 ----

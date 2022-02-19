@@ -4,11 +4,11 @@ Constructing an Eulerian Path (Hierholzer's Algorithm)
 
 == 概要
 
-有向グラフ $G = (V, E)$ においてオイラー路を構築するアルゴリズム
+有向グラフ latexmath:[G = (V, E)] においてオイラー路を構築するアルゴリズム
 
 == 計算量
 
-$O(|E|)$
+latexmath:[O(|E|)]
 
 == 実装
 

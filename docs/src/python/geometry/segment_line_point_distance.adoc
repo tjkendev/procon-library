@@ -4,15 +4,15 @@
 
 1本の線分と1点の頂点の間の最短距離を求める。
 
-線分S $(x_0, y_0) - (x_1, y_1)$ と 頂点P $(x, y)$ の間の最短距離を求める時、以下のように求める
+線分S latexmath:[(x_0, y_0) - (x_1, y_1)] と 頂点P latexmath:[(x, y)] の間の最短距離を求める時、以下のように求める
 
 - 頂点P から 線分S に垂線が引ける場合は、点と直線の距離を解とする
 - 垂線が引けない場合は、線分Sの端点のうちのどちらかと頂点Pの間の距離を解とする
 
-垂線が引けるかは $\mathbf{a} = (x_1 - x_0, y_1 - y_0)$, $\mathbf{b} = (x - x_0, y - y_0)$ とする時、
-$0 \le \mathbf{a} \cdot \mathbf{b} \le \|\mathbf{a}\|^2$ を満たすことを確認すればよい。
+垂線が引けるかは latexmath:[\mathbf{a} = (x_1 - x_0, y_1 - y_0)], latexmath:[\mathbf{b} = (x - x_0, y - y_0)] とする時、
+latexmath:[0 \le \mathbf{a} \cdot \mathbf{b} \le \|\mathbf{a}\|^2] を満たすことを確認すればよい。
 
-点と直線の距離は $\displaystyle \frac{|\mathbf{a} \times \mathbf{b}|}{\|\mathbf{a}\|}$ で求められる。
+点と直線の距離は latexmath:[\displaystyle \frac{|\mathbf{a} \times \mathbf{b}|}{\|\mathbf{a}\|}] で求められる。
 
 == 実装
 

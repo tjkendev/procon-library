@@ -7,14 +7,14 @@
 単一始点最短経路問題(SSSP)を解くアルゴリズム。
 到達するまでのコストが小さい方からコストを伝搬させていく。
 
-ある頂点について最短距離が更新された際にはinsertの代わりにdecrease keyを行うことで、キュー内の要素数を $|V|$ 個以下に収められる。
+ある頂点について最短距離が更新された際にはinsertの代わりにdecrease keyを行うことで、キュー内の要素数を latexmath:[|V|] 個以下に収められる。
 
-decrease keyの計算量は1回あたり ならし$O(1)$ であるため、辺全体で $O(|E|)$ を達成でき、 +
-delete minは高々 $|V|$ 回で $O(|V| \log |V|)$ になる。
+decrease keyの計算量は1回あたり ならし latexmath:[O(1)] であるため、辺全体で latexmath:[O(|E|)] を達成でき、 +
+delete minは高々 latexmath:[|V|] 回で latexmath:[O(|V| \log |V|)] になる。
 
 == 計算量
 
-$O(|E| + |V| \log |V|)$
+latexmath:[O(|E| + |V| \log |V|)]
 
 == 実装
 

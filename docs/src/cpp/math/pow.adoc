@@ -2,11 +2,11 @@
 
 == 概要
 
-$X^N$ (mod $M$)を高速に計算する。
+latexmath:[X^N] (mod latexmath:[M])を高速に計算する。
 
 == 計算量
 
-$O(\log N)$
+latexmath:[O(\log N)]
 
 == 実装
 

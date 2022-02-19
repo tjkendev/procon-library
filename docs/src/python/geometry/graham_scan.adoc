@@ -8,7 +8,7 @@ Convex Hull (Graham Scan)
 
 == 計算量
 
-$O(N \log N)$
+latexmath:[O(N \log N)]
 
 == 実装
 

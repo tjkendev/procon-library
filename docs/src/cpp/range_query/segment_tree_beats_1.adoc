@@ -6,14 +6,14 @@ Segment tree beats (range minimize/maximize query, rmq, and rsq)
 
 以下のクエリを処理する
 
-- $a_l, a_{l+1}, ..., a_{r-1}$ の各$a_i$について $\min(a_i, x)$ に更新
-- $a_l, a_{l+1}, ..., a_{r-1}$ の最大値を求める
-- $a_l, a_{l+1}, ..., a_{r-1}$ の総和を求める
+- latexmath:[a_l, a_{l+1}, ..., a_{r-1}] の各 latexmath:[a_i] について latexmath:[\min(a_i, x)] に更新
+- latexmath:[a_l, a_{l+1}, ..., a_{r-1}] の最大値を求める
+- latexmath:[a_l, a_{l+1}, ..., a_{r-1}] の総和を求める
 
 == 計算量
 
-- 区間chminクエリ: $N$ 個の要素に対し $Q$ 回のクエリで $O((N+Q) \log N)$ (ならし計算量)
-- 最大値・総和計算: 各クエリ $O(\log N)$
+- 区間chminクエリ: latexmath:[N] 個の要素に対し latexmath:[Q] 回のクエリで latexmath:[O((N+Q) \log N)] (ならし計算量)
+- 最大値・総和計算: 各クエリ latexmath:[O(\log N)]
 
 == 実装
 

@@ -6,43 +6,43 @@ histric maximal value (histric information) on Segment Tree with Lazy Propagatio
 
 以下のクエリが処理できる遅延セグメント木の実装
 
-数列$A = a_1, ..., a_N$ は現在の値、数列$B = b_1, ..., b_N$ は各$a_i$の過去最大値とする。
+数列 latexmath:[A = a_1, ..., a_N] は現在の値、数列 latexmath:[B = b_1, ..., b_N] は各 latexmath:[a_i] の過去最大値とする。
 
-- $a_i$ の値を $a_i + x$ に更新
-- $a_i$ の値を $x$ に更新
-- $a_i$ の値を $\max(a_i, x)$ に更新
-- $a_l, a_{l+1}, ..., a_{r-1}$ の最大値を求める
-- $b_l, b_{l+1}, ..., b_{r-1}$ の最大値を求める
+- latexmath:[a_i] の値を latexmath:[a_i + x] に更新
+- latexmath:[a_i] の値を latexmath:[x] に更新
+- latexmath:[a_i] の値を latexmath:[\max(a_i, x)] に更新
+- latexmath:[a_l, a_{l+1}, ..., a_{r-1}] の最大値を求める
+- latexmath:[b_l, b_{l+1}, ..., b_{r-1}] の最大値を求める
 
 == 実装説明
 
 各ノードのlazy tagとして以下の値を管理することを考える。
 
-- $a_i$ の区間最大値を伝搬するためのlazy tag: $(a, b)$
-- $b_i$ の区間最大値を伝搬するためのlazy tag: $(a_H, b_H)$
+- latexmath:[a_i] の区間最大値を伝搬するためのlazy tag: latexmath:[(a, b)]
+- latexmath:[b_i] の区間最大値を伝搬するためのlazy tag: latexmath:[(a_H, b_H)]
 
-各tagは、$f_{(a, b)}(x) = \max(x+a, b)$、$h_{(a_H, b_H)}(x) = \max(x + a_H, b_H)$ を計算するための関数のパラメータとする。
+各tagは、 latexmath:[f_{(a, b)}(x) = \max(x+a, b)] 、 latexmath:[h_{(a_H, b_H)}(x) = \max(x + a_H, b_H)] を計算するための関数のパラメータとする。
 
-lazy tagの初期値は $(0, -\infty)$ になる。
+lazy tagの初期値は latexmath:[(0, -\infty)] になる。
 各クエリ操作では以下のtagで更新ノードのlazy tagを更新する。
 
-- $a_i$ を $a_i + x$ に更新するtag: $(x, -\infty)$
-- $a_i$ を $x$ に更新するtag: $(-\infty, x)$
-- $a_i$ を $\max(a_i, x)$ に更新するtag: $(0, x)$
+- latexmath:[a_i] を latexmath:[a_i + x] に更新するtag: latexmath:[(x, -\infty)]
+- latexmath:[a_i] を latexmath:[x] に更新するtag: latexmath:[(-\infty, x)]
+- latexmath:[a_i] を latexmath:[\max(a_i, x)] に更新するtag: latexmath:[(0, x)]
 
 
-tag $(c, d)$, $(c_H, d_H)$ の情報を、あるノードのlazy tag $(a, b)$, $(a_H, b_H)$ へマージすることを考える。
+tag latexmath:[(c, d)], latexmath:[(c_H, d_H)] の情報を、あるノードのlazy tag latexmath:[(a, b)], latexmath:[(a_H, b_H)] へマージすることを考える。
 
 この時、ノードが持つtagは以下のように更新できる。
 
-- $(a, b) \leftarrow (a+c, \max(b+c, d))$
-- $(a_H, b_H) \leftarrow (\max(a_H, a+c_H), \max(b_H, b+c_H, d_H))$
+- latexmath:[(a, b) \leftarrow (a+c, \max(b+c, d))]
+- latexmath:[(a_H, b_H) \leftarrow (\max(a_H, a+c_H), \max(b_H, b+c_H, d_H))]
 
-同時に、子ノードの$a_i$の区間最大値$A$ を $f_{(c, d)}(A)$、$b_i$の区間最大値$B$ を $\max(B, h_{(c_H, d_H)}(A))$ に更新する。
+同時に、子ノードの latexmath:[a_i] の区間最大値 latexmath:[A] を latexmath:[f_{(c, d)}(A)] 、 latexmath:[b_i] の区間最大値 latexmath:[B] を latexmath:[\max(B, h_{(c_H, d_H)}(A))] に更新する。
 
 == 計算量
 
-- 各クエリ操作: $O(\log N)$
+- 各クエリ操作: latexmath:[O(\log N)]
 
 == 実装
 

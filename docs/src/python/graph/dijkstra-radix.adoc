@@ -10,7 +10,7 @@ Radix Heapを用いた実装。負辺が含まれないグラフ上で利用可�
 
 == 計算量
 
-コストの最大が$D$とすると $O((|E| + |V|) \log D)$
+コストの最大が latexmath:[D] とすると latexmath:[O((|E| + |V|) \log D)]
 
 == 実装
 [source, python]

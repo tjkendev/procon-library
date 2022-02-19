@@ -4,7 +4,7 @@ Push-Relabel Algorithm, Goldberg-Tarjan Algorithm
 
 == 概要
 
-最大流問題は、有向グラフ$G = (V, E)$の各辺$e \in E$に容量$c(u, v)$がついており、このグラフ上のsourceからsinkへ流せる流量を求める問題である。
+最大流問題は、有向グラフ latexmath:[G = (V, E)] の各辺 latexmath:[e \in E] に容量 latexmath:[c(u, v)] がついており、このグラフ上のsourceからsinkへ流せる流量を求める問題である。
 
 最大フロー最小カット定理が成り立つため、最小カット問題も解くことができる。
 
@@ -22,7 +22,7 @@ FIFO selectionでは、Queueを用いてactiveな頂点を管理する。
 
 == 計算量
 
-$O(|V|^3)$
+latexmath:[O(|V|^3)]
 
 == 実装
 
