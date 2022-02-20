@@ -17,7 +17,7 @@ include::./cpp/max_flow/dinic.cpp[]
 
 === Verified
 
-* AOJ: "2313: Box Witch": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1779017[source] (C++, 0.32sec)
+* AOJ: "2313: Box Witch": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1779017[source] (C++, 0.32sec)
 
 == 参考
 

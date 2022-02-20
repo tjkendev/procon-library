@@ -20,7 +20,7 @@ include::./cpp/graph/dijkstra-radix.cpp[]
 
 === Verified
 
-* AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3826399#1[source] (C++14, 0.11hsec)
+* AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3826399#1[source] (C++14, 0.11hsec)
 
 == 参考
 

@@ -21,7 +21,7 @@ include::./python/geometry/line_convex_polygon_cut.py[]
 
 === Verified
 
-* AOJ: "CGL_4_C: Convex Cut": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4547014[source] (Python3, 0.03sec)
-* AOJ: "2160: Voronoi Island": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4546990[source] (Python3, 0.04sec)
-* AOJ: "2385: Shelter": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4802378#1[source] (Python3, 0.32sec)
-* AOJ: "2626: Gravity Point": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4837015#1[source] (Python3, 0.09sec)
+* AOJ: "CGL_4_C: Convex Cut": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4547014[source] (Python3, 0.03sec)
+* AOJ: "2160: Voronoi Island": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4546990[source] (Python3, 0.04sec)
+* AOJ: "2385: Shelter": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4802378#1[source] (Python3, 0.32sec)
+* AOJ: "2626: Gravity Point": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4837015#1[source] (Python3, 0.09sec)

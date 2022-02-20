@@ -20,7 +20,7 @@ include::./python/graph/scc.py[]
 === Verified
 
 * AtCoder: "AtCoder Regular Contest 030 - C問題: 有向グラフ" link:https://atcoder.jp/contests/arc030/submissions/3914553[source] (Python3, 73ms)
-* AOJ: "2598: Website Tour": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4759001#1[source] (Python3, 29.79sec)
+* AOJ: "2598: Website Tour": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4759001#1[source] (Python3, 29.79sec)
 
 == 参考
 

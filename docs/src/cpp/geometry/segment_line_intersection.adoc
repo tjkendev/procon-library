@@ -14,4 +14,4 @@ include::./cpp/geometry/segment_line_intersection.cpp[]
 
 === Verified
 
-- AOJ: "0214: Autumnal Illumination": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3254860#1[source] (C++11, 0.01sec)
+- AOJ: "0214: Autumnal Illumination": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3254860#1[source] (C++11, 0.01sec)

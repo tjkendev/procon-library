@@ -19,4 +19,4 @@ include::./python/geometry/closest_pair.py[]
 
 === Verified
 
-- AOJ: "CGL_5_A: Point Set - Closest Pair": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1894605#1[source] (Python2, 1.85sec)
+- AOJ: "CGL_5_A: Point Set - Closest Pair": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1894605#1[source] (Python2, 1.85sec)

@@ -23,4 +23,4 @@ include::./python/graph/lca-doubling.py[]
 
 === Verified
 
-* AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3152550#1[source] (Python3, 1.51sec)
+* AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3152550#1[source] (Python3, 1.51sec)

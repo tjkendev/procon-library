@@ -17,7 +17,7 @@ include::./python/other/time-conversion.py[]
 
 === Verified
 
-* AOJ: "0261: Mayan Crucial Prediction": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4195572[source] (Python3, 0.03sec)
+* AOJ: "0261: Mayan Crucial Prediction": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4195572[source] (Python3, 0.03sec)
 
 == 参考
 

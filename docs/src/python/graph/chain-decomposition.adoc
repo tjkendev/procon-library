@@ -21,5 +21,5 @@ include::./python/graph/chain-decomposition.py[]
 
 === Verified
 
-- AOJ: "GRL_3_A: Connected Components - Articulation Points": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3461888#1[source] (Python3, 0.19sec)
-- AOJ: "GRL_3_B: Connected Components - Bridges": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp[source] (Python3, 0.15sec)
+- AOJ: "GRL_3_A: Connected Components - Articulation Points": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3461888#1[source] (Python3, 0.19sec)
+- AOJ: "GRL_3_B: Connected Components - Bridges": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp[source] (Python3, 0.15sec)

@@ -21,7 +21,7 @@ include::./python/geometry/rotating_calipers.py[]
 
 === Verified
 
-- AOJ: "CGL_4_B: Convex Polygon - Diameter of a Convex Polygon": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1894359#1[source] (Python2, 0.35sec)
+- AOJ: "CGL_4_B: Convex Polygon - Diameter of a Convex Polygon": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1894359#1[source] (Python2, 0.35sec)
 
 == 参考
 

@@ -21,7 +21,7 @@ include::./cpp/range_query/kd-tree.cpp[]
 
 === Verified
 
-- AOJ: "DSL_2_C: Range Query - Range Search (kD Tree)": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3232854[source] (C++14, 0.45sec)
+- AOJ: "DSL_2_C: Range Query - Range Search (kD Tree)": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3232854[source] (C++14, 0.45sec)
 - AtCoder: "AtCoder Regular Contest 010 - D問題: 情報伝搬": link:https://beta.atcoder.jp/contests/arc010/submissions/3585181[source] (C++14, 3392ms)
 
 == 参考

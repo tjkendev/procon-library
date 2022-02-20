@@ -49,8 +49,8 @@ include::./python/geometry/triangle_circumcircle.py[]
 
 === Verified
 
-- AOJ: "0010: Circumscribed Circle of a Triangle": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4435495[source] (Python3, 0.02sec)
-- AOJ: "CGL_7_C: Circumscribed Circle of a Triangle": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5106029#1[source] (Python3, 0.02sec)
+- AOJ: "0010: Circumscribed Circle of a Triangle": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4435495[source] (Python3, 0.02sec)
+- AOJ: "CGL_7_C: Circumscribed Circle of a Triangle": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5106029#1[source] (Python3, 0.02sec)
 
 == 実装: 内接円と傍接円
 
@@ -63,7 +63,7 @@ include::./python/geometry/triangle_incircle_excircle.py[]
 
 内接円
 
-- AOJ: "CGL_7_B: Incircle of a Triangle": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5106019#1[source] (Python3, 0.02sec)
+- AOJ: "CGL_7_B: Incircle of a Triangle": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5106019#1[source] (Python3, 0.02sec)
 
 == 参考
 

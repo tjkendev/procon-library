@@ -23,7 +23,7 @@ include::./python/graph/dial.py[]
 
 === Verified
 
-* AOJ: "ALDS1_12_B: Graph I - Single Source Shortest Path I": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3833395#1[source] (Python3, 0.12sec)
+* AOJ: "ALDS1_12_B: Graph I - Single Source Shortest Path I": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3833395#1[source] (Python3, 0.12sec)
 
 == 参考
 

@@ -24,7 +24,7 @@ include::./cpp/heap/leftist-heap.cpp[]
 
 === Verified
 
-- AOJ: "GRL_1_A: Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5162371#1[source] (C++14, 0.15sec)
+- AOJ: "GRL_1_A: Single Source Shortest Path": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5162371#1[source] (C++14, 0.15sec)
 
 == 参考
 

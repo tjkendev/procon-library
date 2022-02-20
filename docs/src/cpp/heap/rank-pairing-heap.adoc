@@ -26,7 +26,7 @@ include::./cpp/heap/rank-pairing-heap.cpp[]
 
 === Verified
 
-- AOJ: "GRL_1_A: Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4994124#1[source] (C++14, 0.29sec)
+- AOJ: "GRL_1_A: Single Source Shortest Path": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4994124#1[source] (C++14, 0.29sec)
 
 == 参考
 

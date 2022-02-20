@@ -31,7 +31,7 @@ include::./python/geometry/circle_line_cross_point.py[]
 
 === Verified
 
-* AOJ: "CGL_7_D: Circles - Cross Points of a Circle and a Line": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416269#1[source] (Python2, 0.01sec)
+* AOJ: "CGL_7_D: Circles - Cross Points of a Circle and a Line": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416269#1[source] (Python2, 0.01sec)
 
 == 実装: 線分と円の交差判定
 
@@ -48,4 +48,4 @@ include::./python/geometry/circle_line_segment_intersection.py[]
 
 === Verified
 
-* AOJ: "0129: Hide-and-Seek Supporting System": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4432301#1[source] (Python3, 0.06sec)
+* AOJ: "0129: Hide-and-Seek Supporting System": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4432301#1[source] (Python3, 0.06sec)

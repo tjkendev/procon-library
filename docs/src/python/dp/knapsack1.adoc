@@ -34,7 +34,7 @@ include::./python/dp/knapsack1-1.py[]
 
 === Verified
 
-- AOJ: "DPL_1_B: Combinatorial - 0-1 Knapsack Problem": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812183#1[source] (Python3, 0.52sec)
+- AOJ: "DPL_1_B: Combinatorial - 0-1 Knapsack Problem": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812183#1[source] (Python3, 0.52sec)
 
 == 個数制限なしナップサック問題: latexmath:[O(NW)]
 
@@ -57,7 +57,7 @@ include::./python/dp/knapsack1-2.py[]
 
 === Verified
 
-- AOJ: "DPL_1_C: Combinatorial - Knapsack Problem": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812191#1[source] (Python3, 0.55sec)
+- AOJ: "DPL_1_C: Combinatorial - Knapsack Problem": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812191#1[source] (Python3, 0.55sec)
 
 == 個数制限付きナップサック問題: latexmath:[O(NW)]
 
@@ -81,7 +81,7 @@ include::./python/dp/knapsack2-1.py[]
 
 === Verified
 
-- AOJ: "DPL_1_G: Combinatorial - Knapsack Problem with Limitations": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812207#1[source] (Python3, 1.46sec)
+- AOJ: "DPL_1_G: Combinatorial - Knapsack Problem with Limitations": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812207#1[source] (Python3, 1.46sec)
 
 == 個数制限付きナップサック問題: latexmath:[O(NW \log \max_i c_i)]
 
@@ -96,4 +96,4 @@ include::./python/dp/knapsack2-2.py[]
 
 === Verified
 
-- AOJ: "DPL_1_G: Combinatorial - Knapsack Problem with Limitations": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3814886#1[source] (Python3, 4.32sec)
+- AOJ: "DPL_1_G: Combinatorial - Knapsack Problem with Limitations": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3814886#1[source] (Python3, 4.32sec)

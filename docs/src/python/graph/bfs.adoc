@@ -20,4 +20,4 @@ include::./python/graph/bfs.py[]
 
 === Verified
 
-* AOJ: "ALDS1_11_C: Graph I - Breadth First Search": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3172927#1[source] (Python3, 0.03sec)
+* AOJ: "ALDS1_11_C: Graph I - Breadth First Search": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3172927#1[source] (Python3, 0.03sec)

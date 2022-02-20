@@ -34,7 +34,7 @@ include::./python/range_query/link-cut-tree.py[]
 
 === Verified
 
-* AOJ: "GRL_5_D: Tree - Range Query on a Tree": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227821#1[source] (Python3, 9.37sec)
+* AOJ: "GRL_5_D: Tree - Range Query on a Tree": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227821#1[source] (Python3, 9.37sec)
 * AtCoder: "2013年 日本情報オリンピック春合宿 4日目: 3 - 宇宙船 (Spaceships)": link:https://beta.atcoder.jp/contests/joisc2013-day4/submissions/3650962[source] (PyPy3, 8114ms)
 
 == その他の実装
@@ -43,7 +43,7 @@ include::./python/range_query/link-cut-tree.py[]
 
 Python3だと高速化するが、PyPy3がPython3よりも遅くなる。
 
-* AOJ: "GRL_5_D: Tree - Range Query on a Tree": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227855#1[source] (Python3, 7.80sec)
+* AOJ: "GRL_5_D: Tree - Range Query on a Tree": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227855#1[source] (Python3, 7.80sec)
 
 == 参考
 

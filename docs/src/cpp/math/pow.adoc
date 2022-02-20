@@ -17,4 +17,4 @@ include::./cpp/math/pow.cpp[]
 
 === Verified
 
-- AOJ: "NTL_1_B: Elementary Number Theory - Power": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3201456#1[source] (C++, 0.00sec)
+- AOJ: "NTL_1_B: Elementary Number Theory - Power": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3201456#1[source] (C++, 0.00sec)

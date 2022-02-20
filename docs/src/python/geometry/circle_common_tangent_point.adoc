@@ -37,7 +37,7 @@ include::./python/geometry/circle_common_tangent_point.py[]
 
 === Verified
 
-- AOJ: "CGL_7_G: Circles - Common Tangent": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416636#1[source] (Python2, 0.01sec)
+- AOJ: "CGL_7_G: Circles - Common Tangent": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416636#1[source] (Python2, 0.01sec)
 
 == 実装(接線上の2点)
 
@@ -48,4 +48,4 @@ include::./python/geometry/circle_common_tangent_line.py[]
 
 === Verified
 
-- AOJ: "2201: Immortal Jewels": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4401736#1[source] (Python3, 6.64sec)
+- AOJ: "2201: Immortal Jewels": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4401736#1[source] (Python3, 6.64sec)

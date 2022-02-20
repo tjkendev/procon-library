@@ -8,7 +8,7 @@
 
 == 実装 (AOJ 0264)
 
-問題: link:http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0264[AOJ 0264: Finite Field Calculator]
+問題: link:https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0264[AOJ 0264: Finite Field Calculator]
 
 あるMOD上で 四則演算 + カッコ が含まれる式を計算する。
 
@@ -19,7 +19,7 @@ include::./python/other/parsing1.py[]
 
 === Verified
 
-* AOJ: "0264: Finite Field Calculator": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4198258#1[source] (Python3, 0.69sec)
+* AOJ: "0264: Finite Field Calculator": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4198258#1[source] (Python3, 0.69sec)
 
 == 参考
 

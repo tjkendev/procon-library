@@ -32,7 +32,7 @@ include::./python/dp/knapsack3-1.py[]
 
 === Verified
 
-- AOJ: "DPL_1_F: Combinatorial - 0-1 Knapsack Problem II": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812240#1[source] (Python3, 0.58sec)
+- AOJ: "DPL_1_F: Combinatorial - 0-1 Knapsack Problem II": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812240#1[source] (Python3, 0.58sec)
 
 == 個数制限付きナップサック問題: latexmath:[O(N^2 \max_i{v_i} \max_i{c_i})]
 
@@ -85,5 +85,5 @@ include::./python/dp/knapsack4-2.py[]
 
 === Verified
 
-- AOJ: "DPL_1_I: Combinatorial - Knapsack Problem with Limitations II": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812336#1[source] (Python3, 3.29sec)
+- AOJ: "DPL_1_I: Combinatorial - Knapsack Problem with Limitations II": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812336#1[source] (Python3, 3.29sec)
 - AtCoder: "AtCoder Regular Contest 096 - F問題: Sweet Alchemy": link:https://atcoder.jp/contests/arc096/submissions/6948625[source] (PyPy3, 484ms)

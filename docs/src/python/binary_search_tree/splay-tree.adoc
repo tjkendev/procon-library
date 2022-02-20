@@ -26,7 +26,7 @@ include::./python/binary_search_tree/splay-tree.py[]
 === Verified
 
 * AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": link:https://beta.atcoder.jp/contests/arc033/submissions/3415755[source] (PyPy3, 1662ms)
-* AOJ: "1508: RMQ": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3264806#1[source] (Python3, 16.38sec)
+* AOJ: "1508: RMQ": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3264806#1[source] (Python3, 16.38sec)
 
 == 参考
 

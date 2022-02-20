@@ -53,5 +53,5 @@ include::./cpp/range_query/hmv_segment_tree_lp.cpp[]
 
 === Verified
 
-* link:http://uoj.ac/problem/164[UOJ: "#164. 【清华集训2015】V"]: link:http://uoj.ac/submission/348754[source] (C++11, 5393ms)
+* link:https://uoj.ac/problem/164[UOJ: "#164. 【清华集训2015】V"]: link:https://uoj.ac/submission/348754[source] (C++11, 5393ms)
 * link:https://www.lydsy.com/JudgeOnline/problem.php?id=3064[BZOJ: "3064: Tyvj 1518 CPU监控"] (C++, 19328ms)

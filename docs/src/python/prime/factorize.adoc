@@ -21,4 +21,4 @@ include::./python/prime/factorize.py[]
 
 === Verified
 
-* AOJ: "NTL_1_A: Elementary Number Theory - Prime Factorize": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3166467#1[source] (Python3, 0.02sec)
+* AOJ: "NTL_1_A: Elementary Number Theory - Prime Factorize": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3166467#1[source] (Python3, 0.02sec)

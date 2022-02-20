@@ -27,5 +27,5 @@ include::./cpp/min_cost_flow/primal-dual_d.cpp[]
 
 ==== Verified
 
-* AOJ: "GRL_6_B: Network Flow - Minimum Cost Flow": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3765044#1[source] (C++14, 0.00sec)
+* AOJ: "GRL_6_B: Network Flow - Minimum Cost Flow": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3765044#1[source] (C++14, 0.00sec)
 * CodeChef: "CodeChef July Challenge 2019: Snake and Apple Tree": link:https://www.codechef.com/viewsolution/25149516[source] (C++14, 0.18sec)

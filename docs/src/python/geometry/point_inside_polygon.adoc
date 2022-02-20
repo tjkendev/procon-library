@@ -37,11 +37,11 @@ include::./python/geometry/point_inside_polygon.py[]
 
 ==== Ray Casting Algorithm
 
-* AOJ: "CGL_3_C: Polygon-Point Containment": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4375020#1[source] (Python3, 0.07sec)
+* AOJ: "CGL_3_C: Polygon-Point Containment": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4375020#1[source] (Python3, 0.07sec)
 
 ==== Winding Number Algorithm
 
-* AOJ: "CGL_3_C: Polygon-Point Containment": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4374688#1[source] (Python3, 0.11sec)
+* AOJ: "CGL_3_C: Polygon-Point Containment": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4374688#1[source] (Python3, 0.11sec)
 
 == 参考
 

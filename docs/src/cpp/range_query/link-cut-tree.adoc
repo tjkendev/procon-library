@@ -32,7 +32,7 @@ include::./cpp/range_query/link-cut-tree.cpp[]
 
 === Verified
 
-* AOJ: "GRL_5_D: Tree - Range Query on a Tree": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227998#1[source] (C++14, 0.28sec)
+* AOJ: "GRL_5_D: Tree - Range Query on a Tree": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227998#1[source] (C++14, 0.28sec)
 
 == 参考
 

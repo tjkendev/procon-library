@@ -32,4 +32,4 @@ include::./python/matrix/matrix-multiplication-logical.py[]
 
 === Verified
 
-- AOJ: "2624: Graph Automata Player": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4886864#1[source] (Python3, 36.71sec)
+- AOJ: "2624: Graph Automata Player": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4886864#1[source] (Python3, 36.71sec)

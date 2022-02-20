@@ -29,7 +29,7 @@ include::./python/max_flow/dinic.py[]
 
 === Verified
 
-* AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185211#1[source] (Python3, 0.03sec)
+* AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185211#1[source] (Python3, 0.03sec)
 * AtCoder: "早稲田大学プログラミングコンテスト2019 - F問題: RPG": link:https://atcoder.jp/contests/wupc2019/submissions/4538991[source] (Python3, 377ms), link:https://atcoder.jp/contests/wupc2019/submissions/4538971[source] (PyPy3, 511ms)
 
 === Verified (旧実装)
@@ -38,4 +38,4 @@ include::./python/max_flow/dinic.py[]
 * AtCoder: "AtCoder Regular Contest 085 - E問題: MUL": link:https://beta.atcoder.jp/contests/arc085/submissions/2451765[source] (Python3, 23ms)
 * AtCoder: "天下一プログラマーコンテスト2015予選A - C問題: 天下一美術館": link:https://beta.atcoder.jp/contests/tenka1-2015-quala/submissions/461107[source] (Python2, 1417ms)
 * AtCoder: "東京工業大学プログラミングコンテスト2015 - L問題: グラフ色ぬり": link:https://beta.atcoder.jp/contests/ttpc2015/submissions/517443[source] (Python2, 74ms)
-* AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2435165#1[source] (Python2, 0.01sec), link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185215#1[source] (Python3, 0.03sec)
+* AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2435165#1[source] (Python2, 0.01sec), link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185215#1[source] (Python3, 0.03sec)

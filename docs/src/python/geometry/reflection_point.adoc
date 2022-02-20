@@ -26,7 +26,7 @@ include::./python/geometry/reflection_point.py[]
 - AOJ: "CGL_1_B: Reflection": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5321148#1[source] (Python3, 0.06sec)
 - AOJ: "2596: Points and Lines": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5321173#1[source] (Python3, 0.03sec)
 - AOJ: "2569: Putter": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5321178#1[source] (Python3, 0.31sec)
-- AOJ: "1171: Laser Beam Reflections": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4860127#1[source] (Python3, 3.51sec)
+- AOJ: "1171: Laser Beam Reflections": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4860127#1[source] (Python3, 3.51sec)
 
 == 参考
 

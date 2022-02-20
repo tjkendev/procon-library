@@ -41,4 +41,4 @@ include::./python/geometry/line_cross_point.py[]
 
 === Verified
 
-- AOJ: "CGL_2_C: Segments/Lines - Cross Point": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4859055#1[source] (Python3, 0.03sec)
+- AOJ: "CGL_2_C: Segments/Lines - Cross Point": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4859055#1[source] (Python3, 0.03sec)

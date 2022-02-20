@@ -21,7 +21,7 @@ include::./python/prime/sieve_of_eratosthenes.py[]
 
 ==== Verified
 
-- AOJ: "0009 - Prime Number": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3151236#1[source] (Python3, 0.55sec)
+- AOJ: "0009 - Prime Number": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3151236#1[source] (Python3, 0.55sec)
 
 == アトキンの篩
 
@@ -40,7 +40,7 @@ include::./python/prime/sieve_of_atkin.py[]
 
 ==== Verified
 
-- AOJ: "0009 - Prime Number": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3152102[source] (Python3, 0.46sec)
+- AOJ: "0009 - Prime Number": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3152102[source] (Python3, 0.46sec)
 
 == 参考
 

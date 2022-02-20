@@ -18,9 +18,9 @@ include::./python/graph/desopo-pape.py[]
 
 === Verified
 
-* AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3770459#1[source] (Python3, 1.51sec)
+* AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3770459#1[source] (Python3, 1.51sec)
 
-* AOJ: "ALDS1_12_C: Graph II - Single Source Shortest Path II": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3770488#1[source] (Python3, 0.58sec)
+* AOJ: "ALDS1_12_C: Graph II - Single Source Shortest Path II": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3770488#1[source] (Python3, 0.58sec)
 
 == 参考
 

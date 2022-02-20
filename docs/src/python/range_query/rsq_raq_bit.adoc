@@ -41,4 +41,4 @@ include::./python/range_query/rsq_raq_bit.py[]
 
 === Verified
 
-* AOJ: "DSL_2_G: Range Query - RSQ and RAQ": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158675#1[source] (Python3, 1.33sec)
+* AOJ: "DSL_2_G: Range Query - RSQ and RAQ": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158675#1[source] (Python3, 1.33sec)

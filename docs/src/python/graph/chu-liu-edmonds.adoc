@@ -20,9 +20,9 @@ include::./python/graph/chu-liu_edmonds.py[]
 
 === Verified
 
-- AOJ: "GRL_2_B - Minimum-Cost Arborescence": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850894#1[source] (Python2, 0.03sec)
-- AOJ: "2309: Vector Compression": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4601069#1[source] (Python3, 0.50sec)
+- AOJ: "GRL_2_B - Minimum-Cost Arborescence": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1850894#1[source] (Python2, 0.03sec)
+- AOJ: "2309: Vector Compression": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4601069#1[source] (Python3, 0.50sec)
 
 == 参考
 
-- link:http://ti2236.hatenablog.com/entry/2012/12/07/175841[Chu-Liu/Edmonds のアルゴリズム - 情報科学と人口知能のノート]
+- link:https://ti2236.hatenablog.com/entry/2012/12/07/175841[Chu-Liu/Edmonds のアルゴリズム - 情報科学と人口知能のノート]

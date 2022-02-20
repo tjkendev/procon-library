@@ -25,4 +25,4 @@ include::./cpp/range_query/rmq_ruq_segment_tree_lp.cpp[]
 
 === Verified
 
-* AOJ: "DSL_2_F: Range Query - RMQ and RUQ": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3321896#1[source] (C++14, 0.13sec)
+* AOJ: "DSL_2_F: Range Query - RMQ and RUQ": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3321896#1[source] (C++14, 0.13sec)

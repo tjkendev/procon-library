@@ -28,7 +28,7 @@ include::./python/string/kmp.py[]
 
 === Verified
 
-* AOJ: "ALDS1_14_B: String Search": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4623918#1[source] (Python3, 0.74sec)
+* AOJ: "ALDS1_14_B: String Search": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4623918#1[source] (Python3, 0.74sec)
 
 == 参考
 

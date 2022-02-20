@@ -26,4 +26,4 @@ include::./python/convex_hull_trick/deque.py[]
 === Verified
 
 * AtCoder: "Educational DP Contest / DP まとめコンテスト - Z問題: Frog 3": link:https://atcoder.jp/contests/dp/submissions/3963838[source] (Python3, 747ms), link:https://atcoder.jp/contests/dp/submissions/3963842[source] (PyPy3, 413ms)
-* AOJ: "2603: TiMe Table": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4925413#1[source] (Python3, 5.30sec)
+* AOJ: "2603: TiMe Table": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4925413#1[source] (Python3, 5.30sec)

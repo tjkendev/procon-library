@@ -30,7 +30,7 @@ latexmath:[N] を latexmath:[K] 個の数に区別なく分割する時の通り
 
 ==== 実装
 
-- AOJ: "DPL_5_L: Probability - Ball and Boxes 12": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176170#1[source] (Python3, 0.38sec)
+- AOJ: "DPL_5_L: Probability - Ball and Boxes 12": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176170#1[source] (Python3, 0.38sec)
 
 [source, python]
 ----
@@ -46,7 +46,7 @@ include::./python/combinatorics/k-partitions_of_n.py[]
 
 ==== 実装
 
-* AOJ: "DPL_5_I: Probability - Ball and Boxes 9": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3175681#1[source] (Python3, 0.55sec)
+* AOJ: "DPL_5_I: Probability - Ball and Boxes 9": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3175681#1[source] (Python3, 0.55sec)
 
 [source, python]
 ----
@@ -62,4 +62,4 @@ include::./python/combinatorics/stirling-number-2.py[]
 == 参考
 
 * link:https://mathtrain.jp/twelveway[写像の個数（写像12相） - 高校数学の美しい物語]
-* link:http://d.hatena.ne.jp/incognita/20110305/1299344781[数学ガール★分割数(partition number)の漸化式と戯れる - incognita et cognita]
+* link:https://incognita.hatenablog.com/entry/20110305/1299344781[数学ガール★分割数(partition number)の漸化式と戯れる - incognita et cognita]

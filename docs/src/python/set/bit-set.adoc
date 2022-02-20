@@ -22,7 +22,7 @@ while v:
 
 === Verified
 
-* AOJ: "ITP2_11_C: Bitset II - Enumeration of Subsets III": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176925#1[source] (Python3, 2.28sec)
+* AOJ: "ITP2_11_C: Bitset II - Enumeration of Subsets III": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176925#1[source] (Python3, 2.28sec)
 
 == サイズ latexmath:[K] の部分集合の列挙
 
@@ -44,4 +44,4 @@ while v < (1 << N):
 
 === Verified
 
-* AOJ: "ITP2_11_D: Bitset II - Enumeration of Combinations": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176932#1[source] (Python3, 0.45sec)
+* AOJ: "ITP2_11_D: Bitset II - Enumeration of Combinations": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176932#1[source] (Python3, 0.45sec)

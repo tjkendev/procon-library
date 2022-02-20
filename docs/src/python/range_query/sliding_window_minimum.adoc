@@ -24,4 +24,4 @@ include::./python/range_query/sliding_window_minimum.py[]
 
 === Verified
 
-* AOJ: "DSL_3_D: Sliding Window - Sliding Minimum Elements": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3161784#1[source] (Python3, 1.77sec)
+* AOJ: "DSL_3_D: Sliding Window - Sliding Minimum Elements": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3161784#1[source] (Python3, 1.77sec)

@@ -40,7 +40,7 @@ include::./cpp/max_flow/push-relabel-highest.cpp[]
 
 === Verified
 
-* AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3842777#1[source] (C++14, 0.00sec)
+* AOJ: "GRL_6_A: Network Flow - Maximum Flow": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3842777#1[source] (C++14, 0.00sec)
 * AtCoder: "早稲田大学プログラミングコンテスト2019 - F問題: RPG": link:https://atcoder.jp/contests/wupc2019/submissions/7298482[source] (C++14, 2ms)
 
 == 参考

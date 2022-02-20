@@ -20,4 +20,4 @@ include::./python/graph/lca-st.py[]
 
 === Verified
 
-* AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3868523#1[source] (Python3, 1.23sec)
+* AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3868523#1[source] (Python3, 1.23sec)

@@ -22,8 +22,8 @@ include::./cpp/graph/articulation_points.cpp[]
 === Verified
 
 - AtCoder: "AtCoder Regular Contest 045 - D問題: みんな仲良し高橋君": link:https://atcoder.jp/contests/arc045/submissions/3930199[source] (C++14, 894ms)
-- AOJ: "GRL_3_A: Connected Components - Articulation Points": link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3324597#1[source] (C++14, 0.02sec)
+- AOJ: "GRL_3_A: Connected Components - Articulation Points": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3324597#1[source] (C++14, 0.02sec)
 
 == 参考
 
-- link:http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3324597#1[AtCoder Regular Contest 045 解説]
+- link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3324597#1[AtCoder Regular Contest 045 解説]
