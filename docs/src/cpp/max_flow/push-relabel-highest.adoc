@@ -10,13 +10,13 @@ Push-Relabel Algorithm, Goldberg-Tarjan Algorithm
 
 === Push-Relabel Algorithm
 
-Push-Relabel Algorithmでは、超過量のフロー(excess flow)を流し、すりきるような感じでsourceからsinkに流す。 +
+Push-Relabel Algorithm では、超過量のフロー(excess flow)を流し、すりきるような感じでsourceからsinkに流す。 +
 このアルゴリズムではactiveな頂点(excess flowを持つ頂点)を選び、以下の二種類の操作を行う。
 
 1. Push操作: capacityが残っている辺を通して、距離ラベルが小さい頂点にexcess flow分を流す
 2. Relabel操作: activeな頂点の距離ラベルを貼り直す
 
-highest selectionでは、距離ラベル分のbucketを用意してラベルが最大の頂点を常に選択してpush, relabelを行う。
+highest selection では、距離ラベル分のbucketを用意してラベルが最大の頂点を常に選択してpush, relabelを行う。
 
 このアルゴリズムはいくつかのヒューリスティックを入れることで高速化できる。
 

@@ -4,7 +4,7 @@
 
 == 概要
 
-latexmath:[N] 個の点、 latexmath:[x_0, x_1, ...,x_{N-1}] に対し、昇順に latexmath:[0, 1, ..., N-1] を割り当てる。
+latexmath:[N] 個の点 latexmath:[x_0, x_1, ...,x_{N-1}] に対し、昇順に latexmath:[0, 1, ..., N-1] を割り当てる。
 
 == 計算量
 

@@ -4,7 +4,7 @@
 
 == 概要
 
-線形漸化式 latexmath:[\displaystyle a_{i+K} = c_0 a_i + c_1 a_{i+1} + ... + c_{i+K-1} a_{i+K-1}] について、 latexmath:[a_N] を求める。
+線形漸化式 latexmath:[\displaystyle a_{i+K} = c_0 a_i + c_1 a_{i+1} + ... + c_{i+K-1} a_{i+K-1}] について latexmath:[a_N] を求める。
 
 解説ブログ: link:https://smijake3.hatenablog.com/entry/2017/01/02/024712[Kitamasa法]
 

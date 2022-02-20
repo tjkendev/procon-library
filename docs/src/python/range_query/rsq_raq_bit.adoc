@@ -16,9 +16,9 @@ Range Sum Query and Range Add Query (RSQ and RAQ)
 latexmath:[P_i = p_1 + ... + p_i], latexmath:[Q_i = q_1 + ... + q_i] として、
 latexmath:[a_1, ..., a_i] の和 latexmath:[S_i] を latexmath:[P_i * i + Q_i] と表すことを考える。
 
-こうすると、 latexmath:[a_l, ..., a_{r-1}] の和は latexmath:[S_{r-1} - S_{l-1}] で計算できる。
+こうすると latexmath:[a_l, ..., a_{r-1}] の和は latexmath:[S_{r-1} - S_{l-1}] で計算できる。
 
-この時、 latexmath:[a_l, ..., a_{r-1}] に latexmath:[x] を加算したい時、以下の演算により更新できる。
+また、 latexmath:[a_l, ..., a_{r-1}] に latexmath:[x] を加算したい時、以下の演算により更新できる。
 
 - latexmath:[q_l \leftarrow q_l - x(l-1)]
 - latexmath:[q_r \leftarrow q_r + x(r-1)]

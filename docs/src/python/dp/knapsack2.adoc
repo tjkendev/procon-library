@@ -70,7 +70,7 @@ include::./python/dp/knapsack4-1.py[]
     - 各価値 latexmath:[v (\le \sum_i v_i \cdot m_i)] の最小の重みを求める
     - dequeを用いたSliding Window Minimumを利用
     - これらの最小重みを求めるのに全体で latexmath:[O(N^2 \max_i{v_i}^2)]
-2. (1)で求めた各価値 latexmath:[v] とその最小の重み latexmath:[w] に対し、 latexmath:[W - w] の容量に品物を貪欲に詰めていく
+2. (1)で求めた各価値 latexmath:[v] とその最小の重み latexmath:[w] に対し latexmath:[W - w] の容量に品物を貪欲に詰めていく
     - latexmath:[\frac{v_i}{w_i}] (つまり、重み単位に対する価値) が大きい品物から最大 latexmath:[(c_i - m_i)] 個を順番に詰める
     - 貪欲に詰めれた商品の価値の総和 + 価値v が1つの解 (各価値ごとに latexmath:[O(N)])
     - 各 latexmath:[(v, w)] に対しこれを求め、価値の最大を求める

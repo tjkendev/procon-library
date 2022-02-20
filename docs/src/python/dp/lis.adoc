@@ -7,13 +7,13 @@
 以下のような問題
 
 - 長さ latexmath:[N] の数列がある
-- latexmath:[a_{i_1} < a_{i_2} < ... < a_{i_k}] となる latexmath:[i_1 < i_2 < ... < i_k] の中で、 latexmath:[k] の最大値を求める
+- latexmath:[a_{i_1} < a_{i_2} < ... < a_{i_k}] となる latexmath:[i_1 < i_2 < ... < i_k] の中で latexmath:[k] の最大値を求める
 
 以下のようなDPを考える。
 
-- latexmath:[dp[k\] := ] 長さkとなるLISの中で、列最後の要素の最小値
+- latexmath:[dp[k\] :=] 長さkとなるLISの中で、列最後の要素の最小値
 
-そして、 latexmath:[dp[j\] < a_i] となる最大のjを二分探索で見つけ、
+そして latexmath:[dp[j\] < a_i] となる最大のjを二分探索で見つけ、
 latexmath:[dp[j+1\] = \min(a_i, dp[j+1\])] で更新していく。
 
 == 計算量

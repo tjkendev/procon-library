@@ -8,7 +8,7 @@ latexmath:[N] 個の latexmath:[X] と latexmath:[K] 個の latexmath:[Y] を1�
 
 カタランの三角形は、この latexmath:[C(N, K)] を項とする number triangle である。
 
-また、 latexmath:[N = K] の場合の数は カタラン数(Catalan numbers) と呼ばれる。
+また latexmath:[N = K] の場合の数は カタラン数(Catalan numbers) と呼ばれる。
 
 latexmath:[C(N, K)] は以下の式で表せる
 

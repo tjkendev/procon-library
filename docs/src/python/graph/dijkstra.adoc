@@ -8,7 +8,7 @@
 
 Pythonでは標準の ``heapq`` モジュールの ``heappush`` と ``heappop`` を使えば実現できる。
 
-``queue``モジュールに``PriorityQueue``が存在するが``heapq``モジュールを使う方が高速。
+``queue`` モジュールに ``PriorityQueue`` が存在するが ``heapq`` モジュールを使う方が高速。
 
 == 計算量
 

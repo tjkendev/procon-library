@@ -4,7 +4,7 @@
 
 平衡二分探索木を用いてConvex Hull Trickを行う。
 
-最小値をとり得る latexmath:[x] が存在する直線 latexmath:[y = ax + b] を傾き降順で管理し、 latexmath:[x = k] で最小値を取る直線を二分探索で求める。
+最小値をとり得る latexmath:[x] が存在する直線 latexmath:[y = ax + b] を傾き降順で管理し latexmath:[x = k] で最小値を取る直線を二分探索で求める。
 
 Pythonには標準で平衡二分探索木がないため、自力で実装する必要がある。(そして平衡二分探索木は処理が重いためつらい)
 
