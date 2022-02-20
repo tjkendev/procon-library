@@ -1,6 +1,14 @@
 # N: クエリ処理する列のサイズ
+N = ...
 
 data = [0]*(N+1)
+
+def init(A):
+    data[1:] = A
+    for i in range(1, N):
+        if i + (i & -i) <= N:
+            data[i + (i & -i)] += data[i]
+
 def add(k, x):
     while k <= N:
         data[k] += x

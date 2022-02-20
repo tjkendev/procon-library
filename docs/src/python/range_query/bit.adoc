@@ -16,6 +16,15 @@ Binary Indexed Tree, BIT, Fenwick Tree
 - latexmath:[a_i] の値を求める
 - latexmath:[a_i, a_{i+1}, ..., a_{N}] に latexmath:[x] を加える
 
+=== BIT の初期化
+
+latexmath:[a_1, a_2, ..., a_N] の初期値が 0 以外の場合を考える。
+
+latexmath:[a_1, a_2, ..., a_k] の和を latexmath:[S_k] と定義する時、以下により latexmath:[O(N)] で初期化できる。
+
+- 各 latexmath:[i = 1, 2, ..., N] について latexmath:[S_k \leftarrow a_k] で初期化
+- latexmath:[i = 1] から latexmath:[N] まで順に latexmath:[S_{i + (i\&-i)} \leftarrow S_i + S_{i + (i\&-i)}] で更新
+
 === 二分探索
 
 latexmath:[a_1 + a_2 + ... + a_i \le x] となる最大の latexmath:[i] は latexmath:[O(\log N)] で計算できる。
