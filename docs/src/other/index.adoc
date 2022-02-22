@@ -4,8 +4,8 @@
 
 == デバッグ
 
-* link:./debug/program-checker.html[プログラムチェッカー]
+* xref:./debug/program-checker.adoc[プログラムチェッカー]
 
 == テストケース
 
-* link:./testcase/graph.html[グラフ]
+* xref:./testcase/graph.adoc[グラフ]

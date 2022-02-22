@@ -4,87 +4,87 @@
 
 == テンプレート
 
-* link:./template/main.html[実装テンプレート]
-* link:./template/fast_io.html[高速I/O処理]
+* xref:./template/main.adoc[実装テンプレート]
+* xref:./template/fast_io.adoc[高速I/O処理]
 
 == 数学
 
-* link:./math/gcd.html[最大公約数 ((拡張)ユークリッドの互除法)]
-* link:./math/pow.html[繰り返し二乗法]
+* xref:./math/gcd.adoc[最大公約数 ((拡張)ユークリッドの互除法)]
+* xref:./math/pow.adoc[繰り返し二乗法]
 
 == 幾何
 
-* link:./geometry/segment_line_intersection.html[線分同士の交差判定]
-* link:./geometry/graham_scan.html[凸包 (Graham Scan)]
-* link:./geometry/compress.html[座標圧縮]
+* xref:./geometry/segment_line_intersection.adoc[線分同士の交差判定]
+* xref:./geometry/graham_scan.adoc[凸包 (Graham Scan)]
+* xref:./geometry/compress.adoc[座標圧縮]
 
 == 集合
 
-* link:./union_find/union_find.html[素集合データ構造 (Union-Find)]
+* xref:./union_find/union_find.adoc[素集合データ構造 (Union-Find)]
 
 == ヒープ
 
-* link:./heap/leftist-heap.html[Leftist Heap]
-* link:./heap/pairing-heap.html[Pairing Heap]
-* link:./heap/rank-pairing-heap.html[Rank-Pairing Heap]
+* xref:./heap/leftist-heap.adoc[Leftist Heap]
+* xref:./heap/pairing-heap.adoc[Pairing Heap]
+* xref:./heap/rank-pairing-heap.adoc[Rank-Pairing Heap]
 
 == 二分木
 
-* link:./binary_search_tree/persistent_RBST.html[永続RBST]
-* link:./binary_search_tree/splay-tree.html[Splay tree]
-* link:./binary_search_tree/red-black-tree.html[Red-Black Tree]
-* link:./binary_search_tree/aa-tree.html[AA Tree]
-* link:./binary_search_tree/ll-red-black-tree.html[Left-Leaning Red-Black Tree]
-* link:./binary_search_tree/avl-tree.html[AVL Tree]
-* link:./binary_search_tree/weak-avl-tree.html[Weak AVL Tree]
+* xref:./binary_search_tree/persistent_RBST.adoc[永続RBST]
+* xref:./binary_search_tree/splay-tree.adoc[Splay tree]
+* xref:./binary_search_tree/red-black-tree.adoc[Red-Black Tree]
+* xref:./binary_search_tree/aa-tree.adoc[AA Tree]
+* xref:./binary_search_tree/ll-red-black-tree.adoc[Left-Leaning Red-Black Tree]
+* xref:./binary_search_tree/avl-tree.adoc[AVL Tree]
+* xref:./binary_search_tree/weak-avl-tree.adoc[Weak AVL Tree]
 
 == 区間クエリ
 
-* link:./range_query/bit.html[Binary Indexed Tree]
-* link:./range_query/rmq_segment_tree.html[Range Minimum Query (セグメント木)]
-* link:./range_query/dynamic_segment_tree.html[Range Sum Query (動的セグメント木)]
-* link:./range_query/rmq_rsq_segment_tree_lp.html[RMQ and RSQ (遅延評価セグメント木)]
-* link:./range_query/rmq_ruq_segment_tree_lp.html[RMQ and RUQ (遅延評価セグメント木)]
-* link:./range_query/hmv_segment_tree_lp.html[histric maximal valueのRMQ (遅延評価セグメント木)]
-* link:./range_query/segment_tree_beats_1.html[区間chminクエリ, RMQ, and RSQ (Segment tree beats)]
-* link:./range_query/segment_tree_beats_2.html[区間chmin/chmaxクエリ, RMQ, RSQ, RAQ, RUQ (Segment tree beats)]
-* link:./range_query/rlaq_li_chao_tree_lp.html[線分追加クエリ, 線分加算クエリ (遅延評価 Li-Chao (Segment) Tree, 動的セグ木)]
-* link:./range_query/rmq_li_chao_tree_lp.html[線分追加クエリ, RAQ, RMQ (遅延評価 Li-Chao (Segment) Tree, 動的セグ木)]
-* link:./range_query/link-cut-tree.html[Link-Cut Tree]
-* link:./range_query/sliding_window_minimum.html[Sliding Window Minimum]
-* link:./convex_hull_trick/li_chao_tree.html[Convex Hull Trick (Li-Chao (Segment) Tree)]
-* link:./convex_hull_trick/li_chao_tree_dynamic.html[Convex Hull Trick (Li-Chao (Segment) Tree, 動的セグ木)]
-* link:./convex_hull_trick/deque.html[Convex Hull Trick (Deque)]
-* link:./range_query/kd-tree.html[kd-tree (2次元)]
+* xref:./range_query/bit.adoc[Binary Indexed Tree]
+* xref:./range_query/rmq_segment_tree.adoc[Range Minimum Query (セグメント木)]
+* xref:./range_query/dynamic_segment_tree.adoc[Range Sum Query (動的セグメント木)]
+* xref:./range_query/rmq_rsq_segment_tree_lp.adoc[RMQ and RSQ (遅延評価セグメント木)]
+* xref:./range_query/rmq_ruq_segment_tree_lp.adoc[RMQ and RUQ (遅延評価セグメント木)]
+* xref:./range_query/hmv_segment_tree_lp.adoc[histric maximal valueのRMQ (遅延評価セグメント木)]
+* xref:./range_query/segment_tree_beats_1.adoc[区間chminクエリ, RMQ, and RSQ (Segment tree beats)]
+* xref:./range_query/segment_tree_beats_2.adoc[区間chmin/chmaxクエリ, RMQ, RSQ, RAQ, RUQ (Segment tree beats)]
+* xref:./range_query/rlaq_li_chao_tree_lp.adoc[線分追加クエリ, 線分加算クエリ (遅延評価 Li-Chao (Segment) Tree, 動的セグ木)]
+* xref:./range_query/rmq_li_chao_tree_lp.adoc[線分追加クエリ, RAQ, RMQ (遅延評価 Li-Chao (Segment) Tree, 動的セグ木)]
+* xref:./range_query/link-cut-tree.adoc[Link-Cut Tree]
+* xref:./range_query/sliding_window_minimum.adoc[Sliding Window Minimum]
+* xref:./convex_hull_trick/li_chao_tree.adoc[Convex Hull Trick (Li-Chao (Segment) Tree)]
+* xref:./convex_hull_trick/li_chao_tree_dynamic.adoc[Convex Hull Trick (Li-Chao (Segment) Tree, 動的セグ木)]
+* xref:./convex_hull_trick/deque.adoc[Convex Hull Trick (Deque)]
+* xref:./range_query/kd-tree.adoc[kd-tree (2次元)]
 
 == グラフ
 
-* link:./graph/dijkstra-binary.html[単一始点最短経路 (ダイクストラ法, 二分ヒープ)]
-* link:./graph/dijkstra-fibonacci.html[単一始点最短経路 (ダイクストラ法, フィボナッチヒープ)]
-* link:./graph/dijkstra-radix.html[単一始点最短経路 (ダイクストラ法, Radix Heap)]
-* link:./graph/scc.html[強連結成分分解 (Kosaraju's Algorithm)]
-* link:./graph/bridge.html[橋検出 (Path-based DFS)]
-* link:./graph/articulation-points.html[関節点検出 (LowLink)]
-* link:./graph/centroid-decomposition.html[重心分解]
-* link:./graph/lca-doubling.html[最小共通祖先 (ダブリング)]
-* link:./graph/auxiliary_tree.html[Auxiliary Tree (LCAベース)]
+* xref:./graph/dijkstra-binary.adoc[単一始点最短経路 (ダイクストラ法, 二分ヒープ)]
+* xref:./graph/dijkstra-fibonacci.adoc[単一始点最短経路 (ダイクストラ法, フィボナッチヒープ)]
+* xref:./graph/dijkstra-radix.adoc[単一始点最短経路 (ダイクストラ法, Radix Heap)]
+* xref:./graph/scc.adoc[強連結成分分解 (Kosaraju's Algorithm)]
+* xref:./graph/bridge.adoc[橋検出 (Path-based DFS)]
+* xref:./graph/articulation-points.adoc[関節点検出 (LowLink)]
+* xref:./graph/centroid-decomposition.adoc[重心分解]
+* xref:./graph/lca-doubling.adoc[最小共通祖先 (ダブリング)]
+* xref:./graph/auxiliary_tree.adoc[Auxiliary Tree (LCAベース)]
 
 == フロー
 
-* link:./max_flow/dinic.html[最大フロー (Dinic's Algorithm)]
-* link:./max_flow/push-relabel-highest.html[最大フロー (Push-Relabel Algorithm, highest selection)]
-* link:./min_cost_flow/primal-dual.html[最小費用流問題 (Primal Dual Algorithm)]
+* xref:./max_flow/dinic.adoc[最大フロー (Dinic's Algorithm)]
+* xref:./max_flow/push-relabel-highest.adoc[最大フロー (Push-Relabel Algorithm, highest selection)]
+* xref:./min_cost_flow/primal-dual.adoc[最小費用流問題 (Primal Dual Algorithm)]
 
 == 行列・数列
 
-* link:./series/kitamasa.html[きたまさ法]
+* xref:./series/kitamasa.adoc[きたまさ法]
 
 == 多項式/高速フーリエ変換
 
-* link:./fft/fmt.html[Fast Modulo Transform]
+* xref:./fft/fmt.adoc[Fast Modulo Transform]
 
 == 文字列
 
-* link:./string/rolling_hash.html[Rolling Hash]
-* link:./string/sa_manber_and_myers.html[Suffix Array (Manber and Myers Algorithm)]
-* link:./string/aho-corasick.html[Aho-Corasick Algorithm]
+* xref:./string/rolling_hash.adoc[Rolling Hash]
+* xref:./string/sa_manber_and_myers.adoc[Suffix Array (Manber and Myers Algorithm)]
+* xref:./string/aho-corasick.adoc[Aho-Corasick Algorithm]
