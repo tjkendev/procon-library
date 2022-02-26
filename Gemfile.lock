@@ -4,9 +4,9 @@ GEM
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     asciidoctor (2.0.17)
-    mini_portile2 (2.7.1)
-    nokogiri (1.13.1)
-      mini_portile2 (~> 2.7.0)
+    mini_portile2 (2.8.0)
+    nokogiri (1.13.2)
+      mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     opengraph_parser (0.2.4)
       addressable
