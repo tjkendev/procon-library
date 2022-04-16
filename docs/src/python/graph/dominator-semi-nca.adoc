@@ -11,7 +11,7 @@ SEMI-NCA では、各頂点 latexmath:[v] の semidominator latexmath:[sdom(v)] 
 各頂点 latexmath:[w] の親頂点 latexmath:[parent(w)] から dominator tree を遡り、 latexmath:[x \le sdom(w)] を満たす初めの頂点 latexmath:[x] を immediate dominator とする。
 
 dominator tree の構築での最悪計算量は latexmath:[O(|V|^2)] になるが、実用的なケースでは高速に動作することが期待できる。 +
-(競プロ的には、人為的に時間がかかるケースが生成される可能性がある)
+(競プロ的には、時間がかかるケースが人為的に生成される可能性がある)
 
 == 計算量
 

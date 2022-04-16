@@ -10,8 +10,8 @@ latexmath:[r] を始点とする有向グラフ latexmath:[G = (V, A, r)] にお
 グラフ latexmath:[G] の DFS Tree latexmath:[T] を構築し latexmath:[T] 上の行きがけ順を求め、そこから semidominator を求める。
 そして、この semidominator を元に各頂点の immediate dominator を求める。
 
-頂点 latexmath:[v] の semidominator latexmath:[sdom(v)] は、 latexmath:[v] への semidominator path が存在する頂点で、 (latexmath:[T] 上の行きがけ順で) 最小となる頂点 latexmath:[u] として定義される。 +
-また、 semidominator path は (latexmath:[G] 上の) path latexmath:[P = (u = v_0, v_1, ..., v_{k-1}, v_k = v)] に対し (latexmath:[T] 上の行きがけ順で) latexmath:[v_i > v \; (1 \le i \le k-1)] を満たす path として定義される。
+ここでは、頂点 latexmath:[v] の semidominator latexmath:[sdom(v)] は、 latexmath:[v] への semidominator path が存在する頂点で、 (latexmath:[T] 上の行きがけ順で) 最小となる頂点 latexmath:[u] として定義する。 +
+また、 semidominator path は (latexmath:[G] 上の) path latexmath:[P = (u = v_0, v_1, ..., v_{k-1}, v_k = v)] に対し (latexmath:[T] 上の行きがけ順で) latexmath:[v_i > v \; (1 \le i \le k-1)] を満たす path として定義する。
 
 == 計算量
 
