@@ -1,0 +1,48 @@
+= Dominator (Lengauer-Tarjan Algorithm)
+
+Finding Dominators in Directed Graphs (Lengauer-Tarjan Algorithm)
+
+== 概要
+
+latexmath:[r] を始点とする有向グラフ latexmath:[G = (V, A, r)] において、各頂点 latexmath:[v] を直近で支配する頂点 (an immediate dominator) を求める。
+始点 latexmath:[r] から頂点 latexmath:[v] に到達する際に必ず頂点 latexmath:[u] を通るとき、頂点 latexmath:[u] は頂点 latexmath:[v] の dominator となる。
+
+グラフ latexmath:[G] の DFS Tree latexmath:[T] を構築し latexmath:[T] 上の行きがけ順を求め、そこから semidominator を求める。
+そして、この semidominator を元に各頂点の immediate dominator を求める。
+
+頂点 latexmath:[v] の semidominator latexmath:[sdom(v)] は、 latexmath:[v] への semidominator path が存在する頂点で、 (latexmath:[T] 上の行きがけ順で) 最小となる頂点 latexmath:[u] として定義される。 +
+また、 semidominator path は (latexmath:[G] 上の) path latexmath:[P = (u = v_0, v_1, ..., v_{k-1}, v_k = v)] に対し (latexmath:[T] 上の行きがけ順で) latexmath:[v_i > v \; (1 \le i \le k-1)] を満たす path として定義される。
+
+== 計算量
+
+latexmath:[N = |V|], latexmath:[M = |A|] とする
+
+- simple version の EVAL-LINK を用いた実装: latexmath:[O(M \log N)]
+- sophisticated version の EVAL-LINK を用いた実装: latexmath:[O(M \alpha(M, N))] (latexmath:[\alpha] はアッカーマン関数の逆数)
+
+== 実装 (simple version の EVAL-LINK)
+
+[source, python]
+----
+include::./python/graph/dominator-lengauer-tarjan-simple.py[]
+----
+
+=== Verified
+
+* AOJ: "0294: Catch a Thief": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=6493050#1[source] (Python3, 1.31sec)
+
+== 実装 (sophisticated version の EVAL-LINK)
+
+[source, python]
+----
+include::./python/graph/dominator-lengauer-tarjan-sophisticated.py[]
+----
+
+=== Verified
+
+* AOJ: "0294: Catch a Theif": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=6493100#1[source] (Python3, 1.26sec)
+
+== 参考
+
+* Lengauer, Thomas, and Robert Endre Tarjan. "A fast algorithm for finding dominators in a flowgraph." ACM Transactions on Programming Languages and Systems (TOPLAS) 1.1 (1979): 121-141.
+* Georgiadis, Loukas, Robert E. Tarjan, and Renato F. Werneck. "Finding dominators in practice." Journal of Graph Algorithms and Applications 10.1 (2006): 69-94.

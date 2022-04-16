@@ -119,6 +119,8 @@ Python3で実装しています。
 * xref:./graph/bridge.adoc[橋検出 (Path-based DFS)]
 * xref:./graph/articulation-points.adoc[関節点検出 (LowLink)]
 * xref:./graph/chain-decomposition.adoc[橋検出と関節点検出 (chain decomposition)]
+* xref:./graph/dominator-lengauer-tarjan.adoc[Dominator (Lengauer-Tarjan Algorithm)]
+* xref:./graph/dominator-semi-nca.adoc[Dominator (SEMI-NCA Algorithm)]
 * xref:./graph/min_st_kruskal.adoc[最小全域木 (クラスカル法)]
 * xref:./graph/min_st_prim.adoc[最小全域木 (プリム法)]
 * xref:./graph/binarization-mst.adoc[最小全域木の二分木変換]
