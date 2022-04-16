@@ -6,7 +6,7 @@ Finding Dominators in Directed Graphs (SEMI-NCA Algorithm)
 
 latexmath:[r] を始点とする有向グラフ latexmath:[G = (V, A, r)] において、各頂点 latexmath:[v] を直近で支配する頂点 (an immediate dominator) を求める。
 
-SEMI-NCA では、各頂点 latexmath:[v] の semidominator latexmath:[sdom(v)] し、計算した semidominator を元に徐々に dominator tree を構築する。
+SEMI-NCA では、各頂点 latexmath:[v] の semidominator latexmath:[sdom(v)] を求め、この semidominator を元に徐々に dominator tree を構築する。
 
 各頂点 latexmath:[w] の親頂点 latexmath:[parent(w)] から dominator tree を遡り、 latexmath:[x \le sdom(w)] を満たす初めの頂点 latexmath:[x] を immediate dominator とする。
 
