@@ -65,6 +65,8 @@
 * xref:./graph/scc.adoc[強連結成分分解 (Kosaraju's Algorithm)]
 * xref:./graph/bridge.adoc[橋検出 (Path-based DFS)]
 * xref:./graph/articulation-points.adoc[関節点検出 (LowLink)]
+* xref:./graph/dominator-lengauer-tarjan.adoc[Dominator (Lengauer-Tarjan Algorithm)]
+* xref:./graph/dominator-semi-nca.adoc[Dominator (SEMI-NCA Algorithm)]
 * xref:./graph/centroid-decomposition.adoc[重心分解]
 * xref:./graph/lca-doubling.adoc[最小共通祖先 (ダブリング)]
 * xref:./graph/auxiliary_tree.adoc[Auxiliary Tree (LCAベース)]
