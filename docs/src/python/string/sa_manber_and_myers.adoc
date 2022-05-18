@@ -2,7 +2,21 @@
 
 == 概要
 
-ダブリングしながら、Suffix Arrayを計算する。
+ダブリングしながら Suffix Array を計算する。
+
+=== Suffix Array の構築
+
+文字列 latexmath:[S] について、 latexmath:[i = 0 ... |S|-1] の接尾辞 `S[i:]` を辞書順に並べた配列を求める
+
+- `rank[i]`: 接尾辞 `S[i:]` の辞書順上での順序を持つ
+- `sa[i]`: 辞書順の latexmath:[i] 番目の接尾辞 `S[k:]` を表す latexmath:[k] を持つ
+- `rank[sa[i]] = i` を満たす
+
+=== LCP Array の構築
+
+Suffix Array 上で隣接する接尾辞の最長共通接尾辞 (LCP, Longest Common Prefix) の長さを計算する
+
+- `lcp[i]`: 2つの接尾辞 `S[sa[i]:]` と `S[sa[i+1]:]` の最長共通接頭辞の長さを表す
 
 == 計算量
 
