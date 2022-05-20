@@ -8,14 +8,20 @@ SA-IS (Suffix Array - Induced Sorting)
 
 == 実装
 
-Suffix Arrayとして早いはずだけど、実装が重いのか遅い...
-
-簡単なコメント付き版: https://gist.github.com/tjkendev/99d7330fe5642004b68268b31ba38ad4
-
 [source, python]
 ----
 include::./python/string/sa_sa-is.py[]
 ----
+
+=== Verified
+
+- AOJ: "ALDS1_14_D: Multiple String Matching": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=6632266#1[source] (Python3, 4.83sec)
+
+== 旧実装
+
+Python2 向け実装版
+
+簡単なコメント付き版: https://gist.github.com/tjkendev/99d7330fe5642004b68268b31ba38ad4
 
 === Verified
 

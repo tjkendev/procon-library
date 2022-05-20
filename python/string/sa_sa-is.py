@@ -1,89 +1,85 @@
-# SA-IS (O(nlogn))
-# usage: SAIS(*chr_compression(<string>))
 
-# 文字コード値に0, 1, 2, ...の値に振り直す
-def chr_compression(s):
+from collections import Counter
+
+# SA-IS (O(nlogn))
+# s: 文字列
+def sais(s):
     uniq = list(set(s))
     uniq.sort()
-    return map({e: i+1 for i, e in enumerate(uniq)}.__getitem__, s), len(uniq)
-
-# 返り値はSuffix Array
-from collections import Counter
-def SAIS(lst, num):
-    l = len(lst)
-    if l<2: return lst+[0]
+    return sais_rec(list(map({e: i+1 for i, e in enumerate(uniq)}.__getitem__, s)), len(uniq))
+def sais_rec(lst, num):
+    L = len(lst)
+    if L < 2:
+        return lst + [0]
     lst = lst + [0]
-    l += 1
-    res = [None] * l
-    t = [1] * l
-    for i in range(l-2, -1, -1):
-        t[i] = 1 if lst[i]<lst[i+1] or (lst[i]==lst[i+1] and t[i+1]) else 0
-    isLMS = [t[i-1]<t[i] for i in range(l)]
-    LMS = [i for i in range(1, l) if t[i-1]<t[i]]
+    L += 1
+    res = [-1] * L
+    t = [1] * L
+    for i in range(L-2, -1, -1):
+        t[i] = 1 if (lst[i] < lst[i+1] or (lst[i] == lst[i+1] and t[i+1])) else 0
+    isLMS = [t[i-1] < t[i] for i in range(L)]
+    LMS = [i for i in range(1, L) if t[i-1] < t[i]]
     LMSn = len(LMS)
 
-    cbase = Counter(lst)
-    count = cbase.copy()
+    count = Counter(lst)
     tmp = 0
-    cstart = [0]*(num+1); cend = [0]*(num+1)
+    cstart = [0]*(num+1)
+    cend = [0]*(num+1)
     for key in range(num+1):
         cstart[key] = tmp
-        count[key] += tmp
-        cend[key] = tmp = count[key]
+        cend[key] = tmp = tmp + count[key]
 
+    cc_it = [iter(range(e-1, s-1, -1)) for s, e in zip(cstart, cend)]
     for e in reversed(LMS):
-        count[lst[e]] -= 1
-        res[count[lst[e]]] = e
+        res[next(cc_it[lst[e]])] = e
 
+    cs_it = [iter(range(s, e)) for s, e in zip(cstart, cend)]
+    ce_it = [iter(range(e-1, s-1, -1)) for s, e in zip(cstart, cend)]
     for e in res:
-        if e>0 and not t[e-1]:
-            res[cstart[lst[e-1]]] = e-1
-            cstart[lst[e-1]] += 1
+        if e > 0 and not t[e-1]:
+            res[next(cs_it[lst[e-1]])] = e-1
     for e in reversed(res):
-        if e>0 and t[e-1]:
-            cend[lst[e-1]] -= 1
-            res[cend[lst[e-1]]] = e-1
+        if e > 0 and t[e-1]:
+            res[next(ce_it[lst[e-1]])] = e-1
 
     name = 0; prev = -1
     pLMS = {}
     for e in res:
         if isLMS[e]:
-            for i in range(l):
-                if prev==-1 or lst[e+i]!=lst[prev+i]:
-                    name += 1; prev = e
-                    break
-                elif i and (isLMS[e+i] or isLMS[prev+i]): break
+            if prev == -1 or lst[e] != lst[prev]:
+                name += 1; prev = e
+            else:
+                for i in range(1, L):
+                    if lst[e+i] != lst[prev+i]:
+                        name += 1; prev = e
+                        break
+                    if isLMS[e+i] or isLMS[prev+i]:
+                        break
             pLMS[e] = name-1
 
     if name < LMSn:
-        sublst = [pLMS[e] for e in LMS if e<l-1]
-        ret = SAIS(sublst, name-1)
+        sublst = [pLMS[e] for e in LMS if e < L-1]
+        ret = sais_rec(sublst, name-1)
 
-        LMS = map(LMS.__getitem__, reversed(ret))
+        LMS = list(map(LMS.__getitem__, reversed(ret)))
     else:
         LMS = [e for e in reversed(res) if isLMS[e]]
 
-    res = [None]*l
-    count = cbase
-    tmp = 0
-    for key in range(num+1):
-        cstart[key] = tmp
-        count[key] += tmp
-        cend[key] = tmp = count[key]
+    res = [-1] * L
 
+    cc_it = [iter(range(e-1, s-1, -1)) for s, e in zip(cstart, cend)]
     for e in LMS:
-        count[lst[e]] -= 1
-        res[count[lst[e]]] = e
+        res[next(cc_it[lst[e]])] = e
+
+    cs_it = [iter(range(s, e)) for s, e in zip(cstart, cend)]
+    ce_it = [iter(range(e-1, s-1, -1)) for s, e in zip(cstart, cend)]
 
     for e in res:
-        if e and not t[e-1]:
-            res[cstart[lst[e-1]]] = e-1
-            cstart[lst[e-1]] += 1
+        if e > 0 and not t[e-1]:
+            res[next(cs_it[lst[e-1]])] = e-1
     for e in reversed(res):
-        if e and t[e-1]:
-            cend[lst[e-1]] -= 1
-            res[cend[lst[e-1]]] = e-1
-
+        if e > 0 and t[e-1]:
+            res[next(ce_it[lst[e-1]])] = e-1
     return res
 
 # Longest Common Prefix
