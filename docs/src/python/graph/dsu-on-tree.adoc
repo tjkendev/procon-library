@@ -1,0 +1,31 @@
+= dsu on tree
+
+== 概要
+
+根付き木において、各頂点に対し、その頂点を根とする部分木に関する特性を求めるためのテクニック
+
+== 計算量
+
+木の頂点数を latexmath:[N] とする。
+
+特性を計算するためのデータ構造への1頂点の追加に latexmath:[O(A)], 1頂点の削除に latexmath:[O(B)] 、1頂点の取得に latexmath:[O(C)] かかる場合
+
+latexmath:[O(N (A + B) \log N + NC)]
+
+== 実装
+
+[source, python]
+----
+include::./python/graph/dsu-on-tree.py[]
+----
+
+=== Verified
+
+* AOJ: "2995 - Colorful Tree": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=6981311#1[source] (Python3, 2.74sec)
+* Codeforces: "600E: Lomsat gelral": link:https://codeforces.com/contest/600/submission/173071288[source] (Python3, 1559ms)
+* Codeforces: "246E: Blood Cousins Return": link:https://codeforces.com/contest/246/submission/173310023[source] (Python3, 2870ms)
+* Codeforces: "375D: Tree and Queries": link:https://codeforces.com/contest/375/submission/173324222[source] (PyPy3, 920ms)
+
+== 参考
+
+* link:https://codeforces.com/blog/entry/44351[[Tutorial\] Sack (dsu on tree) - Codeforces]

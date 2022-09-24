@@ -138,6 +138,7 @@ Python3で実装しています。
 * xref:./graph/bron-kerbosch.adoc[最大クリーク問題 (Bron-Kerbosch Algorithm)]
 * xref:./graph/stoer-wagner-algorithm.adoc[全域最小カット (Stoer-Wagner Algorithm)]
 * xref:./graph/edmonds-blossom.adoc[最大マッチング (Edmonds' Algorithm)]
+* xref:./graph/dsu-on-tree.adoc[dsu on tree]
 
 == フロー
 
