@@ -27,3 +27,16 @@ include::./python/fft/fmt.py[]
 === Verified
 
 * AtCoder: "AtCoder Typical Contest 001 - C問題: 高速フーリエ変換": link:https://atc001.contest.atcoder.jp/submissions/1051733[source] (Python2, 3704ms)
+
+== 実装 (2次元)
+
+計算量は latexmath:[O(N^2 \log N)]
+
+[source, python]
+----
+include::./python/fft/fmt-2d.py[]
+----
+
+=== Verified
+
+* AOJ: "2977 - Bombing": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=6993182#1[source] (Python3, 5.11sec)

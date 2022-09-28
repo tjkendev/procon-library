@@ -47,7 +47,7 @@ def fmt(f, l, Q=P):
     A = f[:]
     # bit反転
     bit_reverse(A)
-    return fmt_bu(A, n, omega, pow(omega, n/2, Q), Q)
+    return fmt_bu(A, n, omega, pow(omega, n//2, Q), Q)
 
 # FMTの逆変換
 def ifmt(F, l, Q=P):
@@ -56,7 +56,7 @@ def ifmt(F, l, Q=P):
     # bit反転
     bit_reverse(A)
     # 逆変換なので、ωの代わりにω^{-1}を渡す
-    f = fmt_bu(A, n, rev, pow(rev, n/2, Q), Q)
+    f = fmt_bu(A, n, rev, pow(rev, n//2, Q), Q)
     # Nで割って返す
     n_rev = pow(n, Q-2, Q)
     return [(e * n_rev) % Q for e in f]

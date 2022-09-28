@@ -8,7 +8,7 @@
 
 木の頂点数を latexmath:[N] とする。
 
-特性を計算するためのデータ構造への1頂点の追加に latexmath:[O(A)], 1頂点の削除に latexmath:[O(B)] 、1頂点の取得に latexmath:[O(C)] かかる場合
+特性を計算するためのデータ構造への1頂点の追加に latexmath:[O(A)], 1頂点の削除に latexmath:[O(B)] 、1頂点ごとにクエリ処理に latexmath:[O(C)] かかる場合
 
 latexmath:[O(N (A + B) \log N + NC)]
 
