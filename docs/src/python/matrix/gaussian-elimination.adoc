@@ -12,6 +12,17 @@
 
 latexmath:[O(N^3)]
 
+== 実装
+
+[source, python]
+----
+include::./python/matrix/gaussian-elimination.py[]
+----
+
+=== Verified
+
+- AOJ: "1232: Super Star": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=7057998#1[source] (Python3, 7.62sec)
+
 == 実装 (logical matrix)
 
 [source, python]
