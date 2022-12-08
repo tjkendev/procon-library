@@ -5,14 +5,14 @@ GEM
       public_suffix (>= 2.0.2, < 6.0)
     asciidoctor (2.0.17)
     mini_portile2 (2.8.0)
-    nokogiri (1.13.9)
+    nokogiri (1.13.10)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     opengraph_parser (0.2.5)
       addressable
       nokogiri
     public_suffix (5.0.0)
-    racc (1.6.0)
+    racc (1.6.1)
 
 PLATFORMS
   ruby
