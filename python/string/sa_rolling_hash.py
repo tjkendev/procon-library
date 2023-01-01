@@ -3,6 +3,8 @@
 # S: 文字列
 # *** 出力
 # sa[i]: SuffixArray
+S = ...
+N = len(S)
 
 import functools
 

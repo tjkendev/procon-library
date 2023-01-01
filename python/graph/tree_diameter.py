@@ -1,6 +1,8 @@
 # N: 木Tの頂点数
 # G[u] = [(w, c), ...]:
 #   頂点uに隣接する頂点wとそれを繋ぐ辺の長さc
+N = ...
+G = [[...] for i in range(N)]
 
 from collections import deque
 def bfs(s):

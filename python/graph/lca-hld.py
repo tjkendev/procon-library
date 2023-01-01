@@ -2,6 +2,8 @@
 # G[v]: 頂点vの子頂点 (親頂点は含まない)
 
 from collections import deque
+N = ...
+G = [[...] for i in range(N)]
 
 # === HLD計算処理
 # 各頂点の、heavy-pathで繋ぐ1つの子頂点を決定

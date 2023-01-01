@@ -1,5 +1,8 @@
+# N: 頂点数
 # G[v] = [w, ...]
 #     グラフG上で頂点vが隣接する辺集合
+N = ...
+G = [[...] for i in range(N)]
 
 from heapq import heappush, heappop, heapify
 used = [0]*N

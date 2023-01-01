@@ -1,6 +1,7 @@
-N = ... # 頂点数
-G = ... # 木
-
+# N: 頂点数
+# G[v]: 頂点vの子頂点
+N = ...
+G = [[...] for i in range(N)]
 
 # Euler Tour Technique
 S = []

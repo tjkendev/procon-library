@@ -3,8 +3,10 @@
 # L: 最小値を調べる長さ
 
 from collections import deque
+A = [...]
+L = ...
+
 ans = []
- 
 que = deque()
 for i, a in enumerate(A):
     while que and a <= que[-1][1]:

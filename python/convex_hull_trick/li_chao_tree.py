@@ -1,4 +1,5 @@
 # Li Chao Tree
+M = ...
 
 N0 = 2**(M-1).bit_length()
 data = [None]*(2*N0+1)

@@ -49,6 +49,9 @@ class SuffixArray:
 # query(a, b): S[a:] と S[b:] の最長共通接頭語(LCP)の長さを求める
 # S = (文字列)
 # N = len(S)
+S = ...
+N = len(S)
+
 SA = SuffixArray(S)
 sa = SA.suffix()
 lcp = SA.lcp()

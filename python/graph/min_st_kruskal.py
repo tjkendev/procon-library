@@ -1,5 +1,8 @@
+# N: 頂点数
 # E = [(cost, v, w), ...]
 #   G上の全ての辺(v, w)とそのcostを含むlist
+N = ...
+E = [...]
 
 # Union-Findを使うことで頂点間の連結判定を行う
 *p, = range(N)

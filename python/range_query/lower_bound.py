@@ -47,5 +47,6 @@ def lower_bound(v):
     return E[k - (L0 - 1)]
 # 含有判定: O(1)
 def contain(v):
+    k = mp[v]
     r = data[k + L0 - 1]
     return r and r[1] > 0

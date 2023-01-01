@@ -1,5 +1,7 @@
 # N: 頂点数
 # G[v]: 頂点vの子頂点 (親頂点は含まない)
+N = ...
+G = [[...] for i in range(N)]
 
 # Euler Tour Technique
 S = []
