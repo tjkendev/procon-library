@@ -23,4 +23,8 @@ def manacher(S):
             R[i+k] = R[i-k]
             k += 1
         i += k; j -= k
+
+    for i in range(L):
+        if i & 1 == R[i] & 1:
+            R[i] -= 1
     return R

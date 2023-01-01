@@ -48,4 +48,5 @@ include::./python/min_cost_flow/primal-dual_d.py[]
 
 * AOJ: "GRL_6_B: Network Flow - Minimum Cost Flow": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3174869#1[source] (Python3, 0.04sec)
 * AOJ: "2293: Dangerous Tower": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4553262#1[source] (Python3, 6.95sec)
+* AOJ: "2230: How to Create a Good Game": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=7184757#1[source] (Python3, 0.84sec)
 * AOJ: "2724: Laser Cutter": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4820765#1[source] (Python3, 11.99sec)

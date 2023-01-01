@@ -16,6 +16,7 @@ include::./python/string/sa_sa-is.py[]
 === Verified
 
 - AOJ: "ALDS1_14_D: Multiple String Matching": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=6632266#1[source] (Python3, 4.83sec)
+* AOJ: "2292 - Common Palindromes": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=7242764#1[source] (Python3, 1.65sec)
 
 == 旧実装
 

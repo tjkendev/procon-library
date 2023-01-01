@@ -21,7 +21,8 @@ include::./python/string/manacher.py[]
 
 === Verified
 
-* AtCoder: "早稲田大学プログラミングコンテスト2019 - E問題: Artist": link:https://atcoder.jp/contests/wupc2019/submissions/4541727[source] (Python3,  232ms)
+* AtCoder: "早稲田大学プログラミングコンテスト2019 - E問題: Artist": link:https://atcoder.jp/contests/wupc2019/submissions/4541727[source] (Python3, 232ms)
+* AOJ: "2292 - Common Palindromes": link:https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=7242764#1[source] (Python3, 1.65sec)
 
 == 参考
 
