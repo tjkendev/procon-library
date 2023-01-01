@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>最大二部マッチング (Hopcroft-Karp Algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="最大二部マッチング (maximum bipartite matching) 概要 最大二部マッチングは、二部グラフ \(G = (V, E)\) 上で各辺の容量が1の、最大マッチングを求める問題で...">
+<meta property="og:title" content="最大二部マッチング (Hopcroft-Karp Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="最大二部マッチング (Hopcroft-Karp Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/max_flow/hopcroft-karp.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/max_flow/hopcroft-karp.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>最大二部マッチング (Hopcroft-Karp Algorithm)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>最大二部マッチング (maximum bipartite matching)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>最大二部マッチングは、二部グラフ \(G = (V, E)\) 上で各辺の容量が1の、最大マッチングを求める問題である。</p>
+</div>
+<div class="paragraph">
+<p>二部グラフ上では、以下の関係が成り立つ</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>最大マッチング</strong> のサイズ + 最小辺被覆 のサイズ = \(|V|\)</p>
+</li>
+<li>
+<p><strong>最大マッチング</strong> のサイズ = 最小点被覆 のサイズ</p>
+</li>
+<li>
+<p>最大安定集合 のサイズ + 最小点被覆 のサイズ = \(|V|\)</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_hopcroft_karp_algorithm">Hopcroft-Karp Algorithm</h3>
+<div class="paragraph">
+<p>最大二部マッチングを解くアルゴリズムである。</p>
+</div>
+<div class="paragraph">
+<p>Dinic’s Algorithmと同じで、以下の手順を繰り返して解を求める。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>BFSでsourceから各頂点までの距離(\(level\))を計算</p>
+</li>
+<li>
+<p>DFSで、sourceからの距離が遠くなるようなパスを見つけ、フローを流す</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(|E| \sqrt{|V|})\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># Hopcroft-Karp Algorithm
+from collections import deque
+class HopcroftKarp:
+    def __init__(self, N0, N1):
+        self.N0 = N0
+        self.N1 = N1
+        self.N = N = 2+N0+N1
+        self.G = [[] for i in range(N)]
+        for i in range(N0):
+            forward = [2+i, 1, None]
+            forward[2] = backward = [0, 0, forward]
+            self.G[0].append(forward)
+            self.G[2+i].append(backward)
+        self.backwards = bs = []
+        for i in range(N1):
+            forward = [1, 1, None]
+            forward[2] = backward = [2+N0+i, 0, forward]
+            bs.append(backward)
+            self.G[2+N0+i].append(forward)
+            self.G[1].append(backward)
+ 
+    def add_edge(self, fr, to):
+        #assert 0 &lt;= fr &lt; self.N0
+        #assert 0 &lt;= to &lt; self.N1
+        v0 = 2 + fr
+        v1 = 2 + self.N0 + to
+        forward = [v1, 1, None]
+        forward[2] = backward = [v0, 0, forward]
+        self.G[v0].append(forward)
+        self.G[v1].append(backward)
+ 
+    def bfs(self):
+        G = self.G
+        level = [None]*self.N
+        deq = deque([0])
+        level[0] = 0
+        while deq:
+            v = deq.popleft()
+            lv = level[v] + 1
+            for w, cap, _ in G[v]:
+                if cap and level[w] is None:
+                    level[w] = lv
+                    deq.append(w)
+        self.level = level
+        return level[1] is not None
+ 
+    def dfs(self, v, t):
+        if v == t:
+            return 1
+        level = self.level
+        for e in self.it[v]:
+            w, cap, rev = e
+            if cap and level[v] &lt; level[w] and self.dfs(w, t):
+                e[1] = 0
+                rev[1] = 1
+                return 1
+        return 0
+ 
+    def flow(self):
+        flow = 0
+        G = self.G
+        bfs = self.bfs; dfs = self.dfs
+        while bfs():
+            *self.it, = map(iter, G)
+            while dfs(0, 1):
+                flow += 1
+        return flow
+ 
+    def matching(self):
+        return [cap for _, cap, _ in self.backwards]</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_7_A: Matching - Bipartite Matching": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3185168#1">source</a> (Python3, 0.05sec)</p>
+</li>
+<li>
+<p>AOJ: "2251: Merry Christmas": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4552579#1">source</a> (Python3, 21.25sec)</p>
+</li>
+<li>
+<p>AOJ: "2976: Rooks Game": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5204957#1">source</a> (Python3, 0.04sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

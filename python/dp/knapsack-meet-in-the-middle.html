@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>0-1ナップサック問題 (半分全列挙) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Knapsack Problem (Meet in the middle) 概要 以下のような問題 \(N\) 種類の品物がある \(i\) 番目の品物の価値は \(v_i\), 容量は \(w_i...">
+<meta property="og:title" content="0-1ナップサック問題 (半分全列挙) - yaketake08's 実装メモ">
+<meta property="og:description" content="0-1ナップサック問題 (半分全列挙)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/dp/knapsack-meet-in-the-middle.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/dp/knapsack-meet-in-the-middle.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>0-1ナップサック問題 (半分全列挙)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Knapsack Problem (Meet in the middle)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下のような問題</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(N\) 種類の品物がある</p>
+</li>
+<li>
+<p>\(i\) 番目の品物の価値は \(v_i\), 容量は \(w_i\)</p>
+</li>
+<li>
+<p>重さの総和 \(W\) まで入るナップサックに入れる</p>
+</li>
+<li>
+<p>ナップサックに入る品物の価値を最大化する</p>
+</li>
+<li>
+<p>制約の一例は以下</p>
+</li>
+</ul>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>\(1 \le N \le 40\)</p>
+</li>
+<li>
+<p>\(1 \le W \le 10^{15}\)</p>
+</li>
+<li>
+<p>\(1 \le v_i \le 10^{15}\)</p>
+</li>
+<li>
+<p>\(1 \le w_i \le 10^{15}\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>\(N\) が小さいため、半分全列挙で解く問題。</p>
+</div>
+<div class="paragraph">
+<p>品物を半分に分けて全列挙(\(O(2^{N/2})\))した上で、
+２つの集合について、一方は小さい方からでもう一方は大きい方から、
+重さが \(W\) 以下になるようにスライドさせながら価値の最大値を求める。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(2^{N/2})\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># i番目の重みws[i], 価値vs[i]
+def solve(N, W, ws, vs):
+    # S[i] = (v, w): 価値v, 重さw
+    *S, = zip(vs, ws)
+
+    def make(S):
+        T = {0: 0}
+        for v, w in S:
+            # 価値v, 重さw
+            T0 = dict(T)
+            for k, val in T.items():
+                if k+w &gt; W:
+                    continue
+                if k+w in T0:
+                    T0[k+w] = max(T0[k+w], val + v)
+                else:
+                    T0[k+w] = val + v
+            T = T0
+        v = 0
+        R = []
+        for k in sorted(T):
+            v = max(v, T[k])
+            # (重さk, 重さk以下での価値の最大v)
+            R.append((k, v))
+        return R
+
+    def solve(T0, T1):
+        T0.sort()
+        T1.sort(reverse=1)
+
+        it = iter(T1); k1, v1 = next(it)
+        yield 0
+        for k0, v0 in T0:
+            # 重さの和がW以下になるようにスライドする
+            while k0 + k1 &gt; W:
+                k1, v1 = next(it)
+            yield v0 + v1
+
+    # ２つの集合に分けて、それぞれ全列挙
+    T0 = make(S[:N//2])
+    T1 = make(S[N//2:])
+
+    # 2つの全列挙を元に解を求める
+    return max(solve(T0, T1))</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "DPL_1_H: Combinatorial - Huge Knapsack Problem": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3176389#1">source</a> (Python3, 4.32sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

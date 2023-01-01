@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>最小費用流問題 (Primal-Dual Algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 各辺 \(e\) が容量 \(c_e\) と単位コスト \(d_e\) を持つ、有向グラフ \(G = (V, E)\) に対し、 特定のsourceとsinkの間に流量 \(F\) を流す時...">
+<meta property="og:title" content="最小費用流問題 (Primal-Dual Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="最小費用流問題 (Primal-Dual Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/min_cost_flow/primal-dual.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/min_cost_flow/primal-dual.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>最小費用流問題 (Primal-Dual Algorithm)</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各辺 \(e\) が容量 \(c_e\) と単位コスト \(d_e\) を持つ、有向グラフ \(G = (V, E)\) に対し、
+特定のsourceとsinkの間に流量 \(F\) を流す時の最小コストを求める。</p>
+</div>
+<div class="paragraph">
+<p>蟻本<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>を参考にして実装。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_with_dijkstras_algorithm">with Dijkstra’s Algorithm</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ポテンシャルを導入して、ダイクストラ法を用いて最短路を計算するようにしたもの。</p>
+</div>
+<div class="paragraph">
+<p>負閉路が含まれてない場合に使うことができる。</p>
+</div>
+<div class="sect2">
+<h3 id="_計算量">計算量</h3>
+<div class="paragraph">
+<p>\(O(F |E| \log |V|)\)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_実装">実装</h3>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;vector&gt;
+#include&lt;queue&gt;
+using namespace std;
+using ll = long long;
+using P = pair&lt;int, int&gt;;
+
+
+#define MAX_N 107
+class MinCostFlow {
+  static const ll inf = 1e18;
+  struct Edge {
+    int to, cap, cost;
+    size_t rev;
+  };
+ 
+  vector&lt;Edge&gt; g[MAX_N];
+  int h[MAX_N];
+  int prv_v[MAX_N], prv_e[MAX_N];
+  ll dist[MAX_N];
+  int n;
+ 
+public:
+  MinCostFlow(int n) : n(n) {}
+ 
+  void add_edge(int fr, int to, int cap, int cost) {
+    g[fr].emplace_back(Edge{to, cap, cost, g[to].size()});
+    g[to].emplace_back(Edge{fr, 0, -cost, g[fr].size()-1});
+  }
+ 
+  ll flow(int s, int t, ll f) {
+    ll res = 0;
+    for(int i=0; i&lt;n; ++i) h[i] = prv_v[i] = prv_e[i] = 0;
+ 
+    while(f) {
+      for(int i=0; i&lt;n; ++i) dist[i] = inf;
+      dist[s] = 0;
+ 
+      priority_queue&lt;P, vector&lt;P&gt;, greater&lt;P&gt; &gt; que;
+      que.push(P(0, s));
+      while(!que.empty()) {
+        P p = que.top(); que.pop();
+        int v = p.second;
+        if(dist[v] &lt; p.first) continue;
+ 
+        for(int i=0; i&lt;g[v].size(); ++i) {
+          Edge &amp;e = g[v][i];
+          if(e.cap &gt; 0 &amp;&amp; dist[e.to] &gt; dist[v] + e.cost + h[v] - h[e.to]) {
+            dist[e.to] = dist[v] + e.cost + h[v] - h[e.to];
+            prv_v[e.to] = v; prv_e[e.to] = i;
+            que.push(P(dist[e.to], e.to));
+          }
+        }
+      }
+      if(dist[t] == inf) {
+        return -1;
+      }
+      for(int i=0; i&lt;n; ++i) h[i] += dist[i];
+ 
+      ll d = f;
+      int v = t;
+      while(v != s) {
+        d = min(d, (ll) g[prv_v[v]][prv_e[v]].cap);
+        v = prv_v[v];
+      }
+      f -= d;
+      res += d * h[t];
+      v = t;
+      while(v != s) {
+        Edge &amp;e = g[prv_v[v]][prv_e[v]];
+        e.cap -= d;
+        g[v][e.rev].cap += d;
+        v = prv_v[v];
+      }
+    }
+    return res;
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_verified">Verified</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_6_B: Network Flow - Minimum Cost Flow": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3765044#1">source</a> (C++14, 0.00sec)</p>
+</li>
+<li>
+<p>CodeChef: "CodeChef July Challenge 2019: Snake and Apple Tree": <a href="https://www.codechef.com/viewsolution/25149516">source</a> (C++14, 0.18sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. プログラミングコンテストチャレンジブック [第2版] p.199
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

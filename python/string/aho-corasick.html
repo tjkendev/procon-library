@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Aho-Corasick Algorithm - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 文字列探索アルゴリズム。 ある文字列 \(T\) について、 \(N\) 個の文字列 \(s_1, s_2, ..., s_N\) の中からマッチする(最長の)文字列を線形に探索することができ...">
+<meta property="og:title" content="Aho-Corasick Algorithm - yaketake08's 実装メモ">
+<meta property="og:description" content="Aho-Corasick Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/string/aho-corasick.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/string/aho-corasick.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Aho-Corasick Algorithm</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>文字列探索アルゴリズム。</p>
+</div>
+<div class="paragraph">
+<p>ある文字列 \(T\) について、 \(N\) 個の文字列 \(s_1, s_2, ..., s_N\) の中からマッチする(最長の)文字列を線形に探索することができる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(|T| + \sum_i |s_i|)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># この実装のnodeの説明
+#
+# node[0] ~ node[25]:
+#     'a' ~ 'z'が来た時の次のnode (failure関数の遷移先も含まれる)
+# node[-3] (node[27]):
+#     いずれかの文字の終端であるかを示す(1 = 終端である)
+# node[-2] (node[28]):
+#     このnodeが何文字目に位置するかを表す
+# node[-1] (node[29]):
+#     このnodeでfailureした時の遷移先
+
+from collections import deque
+base = ord('a')
+root = [None]*30
+root[-2] = 0; root[-3] = 0
+
+# 文字列sの追加
+def add(s):
+    node = root
+    for c in s:
+        code = ord(c) - base
+        child = node[code]
+        if not child:
+            node[code] = child = [None]*30
+            child[-2] = node[-2] + 1
+            child[-3] = 0
+        node = child
+    node[-3] = 1
+
+# BFSでfailure関数のリンクを構築
+def suffix():
+    que = deque([root])
+    while que:
+        v = que.popleft()
+        for i in range(26):
+            if not v[i]:
+                if v[-1]:
+                    v[i] = v[-1][i]
+                else:
+                    v[i] = root[i] or root
+                continue
+            if v[-1]:
+                v[i][-1] = v[-1][i]
+            else:
+                v[i][-1] = root
+            que.append(v[i])
+    root[-1] = root</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="paragraph">
+<p>Pythonだと重くてつらい</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "JAG Practice Contest for ACM-ICPC Asia Regional 2017 - H問題: Separate String": <a href="https://jag2017autumn.contest.atcoder.jp/submissions/1799538">source</a> (PyPy3, TLE)</p>
+</li>
+<li>
+<p>AOJ: "2257: Sakura Poetry": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4708551#1">source</a> (Python3, 18.39sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://d.hatena.ne.jp/naoya/20090405/aho_corasick">Aho Corasick法 - naoyaのはてなダイアリー</a></p>
+</li>
+<li>
+<p><a href="http://algoogle.hadrori.jp/algorithm/aho-corasick.html">Aho-Corasick法 - Algoogle</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

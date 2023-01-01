@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>永続RBST - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="永続RBST (Persistent Randomized Binary Search Tree) 概要 乱数を使った平衡二分木であるRandomized Binary Search Treeのデー...">
+<meta property="og:title" content="永続RBST - yaketake08's 実装メモ">
+<meta property="og:description" content="永続RBST">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/binary_search_tree/persistent_RBST.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/binary_search_tree/persistent_RBST.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>永続RBST</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>永続RBST (Persistent Randomized Binary Search Tree)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>乱数を使った平衡二分木であるRandomized Binary Search Treeのデータを永続化したもの。</p>
+</div>
+<div class="paragraph">
+<p>詳しくは <a href="https://www.slideshare.net/chokudai/arc030">ARC030のD問題の解説</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>遅延評価付きの永続型平衡二分木の実装。</p>
+</div>
+<div class="paragraph">
+<p>ノードの複製により、すぐにノードの数が大きくなるため、</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>配列によるノードの管理(gnodes)</p>
+</li>
+<li>
+<p>使われたノード数が多くなった場合にRBSTの再構築(rebuild)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>を行えるようにしている</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#define N 5000007
+#define THRESHOLD 4800000
+
+struct Node {
+  Node *left, *right;
+  ll v, sum, lazy;
+  int count;
+};
+
+Node gnodes[2][N];
+Node *nodes = gnodes[0];
+int cur = 0, gcur = 0;
+
+int count(Node *nd) {
+  return nd != nullptr ? nd-&gt;count : 0;
+}
+
+ll sum(Node *nd) {
+  return nd != nullptr ? nd-&gt;sum : 0;
+}
+
+Node *make_node(ll x) {
+  Node *nd = &amp;nodes[cur++];
+  nd-&gt;v = nd-&gt;sum = x; nd-&gt;count = 1;
+  nd-&gt;left = nd-&gt;right = nullptr;
+  nd-&gt;lazy = 0;
+  return nd;
+}
+
+Node *make_node(Node *left, Node *right, ll v = 0, ll lazy = 0) {
+  Node *nd = &amp;nodes[cur++];
+  nd-&gt;left = left; nd-&gt;right = right;
+  nd-&gt;v = v; nd-&gt;lazy = lazy;
+  int c = 1 + count(left) + count(right);
+  nd-&gt;sum = v + lazy*c+ sum(left) + sum(right);
+  nd-&gt;count = c;
+  return nd;
+}
+
+Node* dfs(Node *nd) {
+  Node *left = nullptr, *right = nullptr;
+  if(nd-&gt;left) left = dfs(nd-&gt;left);
+  if(nd-&gt;right) right = dfs(nd-&gt;right);
+  Node *r = &amp;(nodes[cur++] = *nd);
+  r-&gt;left = left; r-&gt;right = right;
+  return r;
+}
+
+Node *rebuild(Node *root) {
+  if(cur &lt;= THRESHOLD) {
+    return root;
+  }
+  nodes = gnodes[gcur = (gcur + 1) % 2];
+  cur = 0;
+  return dfs(root);
+}
+
+Node *n_add(Node *nd, ll lazy) {
+  if(!nd || lazy == 0) return nd;
+  Node *cnd = &amp;(nodes[cur++] = *nd);
+  cnd-&gt;lazy += lazy;
+  cnd-&gt;sum += lazy * nd-&gt;count;
+  return cnd;
+}
+
+Node *merge(Node *a, Node *b) {
+  if(!a || !b) return !a ? b : a;
+  if( rand() % (count(a) + count(b)) &lt; count(a) ) {
+    Node *p = n_add(a-&gt;left, a-&gt;lazy);
+    Node *q = merge(n_add(a-&gt;right, a-&gt;lazy), b);
+    return make_node(p, q, a-&gt;v + a-&gt;lazy, 0);
+  } else {
+    Node *p = merge(a, n_add(b-&gt;left, b-&gt;lazy));
+    Node *q = n_add(b-&gt;right, b-&gt;lazy);
+    return make_node(p, q, b-&gt;v + b-&gt;lazy, 0);
+  }
+}
+
+pair&lt;Node*, Node*&gt; split(Node *nd, int k) {
+  if(k &lt;= 0 || !nd) {
+    return pair&lt;Node*, Node*&gt;(nullptr, nd);
+  }
+  if(count(nd) &lt;= k) {
+    return pair&lt;Node*, Node*&gt;(nd, nullptr);
+  }
+  if(k &lt;= count(nd-&gt;left)) {
+    pair&lt;Node*, Node*&gt; d = split(nd-&gt;left, k);
+    Node *a = d.first, *b = d.second;
+    Node *q = make_node(b, nd-&gt;right, nd-&gt;v, nd-&gt;lazy);
+    return make_pair(n_add(a, nd-&gt;lazy), q);
+  }
+  pair&lt;Node*, Node*&gt; d = split(nd-&gt;right, k - count(nd-&gt;left) - 1);
+  Node *a = d.first, *b = d.second;
+  Node *p = make_node(nd-&gt;left, a, nd-&gt;v, nd-&gt;lazy);
+  return make_pair(p, n_add(b, nd-&gt;lazy));
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 030 - D問題: グラフではない": <a href="https://atcoder.jp/contests/arc030/submissions/3913175">source</a> (C++14, 819ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>線分追加クエリ, 線分加算クエリ (遅延評価 Li-Chao (Segment) Tree, 動的セグ木) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Li-Chao (Segment) Tree with Lazy Propagation 概要 以下のクエリを処理できる遅延評価 Li Chao (Segment) Tree の実装 全ての \(a...">
+<meta property="og:title" content="線分追加クエリ, 線分加算クエリ (遅延評価 Li-Chao (Segment) Tree, 動的セグ木) - yaketake08's 実装メモ">
+<meta property="og:description" content="線分追加クエリ, 線分加算クエリ (遅延評価 Li-Chao (Segment) Tree, 動的セグ木)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/range_query/rlaq_li_chao_tree_lp.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/range_query/rlaq_li_chao_tree_lp.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>線分追加クエリ, 線分加算クエリ (遅延評価 Li-Chao (Segment) Tree, 動的セグ木)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Li-Chao (Segment) Tree with Lazy Propagation</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下のクエリを処理できる遅延評価 Li Chao (Segment) Tree の実装</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>全ての \(a_i\) の初期値は \(+\infty\)</p>
+</li>
+<li>
+<p>線分追加: \(a_l, ..., a_{r-1}\) の各 \(a_i\) について \(\min(a_i, a \cdot i + b)\) に更新</p>
+</li>
+<li>
+<p>線分加算: \(a_l, ..., a_{r-1}\) の各 \(a_i\) について \(a_i + (a \cdot i + b)\) に更新</p>
+</li>
+<li>
+<p>値取得: \(a_i\) の値を求める</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_実装説明">実装説明</h3>
+<div class="paragraph">
+<p>線分追加, 値取得については従来の Li-Chao Tree と同様。(pushdown等は行う)</p>
+</div>
+<div class="paragraph">
+<p>線分加算クエリにおいて、ノードを探索している間に現在のノードに存在する線分 \(f(x) = ax + b\) の一部分を更新する必要がある場合は、ノードから \(f(x)\) を取り出し左右の子ノードのそれぞれに \(f(x)\) を線分追加することで線分を分割する。</p>
+</div>
+<div class="paragraph">
+<p>一回の線分加算クエリでは、ノードが持つ \(f(x)\) を子ノードへの線分追加する処理を高々 \(O(\log N)\) 回行うことになり、一回の線分追加は \(O(\log N)\) であるため、一回の線分加算クエリは \(O(\log^2 N)\) となる。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>区間 \([0, N)\) に対する各クエリについて</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>線分追加: \(O(\log^2 N)\)</p>
+</li>
+<li>
+<p>線分加算: \(O(\log^2 N)\)</p>
+</li>
+<li>
+<p>値取得: \(O(\log N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include &lt;algorithm&gt;
+
+using ll = long long;
+using namespace std;
+
+const static ll inf = 1e18L;
+class LiChaoTree {
+
+  struct Line {
+    ll a, b;
+
+    Line(ll a, ll b) : a(a), b(b) {}
+    Line() : a(0), b(0) {}
+
+    inline ll f(ll x) const {
+      return a * x + b;
+    }
+
+    Line&amp; operator+=(const Line &amp;ln) {
+      if (b &gt;= inf || ln.b &gt;= inf) {
+        a = 0; b = inf;
+      } else {
+        a += ln.a;
+        b += ln.b;
+      }
+      return *this;
+    }
+
+    bool operator==(const Line &amp;ln) const {
+      return a == ln.a &amp;&amp; b == ln.b;
+    }
+  };
+
+  const Line line_inf = Line{0, inf};
+  const Line line_zero = Line{0, 0};
+
+  struct Node {
+    Node *left, *right;
+    Line line, lazy;
+
+    Node(Line line) : left(nullptr), right(nullptr), line(line) {}
+  };
+
+  Node *root;
+  ll xl, xr;
+
+  inline bool compare(Line &amp;l0, Line &amp;l1, ll x) const {
+    return l0.f(x) &lt;= l1.f(x);
+  }
+
+  inline void _push_line(Node *nd, ll l, ll r) {
+    if (nd == nullptr || nd-&gt;line == line_inf) return;
+
+    ll m = (l + r) / 2;
+    nd-&gt;left = _add_line(nd-&gt;left, nd-&gt;line, l, m);
+    nd-&gt;right = _add_line(nd-&gt;right, nd-&gt;line, m, r);
+    nd-&gt;line = line_inf;
+  }
+
+  inline void _add_lazy(Node *nd, Line &amp;line) {
+    if (nd == nullptr) return;
+
+    nd-&gt;line += line;
+    nd-&gt;lazy += line;
+  }
+
+  inline void _push_lazy(Node *nd, ll l, ll r) {
+    if (nd == nullptr || nd-&gt;lazy == line_zero) return;
+
+    _add_lazy(nd-&gt;left, nd-&gt;lazy);
+    _add_lazy(nd-&gt;right, nd-&gt;lazy);
+    nd-&gt;lazy = line_zero;
+  }
+
+  Node* _add_line(Node *nd, Line line, ll l, ll r) {
+    if (l == r) return nullptr;
+
+    ll m = (l + r) / 2;
+    if (nd == nullptr) return new Node(line);
+
+    _push_lazy(nd, l, r);
+
+    bool left = compare(line, nd-&gt;line, l);
+    bool mid = compare(line, nd-&gt;line, m);
+    bool right = compare(line, nd-&gt;line, r);
+    if (mid) {
+      swap(nd-&gt;line, line);
+    }
+    if(r-l &gt; 1 &amp;&amp; left != right) {
+      if (left != mid) {
+        nd-&gt;left = _add_line(nd-&gt;left, line, l, m);
+      } else {
+        nd-&gt;right = _add_line(nd-&gt;right, line, m, r);
+      }
+    }
+    return nd;
+  }
+
+  Node* _add_val(ll a, ll b, Node *nd, Line &amp;line, ll l, ll r) {
+    if (r &lt;= a || b &lt;= l) {
+      return nd;
+    }
+
+    if (a &lt;= l &amp;&amp; r &lt;= b) {
+      _add_lazy(nd, line);
+      return nd;
+    }
+
+    _push_lazy(nd, l, r);
+    _push_line(nd, l, r);
+
+    if (nd == nullptr) {
+      nd = new Node(line_inf);
+    }
+
+    ll m = (l + r) / 2;
+    nd-&gt;left = _add_val(a, b, nd-&gt;left, line, l, m);
+    nd-&gt;right = _add_val(a, b, nd-&gt;right, line, m, r);
+    return nd;
+  }
+
+  Node* _add_segment_line(ll a, ll b, Node *nd, Line &amp;line, ll l, ll r) {
+    if (r &lt;= a || b &lt;= l) {
+      return nd;
+    }
+    if (a &lt;= l &amp;&amp; r &lt;= b) {
+      return _add_line(nd, line, l, r);
+    }
+
+    _push_lazy(nd, l, r);
+
+    if (nd == nullptr) {
+      nd = new Node(line_inf);
+    }
+
+    ll m = (l + r) / 2;
+    nd-&gt;left = _add_segment_line(a, b, nd-&gt;left, line, l, m);
+    nd-&gt;right = _add_segment_line(a, b, nd-&gt;right, line, m, r);
+    return nd;
+  }
+
+  ll _query_min(ll k, ll l, ll r) {
+    Node *nd = root;
+    ll s = inf;
+    while (r - l &gt; 0 &amp;&amp; nd != nullptr) {
+      ll m = (l + r) / 2;
+
+      _push_lazy(nd, l, r);
+
+      s = min(s, nd-&gt;line.f(k));
+      if (k &lt; m) {
+        r = m;
+        nd = nd-&gt;left;
+      } else {
+        l = m;
+        nd = nd-&gt;right;
+      }
+    }
+    return s;
+  }
+
+public:
+  LiChaoTree(ll xl, ll xr) : xl(xl), xr(xr), root(nullptr) {}
+
+  // a_i &lt;- min(a_i, a*i + b) for i in [xl, xr)
+  void add_line(ll a, ll b) {
+    Line line = Line{a, b};
+    root = _add_line(root, line, xl, xr);
+  }
+
+  // a_i &lt;- min(a_i, a*i + b) for i in [l, r)
+  void add_segment_line(ll a, ll b, ll l, ll r) {
+    Line line = Line{a, b};
+    root = _add_segment_line(l, r, root, line, xl, xr);
+  }
+
+  // a_i &lt;- a_i + (a*i + b) for i in [l, r)
+  void add_val(ll a, ll b, ll l, ll r) {
+    Line line = Line{a, b};
+    root = _add_val(l, r, root, line, xl, xr);
+  }
+
+  // a_i &lt;- +∞ for i in [l, r)
+  void reset_val(ll l, ll r) {
+    Line line = line_inf;
+    root = _add_val(l, r, root, line, xl, xr);
+  }
+
+  // get a_i
+  ll query_min(ll x) {
+    return _query_min(x, xl, xr);
+  }
+};</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://codeforces.com/blog/entry/86731">[Tutorial] Li Chao Tree Extended - Codeforces</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Convex Hull Trick (Li-Chao (Segment) Tree) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 Li-Chao (Segment) Treeはセグメント木を用いてConvex Hull Trickを行うアルゴリズム。 詳細はこちら(ブログ): Li Chao Treeのメモ 計算量 直線...">
+<meta property="og:title" content="Convex Hull Trick (Li-Chao (Segment) Tree) - yaketake08's 実装メモ">
+<meta property="og:description" content="Convex Hull Trick (Li-Chao (Segment) Tree)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/convex_hull_trick/li_chao_tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/convex_hull_trick/li_chao_tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Convex Hull Trick (Li-Chao (Segment) Tree)</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Li-Chao (Segment) Treeはセグメント木を用いてConvex Hull Trickを行うアルゴリズム。</p>
+</div>
+<div class="paragraph">
+<p>詳細はこちら(ブログ): <a href="https://smijake3.hatenablog.com/entry/2018/06/16/144548">Li Chao Treeのメモ</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>直線追加: \(O(\log N)\)</p>
+</li>
+<li>
+<p>線分追加: \(O(\log^2 N)\)</p>
+</li>
+<li>
+<p>最小値計算: \(O(\log N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;algorithm&gt;
+using namespace std;
+using ll = long long;
+
+
+#define N 300004
+
+class LiChaoTree {
+  static const ll inf = 1e9;
+  static const ll infll = 1e18;
+
+  int n;
+  ll xs[4*N];
+  ll p[4*N], q[4*N];
+  bool u[4*N];
+
+  void _add_line(ll a, ll b, int k, int l, int r) {
+    while(r-l &gt; 0) {
+      int m = (l + r) &gt;&gt; 1;
+      if(!u[k]) {
+        p[k] = a; q[k] = b;
+        u[k] = true;
+        return;
+      }
+
+      ll lx = xs[l], mx = xs[m], rx = xs[r-1];
+      ll pk = p[k], qk = q[k];
+      bool left = (a*lx+b &lt; pk*lx+qk);
+      bool mid = (a*mx+b &lt; pk*mx+qk);
+      bool right = (a*rx+b &lt; pk*rx+qk);
+      if(left &amp;&amp; right) {
+        p[k] = a; q[k] = b;
+        return;
+      }
+      if(!left &amp;&amp; !right) {
+        return;
+      }
+      if(mid) {
+        swap(p[k], a);
+        swap(q[k], b);
+      }
+      if(left != mid) {
+        k = 2*k+1; r = m;
+      } else {
+        k = 2*k+2; l = m;
+      }
+    }
+  }
+
+  ll _query(int k, ll x) {
+    k += n - 1;
+    ll s = u[k] ? p[k]*x+q[k] : infll;
+    while(k &gt; 0) {
+      k = (k - 1) / 2;
+      if(u[k]) {
+        ll r = p[k]*x+q[k];
+        s = min(s, r);
+      }
+    }
+    return s;
+  }
+
+public:
+  LiChaoTree(int n0, ll ps[N]) {
+    n = 1;
+    while(n &lt; n0) n &lt;&lt;= 1;
+
+    for(int i=0; i&lt;2*n; ++i) u[i] = false;
+    for(int i=0; i&lt;n0; ++i) xs[i] = ps[i];
+    for(int i=n0; i&lt;2*n-1; ++i) xs[i] = inf;
+  }
+
+  void add_line(ll a, ll b) {
+    _add_line(a, b, 0, 0, n);
+  }
+
+  void add_segment_line(ll a, ll b, int l, int r) {
+    ll l0 = l + n, r0 = r + n;
+    ll s0 = l, t0 = r, sz = 1;
+    while(l0 &lt; r0) {
+      if(r0 &amp; 1) {
+        --r0; t0 -= sz;
+        _add_line(a, b, r0-1, t0, t0+sz);
+      }
+      if(l0 &amp; 1) {
+        _add_line(a, b, l0-1, s0, s0+sz);
+        ++l0; s0 += sz;
+      }
+      l0 &gt;&gt;= 1; r0 &gt;&gt;= 1;
+      sz &lt;&lt;= 1;
+    }
+  }
+
+  ll query(int i) {
+    return _query(i, xs[i]);
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="sect3">
+<h4 id="_直線処理">直線処理</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>yukicoder: "No.703 ゴミ拾い Easy": <a href="https://yukicoder.me/submissions/296651">source</a> (C++14, 514ms)</p>
+</li>
+<li>
+<p>AtCoder: "全国統一プログラミング王決定戦本戦 - G問題: Greatest Jorney": <a href="https://atcoder.jp/contests/nikkei2019-final/submissions/4352791">source</a> (C++14, 1485ms)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_線分処理">線分処理</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>yukicoder: "No.704 ゴミ拾い Medium": <a href="https://yukicoder.me/submissions/297285">source</a> (C++14, 711ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

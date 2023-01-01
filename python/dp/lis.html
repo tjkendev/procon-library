@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>最長増加部分列 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="最長増加部分列 (Longest Increasing Subsequence, LIS) 概要 以下のような問題 長さ \(N\) の数列がある \(a_{i_1} &lt; a_{i_2} &lt; ......">
+<meta property="og:title" content="最長増加部分列 - yaketake08's 実装メモ">
+<meta property="og:description" content="最長増加部分列">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/dp/lis.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/dp/lis.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>最長増加部分列</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>最長増加部分列 (Longest Increasing Subsequence, LIS)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下のような問題</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>長さ \(N\) の数列がある</p>
+</li>
+<li>
+<p>\(a_{i_1} &lt; a_{i_2} &lt; ... &lt; a_{i_k}\) となる \(i_1 &lt; i_2 &lt; ... &lt; i_k\) の中で \(k\) の最大値を求める</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>以下のようなDPを考える。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(dp[k] :=\) 長さkとなるLISの中で、列最後の要素の最小値</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>そして \(dp[j] &lt; a_i\) となる最大のjを二分探索で見つけ、
+\(dp[j+1] = \min(a_i, dp[j+1])\) で更新していく。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(N \log N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">from bisect import bisect
+
+# N: 数列の長さ
+# A[i]: a_i の値
+def solve(N, A):
+    INF = 10**10
+
+    dp = [INF]*(N+1)
+    dp[0] = -1
+    for a in A:
+        idx = bisect(dp, a-1)
+        dp[idx] = min(a, dp[idx])
+    return max(i for i in range(N+1) if dp[i] &lt; INF)</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "DPL_1_D: Combinatorial - Longest Increasing Subsequence": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3815153#1">source</a> (Python3, 0.12sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

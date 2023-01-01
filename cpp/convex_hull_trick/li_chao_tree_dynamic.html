@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Convex Hull Trick (Li-Chao (Segment) Tree, 動的セグ木) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 動的セグメント木上でLi-Chao (Segment) Treeを処理する。 動的セグメント木上で処理することで、座標先読みなしで大きい区間 \([0, N]\) に対するConvex Hul...">
+<meta property="og:title" content="Convex Hull Trick (Li-Chao (Segment) Tree, 動的セグ木) - yaketake08's 実装メモ">
+<meta property="og:description" content="Convex Hull Trick (Li-Chao (Segment) Tree, 動的セグ木)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/convex_hull_trick/li_chao_tree_dynamic.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/convex_hull_trick/li_chao_tree_dynamic.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Convex Hull Trick (Li-Chao (Segment) Tree, 動的セグ木)</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>動的セグメント木上でLi-Chao (Segment) Treeを処理する。</p>
+</div>
+<div class="paragraph">
+<p>動的セグメント木上で処理することで、座標先読みなしで大きい区間 \([0, N]\) に対するConvex Hull Trickの問題を解くことができる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>扱う区間を \([0, N]\) とした時、</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>直線追加: \(O(\log N)\)</p>
+</li>
+<li>
+<p>線分追加: \(O(\log^2 N)\)</p>
+</li>
+<li>
+<p>最小値計算: \(O(\log N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;algorithm&gt;
+using ll = long long;
+using namespace std;
+
+class LiChaoTree {
+  struct Line {
+    ll a, b;
+    ll f(ll x) const { return a*x + b; }
+    Line(ll a, ll b) : a(a), b(b) {}
+  };
+  struct Node {
+    Node *left, *right;
+    Line line;
+
+    Node(Line line) : left(nullptr), right(nullptr), line(line) {}
+  };
+  const ll inf = 1e16L;
+  const Line inf_line = Line{0, inf};
+
+  Node* root;
+  ll xl, xr;
+
+  Node* _add_line(Node *nd, Line line, ll l, ll r) {
+    if(l == r) return nullptr;
+
+    ll m = (l + r) &gt;&gt; 1;
+    if(nd == nullptr) return new Node(line);
+
+    bool left = (line.f(l) &lt;= nd-&gt;line.f(l));
+    bool mid = (line.f(m) &lt;= nd-&gt;line.f(m));
+    bool right = (line.f(r) &lt;= nd-&gt;line.f(r));
+    if(left &amp;&amp; right) {
+      nd-&gt;line = line;
+      return nd;
+    }
+    if(!left &amp;&amp; !right) {
+      return nd;
+    }
+    if(mid) {
+      swap(nd-&gt;line, line);
+    }
+    if(left != mid) {
+      nd-&gt;left = _add_line(nd-&gt;left, line, l, m);
+    } else {
+      nd-&gt;right = _add_line(nd-&gt;right, line, m, r);
+    }
+    return nd;
+  }
+
+  Node* _add_segment_line(ll a, ll b, Node *nd, Line line, ll l, ll r) {
+    if(r &lt;= a || b &lt;= l) {
+      return nd;
+    }
+    if(a &lt;= l &amp;&amp; r &lt;= b) {
+      return _add_line(nd, line, l, r);
+    }
+
+    if(nd == nullptr) {
+      nd = new Node(inf_line);
+    }
+
+    ll m = (l + r) &gt;&gt; 1;
+    nd-&gt;left = _add_segment_line(a, b, nd-&gt;left, line, l, m);
+    nd-&gt;right = _add_segment_line(a, b, nd-&gt;right, line, m, r);
+    return nd;
+  }
+
+  ll _query(ll k, ll l, ll r) {
+    Node *nd = root;
+    ll s = inf;
+    while(r-l &gt; 0 &amp;&amp; nd != nullptr) {
+      ll m = (l + r) &gt;&gt; 1;
+      s = min(s, nd-&gt;line.f(k));
+      if(k &lt; m) {
+        r = m;
+        nd = nd-&gt;left;
+      } else {
+        l = m;
+        nd = nd-&gt;right;
+      }
+    }
+    return s;
+  }
+
+public:
+  // [xl, xr)
+  LiChaoTree(ll xl, ll xr) : xl(xl), xr(xr), root(nullptr) {}
+
+  void add_line(ll a, ll b) {
+    Line line = Line{a, b};
+    root = _add_line(root, line, xl, xr);
+  }
+
+  void add_segment_line(ll a, ll b, ll l, ll r) {
+    Line line = Line{a, b};
+    root = _add_segment_line(l, r, root, line, xl, xr);
+  }
+
+  ll query(ll x) {
+    return _query(x, xl, xr);
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "早稲田大学プログラミングコンテスト - I問題: Ramen": <a href="https://atcoder.jp/contests/wupc2019/submissions/4571384">source</a> (C++14, 1128ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

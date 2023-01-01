@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>histric maximal valueのRMQ (遅延評価セグメント木) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="histric maximal value (histric information) on Segment Tree with Lazy Propagation 概要 以下のクエリが処理できる遅延...">
+<meta property="og:title" content="histric maximal valueのRMQ (遅延評価セグメント木) - yaketake08's 実装メモ">
+<meta property="og:description" content="histric maximal valueのRMQ (遅延評価セグメント木)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/range_query/hmv_segment_tree_lp.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/range_query/hmv_segment_tree_lp.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>histric maximal valueのRMQ (遅延評価セグメント木)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>histric maximal value (histric information) on Segment Tree with Lazy Propagation</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下のクエリが処理できる遅延セグメント木の実装</p>
+</div>
+<div class="paragraph">
+<p>数列 \(A = a_1, ..., a_N\) は現在の値、数列 \(B = b_1, ..., b_N\) は各 \(a_i\) の過去最大値とする。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(a_i\) の値を \(a_i + x\) に更新</p>
+</li>
+<li>
+<p>\(a_i\) の値を \(x\) に更新</p>
+</li>
+<li>
+<p>\(a_i\) の値を \(\max(a_i, x)\) に更新</p>
+</li>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の最大値を求める</p>
+</li>
+<li>
+<p>\(b_l, b_{l+1}, ..., b_{r-1}\) の最大値を求める</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装説明">実装説明</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各ノードのlazy tagとして以下の値を管理することを考える。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(a_i\) の区間最大値を伝搬するためのlazy tag: \((a, b)\)</p>
+</li>
+<li>
+<p>\(b_i\) の区間最大値を伝搬するためのlazy tag: \((a_H, b_H)\)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>各tagは \(f_{(a, b)}(x) = \max(x+a, b)\), \(h_{(a_H, b_H)}(x) = \max(x + a_H, b_H)\) を計算するための関数のパラメータとする。</p>
+</div>
+<div class="paragraph">
+<p>lazy tagの初期値は \((0, -\infty)\) になる。
+各クエリ操作では以下のtagで更新ノードのlazy tagを更新する。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(a_i\) を \(a_i + x\) に更新するtag: \((x, -\infty)\)</p>
+</li>
+<li>
+<p>\(a_i\) を \(x\) に更新するtag: \((-\infty, x)\)</p>
+</li>
+<li>
+<p>\(a_i\) を \(\max(a_i, x)\) に更新するtag: \((0, x)\)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>tag \((c, d)\), \((c_H, d_H)\) の情報を、あるノードのlazy tag \((a, b)\), \((a_H, b_H)\) へマージすることを考える。</p>
+</div>
+<div class="paragraph">
+<p>この時、ノードが持つtagは以下のように更新できる。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\((a, b) \leftarrow (a+c, \max(b+c, d))\)</p>
+</li>
+<li>
+<p>\((a_H, b_H) \leftarrow (\max(a_H, a+c_H), \max(b_H, b+c_H, d_H))\)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>同時に、子ノードの \(a_i\) の区間最大値 \(A\) を \(f_{(c, d)}(A)\), \(b_i\) の区間最大値 \(B\) を \(\max(B, h_{(c_H, d_H)}(A))\) に更新する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>各クエリ操作: \(O(\log N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;algorithm&gt;
+using namespace std;
+typedef long long ll;
+
+#define N (1 &lt;&lt; 19)
+
+class SegmentTree {
+  static const ll inf = 1e18;
+
+  struct Tag {
+    ll ha, hb, a, b;
+
+    Tag() {}
+
+    Tag(ll a, ll b) : a(a), b(b) { ha = a; hb = b; }
+
+    ll calc(ll x) const { return max(x + a, b); }
+    ll hcalc(ll x) const { return max(x + ha, hb); }
+
+    void merge(Tag &amp;t) {
+      if(a != -inf &amp;&amp; t.ha != -inf) ha = max(ha, a + t.ha);
+      if(b != -inf &amp;&amp; t.ha != -inf) hb = max(hb, b + t.ha);
+      hb = max(hb, t.hb);
+
+      a = (a != -inf &amp;&amp; t.a != -inf ? a + t.a : -inf);
+      b = (b != -inf &amp;&amp; t.a != -inf ? max(b + t.a, t.b) : t.b);
+    }
+
+    void clear() { a = ha = 0; b = hb = -inf; }
+
+    bool empty() const { return a == 0 &amp;&amp; b == -inf; }
+  };
+
+  int n0;
+  ll max_v[2*N], hmax_v[2*N];
+  Tag lazy[2*N];
+
+  void push(int k) {
+    if(n0-1 &lt;= k) return;
+
+    if(!lazy[k].empty()) {
+      hmax_v[2*k+1] = max(hmax_v[2*k+1], lazy[k].hcalc(max_v[2*k+1]));
+      max_v[2*k+1] = lazy[k].calc(max_v[2*k+1]);
+      lazy[2*k+1].merge(lazy[k]);
+
+      hmax_v[2*k+2] = max(hmax_v[2*k+2], lazy[k].hcalc(max_v[2*k+2]));
+      max_v[2*k+2] = lazy[k].calc(max_v[2*k+2]);
+      lazy[2*k+2].merge(lazy[k]);
+
+      lazy[k].clear();
+    }
+  }
+
+  void update(int k) {
+    max_v[k] = max(max_v[2*k+1], max_v[2*k+2]);
+    hmax_v[k] = max(hmax_v[2*k+1], hmax_v[2*k+2]);
+  }
+
+  ll _query_max(int a, int b, int k, int l, int r) {
+    if(b &lt;= l || r &lt;= a) {
+      return -inf;
+    }
+    if(a &lt;= l &amp;&amp; r &lt;= b) {
+      return max_v[k];
+    }
+    push(k);
+    ll lv = _query_max(a, b, 2*k+1, l, (l+r)/2);
+    ll rv = _query_max(a, b, 2*k+2, (l+r)/2, r);
+    return max(lv, rv);
+  }
+
+  void _add_val(ll x, int a, int b, int k, int l, int r) {
+    if(b &lt;= l || r &lt;= a) {
+      return;
+    }
+    if(a &lt;= l &amp;&amp; r &lt;= b) {
+      Tag t = Tag(x, -inf);
+      hmax_v[k] = max(hmax_v[k], t.hcalc(max_v[k]));
+      max_v[k] = t.calc(max_v[k]);
+      lazy[k].merge(t);
+      return;
+    }
+
+    push(k);
+    _add_val(x, a, b, 2*k+1, l, (l+r)/2);
+    _add_val(x, a, b, 2*k+2, (l+r)/2, r);
+    update(k);
+  }
+
+  void _update_val(ll x, int a, int b, int k, int l, int r) {
+    if(b &lt;= l || r &lt;= a) {
+      return;
+    }
+    if(a &lt;= l &amp;&amp; r &lt;= b) {
+      Tag t = Tag(-inf, x);
+      hmax_v[k] = max(hmax_v[k], t.hcalc(max_v[k]));
+      max_v[k] = t.calc(max_v[k]);
+      lazy[k].merge(t);
+      return;
+    }
+
+    push(k);
+    _update_val(x, a, b, 2*k+1, l, (l+r)/2);
+    _update_val(x, a, b, 2*k+2, (l+r)/2, r);
+    update(k);
+  }
+
+  void _update_max(ll x, int a, int b, int k, int l, int r) {
+    if(b &lt;= l || r &lt;= a) {
+      return;
+    }
+    if(a &lt;= l &amp;&amp; r &lt;= b) {
+      Tag t = Tag(0, x);
+      hmax_v[k] = max(hmax_v[k], t.hcalc(max_v[k]));
+      max_v[k] = t.calc(max_v[k]);
+      lazy[k].merge(t);
+      return;
+    }
+
+    push(k);
+    _update_max(x, a, b, 2*k+1, l, (l+r)/2);
+    _update_max(x, a, b, 2*k+2, (l+r)/2, r);
+    update(k);
+  }
+
+  ll _query_hmax(int a, int b, int k, int l, int r) {
+    if(b &lt;= l || r &lt;= a) {
+      return -inf;
+    }
+    if(a &lt;= l &amp;&amp; r &lt;= b) {
+      return hmax_v[k];
+    }
+    push(k);
+    ll lv = _query_hmax(a, b, 2*k+1, l, (l+r)/2);
+    ll rv = _query_hmax(a, b, 2*k+2, (l+r)/2, r);
+    return max(lv, rv);
+  }
+
+public:
+  SegmentTree(int n, ll *a) {
+    n0 = 1;
+    while(n0 &lt; n) n0 &lt;&lt;= 1;
+
+    for(int i=0; i&lt;2*n0-1; ++i) lazy[i].clear();
+
+    for(int i=0; i&lt;n; ++i) max_v[n0-1+i] = hmax_v[n0-1+i] = a[i];
+    for(int i=n; i&lt;n0; ++i) max_v[n0-1+i] = hmax_v[n0-1+i] = -inf;
+
+    for(int i=n0-2; i&gt;=0; --i) update(i);
+  }
+
+  // range add query
+  void add_val(int a, int b, ll x) {
+    _add_val(x, a, b, 0, 0, n0);
+  }
+
+  // range update query
+  void update_val(int a, int b, ll x) {
+    _update_val(x, a, b, 0, 0, n0);
+  }
+
+  // range maximize query
+  void update_max(int a, int b, ll x) {
+    _update_max(x, a, b, 0, 0, n0);
+  }
+
+  // range maximum query
+  ll query_max(int a, int b) {
+    return _query_max(a, b, 0, 0, n0);
+  }
+
+  // (historic maximal value) range maximum query
+  ll query_hmax(int a, int b) {
+    return _query_hmax(a, b, 0, 0, n0);
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://uoj.ac/problem/164">UOJ: "#164. 【清华集训2015】V"</a>: <a href="https://uoj.ac/submission/348754">source</a> (C++11, 5393ms)</p>
+</li>
+<li>
+<p><a href="https://www.lydsy.com/JudgeOnline/problem.php?id=3064">BZOJ: "3064: Tyvj 1518 CPU监控"</a> (C++, 19328ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

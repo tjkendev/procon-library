@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>最小共通祖先 (Disjoint Sparse Table) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 根付き木 \(T\) のある頂点 \(u, v\) について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。 Disjoint Sparse Tableを使ったアルゴリズ...">
+<meta property="og:title" content="最小共通祖先 (Disjoint Sparse Table) - yaketake08's 実装メモ">
+<meta property="og:description" content="最小共通祖先 (Disjoint Sparse Table)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/lca-dst.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/graph/lca-dst.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>最小共通祖先 (Disjoint Sparse Table)</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>根付き木 \(T\) のある頂点 \(u, v\) について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。</p>
+</div>
+<div class="paragraph">
+<p>Disjoint Sparse Tableを使ったアルゴリズムでは、セグメント木と同様にEuler tour techniqueを用いてLCAを計算する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>前計算: \(O(N \log N)\)</p>
+</li>
+<li>
+<p>クエリ処理: \(O(1)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># N: 頂点数
+# G[v]: 頂点vの子頂点 (親頂点は含まない)
+N = ...
+G = [[...] for i in range(N)]
+
+# Euler Tour Technique
+S = []
+F = [0]*N
+depth = [0]*N
+def dfs(v, d):
+    F[v] = len(S)
+    depth[v] = d
+    S.append(v)
+    for w in G[v]:
+        dfs(w, d+1)
+        S.append(v)
+dfs(0, 0)
+
+# Disjoint Sparse Tableの構築
+INF = (N, None)
+ 
+LV = (2*N-1).bit_length()
+N0 = 2**LV
+table = [[None]*N0 for i in range(LV)]
+ 
+S0 = [INF]*N0
+for i, v in enumerate(S):
+    S0[i] = (depth[v], v)
+ 
+sz = N0; hf = N0 &gt;&gt; 1
+for k in range(LV):
+    table_k = table[k]
+    for i in range(hf, N0, sz):
+        table_k[i-1] = r = S0[i-1]
+        for j in range(i-2, i-hf-1, -1):
+            table_k[j] = r = min(S0[j], r)
+ 
+        table_k[i] = r = S0[i]
+        for j in range(i+1, i+hf):
+            table_k[j] = r = min(S0[j], r)
+    sz &gt;&gt;= 1; hf &gt;&gt;= 1
+ 
+# LCAの計算
+def query(u, v):
+    if u == v:
+        return u
+    fu = F[u]; fv = F[v]
+    if fu &gt; fv:
+        fu, fv = fv, fu
+ 
+    k2 = (fu ^ fv).bit_length()
+    table_l = table[LV - k2]
+    ans = table_l[fu]
+    if fv &amp; ((1 &lt;&lt; k2) - 1):
+        ans = min(ans, table_l[fv])
+    return ans[1]</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3154806#1">source</a> (Python3, 3.19sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://discuss.codechef.com/questions/117696/tutorial-disjoint-sparse-table?page=1">[Tutorial] Disjoint Sparse Table - CodeChef Discussion</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

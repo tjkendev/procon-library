@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Suffix Array (Manber and Myers Algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 ダブリングしながら Suffix Array を計算する。 Suffix Array の構築 文字列 \(S\) について、 \(i = 0 ... |S|-1\) の接尾辞 S[i:] を辞...">
+<meta property="og:title" content="Suffix Array (Manber and Myers Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="Suffix Array (Manber and Myers Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/string/sa_manber_and_myers.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/string/sa_manber_and_myers.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Suffix Array (Manber and Myers Algorithm)</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ダブリングしながら Suffix Array を計算する。</p>
+</div>
+<div class="sect2">
+<h3 id="_suffix_array_の構築">Suffix Array の構築</h3>
+<div class="paragraph">
+<p>文字列 \(S\) について、 \(i = 0 ... |S|-1\) の接尾辞 <code>S[i:]</code> を辞書順に並べた配列を求める</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rank[i]</code>: 接尾辞 <code>S[i:]</code> の辞書順上での順序を持つ</p>
+</li>
+<li>
+<p><code>sa[i]</code>: 辞書順の \(i\) 番目の接尾辞 <code>S[k:]</code> を表す \(k\) を持つ</p>
+</li>
+<li>
+<p><code>rank[sa[i]] = i</code> を満たす</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lcp_array_の構築">LCP Array の構築</h3>
+<div class="paragraph">
+<p>Suffix Array 上で隣接する接尾辞の最長共通接尾辞 (LCP, Longest Common Prefix) の長さを計算する</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>lcp[i]</code>: 2つの接尾辞 <code>S[sa[i]:]</code> と <code>S[sa[i+1]:]</code> の最長共通接頭辞の長さを表す</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(N \log^2 N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># Suffix Array (Manber &amp; Myers) : O(n(logn)^2)
+class SuffixArray:
+    def __init__(self, s):
+        self.s = s
+        self.n = len(s)
+
+    # Suffix Array
+    def suffix(self):
+        s = self.s; n = self.n
+        rank = [0]*(n+1); sa = [0]*(n+1)
+        tmp = [0]*(n+1)
+
+        for i in range(n+1):
+            sa[i] = i
+            rank[i] = ord(s[i]) if i&lt;n else -1
+
+        k = 1
+        cmp_key = lambda e: (rank[e], rank[e+k] if e+k&lt;=n else -1)
+        while k &lt;= n:
+            sa.sort(key=cmp_key)
+            tmp[sa[0]] = 0
+            for i in range(1, n+1):
+                tmp[sa[i]] = tmp[sa[i-1]] + (cmp_key(sa[i-1])&lt;cmp_key(sa[i]))
+            for i in range(n+1):
+                rank[i] = tmp[i]
+            k *= 2
+
+        self.sa = sa
+        return sa
+
+    # LCP Array
+    def lcp(self):
+        n = self.n; s = self.s; sa = self.sa
+        lcp = [-1]*(n+1)
+        rank = [0]*(n+1)
+        for i in range(n+1): rank[sa[i]] = i
+
+        h = 0
+        lcp[0] = 0
+        for i in range(n):
+            j = sa[rank[i] - 1]
+            if h &gt; 0: h -= 1
+            while j+h &lt; n and i+h &lt; n and s[j+h]==s[i+h]:
+                h += 1
+            lcp[rank[i] - 1] = h
+        self.lcp = lcp
+        return lcp
+
+# query(a, b): S[a:] と S[b:] の最長共通接頭語(LCP)の長さを求める
+# S = (文字列)
+# N = len(S)
+S = ...
+N = len(S)
+
+SA = SuffixArray(S)
+sa = SA.suffix()
+lcp = SA.lcp()
+N0 = 2**(N).bit_length()
+data = [0]*(2*N0)
+for i in range(N+1):
+    data[i+N0-1] = lcp[i]
+for i in range(N0-2, -1, -1):
+    data[i] = min(data[2*i+1], data[2*i+2])
+D = [0]*(N+1)
+for i, s in enumerate(sa):
+    D[s] = i
+def query(a, b):
+    L = D[a] + N0; R = D[b] + N0
+    if L &gt; R:
+        L, R = R, L
+    s = N+1
+    while L &lt; R:
+        if R &amp; 1:
+            R -= 1
+            s = min(s, data[R-1])
+ 
+        if L &amp; 1:
+            s = min(s, data[L-1])
+            L += 1
+        L &gt;&gt;= 1; R &gt;&gt;= 1
+    return s</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 050 - D問題: Suffix Concat": <a href="https://atcoder.jp/contests/arc050/submissions/3933414">source</a> (PyPy3, 3072ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>秋葉拓哉, 岩田陽一, and 北川宜稔. "プログラミングコンテストチャレンジブック." (2010).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

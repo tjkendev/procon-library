@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Sliding Window Minimum - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="スライド最小値, Sliding Window Minimum Algorithm 概要 以下の問題を解く実装 長さ \(N\) の数列 \(A\) 数列 \(A\) における、連続 \(K\) 個...">
+<meta property="og:title" content="Sliding Window Minimum - yaketake08's 実装メモ">
+<meta property="og:description" content="Sliding Window Minimum">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/range_query/sliding_window_minimum.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/range_query/sliding_window_minimum.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Sliding Window Minimum</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>スライド最小値, Sliding Window Minimum Algorithm</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下の問題を解く実装</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>長さ \(N\) の数列 \(A\)</p>
+</li>
+<li>
+<p>数列 \(A\) における、連続 \(K\) 個の(\(N-K+1\) 個の)各部分列について、最小値を計算</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>蟻本<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>に解説がある。dequeを用いて計算できる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">// DequeSlide
+// 数列x_1, ..., x_nについてx_i, ..., x_{i+k}の最小値を求める
+// DequeSlide(n: 配列数, l: kの値)
+// push: 値(x_j)を追加
+// get: x_i, ..., x_{i+k}の最小値を取得
+// debug: デバッグ用
+template&lt;class T&gt;
+class DequeSlide {
+  T *data;
+  int *deq;
+  int n, l, s, t;
+  int cur;
+
+public:
+  DequeSlide(int n, int l) {
+    data = new T[n];
+    deq = new int[n];
+    this-&gt;n = n;
+    this-&gt;l = l;
+    s = t = cur = 0;
+  }
+
+  void push(T x) {
+    if(s&lt;t &amp;&amp; deq[s] == cur-l) s++;
+    while(s&lt;t &amp;&amp; data[deq[t-1]] &gt;= x) t--;
+    deq[t++] = cur;
+    data[cur++] = x;
+  }
+
+  T get() {
+    return data[deq[s]];
+  }
+
+  void debug() {
+    cout &lt;&lt; s &lt;&lt; " " &lt;&lt; t &lt;&lt; " [";
+    repl(i, s, t-1) {
+      cout &lt;&lt; " " &lt;&lt; data[deq[i]];
+    }
+    cout &lt;&lt; " ]" &lt;&lt; endl;
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "DSL_3_D: Sliding Window - Sliding Minimum Elements": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3255107#1">source</a> (C++11, 1.29sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. プログラミングコンテストチャレンジブック [第2版] p.300
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

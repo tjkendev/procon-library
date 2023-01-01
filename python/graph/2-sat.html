@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>2-SAT - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="充足可能性問題 (2-SAT) 概要 2-SAT問題を解く。 連言標準形(CNF)形式の論理式をグラフに変換し、強連結成分分解(SCC)を行うことで充足可能性の判定を行う。 グラフの構築 \(N\)...">
+<meta property="og:title" content="2-SAT - yaketake08's 実装メモ">
+<meta property="og:description" content="2-SAT">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/2-sat.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/graph/2-sat.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>2-SAT</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>充足可能性問題 (2-SAT)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>2-SAT問題を解く。</p>
+</div>
+<div class="paragraph">
+<p>連言標準形(CNF)形式の論理式をグラフに変換し、強連結成分分解(SCC)を行うことで充足可能性の判定を行う。</p>
+</div>
+<div class="sect2">
+<h3 id="_グラフの構築">グラフの構築</h3>
+<div class="paragraph">
+<p>\(N\) 個の論理変数 \(x_1, ..., x_N\) を含む論理式について各変数ごとに \(x_i\) と \(\lnot x_i\) を表す \(2\) 個の頂点、全体で \(2N\) 個の頂点を用意する。</p>
+</div>
+<div class="paragraph">
+<p>論理和 \((a \lor b)\) を \((\lnot a \Rightarrow b) \land (\lnot b \Rightarrow a)\) と考え、 \(\lnot a\) から \(b\) への辺 と \(\lnot b\) から \(a\) への辺 を追加する。</p>
+</div>
+<div class="paragraph">
+<p>この \(v_0\) から \(v_1\) への辺は、 \(v_0\) が真の場合に \(v_1\) も真にする必要があることを表す。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_充足可能性の判定">充足可能性の判定</h3>
+<div class="paragraph">
+<p>構築したグラフのSCCを求め、各変数 \(x_i\) と \(\lnot x_i\) が同じ強連結成分に含まれていないかを判定する。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_論理式を満たす割り当て">論理式を満たす割り当て</h3>
+<div class="paragraph">
+<p>強連結成分ごとのトポロジカル順序をもとに論理式が真になる時の各変数の割り当てを決定できる。</p>
+</div>
+<div class="paragraph">
+<p>トポロジカル順序で \(\lnot x_i\) が \(x_i\) より先にくる場合は \(x_i\) を真、それ以外の場合は偽を割り当てる。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>論理変数の数を \(N\), 節の数を \(M\) とした場合 \(O(N + M)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">from collections import deque
+
+def scc(N, G, RG):
+    order = []
+    used = [0]*N
+    def dfs(s):
+        used[s] = 1
+        for t in G[s]:
+            if not used[t]:
+                dfs(t)
+        order.append(s)
+    for i in range(N):
+        if not used[i]:
+            dfs(i)
+    group = [-1]*N
+    label = 0
+    order.reverse()
+    for s in order:
+        if group[s] != -1:
+            continue
+        que = deque([s])
+        group[s] = label
+        while que:
+            v = que.popleft()
+            for w in RG[v]:
+                if group[w] != -1:
+                    continue
+                que.append(w)
+                group[w] = label
+        label += 1
+    return group # topological ordering
+
+N = ...
+G = [[] for i in range(2*N)]
+RG = [[] for i in range(2*N)]
+# add (a ∨ b)
+# a =  x_i if neg_i = 0
+# a = ~x_i if neg_i = 1
+def add_edge(i, neg_i, j, neg_j):
+    if neg_i:
+        i0 = i+N; i1 = i
+    else:
+        i0 = i; i1 = i+N
+    if neg_j:
+        j0 = j+N; j1 = j
+    else:
+        j0 = j; j1 = j+N
+    # add (~a ⇒ b)
+    G[i1].append(j0); RG[j0].append(i1)
+    # add (~b ⇒ a)
+    G[j1].append(i0); RG[i0].append(j1)
+
+group = scc(2*N, G, RG)
+
+# check if the formula is satisfiable
+def check(group):
+    for i in range(N):
+        if group[i] == group[i+N]:
+            return False
+    return True
+
+# assign values to variables
+def assign(group):
+    res = [0]*N
+    for i in range(N):
+        if group[i] &gt; group[i+N]:
+            res[i] = 1
+    return res</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>yukicoder: "No.274 The Wall": <a href="https://yukicoder.me/submissions/568812">source</a> (Python3, 653ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>秋葉拓哉, 岩田陽一, and 北川宜稔. "プログラミングコンテストチャレンジブック." (2010).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

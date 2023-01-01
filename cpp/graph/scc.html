@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>強連結成分分解 (Kosaraju’s Algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="強連結成分分解(Strongly Connected Components) 概要 有向グラフ \(G = (V, E)\) における強連結の関係にある複数の頂点をひとまとまりにして分解する。 計算...">
+<meta property="og:title" content="強連結成分分解 (Kosaraju’s Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="強連結成分分解 (Kosaraju's Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/graph/scc.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/graph/scc.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>強連結成分分解 (Kosaraju’s Algorithm)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>強連結成分分解(Strongly Connected Components)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>有向グラフ \(G = (V, E)\) における強連結の関係にある複数の頂点をひとまとまりにして分解する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(|V| + |E|)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;vector&gt;
+#include&lt;set&gt;
+#include&lt;cassert&gt;
+using namespace std;
+
+// 強連結成分分解(Strongly Connected Component)
+// n: 頂点(0..v-1)
+// g: 各頂点の出る辺, rg: 各頂点の逆辺
+// group: 結果(閉路に１つの番号が割り当てられる)
+// label: 縮約後の頂点数
+#define N 200003
+struct SCC {
+  int n;
+  int group[N];
+  int label;
+
+  vector&lt;int&gt; *g, *rg;
+  vector&lt;int&gt; ord;
+
+  set&lt;int&gt; g0[N];
+  vector&lt;int&gt; gp[N];
+  int deg[N];
+
+  bool used[N];
+  void dfs(int v) {
+    used[v] = true;
+    for(int w : g[v]) {
+      if(!used[w]) dfs(w);
+    }
+    ord.push_back(v);
+  }
+
+  void rdfs(int v, int col) {
+    group[v] = col;
+    used[v] = true;
+    for(int w : rg[v]) {
+      if(!used[w]) rdfs(w, col);
+    }
+  }
+
+  // construct scc
+  inline void init(int n, vector&lt;int&gt; *g, vector&lt;int&gt; *rg) {
+    this-&gt;n = n; this-&gt;g = g; this-&gt;rg = rg;
+
+    for(int i=0; i&lt;n; ++i) used[i] = false;
+    ord.reserve(n);
+    for(int i=0; i&lt;n; ++i) {
+      if(!used[i]) dfs(i);
+    }
+    assert(ord.size() == n);
+
+    for(int i=0; i&lt;n; ++i) used[i] = false;
+    int cnt = 0;
+    for(int i=n-1; i&gt;=0; --i) {
+      int v = ord[i];
+      if(!used[v]) rdfs(v, cnt++);
+    }
+    label = cnt;
+  }
+
+  inline void construct() {
+    for(int i=0; i&lt;n; ++i) deg[i] = 0;
+    for(int v=0; v&lt;n; ++v) {
+      int s = group[v];
+      for(auto w : g[v]) {
+        int t = group[w];
+        if(s == t || g0[s].count(t)) {
+          continue;
+        }
+
+        g0[s].insert(t);
+        ++deg[t];
+      }
+
+      gp[s].push_back(v);
+    }
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_3_C: Connected Components - Strongly Connected Components": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3842018#1">source</a> (C++14, 0.12sec)</p>
+</li>
+<li>
+<p>Codeforces: "1213F: Unstable String Sort": <a href="https://codeforces.com/contest/1213/submission/59841021">source</a> (C++14, 686ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_旧実装">旧実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>解説コメント付き: <a href="https://gist.github.com/tjkendev/1ce0c38486c18a180f83623d74436a5c" class="bare">https://gist.github.com/tjkendev/1ce0c38486c18a180f83623d74436a5c</a></p>
+</div>
+<div class="sect2">
+<h3 id="_verified_旧実装">Verified (旧実装)</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_3_C: Connected Components - Strongly Connected Components": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867908#1">source</a> (C++, 0.17sec)</p>
+</li>
+<li>
+<p>AOJ: "2598: Website Tour": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1867998">source</a> (C++, 0.17sec)</p>
+</li>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 010 - D問題: 情報伝搬": <a href="https://beta.atcoder.jp/contests/arc010/submissions/3585181">source</a> (C++14, 3392ms)</p>
+</li>
+<li>
+<p>CodeChef: "CodeChef February Challenge 2019: Maximize the Tax": <a href="https://www.codechef.com/viewsolution/22884137">source</a> (C++14, 0.30sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

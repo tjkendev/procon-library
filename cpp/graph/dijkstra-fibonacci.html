@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>単一始点最短経路 (ダイクストラ法, フィボナッチヒープ) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="フィボナッチヒープによるダイクストラ法 (Dijkstra’s Algorithm with Fibonacci Heap) 概要 単一始点最短経路問題(SSSP)を解くアルゴリズム。 到達するまで...">
+<meta property="og:title" content="単一始点最短経路 (ダイクストラ法, フィボナッチヒープ) - yaketake08's 実装メモ">
+<meta property="og:description" content="単一始点最短経路 (ダイクストラ法, フィボナッチヒープ)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/graph/dijkstra-fibonacci.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/graph/dijkstra-fibonacci.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>単一始点最短経路 (ダイクストラ法, フィボナッチヒープ)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>フィボナッチヒープによるダイクストラ法 (Dijkstra’s Algorithm with Fibonacci Heap)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>単一始点最短経路問題(SSSP)を解くアルゴリズム。
+到達するまでのコストが小さい方からコストを伝搬させていく。</p>
+</div>
+<div class="paragraph">
+<p>ある頂点について最短距離が更新された際にはinsertの代わりにdecrease keyを行うことで、キュー内の要素数を \(|V|\) 個以下に収められる。</p>
+</div>
+<div class="paragraph">
+<p>decrease keyの計算量は1回あたり ならし \(O(1)\) であるため、辺全体で \(O(|E|)\) を達成でき、<br>
+delete minは高々 \(|V|\) 回で \(O(|V| \log |V|)\) になる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(|E| + |V| \log |V|)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;unordered_map&gt;
+#include&lt;vector&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+using ll = long long;
+
+
+template&lt;class T&gt;
+using comp_type = bool(const T &amp;left, const T &amp;right);
+template&lt;class T&gt;
+inline bool less_comp(const T &amp;left, const T &amp;right) { return left &lt; right; }
+template &lt;class T&gt;
+inline bool greater_comp(const T &amp;left, const T &amp;right) { return left &gt; right; }
+
+template&lt;class T, comp_type&lt;ll&gt; cmp = less_comp&gt;
+class FibonacciHeap {
+  static const int deg_max = 25;
+
+  struct Node {
+    T key;
+    ll dist;
+    Node *prev = this, *next = this;
+
+    bool mark = false;
+    Node *parent = nullptr;
+    Node *children = nullptr;
+    int deg = 0;
+
+    inline void add_child(Node* node) {
+      ++deg;
+
+      node-&gt;parent = this;
+      if(deg == 1) {
+        children = node;
+        return;
+      }
+      Node *prev = children-&gt;prev;
+      node-&gt;next = children;
+      node-&gt;prev = prev;
+
+      prev-&gt;next = node;
+      children-&gt;prev = node;
+    }
+
+    inline void remove_child(Node *node) {
+      --deg;
+
+      node-&gt;parent = nullptr;
+      if(deg == 0) {
+        children = nullptr;
+        return;
+      }
+      Node *prev = node-&gt;prev, *next = node-&gt;next;
+      prev-&gt;next = next;
+      next-&gt;prev = prev;
+      if(node == children) {
+        children = next;
+      }
+      node-&gt;prev = node-&gt;next = node;
+    }
+
+    inline Node* remove_all() {
+      Node *c_nodes = children;
+      children = nullptr;
+      deg = 0;
+      return c_nodes;
+    }
+
+    Node(T key, ll dist) : key(key), dist(dist) {}
+    Node(T &amp;&amp;key, ll dist) : key(move(key)), dist(dist) {}
+  };
+
+  Node* top_node;
+  Node* deglst[deg_max];
+  unordered_map&lt;T, Node*&gt; node_map;
+  int sz;
+
+  inline bool add_root(Node *node) {
+    if(top_node == nullptr) {
+      top_node = node;
+      node-&gt;prev = node-&gt;next = node;
+      return false;
+    }
+    Node *prev = top_node-&gt;prev;
+    node-&gt;prev = prev;
+    node-&gt;next = top_node;
+
+    prev-&gt;next = node;
+    top_node-&gt;prev = node;
+    return true;
+  }
+
+  inline void remove_root(Node *node) {
+    Node *prev = node-&gt;prev, *next = node-&gt;next;
+    next-&gt;prev = prev;
+    prev-&gt;next = next;
+
+    node-&gt;prev = node-&gt;next = node;
+  }
+
+  inline void insert_node(Node *node) {
+    if(add_root(node)) {
+      if(cmp(node-&gt;dist, top_node-&gt;dist)) {
+        top_node = node;
+      }
+    }
+    ++sz;
+  }
+
+  inline Node* pop_node() {
+    Node* m_node = top_node;
+    if(m_node == nullptr) {
+      return nullptr;
+    }
+
+    Node *child = m_node-&gt;remove_all();
+    if(child != nullptr) {
+      Node *cur = child-&gt;next;
+      child-&gt;parent = nullptr;
+      child-&gt;prev = child-&gt;next = child;
+      add_root(child);
+      while(cur != child) {
+        Node *next = cur-&gt;next;
+        cur-&gt;parent = nullptr;
+        cur-&gt;prev = cur-&gt;next = cur;
+        add_root(cur);
+        cur = next;
+      }
+    }
+
+    if(sz == 1) {
+      top_node = nullptr;
+    } else {
+      top_node = top_node-&gt;next;
+      remove_root(m_node);
+      consolidate();
+    }
+    --sz;
+    return m_node;
+  }
+
+  inline void update_node(T &amp;key, ll new_dist) {
+    Node *node = node_map[key];
+    node-&gt;dist = new_dist;
+
+    Node *parent = node-&gt;parent;
+    if(parent == nullptr || !cmp(new_dist, parent-&gt;dist)) {
+      return;
+    }
+
+    while(1) {
+      parent-&gt;remove_child(node);
+      node-&gt;mark = false;
+      add_root(node);
+
+      if(parent-&gt;parent == nullptr) {
+        break;
+      }
+      if(!parent-&gt;mark) {
+        parent-&gt;mark = true;
+        break;
+      }
+      node = parent; parent = parent-&gt;parent;
+    }
+
+    if(cmp(new_dist, top_node-&gt;dist)) {
+      top_node = node;
+    }
+  }
+
+  inline void consolidate() {
+    Node *cur = top_node;
+
+    for(int i=0; i&lt;deg_max; ++i) deglst[i] = nullptr;
+    Node *next = cur-&gt;next;
+    do {
+      cur = next; next = cur-&gt;next;
+      Node *root = cur;
+      remove_root(root);
+      int d = root-&gt;deg;
+      while(deglst[d] != nullptr) {
+        Node* child = deglst[d];
+        if(cmp(child-&gt;dist, root-&gt;dist)) {
+          swap(root, child);
+        }
+
+        root-&gt;add_child(child);
+
+        deglst[d++] = nullptr;
+      }
+      deglst[d] = root;
+    } while(cur != top_node);
+
+    top_node = nullptr;
+    for(int i=0; i &lt; deg_max; ++i) {
+      Node *node = deglst[i];
+      if(node == nullptr) continue;
+
+      if(add_root(node)) {
+        if(cmp(node-&gt;dist, top_node-&gt;dist)) {
+          top_node = node;
+        }
+      }
+    }
+  }
+public:
+  FibonacciHeap() : sz(0), top_node(nullptr) {}
+
+  int size() const { return sz; }
+  bool empty() const { return sz == 0; }
+
+  void push(T key, ll dist) {
+    if(node_map.count(key)) {
+      update_node(key, dist);
+      return;
+    }
+    Node *node = new Node(key, dist);
+    node_map[key] = node;
+    insert_node(node);
+  }
+
+  void emplace(T &amp;&amp;key, ll dist) {
+    if(node_map.count(key)) {
+      update_node(key, dist);
+      return;
+    }
+    Node *node = new Node(key, dist);
+    node_map[key] = node;
+    insert_node(node);
+  }
+
+  const pair&lt;T, ll&gt; top() const {
+    return pair&lt;T, ll&gt;{top_node-&gt;key, top_node-&gt;dist};
+  }
+
+  void pop() {
+    Node *node = pop_node();
+    node_map.erase(node-&gt;key);
+  }
+};
+
+const ll inf = 1e10;
+
+#define N 100004
+
+struct Edge {
+  int to; ll cost;
+};
+
+int n;
+ll dist[N];
+vector&lt;Edge&gt; g[N];
+
+void dijkstra(int s) {
+  FibonacciHeap&lt;int&gt; que;
+  que.push(s, 0);
+  for(int i=0; i&lt;n; ++i) dist[i] = inf;
+  dist[s] = 0;
+
+  while(!que.empty()) {
+    pair&lt;int, ll&gt; p = que.top();
+    ll co = p.second; int v = p.first;
+    que.pop();
+    //if(dist[v] &lt; co) continue;
+    for(auto &amp;e : g[v]) {
+      if(co + e.cost &lt; dist[e.to]) {
+        dist[e.to] = co + e.cost;
+        que.push(e.to, dist[e.to]);
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3796927#1">source</a> (C++14, 0.17sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://kenkoooo.hatenablog.com/entry/2017/12/01/184539">フィボナッチヒープ - 宇宙ツイッタラーXの憂鬱</a></p>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Fibonacci_heap">Fibonacci heap - Wikipedia</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

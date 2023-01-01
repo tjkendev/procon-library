@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>RMQ and RSQ (遅延評価セグメント木) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Range Minimum Query and Range Sum Query (RMQ and RSQ) 概要 以下のクエリが処理できる遅延評価セグメント木の実装 \(a_l, a_{l+1},...">
+<meta property="og:title" content="RMQ and RSQ (遅延評価セグメント木) - yaketake08's 実装メモ">
+<meta property="og:description" content="RMQ and RSQ (遅延評価セグメント木)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/range_query/rmq_rsq_segment_tree_lp.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/range_query/rmq_rsq_segment_tree_lp.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>RMQ and RSQ (遅延評価セグメント木)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Range Minimum Query and Range Sum Query (RMQ and RSQ)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下のクエリが処理できる遅延評価セグメント木の実装</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の値を \(x\) に更新</p>
+</li>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の総和を求める</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>区間更新: \(O(\log N)\)</p>
+</li>
+<li>
+<p>総和計算: \(O(\log N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>高速化のために非再帰で実装。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;algorithm&gt;
+using namespace std;
+using ll = long long;
+
+#define LV 20
+
+class SegmentTree {
+  const static ll inf = (1LL &lt;&lt; 60) - 1;
+
+  int n0, n;
+  ll *data, *lazy;
+  int ids[2*LV], cur = 0;
+
+  void update_ids(int l, int r) {
+    int l0 = (l + n0), r0 = (r + n0);
+    int lb = (l0 &amp; -l0) &gt;&gt; 1, rb = (r0 &amp; -r0) &gt;&gt; 1;
+    l0 &gt;&gt;= 1; r0 &gt;&gt;= 1;
+    cur = 0;
+    while(l0 &gt; 0 &amp;&amp; l0 &lt; r0) {
+      if(!rb) ids[cur++] = r0;
+      if(!lb) ids[cur++] = l0;
+      lb &gt;&gt;= 1; rb &gt;&gt;= 1;
+      l0 &gt;&gt;= 1; r0 &gt;&gt;= 1;
+    }
+    while(l0 &gt; 0) {
+      ids[cur++] = l0;
+      l0 &gt;&gt;= 1;
+    }
+  }
+
+  void propagates() {
+    for(int i=cur-1; i&gt;=0; --i) {
+      int k = ids[i];
+
+      ll v = lazy[k-1];
+      if(v == 0) continue;
+
+      lazy[2*k-1] += v; data[2*k-1] += v;
+      lazy[2*k] += v; data[2*k] += v;
+      lazy[k-1] = 0;
+    }
+  }
+
+public:
+
+  SegmentTree(int n) : n(n) {
+    n0 = 1;
+    while(n0 &lt; n) n0 &lt;&lt;= 1;
+    data = new ll[2*n0];
+    lazy = new ll[2*n0];
+    for(int i=0; i&lt;2*n0; ++i) data[i] = 0, lazy[i] = 0;
+  }
+
+  void update(int l, int r, ll x) {
+    update_ids(l, r);
+    propagates();
+
+    int l0 = l + n0, r0 = r + n0;
+    while(l0 &lt; r0) {
+      if(r0 &amp; 1) {
+        --r0;
+        lazy[r0-1] += x; data[r0-1] += x;
+      }
+      if(l0 &amp; 1) {
+        lazy[l0-1] += x; data[l0-1] += x;
+        ++l0;
+      }
+      l0 &gt;&gt;= 1; r0 &gt;&gt;= 1;
+    }
+
+    for(int i=0; i&lt;cur; ++i) {
+      int k = ids[i];
+      data[k-1] = max(data[2*k-1], data[2*k]);
+    }
+
+  }
+
+  ll query(int l, int r) {
+    update_ids(l, r);
+    propagates();
+
+    int l0 = l + n0, r0 = r + n0;
+
+    ll s = -inf;
+    while(l0 &lt; r0) {
+      if(r0 &amp; 1) {
+        --r0;
+        s = max(s, data[r0-1]);
+      }
+      if(l0 &amp; 1) {
+        s = max(s, data[l0-1]);
+        ++l0;
+      }
+      l0 &gt;&gt;= 1; r0 &gt;&gt;= 1;
+    }
+    return s;
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "Educational DP Contest / DP まとめコンテスト - W問題: Intervals": <a href="https://atcoder.jp/contests/dp/submissions/3959368">source</a> (C++14, 301ms)</p>
+</li>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 056 - D問題: サケノミ": <a href="https://atcoder.jp/contests/arc056/submissions/4069896">source</a> (C++14, 983ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

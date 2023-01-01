@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Splay tree - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 最近アクセスした値に素早くアクセスできる平衡二分探索木。 各操作で要素を参照した際、スプレー操作を行い、木を回転しながら要素をトップに持ってくる。 計算量 各クエリ ならし \(O(\log...">
+<meta property="og:title" content="Splay tree - yaketake08's 実装メモ">
+<meta property="og:description" content="Splay tree">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/binary_search_tree/splay-tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/binary_search_tree/splay-tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Splay tree</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>最近アクセスした値に素早くアクセスできる平衡二分探索木。</p>
+</div>
+<div class="paragraph">
+<p>各操作で要素を参照した際、スプレー操作を行い、木を回転しながら要素をトップに持ってくる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各クエリ ならし \(O(\log N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各ノードに以下の情報を持たせている</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>左右の子ノード</p>
+</li>
+<li>
+<p>key</p>
+</li>
+<li>
+<p>そのノード以下の部分木のサイズ</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># splay a node nd
+def __splay(st, dr, nd):
+    l = nd[0]; r = nd[1]
+    L = (l[3] if l else 0); R = (r[3] if r else 0)
+    c = len(st) &gt;&gt; 1
+    while c:
+        # y(d1)-x(d)-nd
+        x = st.pop(); y = st.pop()
+        d = dr.pop(); d1 = dr.pop()
+
+        if d == d1:
+            # Zig-zig step
+            y[3] = e = y[3] - L - R - 2
+            if d:
+                y[1] = x[0]; x[0] = y
+                x[1] = l; l = x
+
+                l[3] = L = e + L + 1
+            else:
+                y[0] = x[1]; x[1] = y
+                x[0] = r; r = x
+
+                r[3] = R = e + R + 1
+        else:
+            # Zig-zag step
+            if d:
+                x[1] = l; l = x
+                y[0] = r; r = y
+
+                l[3] = L = l[3] - R - 1
+                r[3] = R = r[3] - L - 1
+            else:
+                x[0] = r; r = x
+                y[1] = l; l = y
+
+                r[3] = R = r[3] - L - 1
+                l[3] = L = l[3] - R - 1
+        c -= 1
+        # update(y); update(x)
+    if st:
+        # Zig step
+        x = st[0]; d = dr[0]
+        if d:
+            x[1] = l; l = x
+            l[3] = L = l[3] - R - 1
+        else:
+            x[0] = r; r = x
+            r[3] = R = r[3] - L - 1
+        # update(x)
+    nd[0] = l; nd[1] = r
+    nd[3] = L + R + 1
+    # update(nd)
+    return nd
+
+# create a new node with key = val
+def new_node(val):
+    return [None, None, val, 1]
+
+# insert a node with key = val
+def insert(t, val):
+    # [&lt;left&gt;, &lt;right&gt;, &lt;key&gt;, &lt;count&gt;]
+    nd = [None, None, val, 1]
+    st = []; dr = []
+    x = t; y = None
+    while x:
+        y = x; d = (x[2] &lt;= val)
+        st.append(y); dr.append(d)
+        x[3] += 1
+        x = x[d]
+
+    if not y:
+        return nd
+    y[d] = nd
+    return __splay(st, dr, nd)
+
+# delete a node with key = val
+def delete(t, val):
+    st = []; dr = []
+    x = t
+    while x and x[2] != val:
+        d = (x[2] &lt;= val)
+        st.append(x); dr.append(d)
+        x = x[d]
+    if not x:
+        return t
+    t = __splay(st, dr, x)
+    return merge(t[0], t[1])
+
+# find a node with key = val
+def find(t, val):
+    st = []; dr = []
+    x = t
+    while x and x[2] != val:
+        d = (x[2] &lt;= val)
+        st.append(x); dr.append(d)
+        x = x[d]
+    if not x:
+        return t, False
+    t = __splay(st, dr, x)
+    return t, True
+
+# find k-th node in a tree t
+def findk(t, k):
+    if not t or not 0 &lt; k &lt;= t[3]:
+        return t
+    x = t
+    st = []; dr = []
+    while x:
+        l = x[0]
+        c = (l[3] if l else 0) + 1
+ 
+        if c == k:
+            break
+ 
+        st.append(x)
+        if c &lt; k:
+            k -= c
+            x = x[1]
+            dr.append(1)
+        else:
+            x = x[0]
+            dr.append(0)
+    return __splay(st, dr, x)
+
+# merge a tree l with a tree r
+def merge(l, r):
+    if not l or not r:
+        return l or r
+    if not l[1]:
+        l[3] += r[3]
+        l[1] = r
+        return l
+
+    st = []
+    x = l
+    while x[1]:
+        st.append(x)
+        x = x[1]
+
+    l = __splay(st, [1]*len(st), x)
+    l[3] += r[3]
+    l[1] = r
+    # update(l)
+    return l
+
+# split a tree t into two trees of size k and |t|-k
+def split(t, k):
+    if not t:
+        return None, None
+    if not 0 &lt; k &lt; t[3]:
+        if k == t[3]:
+            return findk(t, k), None
+        return None, t
+    x = t
+    st = []; dr = []
+    while x:
+        l = x[0]
+        c = (l[3] if l else 0) + 1
+
+        if c == k:
+            break
+
+        st.append(x)
+        if c &lt; k:
+            k -= c
+            x = x[1]
+            dr.append(1)
+        else:
+            x = x[0]
+            dr.append(0)
+    l = __splay(st, dr, x)
+    r = l[1]
+    if r:
+        l[3] -= r[3]
+    l[1] = None
+    # update(l)
+    return l, r</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": <a href="https://beta.atcoder.jp/contests/arc033/submissions/3415755">source</a> (PyPy3, 1662ms)</p>
+</li>
+<li>
+<p>AOJ: "1508: RMQ": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3264806#1">source</a> (Python3, 16.38sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.slideshare.net/iwiwi/2-12188757">プログラミングコンテストでのデータ構造 2　～平衡二分探索木編～</a></p>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Splay_tree">Splay tree - Wikipedia</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

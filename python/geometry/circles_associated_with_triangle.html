@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>三角形の外接円/内接円/傍接円 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="circumcircle, incircle and excircle of a triangle 概要 三点 \(\mathbf{p_1}, \mathbf{p_2}, \mathbf{p_3}\...">
+<meta property="og:title" content="三角形の外接円/内接円/傍接円 - yaketake08's 実装メモ">
+<meta property="og:description" content="三角形の外接円/内接円/傍接円">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/geometry/circles_associated_with_triangle.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/geometry/circles_associated_with_triangle.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>三角形の外接円/内接円/傍接円</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>circumcircle, incircle and excircle of a triangle</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>三点 \(\mathbf{p_1}, \mathbf{p_2}, \mathbf{p_3}\) から成る三角形の外接円と内接円、傍接円を求める。</p>
+</div>
+<div class="paragraph">
+<p>ここでは、</p>
+</div>
+<div class="paragraph">
+<p>\(\mathbf{p_1} = (x_1, y_1)\), \(\mathbf{p_2} = (x_2, y_2)\), \(\mathbf{p_3} = (x_3, y_3)\)
+\(d_1 = \|\mathbf{p_2} - \mathbf{p_3}\|\), \(d_2 = \|\mathbf{p_3} - \mathbf{p_1}\|\), \(d_3 = \|\mathbf{p_1} - \mathbf{p_2}\|\)</p>
+</div>
+<div class="paragraph">
+<p>と定義する。</p>
+</div>
+<div class="sect2">
+<h3 id="_外接円_circumcircle">外接円 (circumcircle)</h3>
+<div class="paragraph">
+<p>各 \(i = 1, 2, 3\) の \((x - x_i)^2 + (y - y_i)^2 = r\) から成る連立方程式を計算し、
+外接円の中心 \((x, y)\) (= 外心, circumcenter) と 半径 \(r\) を求める。</p>
+</div>
+<div class="paragraph">
+<p>1つの式から別の式を引くと以下の方程式になり \(x, y\) を求められる。</p>
+</div>
+<div class="paragraph">
+<p>\( \displaystyle 2 \left( \begin{array}{cc} x_1 - x_2 &amp; y_1 - y_2 \\ x_1 - x_3 &amp; y_1 - y_3 \end{array} \right) \left( \begin{array}{c} x \\ y \end{array} \right) = \left( \begin{array}{c} (x_1^2 - x_2^2) + (y_1^2 - y_2^2) \\ (x_1^2 - x_3^2) + (y_1^2 - y_3^2) \end{array} \right)\)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_内接円_incircle">内接円 (incircle)</h3>
+<div class="paragraph">
+<p>内接円の中心 \((x, y)\) (= 内心, incenter) は以下の式で計算できる。</p>
+</div>
+<div class="paragraph">
+<p>\(\displaystyle \left( \frac{d_1 x_1 + d_2 x_2 + d_3 x_3}{d_1 + d_2 + d_3}, \frac{d_1 y_1 + d_2 y_2 + d_3 y_3}{d_1 + d_2 + d_3} \right)\)</p>
+</div>
+<div class="paragraph">
+<p>内接円の半径 \(r\) は \(\displaystyle \frac{2S}{d_1 + d_2 + d_3}\) で求められる。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_傍接円_excircle">傍接円 (excircle)</h3>
+<div class="paragraph">
+<p>三角形に対する傍接円は3つあるが、ここでは 辺 \(\mathbf{p_2}-\mathbf{p_3}\) に対する傍接円を考える。</p>
+</div>
+<div class="paragraph">
+<p>この傍接円の中心 \((x, y)\) (= 傍心, excenter) は以下の式で計算できる。</p>
+</div>
+<div class="paragraph">
+<p>\(\displaystyle \left( \frac{- d_1 x_1 + d_2 x_2 + d_3 x_3}{- d_1 + d_2 + d_3}, \frac{- d_1 y_1 + d_2 y_2 + d_3 y_3}{- d_1 + d_2 + d_3} \right)\)</p>
+</div>
+<div class="paragraph">
+<p>また、この傍接円の半径 \(r\) は \(\displaystyle \frac{2S}{- d_1 + d_2 + d_3}\) で求められる。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_外接円">実装: 外接円</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">def circumcircle(P1, P2, P3):
+    x1, y1 = P1; x2, y2 = P2; x3, y3 = P3
+    a = 2*(x1 - x2); b = 2*(y1 - y2); p = x1**2 - x2**2 + y1**2 - y2**2
+    c = 2*(x1 - x3); d = 2*(y1 - y3); q = x1**2 - x3**2 + y1**2 - y3**2
+    det = a*d - b*c
+    x = d*p - b*q; y = a*q - c*p
+    if det &lt; 0:
+        x = -x; y = -y; det = -det
+    x /= det; y /= det
+    r = ((x - x1)**2 + (y - y1)**2)**.5
+    return x, y, r
+
+print("%.4f %.4f %.4f" % circumcircle((0, 0), (1, 0), (0, 1)))
+# =&gt; "0.5000 0.5000 0.7071"</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "0010: Circumscribed Circle of a Triangle": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4435495">source</a> (Python3, 0.02sec)</p>
+</li>
+<li>
+<p>AOJ: "CGL_7_C: Circumscribed Circle of a Triangle": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5106029#1">source</a> (Python3, 0.02sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_内接円と傍接円">実装: 内接円と傍接円</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-1">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-1" data-lang="python">def incircle(P1, P2, P3):
+    x1, y1 = P1; x2, y2 = P2; x3, y3 = P3
+
+    dx1 = x2 - x1; dy1 = y2 - y1
+    dx2 = x3 - x1; dy2 = y3 - y1
+
+    d1 = ((x3 - x2)**2 + (y3 - y2)**2)**.5
+    d2 = (dx2**2 + dy2**2)**.5
+    d3 = (dx1**2 + dy1**2)**.5
+    dsum = d1 + d2 + d3
+
+    r = abs(dx1 * dy2 - dx2 * dy1) / dsum
+    x = (x1*d1 + x2*d2 + x3*d3) / dsum
+    y = (y1*d1 + y2*d2 + y3*d3) / dsum
+    return x, y, r
+
+def excircle(P1, P2, P3):
+    x1, y1 = P1; x2, y2 = P2; x3, y3 = P3
+
+    dx1 = x2 - x1; dy1 = y2 - y1
+    dx2 = x3 - x1; dy2 = y3 - y1
+
+    d1 = ((x3 - x2)**2 + (y3 - y2)**2)**.5
+    d3 = (dx1**2 + dy1**2)**.5
+    d2 = (dx2**2 + dy2**2)**.5
+
+    S2 = abs(dx1 * dy2 - dx2 * dy1)
+
+    dsum1 = - d1 + d2 + d3
+    r1 = S2 / dsum1
+    ex1 = (- x1*d1 + x2*d2 + x3*d3) / dsum1
+    ey1 = (- y1*d1 + y2*d2 + y3*d3) / dsum1
+
+    dsum2 = d1 - d2 + d3
+    r2 = S2 / dsum2
+    ex2 = (x1*d1 - x2*d2 + x3*d3) / dsum2
+    ey2 = (y1*d1 - y2*d2 + y3*d3) / dsum2
+
+    dsum3 = d1 + d2 - d3
+    r3 = S2 / dsum3
+    ex3 = (x1*d1 + x2*d2 - x3*d3) / dsum3
+    ey3 = (y1*d1 + y2*d2 - y3*d3) / dsum3
+
+    return (ex1, ey1, r1), (ex2, ey2, r2), (ex3, ey3, r3)
+
+print("%.4f %.4f %.4f" % incircle((1, 0), (3, 3), (5, 1)))
+# =&gt; "3.1472 1.5132 0.9472"
+
+for c in excircle((1, 0), (3, 3), (5, 1)):
+    print("%.4f %.4f %.4f" % c)
+# =&gt;
+# 5.6260 3.2600 2.0407
+# 3.6726 -3.7924 4.3274
+# -0.8458 2.6192 2.9887</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified_2">Verified</h3>
+<div class="paragraph">
+<p>内接円</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "CGL_7_B: Incircle of a Triangle": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5106019#1">source</a> (Python3, 0.02sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://ja.wikipedia.org/wiki/%E4%B8%89%E8%A7%92%E5%BD%A2%E3%81%AE%E5%86%85%E6%8E%A5%E5%86%86%E3%81%A8%E5%82%8D%E6%8E%A5%E5%86%86">三角形の内接円と傍接円 - Wikipedia</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

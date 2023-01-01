@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>実装メモ (C++) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="実装は基本的に実装テンプレートをベースに実装してます。 テンプレート 実装テンプレート 高速I/O処理 数学 最大公約数 ((拡張)ユークリッドの互除法) 繰り返し二乗法 幾何 線分同士の交差判定...">
+<meta property="og:title" content="実装メモ (C++) - yaketake08's 実装メモ">
+<meta property="og:description" content="実装メモ (C++)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/index.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/index.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>実装メモ (C++)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>実装は基本的に実装テンプレートをベースに実装してます。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_テンプレート">テンプレート</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./template/main.html">実装テンプレート</a></p>
+</li>
+<li>
+<p><a href="./template/fast_io.html">高速I/O処理</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_数学">数学</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./math/gcd.html">最大公約数 ((拡張)ユークリッドの互除法)</a></p>
+</li>
+<li>
+<p><a href="./math/pow.html">繰り返し二乗法</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_幾何">幾何</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./geometry/segment_line_intersection.html">線分同士の交差判定</a></p>
+</li>
+<li>
+<p><a href="./geometry/graham_scan.html">凸包 (Graham Scan)</a></p>
+</li>
+<li>
+<p><a href="./geometry/compress.html">座標圧縮</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_集合">集合</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./union_find/union_find.html">素集合データ構造 (Union-Find)</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ヒープ">ヒープ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./heap/leftist-heap.html">Leftist Heap</a></p>
+</li>
+<li>
+<p><a href="./heap/pairing-heap.html">Pairing Heap</a></p>
+</li>
+<li>
+<p><a href="./heap/rank-pairing-heap.html">Rank-Pairing Heap</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_二分木">二分木</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./binary_search_tree/persistent_RBST.html">永続RBST</a></p>
+</li>
+<li>
+<p><a href="./binary_search_tree/splay-tree.html">Splay tree</a></p>
+</li>
+<li>
+<p><a href="./binary_search_tree/red-black-tree.html">Red-Black Tree</a></p>
+</li>
+<li>
+<p><a href="./binary_search_tree/aa-tree.html">AA Tree</a></p>
+</li>
+<li>
+<p><a href="./binary_search_tree/ll-red-black-tree.html">Left-Leaning Red-Black Tree</a></p>
+</li>
+<li>
+<p><a href="./binary_search_tree/avl-tree.html">AVL Tree</a></p>
+</li>
+<li>
+<p><a href="./binary_search_tree/weak-avl-tree.html">Weak AVL Tree</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_区間クエリ">区間クエリ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./range_query/bit.html">Binary Indexed Tree</a></p>
+</li>
+<li>
+<p><a href="./range_query/rmq_segment_tree.html">Range Minimum Query (セグメント木)</a></p>
+</li>
+<li>
+<p><a href="./range_query/dynamic_segment_tree.html">Range Sum Query (動的セグメント木)</a></p>
+</li>
+<li>
+<p><a href="./range_query/rmq_rsq_segment_tree_lp.html">RMQ and RSQ (遅延評価セグメント木)</a></p>
+</li>
+<li>
+<p><a href="./range_query/rmq_ruq_segment_tree_lp.html">RMQ and RUQ (遅延評価セグメント木)</a></p>
+</li>
+<li>
+<p><a href="./range_query/hmv_segment_tree_lp.html">histric maximal valueのRMQ (遅延評価セグメント木)</a></p>
+</li>
+<li>
+<p><a href="./range_query/segment_tree_beats_1.html">区間chminクエリ, RMQ, and RSQ (Segment tree beats)</a></p>
+</li>
+<li>
+<p><a href="./range_query/segment_tree_beats_2.html">区間chmin/chmaxクエリ, RMQ, RSQ, RAQ, RUQ (Segment tree beats)</a></p>
+</li>
+<li>
+<p><a href="./range_query/rlaq_li_chao_tree_lp.html">線分追加クエリ, 線分加算クエリ (遅延評価 Li-Chao (Segment) Tree, 動的セグ木)</a></p>
+</li>
+<li>
+<p><a href="./range_query/rmq_li_chao_tree_lp.html">線分追加クエリ, RAQ, RMQ (遅延評価 Li-Chao (Segment) Tree, 動的セグ木)</a></p>
+</li>
+<li>
+<p><a href="./range_query/link-cut-tree.html">Link-Cut Tree</a></p>
+</li>
+<li>
+<p><a href="./range_query/sliding_window_minimum.html">Sliding Window Minimum</a></p>
+</li>
+<li>
+<p><a href="./convex_hull_trick/li_chao_tree.html">Convex Hull Trick (Li-Chao (Segment) Tree)</a></p>
+</li>
+<li>
+<p><a href="./convex_hull_trick/li_chao_tree_dynamic.html">Convex Hull Trick (Li-Chao (Segment) Tree, 動的セグ木)</a></p>
+</li>
+<li>
+<p><a href="./convex_hull_trick/deque.html">Convex Hull Trick (Deque)</a></p>
+</li>
+<li>
+<p><a href="./range_query/kd-tree.html">kd-tree (2次元)</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_グラフ">グラフ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./graph/dijkstra-binary.html">単一始点最短経路 (ダイクストラ法, 二分ヒープ)</a></p>
+</li>
+<li>
+<p><a href="./graph/dijkstra-fibonacci.html">単一始点最短経路 (ダイクストラ法, フィボナッチヒープ)</a></p>
+</li>
+<li>
+<p><a href="./graph/dijkstra-radix.html">単一始点最短経路 (ダイクストラ法, Radix Heap)</a></p>
+</li>
+<li>
+<p><a href="./graph/scc.html">強連結成分分解 (Kosaraju’s Algorithm)</a></p>
+</li>
+<li>
+<p><a href="./graph/bridge.html">橋検出 (Path-based DFS)</a></p>
+</li>
+<li>
+<p><a href="./graph/articulation-points.html">関節点検出 (LowLink)</a></p>
+</li>
+<li>
+<p><a href="./graph/dominator-lengauer-tarjan.html">Dominator (Lengauer-Tarjan Algorithm)</a></p>
+</li>
+<li>
+<p><a href="./graph/dominator-semi-nca.html">Dominator (SEMI-NCA Algorithm)</a></p>
+</li>
+<li>
+<p><a href="./graph/centroid-decomposition.html">重心分解</a></p>
+</li>
+<li>
+<p><a href="./graph/lca-doubling.html">最小共通祖先 (ダブリング)</a></p>
+</li>
+<li>
+<p><a href="./graph/auxiliary_tree.html">Auxiliary Tree (LCAベース)</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_フロー">フロー</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./max_flow/dinic.html">最大フロー (Dinic’s Algorithm)</a></p>
+</li>
+<li>
+<p><a href="./max_flow/push-relabel-highest.html">最大フロー (Push-Relabel Algorithm, highest selection)</a></p>
+</li>
+<li>
+<p><a href="./min_cost_flow/primal-dual.html">最小費用流問題 (Primal Dual Algorithm)</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_行列数列">行列・数列</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./series/kitamasa.html">きたまさ法</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_多項式高速フーリエ変換">多項式/高速フーリエ変換</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./fft/fmt.html">Fast Modulo Transform</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_文字列">文字列</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./string/rolling_hash.html">Rolling Hash</a></p>
+</li>
+<li>
+<p><a href="./string/sa_manber_and_myers.html">Suffix Array (Manber and Myers Algorithm)</a></p>
+</li>
+<li>
+<p><a href="./string/aho-corasick.html">Aho-Corasick Algorithm</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

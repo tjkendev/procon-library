@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Auxiliary Tree (LCAベース) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Auxiliary Tree, Virtual Tree 概要 \(N\) 個の頂点を含む根付き木 \(T\) より、とある頂点集合 \(X = {v_1, v_2, ..., v_K}\) と そ...">
+<meta property="og:title" content="Auxiliary Tree (LCAベース) - yaketake08's 実装メモ">
+<meta property="og:description" content="Auxiliary Tree (LCAベース)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/auxiliary_tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/graph/auxiliary_tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Auxiliary Tree (LCAベース)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Auxiliary Tree, Virtual Tree</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(N\) 個の頂点を含む根付き木 \(T\) より、とある頂点集合 \(X = {v_1, v_2, ..., v_K}\) と それらのLCAを含むような木を構築する。</p>
+</div>
+<div class="paragraph">
+<p>頂点集合 \(X\) に対し、以下の手順によって構築できる。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>頂点集合 \(X\) を、グラフ \(G\) をDFSした時のpre-orderの順序で並べる</p>
+<div class="ulist">
+<ul>
+<li>
+<p>このリストを \(A = v_{i_1}, v_{i_2}, ..., v_{i_K}\) とする</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>\(1 \le j &lt; K\) に対し、 \(w = lca(v_{i_j}, v_{i_{j+1}})\) を求める</p>
+</li>
+<li>
+<p>頂点集合 \(X\) と(2)のlcaの頂点から、Auxiliary Treeを構築する</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>ここでは、具体的に以下で構築する</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>(2)において、各 \(1 \le j &lt; K\) に対し求めたlca \(w\) をリスト \(A\) に追加する</p>
+</li>
+<li>
+<p>リスト \(A\) に含まれる頂点をもう一度pre-orderの順序で並べる</p>
+</li>
+<li>
+<p>リスト \(A\) に含まれる頂点 \(v_i\) を走査しながら、stackを用いてリスト \(A\) に含まれる直近の祖先 \(v_j\) を求める</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>頂点集合 \(X\) のサイズを \(K\) とすると、このAuxiliary Treeの頂点数は高々 \(2K-1\) になる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Euler Tour TechniqueとSparse Tableを用いた場合</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>前計算: \(O(N \log N)\)</p>
+</li>
+<li>
+<p>Auxiliary Treeの構築: \(O(K \log K)\)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Euler Tour TechniqueとSegment Treeを用いた場合</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>前計算: \(O(N)\)</p>
+</li>
+<li>
+<p>Auxiliary Treeの構築: \(O(K (\log K + \log N))\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_ett_sparse_table">実装 (ETT + Sparse Table)</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># Auxiliary Tree を保持する
+G0 = None
+
+S = None
+FS = LS = depth = None
+lg = None
+st = None
+# 前計算 O(N log N)
+def construct(N, G):
+    global S, FS, LS, depth, G0, lg, st
+    G0 = [None] * N
+
+    S = []
+    FS = [0]*N; LS = [0]*N
+    depth = [0]*N
+    # Euler tour technique
+    def dfs(v, p, d):
+        depth[v] = d
+        FS[v] = len(S)
+        S.append(v)
+        for w in G[v]:
+            if w == p:
+                continue
+            dfs(w, v, d+1)
+            S.append(v)
+        LS[v] = len(S)
+        S.append(v)
+    dfs(0, -1, 0)
+
+    # Sparse Table
+    L = len(S)
+    lg = [0]*(L+1)
+    for i in range(2, L+1):
+        lg[i] = lg[i &gt;&gt; 1] + 1
+    st = [[L]*(L - (1 &lt;&lt; i) + 1) for i in range(lg[L]+1)]
+    st[0][:] = S
+    b = 1
+    for i in range(lg[L]):
+        st0 = st[i]
+        st1 = st[i+1]
+        for j in range(L - (b&lt;&lt;1) + 1):
+            st1[j] = (st0[j] if depth[st0[j]] &lt;= depth[st0[j+b]] else st0[j+b])
+        b &lt;&lt;= 1
+
+# 頂点リストvsを含むAuxiliary Treeを構築 O(K log K)
+def auxiliary_tree(k, vs):
+    vs.sort(key=FS.__getitem__)
+    for i in range(k-1):
+        x = FS[vs[i]]; y = FS[vs[i+1]]
+        l = lg[y - x + 1]
+        w = st[l][x] if depth[st[l][x]] &lt;= depth[st[l][y - (1 &lt;&lt; l) + 1]] else st[l][y - (1 &lt;&lt; l) + 1]
+        vs.append(w)
+    vs.sort(key=FS.__getitem__)
+    stk = []
+    prv = -1
+    for v in vs:
+        if v == prv:
+            continue
+        while stk and LS[stk[-1]] &lt; FS[v]:
+            stk.pop()
+        if stk:
+            G0[stk[-1]].append(v)
+        G0[v] = []
+        stk.append(v)
+        prv = v</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Codeforces: "613D: Kingdom and its Cities": <a href="https://codeforces.com/contest/613/submission/59250663">source</a> (PyPy3, 920ms)</p>
+</li>
+<li>
+<p>AOJ: "0439: Coloured Mountain Hut": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=6154489#1">source</a> (Python3, 6.65sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

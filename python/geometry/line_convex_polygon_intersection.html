@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>凸多角形と直線の交差判定/交点 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Intersection between a convex polygon and a line 概要 凸多角形 \(P = (v_1, v_2, ..., v_N)\) と 点 \(p_0, p_...">
+<meta property="og:title" content="凸多角形と直線の交差判定/交点 - yaketake08's 実装メモ">
+<meta property="og:description" content="凸多角形と直線の交差判定/交点">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/geometry/line_convex_polygon_intersection.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/geometry/line_convex_polygon_intersection.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>凸多角形と直線の交差判定/交点</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Intersection between a convex polygon and a line</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>凸多角形 \(P = (v_1, v_2, ..., v_N)\) と 点 \(p_0, p_1\) を通る直線の交差判定と交点を求める</p>
+</div>
+<div class="sect2">
+<h3 id="_具体的計算">具体的計算</h3>
+<div class="paragraph">
+<p>\(h(i) = (v_{(i-1 \text{ mod } N)+1} - p_0) \times (p_1 - p_0)\) と定義する。</p>
+</div>
+<div class="paragraph">
+<p>この関数は、頂点が直線の左右どちらかにあるかによって符号が変化し、直線と頂点の距離に比例する。</p>
+</div>
+<div class="paragraph">
+<p>関数 \(h\) の最大値をとる \(x\) を \(x_1\), 最小値をとる \(x\) を \(x_0\) とする時、
+この関数は以下の性質を満たす</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>区間 \([x_0+1, x_0+N-1]\) について 関数 \(h\) は上に凸な関数</p>
+</li>
+<li>
+<p>区間 \([x_1+1, x_1+N-1]\) について 関数 \(h\) は下に凸な関数</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>この最大値と最小値は2回の三分探索で求める。
+1回目の三分探索では 区間 \([1, N]\) で定義される以下の関数 \(g\) 上で最小値をとる \(x_0\) を求める。(\(h(1) = h(N)\) の場合や \(h(1)\) が極値の場合は特殊ケースとして処理)</p>
+</div>
+<div class="paragraph">
+<p>\(\displaystyle g(x) = \min\left(h(x), \frac{h(N) - h(1)}{N-1}(x-1) + h(1)\right)\)</p>
+</div>
+<div class="paragraph">
+<p>2回目の三分探索では 区間 \([x_0+1, x_0+N-1]\) 上の関数 \(h\) で \(x_1\) を求める。</p>
+</div>
+<div class="paragraph">
+<p>この最大値、最小値を求めた後、交点を含む辺を見つけるために \(h(i)\) の符号が変化する箇所を二分探索で求める。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(\log N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>凸多角形の頂点は反時計回りのリストとして持つとする。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">def find_zero(x0, x1, f):
+    v0 = f(x0)
+    if v0 == 0:
+        return x0+1
+    left = x0; right = x1+1
+    while left+1 &lt; right:
+        mid = (left + right) &gt;&gt; 1
+        if v0 * f(mid) &gt;= 0:
+            left = mid
+        else:
+            right = mid
+    return right
+
+def binary_search(f, L):
+    left = 0; right = L
+    while left+1 &lt; right:
+        mid = (left + right) &gt;&gt; 1
+        if f(mid) &lt; 0:
+            left = mid
+        else:
+            right = mid
+    return right
+
+def line_polygon_intersection(p0, p1, qs):
+    x0, y0 = p0; x1, y1 = p1
+    dx = x1 - x0; dy = y1 - y0
+    h = lambda p: (p[0] - x0)*dy - (p[1] - y0)*dx
+    L = len(qs)
+
+    i0 = i1 = -1
+
+    v0 = h(qs[0])
+    v1 = h(qs[L-1])
+    if v0 == v1:
+        v2 = h(qs[1])
+        # assert v0 != v2
+        if v0 &lt; v2:
+            i0 = L-1
+        else:
+            i1 = L-1
+    else:
+        v2 = h(qs[1])
+        if v1 &gt; v0 &lt;= v2:
+            i0 = 0
+        elif v1 &lt; v0 &gt;= v2:
+            i1 = 0
+        else:
+            g = lambda x: min((v1 - v0)*x/(L-1) + v0, h(qs[x]))
+            i0 = binary_search(lambda x: g(x+1) - g(x), L-1)
+
+    if i1 == -1:
+        B = i0 - L
+        k = binary_search(lambda x: h(qs[B+x]) - h(qs[B+x+1]), L)
+        i1 = (i0 + k) % L
+    else:
+        B = i1 - L
+        k = binary_search(lambda x: h(qs[B+x+1]) - h(qs[B+x]), L)
+        i0 = (i1 + k) % L
+
+    if h(qs[i0]) * h(qs[i1]) &gt; 0:
+        # a line and a polygon are disjoint
+        return []
+
+    # a vertex to the left side of a line: i0
+    # a vertex to the right side of a line: i1
+
+    f = lambda i: h(qs[i-L])
+    k0 = find_zero(i1, i0 if i1 &lt; i0 else i0+L, f) % L
+    k1 = find_zero(i0, i1 if i0 &lt; i1 else i1+L, f) % L
+    # vertices to the left side of a line: k0, k0+1, ..., k1-2, k1-1
+    # vertices to the right side of a line: k1, k1+1, ..., k0-2, k0-1
+    if k0 == k1:
+        return [k0]
+    return [k0, k1]
+
+# e_i is a line segment between v_{i-1} and v_i
+
+p0, p1 = (0, 0), (1, 1)
+qs = [(0, 2), (2, 0), (4, 0), (4, 2), (2, 4), (0, 4)]
+print(line_polygon_intersection(p0, p1, qs))
+# =&gt; "[4, 1]": cross points is on either e_4 or e_1
+
+p0, p1 = (0, -1), (4, 0)
+qs = [(0, 2), (2, 0), (4, 0), (4, 2), (2, 4), (0, 4)]
+# =&gt; "[3]": cross point is on e_3</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Chazelle, Bernard, and David P. Dobkin. "Intersection of convex objects in two and three dimensions." Journal of the ACM (JACM) 34.1 (1987): 1-27.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

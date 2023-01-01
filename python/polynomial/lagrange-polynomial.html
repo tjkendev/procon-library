@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>ラグランジュ補完 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="ラグランジュ補完 (Lagrange Polynomial) 概要 \(N\) 個の点 \((x_0, y_0), (x_1, y_1), ..., (x_{N-1}, y_{N-1})\) を通る...">
+<meta property="og:title" content="ラグランジュ補完 - yaketake08's 実装メモ">
+<meta property="og:description" content="ラグランジュ補完">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/polynomial/lagrange-polynomial.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/polynomial/lagrange-polynomial.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>ラグランジュ補完</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>ラグランジュ補完 (Lagrange Polynomial)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(N\) 個の点 \((x_0, y_0), (x_1, y_1), ..., (x_{N-1}, y_{N-1})\) を通る多項式を求める。</p>
+</div>
+<div class="paragraph">
+<p>\(\displaystyle g_i(x) = \frac{(x - x_0) \ldots (x - x_{i-1})(x - x_{i+1}) \ldots (x - x_{N-1})}{(x_i - x_0) \ldots (x_i - x_{i-1})(x_i - x_{i+1}) \ldots (x_i - x_{N-1})}\)</p>
+</div>
+<div class="paragraph">
+<p>として、</p>
+</div>
+<div class="paragraph">
+<p>\(\displaystyle f(x) = \sum_{i=0}^{N-1} y_i g_i(x)\)</p>
+</div>
+<div class="paragraph">
+<p>とする。</p>
+</div>
+<div class="paragraph">
+<p>すると、 \(g_i(x_j) = 0\) \((i \not = j)\), \(g_i(x_i) = 1\) より、 \(f(x_i) = y_i g_i(x_i) = y_i\) を満たす。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># ラグランジュ補完の多項式の係数計算
+# N 個の点 (x_0, y_0), (x_1, y_1), ..., (x_{N-1}, y_{N-1}) について
+# X = [x_0, x_1, ..., x_{N-1}]
+# Y = [y_0, y_1, ..., y_{N-1}]
+def build(X, Y):
+    A = []
+    for x in X:
+        res = 1
+        for xi in X:
+            if x == xi:
+                continue
+            res *= x - xi
+        A.append(Y[x] / res)
+    return A
+ 
+# 係数の値から f(k) の値を計算
+# (全ての i について k != x_i とする)
+def calc(X, A, k):
+    # assert i not in X
+    base = 1
+    for xi in X:
+        base *= k - xi
+    return sum(base / (k - x) * a for x, a in zip(X, A))</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "1328: Find the Outlier": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3156519#1">source</a> (Python3, 0.36sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://ja.wikipedia.org/wiki/%E3%83%A9%E3%82%B0%E3%83%A9%E3%83%B3%E3%82%B8%E3%83%A5%E8%A3%9C%E9%96%93">ラグランジュ補完 - Wikipedia</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

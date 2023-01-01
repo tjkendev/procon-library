@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Splay tree - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 最近アクセスした値に素早くアクセスできる平衡二分探索木。 各操作で要素を参照した際、スプレー操作を行い、木を回転しながら要素をトップに持ってくる。 計算量 各クエリ ならし \(O(\log...">
+<meta property="og:title" content="Splay tree - yaketake08's 実装メモ">
+<meta property="og:description" content="Splay tree">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/binary_search_tree/splay-tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/binary_search_tree/splay-tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Splay tree</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>最近アクセスした値に素早くアクセスできる平衡二分探索木。</p>
+</div>
+<div class="paragraph">
+<p>各操作で要素を参照した際、スプレー操作を行い、木を回転しながら要素をトップに持ってくる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各クエリ ならし \(O(\log N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各ノードに以下の情報を持たせている</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>左右の子ノード</p>
+</li>
+<li>
+<p>key</p>
+</li>
+<li>
+<p>そのノード以下の部分木のサイズ</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;iostream&gt;
+#include&lt;stack&gt;
+using namespace std;
+using ll = long long;
+
+
+struct Node {
+  Node *left, *right;
+  ll key;
+  int count;
+
+  Node(ll key, int count)
+    : key(key), count(count), left(nullptr), right(nullptr) {}
+};
+
+// splay a node nd
+Node* splay(stack&lt;Node*&gt; &amp;st, stack&lt;bool&gt; &amp;dr, Node* nd) {
+  Node *l = nd-&gt;left, *r = nd-&gt;right;
+  int L = (l ? l-&gt;count : 0), R = (r ? r-&gt;count : 0);
+  int c = st.size() &gt;&gt; 1;
+  Node *x, *y; bool d, d1;
+  while(c--) {
+    x = st.top(); st.pop();
+    y = st.top(); st.pop();
+    d = dr.top(); dr.pop();
+    d1 = dr.top(); dr.pop();
+
+    if(d == d1) {
+      // Zig-zig step
+      int e = (y-&gt;count -= L + R + 2);
+      if(d) {
+        y-&gt;right = x-&gt;left; x-&gt;left = y;
+        x-&gt;right = l; l = x;
+
+        l-&gt;count = (L += e + 1);
+      } else {
+        y-&gt;left = x-&gt;right; x-&gt;right = y;
+        x-&gt;left = r; r = x;
+
+        r-&gt;count = (R += e + 1);
+      }
+    } else {
+      // Zig-zag step
+      if(d) {
+        x-&gt;right = l; l = x;
+        y-&gt;left = r; r = y;
+
+        L = (l-&gt;count -= R + 1);
+        R = (r-&gt;count -= L + 1);
+      } else {
+        x-&gt;left = r; r = x;
+        y-&gt;right = l; l = y;
+
+        R = (r-&gt;count -= L + 1);
+        L = (l-&gt;count -= R + 1);
+      }
+    }
+  }
+
+  if(!st.empty()) {
+    // Zig step
+    Node *x = st.top(); bool d = dr.top();
+    if(d) {
+      x-&gt;right = l; l = x;
+      L = (l-&gt;count -= R + 1);
+    } else {
+      x-&gt;left = r; r = x;
+      R = (r-&gt;count -= L + 1);
+    }
+  }
+
+  nd-&gt;left = l; nd-&gt;right = r;
+  nd-&gt;count = L + R + 1;
+
+  return nd;
+}
+
+// merge a tree l with a tree r
+Node* t_merge(Node *l, Node *r) {
+  if(!l || !r) {
+    return l ? l : r;
+  }
+
+  if(!l-&gt;right) {
+    l-&gt;count += r-&gt;count;
+    l-&gt;right = r;
+    return l;
+  }
+
+  stack&lt;Node*&gt; st;
+  stack&lt;bool&gt; dr;
+  Node *x = l;
+  while(x-&gt;right) {
+    st.push(x); dr.push(true);
+    x = x-&gt;right;
+  }
+
+  l = splay(st, dr, x);
+  l-&gt;count += r-&gt;count;
+  l-&gt;right = r;
+  return l;
+}
+
+// split a tree t into two trees of size k and |t|-k
+typedef pair&lt;Node*, Node*&gt; NodeP;
+NodeP t_split(Node *t, int k) {
+  if(!t || !(0 &lt; k &amp;&amp; k &lt; t-&gt;count)) {
+    return NodeP(t, nullptr);
+  }
+  Node *x = t;
+  stack&lt;Node*&gt; st;
+  stack&lt;bool&gt; dr;
+  while(x) {
+    Node *l = x-&gt;left;
+    int c = (l ? l-&gt;count : 0) + 1;
+
+    if(c == k) break;
+
+    st.push(x);
+    if(c &lt; k) {
+      k -= c;
+      x = x-&gt;right;
+      dr.push(true);
+    } else {
+      x = x-&gt;left;
+      dr.push(false);
+    }
+  }
+  Node *l = splay(st, dr, x), *r = l-&gt;right;
+  if(r) l-&gt;count -= r-&gt;count;
+  l-&gt;right = nullptr;
+  return NodeP(l, r);
+}
+
+// insert a node with key = val
+Node* insert(Node* t, ll val) {
+  Node *nd = new Node(val, 1);
+  stack&lt;Node*&gt; st;
+  stack&lt;bool&gt; dr;
+  Node *x = t, *y = nullptr;
+  bool d;
+  while(x) {
+    st.push(y = x);
+    dr.push(d = (x-&gt;key &lt;= val));
+    x-&gt;count++;
+    x = (!d ? x-&gt;left : x-&gt;right);
+  }
+  if(!y) {
+    return nd;
+  }
+  (!d ? y-&gt;left : y-&gt;right) = nd;
+  return splay(st, dr, nd);
+}
+
+// delete a node with key = val
+Node* remove(Node *t, ll val) {
+  stack&lt;Node*&gt; st;
+  stack&lt;bool&gt; dr;
+  Node *x = t; bool d;
+  while(x &amp;&amp; x-&gt;key != val) {
+    st.push(x);
+    dr.push(d = (x-&gt;key &lt;= val));
+    x = (!d ? x-&gt;left : x-&gt;right);
+  }
+  if(!x) return t;
+
+  t = splay(st, dr, x);
+  return t_merge(t-&gt;left, t-&gt;right);
+}
+
+// find a node with key = val
+Node* find(Node *t, ll val) {
+  stack&lt;Node*&gt; st;
+  stack&lt;bool&gt; dr;
+  Node *x = t; bool d;
+  while(x &amp;&amp; x-&gt;key != val) {
+    st.push(x);
+    dr.push(d = (x-&gt;key &lt;= val));
+    x = (!d ? x-&gt;left : x-&gt;right);
+  }
+  if(!x) return t;
+
+  return splay(st, dr, x);
+}
+
+// for debug
+int dfs(Node *v, int k) {
+  if(!v) return 0;
+  int r = 0;
+  if(v-&gt;left) r += dfs(v-&gt;left, k+1);
+  for(int i=0; i&lt;k; ++i) cout &lt;&lt; " "; cout &lt;&lt; v-&gt;key &lt;&lt; " " &lt;&lt; v-&gt;count &lt;&lt; endl;
+  if(v-&gt;right) r += dfs(v-&gt;right, k+1);
+  return r+1;
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": <a href="https://beta.atcoder.jp/contests/arc033/submissions/3674374">source</a> (C++14, 308ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.slideshare.net/iwiwi/2-12188757">プログラミングコンテストでのデータ構造 2　～平衡二分探索木編～</a></p>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Splay_tree">Splay tree - Wikipedia</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

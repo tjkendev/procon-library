@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Suffix Array (Rolling Hash) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 Rolling Hashを用いてSuffixArrayを計算する。 S[i:] と S[j:] のLCPの長さはRolling Hash上で二分探索を行い求める。 Suffix Arrayは、...">
+<meta property="og:title" content="Suffix Array (Rolling Hash) - yaketake08's 実装メモ">
+<meta property="og:description" content="Suffix Array (Rolling Hash)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/string/sa_rolling_hash.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/string/sa_rolling_hash.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Suffix Array (Rolling Hash)</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Rolling Hashを用いてSuffixArrayを計算する。</p>
+</div>
+<div class="paragraph">
+<p><code>S[i:]</code> と <code>S[j:]</code> のLCPの長さはRolling Hash上で二分探索を行い求める。</p>
+</div>
+<div class="paragraph">
+<p>Suffix Arrayは、LCPの計算を利用しながらソートを行って構築する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>SuffixArrayの構築: \(O(N \log^2 N)\)</p>
+</li>
+<li>
+<p>LCPの計算: \(O(\log N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># *** 入力
+# N: 文字列の長さ
+# S: 文字列
+# *** 出力
+# sa[i]: SuffixArray
+S = ...
+N = len(S)
+
+import functools
+
+*SC, = map(ord, S+"$")
+
+*sa, = range(N)
+
+L = N + 1
+rh = [0]*(L + 1)
+md = [1]*(L + 1)
+MOD = 2147483647
+base = 37; rev = pow(base, MOD-2, MOD)
+for i in range(1, L + 1):
+    md[i] = md[i-1] * rev % MOD
+cA = ord('a')
+for i in range(L):
+    rh[i+1] = (rh[i] * base + (SC[i] - cA)) % MOD
+
+# lcp(i, j): S[i:] と S[j:] の最長共通接頭語(LCP)の長さを求める
+def lcp(i, j):
+    left = 0; right = N+1 - max(i, j)
+    v = (rh[i]-rh[j]) % MOD
+    while left+1 &lt; right:
+        mid = (left + right) &gt;&gt; 1
+        if (rh[i+mid]-rh[j+mid])*md[mid] % MOD == v:
+            left = mid
+        else:
+            right = mid
+    return left
+
+def cmp(a, b):
+    k = lcp(a, b)
+    return SC[a+k] - SC[b+k]
+sa.sort(key=functools.cmp_to_key(cmp))</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 050 - D問題: Suffix Concat": <a href="https://atcoder.jp/contests/arc050/submissions/3933420">source</a> (PyPy3, 2955ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://topcoder.g.hatena.ne.jp/spaghetti_source/20130209/1360403866">Rolling Hashing - 週刊 spaghetti_source</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

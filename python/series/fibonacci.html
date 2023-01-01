@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>フィボナッチ数列 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="フィボナッチ数列 (Fibonacci Sequence) 概要 フィボナッチ数列 \(a_{i+1} = a_i + a_{i-1}\) (\(a_0 = 0\), \(a_1 = 1\)) につ...">
+<meta property="og:title" content="フィボナッチ数列 - yaketake08's 実装メモ">
+<meta property="og:description" content="フィボナッチ数列">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/series/fibonacci.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/series/fibonacci.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>フィボナッチ数列</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>フィボナッチ数列 (Fibonacci Sequence)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>フィボナッチ数列 \(a_{i+1} = a_i + a_{i-1}\) (\(a_0 = 0\), \(a_1 = 1\)) について \(a_N\) を求める。</p>
+</div>
+<div class="paragraph">
+<p>\(a_0, a_1\) から順番に \(a_2, a_3, ..., a_N\) を計算することで \(O(N)\) で計算できる。</p>
+</div>
+<div class="paragraph">
+<p>また、 \(a_{i+1}, a_i, a_{i-1}\) の関係を行列を用いて以下のように表せるため、行列累乗によって \(a_N\) を \(O(\log N)\) で計算できる。</p>
+</div>
+<div class="paragraph">
+<p>\( \displaystyle \left( \begin{array}{c} a_{n+1} \\ a_n \end{array} \right) = \left( \begin{array}{cc} 1 &amp; 1 \\ 1 &amp; 0 \end{array} \right) \left( \begin{array}{c} a_n \\ a_{n-1} \end{array} \right) = \left( \begin{array}{cc} 1 &amp; 1 \\ 1 &amp; 0 \end{array} \right)^n \left( \begin{array}{c} a_1 \\ a_0 \end{array} \right)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># O(N)
+def fibonacci1(N, M):
+    a = 0; b = 1
+    for _ in range(N):
+        a, b = b, (a + b) % M
+    return a
+
+# O(log N)
+def fibonacci2(N, M):
+    # R = [1, 0; 0, 1]
+    RA = RD = 1; RB = RC = 0
+    # X = [1, 1; 1, 0]
+    XA = XB = XC = 1; XD = 0
+    while N:
+        if N &amp; 1:
+            # R &lt;- RX
+            RA, RB, RC, RD = (RA*XA + RB*XC) % M, (RA*XB + RB*XD) % M, (RC*XA + RD*XC) % M, (RC*XB + RD*XD) % M
+        # X &lt;- XX
+        XA, XB, XC, XD = (XA**2 + XB*XC) % M, XB*(XA + XD) % M, XC*(XA + XD) % M, (XB*XC + XD**2) % M
+        N &gt;&gt;= 1
+    return RC</code></pre>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

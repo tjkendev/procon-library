@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>凸多角形の点包含判定 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Check if a point is inside a convex polygon 概要 凸多角形 \(P = (v_1, v_2, ..., v_N)\) に点 \(w\) が含まれているかを...">
+<meta property="og:title" content="凸多角形の点包含判定 - yaketake08's 実装メモ">
+<meta property="og:description" content="凸多角形の点包含判定">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/geometry/point_inside_convex_polygon.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/geometry/point_inside_convex_polygon.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>凸多角形の点包含判定</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Check if a point is inside a convex polygon</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>凸多角形 \(P = (v_1, v_2, ..., v_N)\) に点 \(w\) が含まれているかを判定する。</p>
+</div>
+<div class="sect2">
+<h3 id="_外積による判定">外積による判定</h3>
+<div class="paragraph">
+<p>各辺に対し、同じ側に含まれているかを判定する。</p>
+</div>
+<div class="paragraph">
+<p>具体的には、全ての \(1 \le i \le N\) について外積 \((v_{i+1} - v_i) \times (w - v_i)\) が同じ符号(0含む)になるかを確認する。</p>
+</div>
+<div class="paragraph">
+<p>計算量: \(O(N)\)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_二分探索による判定">二分探索による判定</h3>
+<div class="paragraph">
+<p>凸多角形 \(P\) を \(v_1v_iv_{i+1}\) (\(2 \le i \le N-2\)) の \(N-2\) 個の三角形に分割し、点 \(w\) がどの三角形に含まれるかを外積 \((v_i - v_1) \times (w - v_1)\) の符号によって判定しながら二分探索し、包含判定を行う。</p>
+</div>
+<div class="paragraph">
+<p>計算量: \(O(\log N)\)</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>凸多角形の頂点は反時計回りのリストとして持つとする。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># cross product: (b - a)×(c - a)
+def cross3(a, b, c):
+    return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
+
+# O(N)
+def inside_convex_polygon0(p0, qs):
+    L = len(qs)
+    D = [cross3(qs[i-1], p0, qs[i]) for i in range(L)]
+    return all(e &gt;= 0 for e in D) or all(e &lt;= 0 for e in D)
+
+# O(log N)
+def inside_convex_polygon(p0, qs):
+    L = len(qs)
+    left = 1; right = L
+    q0 = qs[0]
+    while left+1 &lt; right:
+        mid = (left + right) &gt;&gt; 1
+        if cross3(q0, p0, qs[mid]) &lt;= 0:
+            left = mid
+        else:
+            right = mid
+    if left == L-1:
+        left -= 1
+    qi = qs[left]; qj = qs[left+1]
+    v0 = cross3(q0, qi, qj)
+    v1 = cross3(q0, p0, qj)
+    v2 = cross3(q0, qi, p0)
+    if v0 &lt; 0:
+        v1 = -v1; v2 = -v2
+    return 0 &lt;= v1 and 0 &lt;= v2 and v1 + v2 &lt;= v0
+
+qs = [(-2, 0), (0, -2), (2, 0), (0, 2)]
+print(inside_convex_polygon((0, 0), qs))
+# =&gt; "True"
+print(inside_convex_polygon((1, 1), qs))
+# =&gt; "True"
+print(inside_convex_polygon((2, 2), qs))
+# =&gt; "False"</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "2827: Industrial Convex Pillar City": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4374060#1">source</a> (Python3, 16.71sec)</p>
+</li>
+<li>
+<p>AOJ: "0412: Castle in the Sky": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5899544#1">source</a> (Python3, 1.09sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://cp-algorithms.com/geometry/point-in-convex-polygon.html">Check if point belongs to the convex polygon in O(log N) - CP-Algorithms</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

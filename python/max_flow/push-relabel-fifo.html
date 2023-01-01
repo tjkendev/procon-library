@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>最大フロー (Push-Relabel Algorithm, FIFO selection) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Push-Relabel Algorithm, Goldberg-Tarjan Algorithm 概要 最大流問題は、有向グラフ \(G = (V, E)\) の各辺 \(e \in E\) に容...">
+<meta property="og:title" content="最大フロー (Push-Relabel Algorithm, FIFO selection) - yaketake08's 実装メモ">
+<meta property="og:description" content="最大フロー (Push-Relabel Algorithm, FIFO selection)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/max_flow/push-relabel-fifo.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/max_flow/push-relabel-fifo.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>最大フロー (Push-Relabel Algorithm, FIFO selection)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Push-Relabel Algorithm, Goldberg-Tarjan Algorithm</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>最大流問題は、有向グラフ \(G = (V, E)\) の各辺 \(e \in E\) に容量 \(c(u, v)\) がついており、このグラフ上のsourceからsinkへ流せる流量を求める問題である。</p>
+</div>
+<div class="paragraph">
+<p>最大フロー最小カット定理が成り立つため、最小カット問題も解くことができる。</p>
+</div>
+<div class="sect2">
+<h3 id="_push_relabel_algorithm">Push-Relabel Algorithm</h3>
+<div class="paragraph">
+<p>Push-Relabel Algorithmでは、超過量のフロー(excess flow)を流し、すりきるような感じでsourceからsinkに流す。<br>
+このアルゴリズムではactiveな頂点(excess flowを持つ頂点)を選び、以下の二種類の操作を行う。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Push操作: capacityが残っている辺を通して、距離ラベルが小さい頂点にexcess flow分を流す</p>
+</li>
+<li>
+<p>Relabel操作: activeな頂点の距離ラベルを貼り直す</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>FIFO selectionでは、Queueを用いてactiveな頂点を管理する。</p>
+</div>
+<div class="paragraph">
+<p>このアルゴリズムはいくつかのヒューリスティックを入れることで高速化できる。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(|V|^3)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下のヒューリスティックを入れた実装</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Global Labeling</p>
+</li>
+<li>
+<p>Gap-Relabeling (たぶん正しいはず)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>状態をfreezeしてるため、フローを流した後のグラフ全体の正しい状態を得るには、frozenした頂点のexcess flowをsourceに戻す必要がある</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">from collections import deque
+class PushRelabel:
+    def __init__(self, N):
+        self.N = N
+        self.G = [[] for i in range(N)]
+        self.initial = [N]*N
+        self.zeros = [0]*(N+1)
+
+    def add_edge(self, fr, to, cap):
+        forward = [to, cap, None]
+        forward[2] = backward = [fr, 0, forward]
+        self.G[fr].append(forward)
+        self.G[to].append(backward)
+
+    def add_multi_edge(self, v1, v2, cap1, cap2):
+        edge1 = [v2, cap1, None]
+        edge1[2] = edge2 = [v1, cap2, edge1]
+        self.G[v1].append(edge1)
+        self.G[v2].append(edge2)
+
+    # Global labeling
+    def bfs(self, H, D, t, que=deque()):
+        que.append(t)
+        G = self.G
+        H[:] = self.initial
+        H[t] = 0
+        D[:] = self.zeros
+        D[0] = 1
+        N = self.N
+        c = N-1
+        while que:
+            v = que.popleft()
+            d = H[v] + 1
+            for w, cap, backward in G[v]:
+                if H[w] &lt;= d or backward[1] == 0:
+                    continue
+                H[w] = d
+                D[d] += 1
+                c -= 1
+                que.append(w)
+        D[N] = c
+        return d # gap
+
+    # FIFO preflow-push algorithm
+    def flow(self, s, t):
+        N = self.N
+        H = [0]*N # height
+        F = [0]*N # excess flow
+        D = [0]*(N+1) # distance label
+        active = [0]*N # active node
+
+        G = self.G
+
+        que = deque([s])
+        F[s] = 10**18
+        active[s] = 1
+
+        gap = self.bfs(H, D, t)
+
+        cnt = 0
+        while que:
+            v = que.popleft()
+            if v == t:
+                continue
+
+            hv = H[v]
+            # Gap-relabeling
+            if hv &gt; gap:
+                D[hv] -= 1
+                D[N] += 1
+                hv = H[v] = N
+                continue
+            # push
+            rest = F[v]
+            for e in G[v]:
+                w, cap, backward = e
+                if cap and hv &gt; H[w] &lt; gap:
+                    d = min(rest, cap)
+                    e[1] -= d
+                    backward[1] += d
+                    rest -= d
+                    F[w] += d
+                    if not active[w]:
+                        que.append(w)
+                        active[w] = 1
+                    if rest == 0:
+                        break
+            F[v] = rest
+
+            if rest == 0:
+                active[v] = 0
+                continue
+
+            # relabel
+            h0 = H[v]
+            hv = N
+            for w, cap, backward in G[v]:
+                if cap and hv &gt; H[w] + 1 &lt;= gap:
+                    hv = H[w] + 1
+            if hv != h0:
+                D[h0] -= 1
+                if D[h0] == 0 and h0 &lt; gap:
+                    gap = h0
+                    hv = N
+                elif hv == gap:
+                    gap += 1
+                D[hv] += 1
+
+            H[v] = hv
+            if hv &lt; N:
+                que.append(v)
+            else:
+                active[v] = 0
+
+            cnt += 1
+            if cnt % N == 0:
+                gap = self.bfs(H, D, t)
+        return F[t]</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_6_A: Network Flow - Maximum Flow": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3842664#1">source</a> (Python3, 0.03sec)</p>
+</li>
+<li>
+<p>AtCoder: "早稲田大学プログラミングコンテスト2019 - F問題: RPG": <a href="https://atcoder.jp/contests/wupc2019/submissions/7296026">source</a> (Python3, 52ms), <a href="https://atcoder.jp/contests/wupc2019/submissions/7296129">source</a> (PyPy3, 239ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Push%E2%80%93relabel_maximum_flow_algorithm">Push–relabel maximum flow algorithm - Wikipedia</a></p>
+</li>
+<li>
+<p><a href="http://www.prefield.com/algorithm/graph/goldberg_tarjan.html">最大流 (Goldberg-Tarjan) - Spaghetti Source</a></p>
+</li>
+<li>
+<p><a href="https://qiita.com/nariaki3551/items/65baee3c6ef0a6ffa136">Preflow Push-Relabel (プリフロープッシュリラベル) アルゴリズム 改良 - Qiita</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

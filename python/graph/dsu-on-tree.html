@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>dsu on tree - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 根付き木において、各頂点に対し、その頂点を根とする部分木に関する特性を求めるためのテクニック 計算量 木の頂点数を \(N\) とする。 特性を計算するためのデータ構造への1頂点の追加に \(...">
+<meta property="og:title" content="dsu on tree - yaketake08's 実装メモ">
+<meta property="og:description" content="dsu on tree">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/dsu-on-tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/graph/dsu-on-tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>dsu on tree</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>根付き木において、各頂点に対し、その頂点を根とする部分木に関する特性を求めるためのテクニック</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>木の頂点数を \(N\) とする。</p>
+</div>
+<div class="paragraph">
+<p>特性を計算するためのデータ構造への1頂点の追加に \(O(A)\), 1頂点の削除に \(O(B)\) 、1頂点ごとにクエリ処理に \(O(C)\) かかる場合</p>
+</div>
+<div class="paragraph">
+<p>\(O(N (A + B) \log N + NC)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">def dsu_on_tree(N, G, Prop):
+    order = []
+    prt = [-1]*N
+
+    que = [0]
+    pn = [-1]*N
+    used = [0]*N
+    used[0] = 1
+    while que:
+        v = que.pop()
+        for w in G[v]:
+            if used[w]:
+                continue
+            used[w] = 1
+            que.append(w)
+            prt[w] = v
+        pn[v] = len(order)
+        order.append(v)
+
+    sz = [0]*N
+    tmp_ps = [[i] for i in range(N)]
+    # heavy paths
+    h_ps = []
+    for v in reversed(order):
+        p = prt[v]
+        m_sz = 0
+        h = -1
+        s = 1
+        for w in G[v]:
+            if p == w:
+                continue
+            if m_sz &lt; sz[w]:
+                m_sz = sz[w]
+                h = w
+            s += sz[w]
+        if h != -1:
+            tmp_ps[v] = tmp_ps[h]
+            tmp_ps[v].append(v)
+            for w in G[v]:
+                if w == p or w == h:
+                    continue
+                h_ps.append(tmp_ps[w])
+        sz[v] = s
+    h_ps.append(tmp_ps[0])
+
+    ans = [-1]*N
+    ph = Prop()
+    for path in h_ps:
+        h = -1
+        for v in path:
+            p = prt[v]
+
+            for w in G[v]:
+                if w == p or w == h:
+                    continue
+                for c in order[pn[w]:pn[w] + sz[w]]:
+                    ph.add(c)
+            ph.add(v)
+            ans[v] = ph.get(v)
+            h = v
+
+        # 削除操作で初期化する
+        for c in order[pn[v]:pn[v] + sz[v]]:
+            ph.remove(c)
+        # 一括で初期化する場合 (更新した箇所のみ更新する)
+        # ph.reset()
+    return ans</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "2995 - Colorful Tree": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=6981311#1">source</a> (Python3, 2.74sec)</p>
+</li>
+<li>
+<p>Codeforces: "600E: Lomsat gelral": <a href="https://codeforces.com/contest/600/submission/173071288">source</a> (Python3, 1559ms)</p>
+</li>
+<li>
+<p>Codeforces: "246E: Blood Cousins Return": <a href="https://codeforces.com/contest/246/submission/173310023">source</a> (Python3, 2870ms)</p>
+</li>
+<li>
+<p>Codeforces: "375D: Tree and Queries": <a href="https://codeforces.com/contest/375/submission/173324222">source</a> (PyPy3, 920ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://codeforces.com/blog/entry/44351">[Tutorial] Sack (dsu on tree) - Codeforces</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

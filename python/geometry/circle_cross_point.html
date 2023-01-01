@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>円同士の交点 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 円1: 中心 \((x_1, y_1)\) 半径 \(r_1\) と 円2: 中心 \((x_2, y_2)\) 半径 \(r_2\) の2つの円について交点を計算する。 円1と円の交点のうち...">
+<meta property="og:title" content="円同士の交点 - yaketake08's 実装メモ">
+<meta property="og:description" content="円同士の交点">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/geometry/circle_cross_point.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/geometry/circle_cross_point.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>円同士の交点</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>円1: 中心 \((x_1, y_1)\) 半径 \(r_1\) と 円2: 中心 \((x_2, y_2)\) 半径 \(r_2\) の2つの円について交点を計算する。</p>
+</div>
+<div class="paragraph">
+<p>円1と円の交点のうちの1点がなす角 \(\theta\) の \(\cos \theta\) と \(\sin \theta\) の値を計算し、交点の座標を求める。</p>
+</div>
+<div class="sect2">
+<h3 id="_具体的計算">具体的計算</h3>
+<div class="paragraph">
+<p>2つの円の中心同士の距離を \(r_0\) とし、なす角 \(\theta\) を計算</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(\displaystyle \cos \theta = \frac{r_0^2 + r_1^2 - r_2^2}{2 r_0 r_1}\)</p>
+</li>
+<li>
+<p>\(\displaystyle \sin \theta = \sqrt{1 - \cos^2 \theta} = \frac{\sqrt{4 r_0^2 r_1^2 - (r_0^2 + r_1^2 - r_2^2)^2}}{2 r_0 r_1}\)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>そして、 \(d_x = x_2 - x_1\), \(d_y = y_2 - y_1\) とすると、2つの交点は、</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(\displaystyle \left( \begin{array}{c} x_1 \\ y_2 \end{array} \right) + \frac{r_1}{r_0} R(\theta) \left( \begin{array}{c} d_x \\ d_y \end{array} \right)\)</p>
+</li>
+<li>
+<p>\(\displaystyle \left( \begin{array}{c} x_1 \\ y_2 \end{array} \right) + \frac{r_1}{r_0} R(-\theta) \left( \begin{array}{c} d_x \\ d_y \end{array} \right)\)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>で計算できる (\(R(\theta)\) は \(2 \times 2\) の回転行列)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_頂点から円への接点の計算">頂点から円への接点の計算</h3>
+<div class="paragraph">
+<p>応用で 中心 \((x_1, y_1)\) 半径 \(r_1\) に対する、点 \((x_2, y_2)\) から引いた接線がなす接点を計算できる。</p>
+</div>
+<div class="paragraph">
+<p>2点 \((x_1, y_1)\) と \((x_2, y_2)\) の距離を \(r_0\) とする時、</p>
+</div>
+<div class="paragraph">
+<p>この接点は 中心 \((x_1, y_1)\) 半径 \(r_1\) と 中心 \((x_2, y_2)\) 半径 \(\sqrt{r_0^2 - r_1^2}\) の交点を計算することで求まる。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># the crossing points of two circles
+def circles_cross_points(x1, y1, r1, x2, y2, r2):
+    rr0 = (x2 - x1)**2 + (y2 - y1)**2
+    xd = x2 - x1
+    yd = y2 - y1
+    rr1 = r1**2; rr2 = r2**2
+    cv = (rr0 + rr1 - rr2)
+    sv = (4*rr0*rr1 - cv**2)**.5
+    return (
+        (x1 + (cv*xd - sv*yd)/(2.*rr0), y1 + (cv*yd + sv*xd)/(2.*rr0)),
+        (x1 + (cv*xd + sv*yd)/(2.*rr0), y1 + (cv*yd - sv*xd)/(2.*rr0)),
+    )
+
+# tangent points on a circle (x1, y1, r1) from a point (x2, y2)
+def circle_tangent_points(x1, y1, r1, x2, y2):
+    dd = (x1 - x2)**2 + (y1 - y2)**2
+    r2 = (dd - r1**2)**.5
+    return circles_cross_points(x1, y1, r1, x2, y2, r2)
+
+p0, p1 = circles_cross_points(0, 0, 10, 6, 5, 10)
+print("(%.4f, %.4f) (%.4f, %.4f)" % (p0 + p1))
+# =&gt; "(-2.8935, 9.5722) (8.8935, -4.5722)"
+
+p0, p1 = circle_tangent_points(0, 0, 10, 20, 15)
+print("(%.4f, %.4f) (%.4f, %.4f)" % (p0 + p1))
+# =&gt; "(-2.2991, 9.7321) (8.6991, -4.9321)"</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "CGL_7_E: Circles - Cross Points of Circles": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2416434#1">source</a> (Python2, 0.01sec)</p>
+</li>
+<li>
+<p>AOJ: "2697: Runner and Sniper": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4896313#1">source</a> (Python3, 0.03sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

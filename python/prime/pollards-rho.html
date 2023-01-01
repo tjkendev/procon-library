@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>素因数分解 (Pollard’s rho algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="素因数分解 (prime factorization) 概要 素因数分解を行うためのアルゴリズム。 ある数 \(N\) について、合成数の因数を確率的に発見する。 実装 def gcd(m, n):...">
+<meta property="og:title" content="素因数分解 (Pollard’s rho algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="素因数分解 (Pollard's rho algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/prime/pollards-rho.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/prime/pollards-rho.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>素因数分解 (Pollard’s rho algorithm)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>素因数分解 (prime factorization)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>素因数分解を行うためのアルゴリズム。</p>
+</div>
+<div class="paragraph">
+<p>ある数 \(N\) について、合成数の因数を確率的に発見する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">def gcd(m, n):
+    while n:
+        m, n = n, m % n
+    return m
+
+def pollard_rho(n, a, x0):
+    # use f(x) = x^2 + a (mod n)
+    f = lambda x: (x**2 + a) % n
+    x = y = x0
+    d = 1
+    while d == 1:
+        x = f(x)
+        y = f(f(y))
+        d = gcd(n, abs(x - y))
+    # return failure (-1) if d == n
+    return d if d &lt; n else -1
+
+# with Brent's improvement
+def pollard_rho(n, a, x0):
+    # use f(x) = x^2 + a (mod n)
+    f = lambda x: (x*x + a) % n
+    x = y = ys = x0; r = 1; q = 1
+    m = 100
+    d = 1
+    while d == 1:
+        x = y
+        for i in range(r):
+            y = f(y)
+        for k in range(0, r, m):
+            ys = y
+            for i in range(min(m, r-k)):
+                y = f(y)
+                q = q * abs(x - y) % n
+            d = gcd(n, q)
+            if d != 1:
+                break
+        r &lt;&lt;= 1
+    if d == n:
+        while d == 1:
+            ys = f(ys)
+            d = gcd(n, abs(x - ys))
+    # return failure (-1) if d == n
+    return d if d &lt; n else -1
+
+print(pollard_rho(1000000009 * 1000000007, 1, 2))
+# =&gt; "1000000009"
+print(pollard_rho(2 * 3 * 5 * 17, 1, 2))
+# =&gt; "6"
+print(pollard_rho(1000000007, 1, 2))
+# =&gt; "-1"</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm">Pollard’s rho algorithm - Wikipedia</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

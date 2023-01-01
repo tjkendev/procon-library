@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Range Sum Query (動的セグメント木) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Range Sum Query 動的セグメント木(Dynamic Segment Tree) 概要 セグメント木の動的バージョン 大きい区間(区間 \([0, 10^9)\) 等)を扱えたり、メモリ...">
+<meta property="og:title" content="Range Sum Query (動的セグメント木) - yaketake08's 実装メモ">
+<meta property="og:description" content="Range Sum Query (動的セグメント木)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/range_query/dynamic_segment_tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/range_query/dynamic_segment_tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Range Sum Query (動的セグメント木)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Range Sum Query</p>
+</div>
+<div class="paragraph">
+<p>動的セグメント木(Dynamic Segment Tree)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>セグメント木の動的バージョン</p>
+</div>
+<div class="paragraph">
+<p>大きい区間(区間 \([0, 10^9)\) 等)を扱えたり、メモリ量少なめに区間クエリを処理することができる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>扱う区間のサイズをNとする。(つまり、区間 \([0, N)\) を扱う動的セグメント木)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>更新: \(O(\log N)\)</p>
+</li>
+<li>
+<p>区間和: \(O(\log N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">using ll = long long;
+
+#define MOD 1000000007
+ 
+struct Node {
+  Node *left, *right;
+  ll v;
+ 
+  Node() : left(nullptr), right(nullptr), v(0) {}
+};
+ 
+// Dynamic Segment Tree
+class SegmentTree {
+  Node *root;
+  int n, n0;
+ 
+  ll query(int a, int b, Node *n, int l, int r) {
+    if(a &lt;= l &amp;&amp; r &lt;= b) {
+      return n-&gt;v;
+    }
+    if(r &lt;= a || b &lt;= l) {
+      return 0;
+    }
+ 
+    ll lv = n-&gt;left ? query(a, b, n-&gt;left, l, (l + r) &gt;&gt; 1) : 0;
+    ll rv = n-&gt;right ? query(a, b, n-&gt;right, (l + r) &gt;&gt; 1, r) : 0;
+    return (lv + rv) % MOD;
+  }
+ 
+public:
+  SegmentTree(int n) : n(n) {
+    n0 = 1;
+    while(n0 &lt; n) n0 &lt;&lt;= 1;
+    root = new Node();
+  }
+  ~SegmentTree() {
+    delete root; root = nullptr;
+  }
+ 
+  void update(int k, ll x) {
+    Node *n = root;
+    int l = 0, r = n0;
+    n-&gt;v = (n-&gt;v + x) % MOD;
+    while(r-l &gt; 1) {
+      int m = (l + r) &gt;&gt; 1;
+      if(k &lt; m) {
+        if(!n-&gt;left) n-&gt;left = new Node();
+        n = n-&gt;left;
+ 
+        r = m;
+      } else {
+        if(!n-&gt;right) n-&gt;right = new Node();
+        n = n-&gt;right;
+ 
+        l = m;
+      }
+      n-&gt;v = (n-&gt;v + x) % MOD;
+    }
+  }
+ 
+  ll query(int a, int b) {
+    return query(a, b, root, 0, n0);
+  }
+ 
+  ll lquery(int b) {
+    return query(0, b, root, 0, n0);
+  }
+ 
+  ll rquery(int a) {
+    return query(a, n0, root, 0, n0);
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 054 - D問題: バブルソート": <a href="https://atcoder.jp/contests/arc054/submissions/4032958">source</a> (C++14, 650ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

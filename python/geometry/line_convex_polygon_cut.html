@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>直線による凸多角形の切断 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Cutting a convex polygon by a line 概要 凸多角形 \(P = (v_1, v_2, ..., v_N)\) を 点 \(p_0, p_1\) で切断し、その左側に...">
+<meta property="og:title" content="直線による凸多角形の切断 - yaketake08's 実装メモ">
+<meta property="og:description" content="直線による凸多角形の切断">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/geometry/line_convex_polygon_cut.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/geometry/line_convex_polygon_cut.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>直線による凸多角形の切断</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cutting a convex polygon by a line</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>凸多角形 \(P = (v_1, v_2, ..., v_N)\) を 点 \(p_0, p_1\) で切断し、その左側にできる凸多角形 \(P'\) を求める</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>凸多角形の頂点は反時計回りのリストとして持つとする。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">def cross3(O, A, B):
+    ox, oy = O; ax, ay = A; bx, by = B
+    return (ax - ox) * (by - oy) - (bx - ox) * (ay - oy)
+def cross_point(p0, p1, q0, q1):
+    x0, y0 = p0; x1, y1 = p1
+    x2, y2 = q0; x3, y3 = q1
+    dx0 = x1 - x0; dy0 = y1 - y0
+    dx1 = x3 - x2; dy1 = y3 - y2
+    s = (y0-y2)*dx1 - (x0-x2)*dy1
+    sm = dx0*dy1 - dy0*dx1
+    if -EPS &lt; sm &lt; EPS:
+        return None
+    return x0 + s*dx0/sm, y0 + s*dy0/sm
+EPS = 1e-9
+def convex_cut(P, line):
+    q0, q1 = line
+    N = len(P)
+    Q = []
+    for i in range(N):
+        p0 = P[i-1]; p1 = P[i]
+        cv0 = cross3(q0, q1, p0)
+        cv1 = cross3(q0, q1, p1)
+        if cv0 * cv1 &lt; EPS:
+            v = cross_point(q0, q1, p0, p1)
+            if v is not None:
+                Q.append(v)
+        if cv1 &gt; -EPS:
+            Q.append(p1)
+    return Q
+
+P = [(0, 0), (10, 1), (1, 10)]
+line = ((5, -3), (7, 8))
+for x, y in convex_cut(P, line):
+    print("%.4f %.4f" % (x, y))
+# =&gt;
+# 0.0000 0.0000
+# 5.6481 0.5648
+# 6.3846 4.6154
+# 1.0000 10.0000</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "CGL_4_C: Convex Cut": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4547014">source</a> (Python3, 0.03sec)</p>
+</li>
+<li>
+<p>AOJ: "2160: Voronoi Island": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4546990">source</a> (Python3, 0.04sec)</p>
+</li>
+<li>
+<p>AOJ: "2385: Shelter": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4802378#1">source</a> (Python3, 0.32sec)</p>
+</li>
+<li>
+<p>AOJ: "2626: Gravity Point": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4837015#1">source</a> (Python3, 0.09sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

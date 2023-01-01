@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Dominator (Lengauer-Tarjan Algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Finding Dominators in Directed Graphs (Lengauer-Tarjan Algorithm) 概要 \(r\) を始点とする有向グラフ \(G = (V, A,...">
+<meta property="og:title" content="Dominator (Lengauer-Tarjan Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="Dominator (Lengauer-Tarjan Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/dominator-lengauer-tarjan.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/graph/dominator-lengauer-tarjan.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Dominator (Lengauer-Tarjan Algorithm)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Finding Dominators in Directed Graphs (Lengauer-Tarjan Algorithm)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(r\) を始点とする有向グラフ \(G = (V, A, r)\) において、各頂点 \(v\) を直近で支配する頂点 (an immediate dominator) を求める。
+始点 \(r\) から頂点 \(v\) に到達する際に必ず頂点 \(u\) を通るとき、頂点 \(u\) は頂点 \(v\) の dominator となる。</p>
+</div>
+<div class="paragraph">
+<p>グラフ \(G\) の DFS Tree \(T\) を構築し \(T\) 上の行きがけ順を求め、そこから semidominator を求める。
+そして、この semidominator を元に各頂点の immediate dominator を求める。</p>
+</div>
+<div class="paragraph">
+<p>ここでは、頂点 \(v\) の semidominator \(sdom(v)\) は、 \(v\) への semidominator path が存在する頂点で、 (\(T\) 上の行きがけ順で) 最小となる頂点 \(u\) として定義する。<br>
+また、 semidominator path は (\(G\) 上の) path \(P = (u = v_0, v_1, ..., v_{k-1}, v_k = v)\) に対し (\(T\) 上の行きがけ順で) \(v_i &gt; v \; (1 \le i \le k-1)\) を満たす path として定義する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(N = |V|\), \(M = |A|\) とする</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>simple version の EVAL-LINK を用いた実装: \(O(M \log N)\)</p>
+</li>
+<li>
+<p>sophisticated version の EVAL-LINK を用いた実装: \(O(M \alpha(M, N))\) (\(\alpha\) はアッカーマン関数の逆数)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_simple_version_の_eval_link">実装 (simple version の EVAL-LINK)</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">def dfs_preorder(N, G, s):
+    order = [-1]*N
+    order[s] = 0
+    vs = [0]*N
+    vs[0] = s
+    prt = [-1]*N
+    stk = [s]
+    it = [0]*N
+
+    cur = 0
+    while stk:
+        v = stk[-1]
+        while it[v] &lt; len(G[v]):
+            w = G[v][it[v]]; it[v] += 1
+            if order[w] == -1:
+                prt[w] = v
+                stk.append(w)
+
+                order[w] = cur = cur+1
+                vs[cur] = w
+                break
+        else:
+            stk.pop()
+    return vs, order, prt
+
+def dominator(N, G, s):
+    vs, semi, prt = dfs_preorder(N, G, s)
+    doms = [-1]*N
+
+    RG = [[] for i in range(N)]
+    for v in range(N):
+        for w in G[v]:
+            RG[w].append(v)
+    bucket = [[] for i in range(N)]
+
+    *anc, = range(N)
+    *label, = range(N)
+
+    def s_link(v, w):
+        anc[w] = v
+    def s_eval(v):
+        if v == anc[v]:
+            return v
+        compress(v, anc[v])
+        return label[v]
+    def compress(v, w):
+        if w == anc[w]:
+            return w
+        anc[v] = u = compress(w, anc[w])
+        if semi[label[w]] &lt; semi[label[v]]:
+            label[v] = label[w]
+        return u
+
+    for w in reversed(vs[1:]):
+        for v in bucket[w]:
+            u = s_eval(v)
+            if semi[u] &lt; semi[v]:
+                doms[v] = u
+            else:
+                doms[v] = w
+        for v in RG[w]:
+            su = semi[s_eval(v)]
+            if su &lt; semi[w]:
+                semi[w] = su
+        if vs[semi[w]] != prt[w]:
+            bucket[vs[semi[w]]].append(w)
+        else:
+            doms[w] = prt[w]
+        s_link(prt[w], w)
+    for v in bucket[s]:
+        doms[v] = s
+    for w in vs[1:]:
+        if doms[w] != vs[semi[w]]:
+            doms[w] = doms[doms[w]]
+    doms[s] = s
+    return doms</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "0294: Catch a Thief": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=6493050#1">source</a> (Python3, 1.31sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_sophisticated_version_の_eval_link">実装 (sophisticated version の EVAL-LINK)</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-1">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-1" data-lang="python">def dfs_preorder(N, G, s):
+    order = [-1]*N
+    order[s] = 0
+    vs = [0]*N
+    vs[0] = s
+    prt = [-1]*N
+    stk = [s]
+    it = [0]*N
+
+    cur = 0
+    while stk:
+        v = stk[-1]
+        while it[v] &lt; len(G[v]):
+            w = G[v][it[v]]; it[v] += 1
+            if order[w] == -1:
+                prt[w] = v
+                stk.append(w)
+
+                order[w] = cur = cur+1
+                vs[cur] = w
+                break
+        else:
+            stk.pop()
+    return vs, order, prt
+
+def dominator(N, G, s):
+    vs, semi, prt = dfs_preorder(N, G, s)
+    doms = [-1]*N
+
+    RG = [[] for i in range(N)]
+    for v in range(N):
+        for w in G[v]:
+            RG[w].append(v)
+    bucket = [[] for i in range(N)]
+
+    *anc, = range(N)
+    *label, = range(N)
+    size = [1]*N; child = [-1]*N
+
+    def s_link(v, w):
+        s = w
+        while child[s] != -1 and semi[label[w]] &lt; semi[label[child[s]]]:
+            ccsz = (size[child[child[s]]] if child[child[s]] != -1 else 0)
+            if size[s] + ccsz &gt;= 2*size[child[s]]:
+                anc[child[s]] = s
+                child[s] = child[child[s]]
+            else:
+                size[child[s]] = size[s]
+                anc[s] = s = child[s]
+        label[s] = label[w]
+        size[v] += size[w]
+        if size[v] &lt; 2*size[w]:
+            s, child[v] = child[v], s
+        while s != -1:
+            anc[s] = v
+            s = child[s]
+    def s_eval(v):
+        if anc[v] == v:
+            return label[v]
+        compress(v, anc[v])
+        if semi[label[anc[v]]] &gt;= semi[label[v]]:
+            return label[v]
+        return label[anc[v]]
+    def compress(v, w):
+        if w == anc[w]:
+            return w
+        anc[v] = u = compress(w, anc[w])
+        if semi[label[w]] &lt; semi[label[v]]:
+            label[v] = label[w]
+        return u
+
+    for w in reversed(vs[1:]):
+        for v in bucket[w]:
+            u = s_eval(v)
+            if semi[u] &lt; semi[v]:
+                doms[v] = u
+            else:
+                doms[v] = w
+        for v in RG[w]:
+            su = semi[s_eval(v)]
+            if su &lt; semi[w]:
+                semi[w] = su
+        if vs[semi[w]] != prt[w]:
+            bucket[vs[semi[w]]].append(w)
+        else:
+            doms[w] = prt[w]
+        s_link(prt[w], w)
+    for v in bucket[s]:
+        doms[v] = s
+    for w in vs[1:]:
+        if doms[w] != vs[semi[w]]:
+            doms[w] = doms[doms[w]]
+    doms[s] = s
+    return doms</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified_2">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "0294: Catch a Theif": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=6493100#1">source</a> (Python3, 1.26sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Lengauer, Thomas, and Robert Endre Tarjan. "A fast algorithm for finding dominators in a flowgraph." ACM Transactions on Programming Languages and Systems (TOPLAS) 1.1 (1979): 121-141.</p>
+</li>
+<li>
+<p>Georgiadis, Loukas, Robert E. Tarjan, and Renato F. Werneck. "Finding dominators in practice." Journal of Graph Algorithms and Applications 10.1 (2006): 69-94.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Convex Hull Trick (Deque) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 Dequeを用いてConvex Hull Trickを行うアルゴリズム 蟻本[1]に載っている。 以下の条件を満たす場合、CHTを線形オーダーで解くことができる。 追加する直線の傾きが単調増加...">
+<meta property="og:title" content="Convex Hull Trick (Deque) - yaketake08's 実装メモ">
+<meta property="og:description" content="Convex Hull Trick (Deque)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/convex_hull_trick/deque.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/convex_hull_trick/deque.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Convex Hull Trick (Deque)</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Dequeを用いてConvex Hull Trickを行うアルゴリズム</p>
+</div>
+<div class="paragraph">
+<p>蟻本<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>に載っている。</p>
+</div>
+<div class="paragraph">
+<p>以下の条件を満たす場合、CHTを線形オーダーで解くことができる。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>追加する直線の傾きが単調増加(減少)</p>
+</li>
+<li>
+<p>計算する最小値(最大値)の座標 \(x\) が単調増加(減少)</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>\(N\) 本の直線追加: \(O(N)\)</p>
+</li>
+<li>
+<p>\(Q\) 個の座標における最小値: \(O(Q)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;deque&gt;
+using namespace std;
+using ll = long long;
+
+class ConvexHullTrick {
+  struct F {
+    ll a, b;
+    F(ll a, ll b) : a(a), b(b) {}
+  };
+
+  deque&lt;F&gt; deq;
+
+  bool check(F &amp;f1, F &amp;f2, F &amp;f3) {
+    return (f2.a - f1.a) * (f3.b - f2.b) &gt;= (f2.b - f1.b) * (f3.a - f2.a);
+  }
+
+  ll f(F &amp;f1, ll x) {
+    return f1.a * x + f1.b;
+  }
+
+public:
+  // a_{prev} &gt;= a
+  void add_line(ll a, ll b) {
+    F f1 = F(a, b);
+    while(deq.size() &gt;= 2 &amp;&amp; check(deq[deq.size()-2], deq[deq.size()-1], f1)) {
+      deq.pop_back();
+    }
+    deq.push_back(f1);
+  }
+
+  // x_{prev} &lt;= x
+  ll query(ll x) {
+    while(deq.size() &gt;= 2 &amp;&amp; f(deq[0], x) &gt;= f(deq[1], x)) {
+      deq.pop_front();
+    }
+    return f(deq[0], x);
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "Educational DP Contest / DP まとめコンテスト - Z問題: Frog 3": <a href="https://atcoder.jp/contests/dp/submissions/3963619">source</a> (C++14, 25ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. プログラミングコンテストチャレンジブック [第2版] p.304
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

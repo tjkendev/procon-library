@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>分数の端数処理 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Rounding fractions 概要 ある整数 \(p, q\) で表される分数 \(\frac{p}{q}\) を整数に変換する時の端数処理 切り上げ (rounding up) 切り捨て...">
+<meta property="og:title" content="分数の端数処理 - yaketake08's 実装メモ">
+<meta property="og:description" content="分数の端数処理">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/math/rounding_fractions.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/math/rounding_fractions.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>分数の端数処理</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Rounding fractions</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ある整数 \(p, q\) で表される分数 \(\frac{p}{q}\) を整数に変換する時の端数処理</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>切り上げ (rounding up)</p>
+</li>
+<li>
+<p>切り捨て (rounding down)</p>
+</li>
+<li>
+<p>四捨五入 (rounding half up)</p>
+</li>
+<li>
+<p>五捨五超入 (rounding half down)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># ==== 切り上げ
+
+def round_up0(p, q):
+    if q &lt; 0:
+        p = -p; q = -q
+    return (p + q - 1) // q
+
+# ceil(p/q) = -floor(-(p/q))
+def round_up1(p, q):
+    return - (-p // q)
+
+# ==== 切り捨て
+
+def round_down(p, q):
+    return p // q
+
+# ==== 四捨五入
+
+# floor((p/q) + (1/2))
+def round_half_up0(p, q):
+    return (2*p + q) // (2*q)
+
+def round_half_up1(p, q):
+    if q &lt; 0:
+        q = -q; p = -p
+    x = p // q
+    # x+(1/2) &lt;= (p/q) の場合は +1 する
+    if (2*x + 1)*q &lt;= 2*p:
+        x += 1
+    return x
+
+# ==== 五捨五超入
+
+# ceil((p/q) - (1/2))
+def round_half_down0(p, q):
+    return - ((q - 2*p) // (2*q))
+
+def round_half_down1(p, q):
+    if q &lt; 0:
+        q = -q; p = -p
+    x = p // q
+    # x+(1/2) &lt; (p/q) の場合は +1 する
+    if (2*x + 1)*q &lt; 2*p:
+        x += 1
+    return x
+
+print(round_up0(10, 3))
+# =&gt; "4"
+print(round_up0(-10, 3))
+# =&gt; "-3"
+print(round_down(10, 3))
+# =&gt; "3"
+print(round_down(-10, 3))
+# =&gt; "-4"
+
+print(round_half_up0(30, 4))
+# =&gt; "8"
+print(round_half_down0(30, 4))
+# =&gt; "7"</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Rounding">Rounding - Wikipedia</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>カタランの三角形 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Catalan’s Triangle 概要 \(N\) 個の \(X\) と \(K\) 個の \(Y\) を1列に並べる時に、全ての接頭辞において \(Y\) の個数が \(X\) の個数を超えな...">
+<meta property="og:title" content="カタランの三角形 - yaketake08's 実装メモ">
+<meta property="og:description" content="カタランの三角形">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/combinatorics/catalans-triangle.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/combinatorics/catalans-triangle.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>カタランの三角形</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Catalan’s Triangle</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(N\) 個の \(X\) と \(K\) 個の \(Y\) を1列に並べる時に、全ての接頭辞において \(Y\) の個数が \(X\) の個数を超えないように並べる場合の通り数を \(C(N, K)\) とする。</p>
+</div>
+<div class="paragraph">
+<p>カタランの三角形は、この \(C(N, K)\) を項とする number triangle である。</p>
+</div>
+<div class="paragraph">
+<p>また \(N = K\) の場合の数は カタラン数(Catalan numbers) と呼ばれる。</p>
+</div>
+<div class="paragraph">
+<p>\(C(N, K)\) は以下の式で表せる</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(\displaystyle C(N, K) = \frac{(N+K)!(N-K+1)}{K!(N+1)!}\)</p>
+</li>
+<li>
+<p>\(k &gt; 0\) について \(\displaystyle C(N, K) = {}_{N+K}C_{K} - {}_{N+K}C_{K-1}\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">L = 10**5
+MOD = 10**9 + 7
+
+fact = [1]*(L+1)
+rfact = [1]*(L+1)
+r = 1
+for i in range(1, L+1):
+    fact[i] = r = r * i % MOD
+rfact[L] = r = pow(fact[L], MOD-2, MOD)
+for i in range(L, 0, -1):
+    rfact[i-1] = r = r * i % MOD
+
+def comb(n, k):
+    return fact[n] * rfact[n-k] * rfact[k] % MOD
+
+def catalan1(n, k):
+    return (fact[n+k] * (n-k+1) % MOD) * (rfact[k] * rfact[n+1] % MOD) % MOD
+
+def catalan2(n, k):
+    if k == 0:
+        return 1
+    return (comb(n+k, k) - comb(n+k, k-1)) % MOD
+
+# O(N^2)
+def precalc_catalan(N):
+    C = [[1]*(i+1) for i in range(N+1)]
+    for n in range(1, N+1):
+        C1 = C[n]; C0 = C[n-1]
+        C1[0] = 1
+        C1[1] = n
+        for k in range(2, n):
+            C[n][k] = (C1[k-1] + C0[k]) % MOD
+        C1[n] = C1[n-1]
+    return C</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "2335: 10-Year-Old Dynamic Programming": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4553614#1">source</a> (Python3, 0.17sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Catalan%27s_triangle">Catalan’s triangle - Wikipedia</a></p>
+</li>
+<li>
+<p><a href="https://mathworld.wolfram.com/CatalansTriangle.html">Catalan’s Triangle - Wolfram MathWorld</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

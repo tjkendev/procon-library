@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Rank-Pairing Heap - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Rank-Pairing Heap 概要 Rank-Pairing Heap は Fibonacci Heapと同じ性能を持ち、Pairing Heapのようなシンプルさを備えるheapである。 h...">
+<meta property="og:title" content="Rank-Pairing Heap - yaketake08's 実装メモ">
+<meta property="og:description" content="Rank-Pairing Heap">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/heap/rank-pairing-heap.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/heap/rank-pairing-heap.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Rank-Pairing Heap</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Rank-Pairing Heap</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Rank-Pairing Heap は Fibonacci Heapと同じ性能を持ち、Pairing Heapのようなシンプルさを備えるheapである。</p>
+</div>
+<div class="paragraph">
+<p>heap は half-ordered half tree という木構造で表現し、各ノードはrankを持ち、tree内で Rank Rule を満たすようにrankを保持する。</p>
+</div>
+<div class="paragraph">
+<p>Rank-Pairing Heapではこのtreeをリストとして持ち、decrease-key操作等で分離したtreeをリストに追加、delete-min操作を行う際にtree同士をマージする。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>find-min: \(O(1)\)</p>
+</li>
+<li>
+<p>delete-min: ならし \(O(\log N)\)</p>
+</li>
+<li>
+<p>insert: \(O(1)\)</p>
+</li>
+<li>
+<p>decrease-key: ならし \(O(1)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;vector&gt;
+#include&lt;unordered_map&gt;
+
+using namespace std;
+
+template&lt;typename K, typename V&gt;
+class RankPairingHeap {
+  struct Node {
+    Node *left, *right, *parent;
+    K key;
+    V value;
+    int rank;
+
+    void init(K key, V value) const {
+      this-&gt;key = key; this-&gt;value = value;
+      this-&gt;left = this-&gt;right = this-&gt;parent = nullptr;
+      this-&gt;rank = 0;
+    }
+
+    int left_rank() const {
+      return left != nullptr ? left-&gt;rank : -1;
+    }
+    int right_rank() const {
+      return right != nullptr ? right-&gt;rank : -1;
+    }
+  };
+
+  Node *nds;
+  int max_sz;
+  vector&lt;Node*&gt; free_nodes, tmp;
+  unordered_map&lt;int, Node*&gt; bucket;
+
+  vector&lt;Node*&gt; roots;
+  Node *min_root;
+  unordered_map&lt;V, Node*&gt; nd_map;
+
+  Node* new_node(K key, V value) {
+    // assert(free_nodes.size() &gt; 0);
+    Node *nd = free_nodes.back(); free_nodes.pop_back();
+    nd-&gt;init(key, value);
+    nd_map[value] = nd;
+    return nd;
+  }
+
+  void remove_node(Node *node) {
+    nd_map.erase(node-&gt;value);
+    free_nodes.push_back(node);
+  }
+
+  static Node* link(Node *nd_a, Node *nd_b) {
+    if(nd_a-&gt;key &gt; nd_b-&gt;key) {
+      swap(nd_a, nd_b);
+    }
+    Node *left = nd_a-&gt;left;
+    nd_a-&gt;left = nd_b; nd_b-&gt;parent = nd_a;
+    nd_b-&gt;right = left;
+    if(left != nullptr) {
+      left-&gt;parent = nd_b;
+    }
+    nd_a-&gt;rank = nd_b-&gt;rank + 1;
+    return nd_a;
+  }
+
+  void init() {
+    min_root = nullptr;
+    roots.clear(); free_nodes.clear();
+    for(int i=0; i&lt;max_sz; ++i) free_nodes.push_back(nds+i);
+  }
+
+public:
+  struct Result {
+    K key;
+    V value;
+  };
+
+  RankPairingHeap(int max_sz) {
+    this-&gt;max_sz = max_sz;
+    nds = new Node[max_sz];
+    free_nodes.reserve(max_sz);
+    init();
+  }
+
+  ~RankPairingHeap() {
+    delete[] nds;
+  }
+
+  void clear() {
+    init();
+  }
+
+  bool empty() const {
+    return (min_root == nullptr);
+  }
+
+  // insert: O(1)
+  void push(V value, K key) {
+    // assert(nd_map.count(value) == 0);
+    Node *nd = new_node(key, value);
+    if(min_root == nullptr) {
+      min_root = nd;
+    } else if(nd-&gt;key &lt; min_root-&gt;key) {
+      roots.push_back(min_root);
+      min_root = nd;
+    } else {
+      roots.push_back(nd);
+    }
+  }
+
+  // find-min: O(1)
+  Result top() {
+    // assert(!empty());      
+    return Result{min_root-&gt;key, min_root-&gt;value};
+  }
+
+  // delete-min: O(\log N) (amortized time)
+  Result pop() {
+    // assert(!empty());
+
+    Node *target = min_root;
+    Result result = {target-&gt;key, target-&gt;value};
+
+    tmp.clear();
+    bucket.clear();
+    for(Node *nd : roots) {
+      int rank = nd-&gt;rank;
+      if(bucket.count(rank)) {
+        Node *root = bucket[rank]; bucket.erase(rank);
+        Node *new_root = link(nd, root);
+        tmp.push_back(new_root);
+      } else {
+        bucket[rank] = nd;
+      }
+    }
+
+    Node *cur = min_root-&gt;left;
+    while(cur != nullptr) {
+      Node *nxt = cur-&gt;right;
+      cur-&gt;right = cur-&gt;parent = nullptr;
+      cur-&gt;rank = cur-&gt;left_rank() + 1;
+
+      int rank = cur-&gt;rank;
+      if(bucket.count(rank)) {
+        Node *root = bucket[rank]; bucket.erase(rank);
+        Node *new_root = link(cur, root);
+        tmp.push_back(new_root);
+      } else {
+        bucket[rank] = cur;
+      }
+      cur = nxt;
+    }
+    for(pair&lt;int, Node*&gt; p : bucket) {
+      tmp.push_back(p.second);
+    }
+
+    roots.clear();
+    if(tmp.size() &gt; 0) {
+      int k = 0, min_key = tmp[0]-&gt;key;
+      for(int i=1; i&lt;tmp.size(); ++i) {
+        if(tmp[i]-&gt;key &lt; min_key) {
+          min_key = tmp[i]-&gt;key;
+          k = i;
+        }
+      }
+      for(int i=0; i&lt;tmp.size(); ++i) {
+        if(i == k) continue;
+        roots.push_back(tmp[i]);
+      }
+      min_root = tmp[k];
+    } else {
+      min_root = nullptr;
+    }
+    remove_node(target);
+    return result;
+  }
+
+  // decrease-key: O(1) (amortized time)
+  void decrease_key(V value, K delta) {
+    Node *target = nd_map[value];
+    target-&gt;key -= delta;
+    if(target-&gt;parent == nullptr) {
+      if(target-&gt;key &lt; min_root-&gt;key) {
+        swap(nd_map[target-&gt;value], nd_map[min_root-&gt;value]);
+        swap(target-&gt;key, min_root-&gt;key);
+        swap(target-&gt;value, min_root-&gt;value);
+      }
+      return;
+    }
+
+    Node *child = target-&gt;right;
+    Node *u = target-&gt;parent;
+    target-&gt;right = target-&gt;parent = nullptr;
+    if(u-&gt;left == target) {
+      u-&gt;left = child;
+    } else {
+      u-&gt;right = child;
+    }
+    if(child != nullptr) {
+      child-&gt;parent = u;
+    }
+
+    while(true) {
+      if(u-&gt;parent == nullptr) {
+        u-&gt;rank = u-&gt;left_rank() + 1;
+        break;
+      }
+      int lr = u-&gt;left_rank(), rr = u-&gt;right_rank();
+      int k = (lr == rr ? lr + 1 : max(lr, rr));
+      if(u-&gt;rank == k) break;
+
+      u-&gt;rank = k;
+      u = u-&gt;parent;
+    }
+
+    target-&gt;rank = target-&gt;left_rank() + 1;
+    if(target-&gt;key &lt; min_root-&gt;key) {
+      roots.push_back(min_root);
+      min_root = target;
+    } else {
+      roots.push_back(target);
+    }
+  }
+
+  void update(V value, K new_key) {
+    if(nd_map.count(value) &gt; 0) {
+      Node *node = nd_map[value];
+      K delta = node-&gt;key - new_key;
+      // assert(delta &gt;= 0);
+      decrease_key(value, delta);
+      return;
+    }
+    push(value, new_key);
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_1_A: Single Source Shortest Path": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4994124#1">source</a> (C++14, 0.29sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Haeupler, Bernhard, Siddhartha Sen, and Robert E. Tarjan. "Rank-pairing heaps." SIAM Journal on Computing 40.6 (2011): 1463-1485.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

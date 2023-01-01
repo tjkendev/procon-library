@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Fast Modulo Transform - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Fast Modulo Transform (FMT, 高速剰余変換), Number Theoretical Transform (NTT, 数論変換) 概要 ある程度の解説(ブログ): ATC0...">
+<meta property="og:title" content="Fast Modulo Transform - yaketake08's 実装メモ">
+<meta property="og:description" content="Fast Modulo Transform">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/fft/fmt.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/fft/fmt.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Fast Modulo Transform</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Fast Modulo Transform (FMT, 高速剰余変換), Number Theoretical Transform (NTT, 数論変換)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ある程度の解説(ブログ): <a href="https://smijake3.hatenablog.com/entry/2017/01/04/042136">ATC001 - C問題: 高速フーリエ変換 (FMT解法)</a></p>
+</div>
+<div class="paragraph">
+<p>mod \(P\) 上で \(\omega^i \not = 1\) \((0 &lt; i &lt; N)\), \(\omega^N = 1\) となるような \(\omega, P, N\) を用いて計算する。
+この時 \(P = A \times N + 1\) を満たす。</p>
+</div>
+<div class="paragraph">
+<p>順変換では \(\displaystyle f_k = \sum_{i=0}^{N-1} a_i \omega^{ik}\) (mod \(P\)) を計算し、</p>
+</div>
+<div class="paragraph">
+<p>逆変換では \(\displaystyle a_i = \frac{1}{N} \sum_{k=0}^{N-1} f_k \omega^{-ik}\) (mod \(P\)) を計算する。</p>
+</div>
+<div class="sect2">
+<h3 id="_利用できる原始根と_p">利用できる原始根と \(P\)</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 34%;">
+<col style="width: 33%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">\(P\)</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">\(P-1\)</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">原始根</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">998244353</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">\(7 \cdot 17 \cdot 2^{23}\)</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">1004535809</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">\(479 \cdot 2^{21}\)</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">4253024257</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">\(3 \cdot 13 \cdot 13 \cdot 2^{23}\)</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">23</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>原始根 \(g\) と \(P\) に対し、 \(N = 2^k\) で計算する場合、 \(\omega = g^{(P-1)/N}\) とすればよい。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(N \log N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">// 必要な依存関係
+#include&lt;algorithm&gt;
+#include&lt;cassert&gt;
+using ll = long long;
+using namespace std;
+
+// x^n mod m
+ll fast_pow(ll x, ll n, ll m) {
+  ll r = 1;
+  while(n) {
+    if(n &amp; 1) {
+      r = (r * x) % m;
+    }
+    x = (x * x) % m;
+    n &gt;&gt;= 1;
+  }
+  return r;
+}
+ 
+// Fast Modulo Transform
+class FMT {
+  int n;
+  ll omega, omega_rev;
+  ll p, n_rev;
+  ll *tmp;
+ 
+  // bit-reverse
+  void bit_reverse(ll *d) {
+    int i = 0;
+    int ns = n &gt;&gt; 1, nss = n &gt;&gt; 2;
+    for(int j = 0; j &lt; ns; j += 2) {
+      if(j &lt; i) {
+        swap(d[i], d[j]);
+        swap(d[i+ns+1], d[j+ns+1]);
+      }
+      swap(d[i+1], d[j+ns]);
+      int k = nss; i ^= k;
+      while(k &gt; i) {
+        k &gt;&gt;= 1; i ^= k;
+      }
+    }
+  }
+ 
+  void fmt_calc(ll *a, ll base) {
+    int n0 = n, m = 1;
+    ll half = fast_pow(base, n/2, p);
+    while(n0 &gt; 1) {
+      n0 &gt;&gt;= 1;
+      ll w = fast_pow(base, n0, p), wk = 1;
+      for(int j = 0; j &lt; m; ++j) {
+        for(int i = j; i &lt; n; i += 2*m) {
+          ll u = a[i], v = (a[i+m] * wk) % p;
+          a[i] = (u + v) % p;
+          a[i+m] = (u + (v*half) % p) % p;
+        }
+        wk = (wk * w) % p;
+      }
+      m &lt;&lt;= 1;
+    }
+  }
+public:
+  // p = a * n + 1 (n = 2^k)
+  // -&gt; omega^(p-1) ≡  1 (mod p)
+  FMT(ll k, ll g, ll p) : p(p) {
+    n = 1;
+    while(k--) n &lt;&lt;= 1;
+ 
+ 
+    assert((p-1) % n == 0);
+    ll a = (p-1) / n;
+    omega = fast_pow(g, a, p);
+    omega_rev = fast_pow(omega, p-2, p);
+    n_rev = fast_pow(n, p-2, p);
+    tmp = new ll[n];
+  }
+ 
+  ~FMT() {
+    delete tmp;
+  }
+ 
+  void fmt(ll *a, ll *result) {
+    for(int i = 0; i &lt; n; ++i) result[i] = a[i];
+    bit_reverse(result);
+    fmt_calc(result, omega);
+  }
+ 
+  void ifmt(ll *a, ll *result) {
+    for(int i = 0; i &lt; n; ++i) result[i] = (a[i] * n_rev) % p;
+    bit_reverse(result);
+    fmt_calc(result, omega_rev);
+  }
+ 
+  void convolute(ll *a, ll *b, ll *result) {
+    fmt(a, tmp);
+    fmt(b, result);
+    for(int i = 0; i &lt; n; ++i) tmp[i] = (result[i] * tmp[i]) % p;
+    ifmt(tmp, result);
+  }
+ 
+  inline int size() const { return n; }
+};
+
+// example: FMT(17, 3, 1004535809)</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Typical Contest 001 - C問題: 高速フーリエ変換": <a href="https://atc001.contest.atcoder.jp/submissions/4499982">source</a> (C++14, 436ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

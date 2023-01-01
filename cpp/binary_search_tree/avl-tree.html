@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>AVL Tree - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="AVL Tree, AVL木 概要 平衝二分探索木の一つ。 各ノードに高さをもたせ、各ノードの左右の子ノードの高さの差が -1, 0, 1 になるように保つ。 木の高さは高々約 \(1.44 \lo...">
+<meta property="og:title" content="AVL Tree - yaketake08's 実装メモ">
+<meta property="og:description" content="AVL Tree">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/binary_search_tree/avl-tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/binary_search_tree/avl-tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>AVL Tree</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>AVL Tree, AVL木</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>平衝二分探索木の一つ。<br>
+各ノードに高さをもたせ、各ノードの左右の子ノードの高さの差が -1, 0, 1 になるように保つ。</p>
+</div>
+<div class="paragraph">
+<p>木の高さは高々約 \(1.44 \log_2 N\) になる。<br>
+挿入クエリ1回のrotate回数は高々2回、削除クエリ1回のrotate回数は高々 \(O(\log N)\) になる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各クエリ \(O(\log N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各ノードに以下の情報を持たせている</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>左右の子ノード, 親ノード</p>
+</li>
+<li>
+<p>key, rank</p>
+</li>
+<li>
+<p>そのノード以下の部分木のサイズ</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;algorithm&gt;
+using namespace std;
+
+template&lt;typename T&gt;
+class AVLTree {
+  struct Node {
+    Node *left, *right, *prt;
+    T key;
+    int height, size;
+
+    Node(T x) {
+      left = right = prt = nullptr;
+      height = 1;
+      key = x;
+      size = 1;
+    }
+
+    inline int factor() const {
+      int lv = (this-&gt;left ? this-&gt;left-&gt;height : 0);
+      int rv = (this-&gt;right ? this-&gt;right-&gt;height : 0);
+      return (rv - lv);
+    }
+
+    inline int update_height() {
+      return this-&gt;height = max(
+        (this-&gt;left ? this-&gt;left-&gt;height : 0),
+        (this-&gt;right ? this-&gt;right-&gt;height : 0)
+      ) + 1;
+    }
+
+    inline bool is_left(Node *node) const {
+      return left == node;
+    }
+
+    inline void assign(Node *node) {
+      this-&gt;key = node-&gt;key;
+    }
+
+    inline Node* rotate_left() {
+      Node *r = this-&gt;right, *m = r-&gt;left, *p = this-&gt;prt;
+      if(r-&gt;prt = p) {
+        if(p-&gt;left == this) p-&gt;left = r;
+        else p-&gt;right = r;
+      }
+      if(this-&gt;right = m) m-&gt;prt = this;
+      r-&gt;left = this; this-&gt;prt = r;
+
+      int sz = this-&gt;size;
+      this-&gt;size += (m ? m-&gt;size : 0) - r-&gt;size;
+      r-&gt;size = sz;
+
+      this-&gt;update_height();
+      r-&gt;update_height();
+      return r;
+    }
+
+    inline Node* rotate_right() {
+      Node *l = this-&gt;left, *m = l-&gt;right, *p = this-&gt;prt;
+      if(l-&gt;prt = p) {
+        if(p-&gt;left == this) p-&gt;left = l;
+        else p-&gt;right = l;
+      }
+      if(this-&gt;left = m) m-&gt;prt = this;
+      l-&gt;right = this; this-&gt;prt = l;
+
+      int sz = this-&gt;size;
+      this-&gt;size += (m ? m-&gt;size : 0) - l-&gt;size;
+      l-&gt;size = sz;
+
+      this-&gt;update_height();
+      l-&gt;update_height();
+      return l;
+    }
+
+    inline Node* rotate_double_right() {
+      Node *l = this-&gt;left, *p = this-&gt;prt,
+           *m = l-&gt;right, *ml = m-&gt;left, *mr = m-&gt;right;
+      if((m-&gt;prt = p)) {
+        if(p-&gt;left == this) p-&gt;left = m;
+        else p-&gt;right = m;
+      }
+      if((l-&gt;right = ml)) ml-&gt;prt = l;
+      if((this-&gt;left = mr)) mr-&gt;prt = this;
+      m-&gt;left = l; l-&gt;prt = m;
+      m-&gt;right = this; this-&gt;prt = m;
+
+      int sz = this-&gt;size;
+      this-&gt;size += (mr ? mr-&gt;size : 0) - l-&gt;size;
+      l-&gt;size += (ml ? ml-&gt;size : 0) - m-&gt;size;
+      m-&gt;size = sz;
+
+      this-&gt;update_height();
+      l-&gt;update_height();
+      m-&gt;update_height();
+
+      return m;
+    }
+
+    inline Node* rotate_double_left() {
+      Node *r = this-&gt;right, *p = this-&gt;prt,
+           *m = r-&gt;left, *ml = m-&gt;left, *mr = m-&gt;right;
+      if(m-&gt;prt = p) {
+        if(p-&gt;left == this) p-&gt;left = m;
+        else p-&gt;right = m;
+      }
+      if(this-&gt;right = ml) ml-&gt;prt = this;
+      if(r-&gt;left = mr) mr-&gt;prt = r;
+      m-&gt;left = this; this-&gt;prt = m;
+      m-&gt;right = r; r-&gt;prt = m;
+
+      int sz = this-&gt;size;
+      this-&gt;size += (ml ? ml-&gt;size : 0) - r-&gt;size;
+      r-&gt;size += (mr ? mr-&gt;size : 0) - m-&gt;size;
+      m-&gt;size = sz;
+
+      this-&gt;update_height();
+      r-&gt;update_height();
+      m-&gt;update_height();
+
+      return m;
+    }
+  };
+
+  Node *root;
+
+  inline Node* find_node(Node *node, T x) {
+    if(node == nullptr) return nullptr;
+    while(node-&gt;key != x) {
+      if(x &lt; node-&gt;key) {
+        if(!node-&gt;left) break;
+        node = node-&gt;left;
+      } else {
+        if(!node-&gt;right) break;
+        node = node-&gt;right;
+      }
+    }
+    return node;
+  }
+
+  inline void remove_node(Node *node) {
+    T x = node-&gt;key;
+    Node *prt = node-&gt;prt;
+
+    if(!node-&gt;left || !node-&gt;right) {
+      Node *n_node = (node-&gt;left ? node-&gt;left : node-&gt;right);
+      if(prt) {
+        if(x &lt; prt-&gt;key) {
+          prt-&gt;left = n_node;
+        } else {
+          prt-&gt;right = n_node;
+        }
+      }
+      if((node = n_node)) node-&gt;prt = prt;
+    } else {
+      Node *c_node = find_node(node-&gt;right, x), *n_node = c_node-&gt;right;
+      Node *c_prt = c_node-&gt;prt;
+      if(node-&gt;right == c_node) {
+        if((node-&gt;right = n_node)) n_node-&gt;prt = c_prt;
+      } else {
+        if((c_prt-&gt;left = n_node)) n_node-&gt;prt = c_prt;
+      }
+      node-&gt;assign(c_node);
+      node = n_node; prt = c_prt;
+    }
+
+    while(prt) {
+      --prt-&gt;size;
+      prt-&gt;update_height();
+      if(prt-&gt;is_left(node)) {
+        if(prt-&gt;factor() == 2) {
+          Node *sib = prt-&gt;right;
+          if(sib-&gt;factor() &lt; 0) {
+            node = prt-&gt;rotate_double_left();
+          } else {
+            node = prt-&gt;rotate_left();
+          }
+        } else {
+          if(prt-&gt;factor() == 1) break;
+          node = prt;
+        }
+        prt = node-&gt;prt;
+      } else {
+        if(prt-&gt;factor() == -2) {
+          Node *sib = prt-&gt;left;
+          if(sib-&gt;factor() &gt; 0) {
+            node = prt-&gt;rotate_double_right();
+          } else {
+            node = prt-&gt;rotate_right();
+          }
+        } else {
+          if(prt-&gt;factor() == -1) break;
+          node = prt;
+        }
+        prt = node-&gt;prt;
+      }
+    }
+    if(prt) {
+      node = prt; prt = prt-&gt;prt;
+      while(prt) {
+        --prt-&gt;size;
+        prt-&gt;update_height();
+        node = prt; prt = node-&gt;prt;
+      }
+    }
+    this-&gt;root = node;
+  }
+
+public:
+  AVLTree() {
+    root = nullptr;
+  }
+
+  inline bool find(T x) {
+    if(!this-&gt;root) {
+      return false;
+    }
+
+    Node *node = find_node(this-&gt;root, x);
+    return (node-&gt;key == x);
+  }
+
+  inline T at(int k) {
+    if(!this-&gt;root) {
+      return 0;
+    }
+    // assert(0 &lt;= k &lt; size);
+
+    Node *node = this-&gt;root;
+    ++k;
+    while(1) {
+      int l_size = (node-&gt;left ? node-&gt;left-&gt;size : 0) + 1;
+      if(l_size == k) break;
+
+      if(k &lt; l_size) {
+        node = node-&gt;left;
+      } else {
+        node = node-&gt;right;
+        k -= l_size;
+      }
+    }
+    return node-&gt;key;
+  }
+
+  inline bool insert(T x) {
+    if(!this-&gt;root) {
+      this-&gt;root = new Node(x);
+      return true;
+    }
+
+    Node *node = find_node(this-&gt;root, x);
+    if(node-&gt;key == x) {
+      return false;
+    }
+
+    Node *new_node = new Node(x);
+    new_node-&gt;prt = node;
+    if(x &lt; node-&gt;key) {
+      node-&gt;left = new_node;
+    } else {
+      node-&gt;right = new_node;
+    }
+    node = new_node;
+
+    while(node-&gt;prt) {
+      Node *prt = node-&gt;prt;
+      ++prt-&gt;size;
+      prt-&gt;update_height();
+      if(prt-&gt;is_left(node)) {
+        if(prt-&gt;factor() == -2) {
+          if(node-&gt;factor() &gt; 0) {
+            node = prt-&gt;rotate_double_right();
+          } else {
+            node = prt-&gt;rotate_right();
+          }
+        } else {
+          if(prt-&gt;factor() &gt;= 0) break;
+          node = prt;
+        }
+      } else {
+        if(prt-&gt;factor() == 2) {
+          if(node-&gt;factor() &lt; 0) {
+            node = prt-&gt;rotate_double_left();
+          } else {
+            node = prt-&gt;rotate_left();
+          }
+        } else {
+          if(prt-&gt;factor() &lt;= 0) break;
+          node = prt;
+        }
+      }
+    }
+    if(node-&gt;prt) {
+      node = node-&gt;prt;
+      Node *prt = node-&gt;prt;
+      while(prt) {
+        ++prt-&gt;size;
+        prt-&gt;update_height();
+        node = prt; prt = node-&gt;prt;
+      }
+    }
+    this-&gt;root = node;
+    return true;
+  }
+
+  inline bool remove(T x) {
+    if(!this-&gt;root) {
+      return false;
+    }
+
+    Node *node = find_node(this-&gt;root, x);
+    if(node-&gt;key != x) {
+      return false;
+    }
+
+    remove_node(node);
+    return true;
+  }
+
+  int size() {
+    return (this-&gt;root ? this-&gt;root-&gt;size : 0);
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": <a href="https://atcoder.jp/contests/arc033/submissions/9958496">source</a> (C++14, 113ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/AVL_tree">AVL tree - Wikipedia</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

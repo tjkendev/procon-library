@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>最大流問題 (Dinic’s Algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Dinic’s Algorithm (Maximum flow problem) 概要 最大流問題を解くDinic’s Algorithmの実装。 合わせて、辺の容量増加と容量減少にも対応できる実装...">
+<meta property="og:title" content="最大流問題 (Dinic’s Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="最大流問題 (Dinic's Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/max_flow/dinic.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/max_flow/dinic.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>最大流問題 (Dinic’s Algorithm)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Dinic’s Algorithm (Maximum flow problem)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>最大流問題を解くDinic’s Algorithmの実装。</p>
+</div>
+<div class="paragraph">
+<p>合わせて、辺の容量増加と容量減少にも対応できる実装が含まれる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;map&gt;
+#include&lt;queue&gt;
+using namespace std;
+using P = pair&lt;int, int&gt;;
+
+
+// Dinicアルゴリズム
+// コンストラクタでnとsinkとsourceを決める。
+// add_edge(s, t, cap)で辺追加。
+// max_flow()で最大流を求める。
+// グラフの変形がある場合は
+//  - inc_edge(s, t, delta)[容量増加]
+//  - dec_edge(s, t, delta)[容量減少]
+// で変形を行う。
+// 変形後はmax_flow()を使って求める。
+struct Edge {
+  int to, cap, rev;
+  Edge(int t, int c, int r) : to(t), cap(c), rev(r) {}
+  Edge() {}
+};
+
+#define MAX_N 1005
+
+class Dinic {
+  static const int inf = 1e9;
+
+  vector&lt;Edge&gt; g[MAX_N];
+  int level[MAX_N], iter[MAX_N];
+  int dist[MAX_N];
+  int flow, n;
+  int st, en;
+  map&lt;P, int&gt; edges;
+
+  void bfs(int s) {
+    for(int i=0; i&lt;n; ++i) level[i] = -1, dist[i] = inf;
+    queue&lt;int&gt; que;
+    level[s] = 0;
+    que.push(s);
+    while(!que.empty()) {
+      int v = que.front(); que.pop();
+      for(int i=0; i&lt;g[v].size(); ++i) {
+        Edge &amp;e = g[v][i];
+        if(e.cap &gt; 0 &amp;&amp; level[e.to] &lt; 0) {
+          level[e.to] = level[v] + 1;
+          dist[e.to] = min(e.cap, dist[v]);
+          que.push(e.to);
+        }
+      }
+    }
+  }
+
+  int dfs(int v, int t, int f) {
+    if(v == t) return f;
+    for(int &amp;i=iter[v]; i&lt;g[v].size(); ++i) {
+      Edge &amp;e = g[v][i];
+      if(e.cap &gt; 0 &amp;&amp; level[v] &lt; level[e.to]) {
+        int d = dfs(e.to, t, min(f, e.cap));
+        if(d &gt; 0) {
+          e.cap -= d;
+          g[e.to][e.rev].cap += d;
+          return d;
+        }
+      }
+    }
+    return 0;
+  }
+
+public:
+  Dinic(int n, int s, int t) {
+    flow = 0;
+    st = s; en = t;
+    this-&gt;n = n;
+  }
+
+  // 有効辺の追加
+  void add_edge(int from, int to, int cap) {
+    edges[P(from, to)] = g[from].size();
+    g[from].push_back(Edge(to, cap, g[to].size()));
+    edges[P(to, from)] = g[to].size();
+    g[to].push_back(Edge(from, 0, g[from].size()-1));
+  }
+
+  // 無向辺の追加
+  void add_multi_edge(int v1, int v2, int cap) {
+    edges[P(v1, v2)] = g[v1].size();
+    g[v1].push_back(Edge(v2, cap, g[v2].size()));
+    edges[P(v2, v1)] = g[v2].size();
+    g[v2].push_back(Edge(v1, cap, g[v1].size()-1));
+  }
+
+  // 最大流を求める
+  int max_flow(int s = -1, int t = -1, int rest = -1) {
+    if(s == -1) s = st;
+    if(t == -1) t = en;
+    int su = 0;
+    while(rest) {
+      bfs(s);
+      if(level[t] &lt; 0) break;
+      for(int i=0; i&lt;n; ++i) iter[i] = 0;
+      int f;
+      while(rest &amp;&amp; (f = dfs(s, t, rest == -1 ? inf : rest)) &gt; 0) {
+        if(rest == -1) {
+          flow += f;
+        } else {
+          rest -= f;
+        }
+        su += f;
+      }
+    }
+    return rest == -1 ? flow : su;
+  }
+
+  // 容量増加
+  void inc_edge(int s, int t, int c) {
+    P key = P(s, t);
+    if(edges.find(key) != edges.end()) {
+      g[s][edges[key]].cap += c;
+    } else {
+      add_edge(s, t, c);
+    }
+  }
+
+  // 容量減少
+  void dec_edge(int s, int t, int c) {
+    P key = P(s, t);
+    if(edges.find(key) != edges.end()) {
+      int cap = g[s][edges[key]].cap;
+      if(c &lt;= cap) {
+        g[s][edges[key]].cap -= c;
+      } else {
+        int rest = c - cap;
+
+        g[s][edges[key]].cap = 0;
+        g[t][edges[P(t, s)]].cap -= rest;
+
+        bfs(s);
+        if(level[t] &gt;= 0) {
+          // s -&gt; t の残余グラフがあれば流す
+          int ff = max_flow(s, t, rest);
+          rest -= ff;
+        }
+
+        if(rest) {
+          // end -&gt; t, s -&gt; start の残余グラフを流して
+          // 全体の流す量を減らす
+          int f1 = max_flow(en, t, rest);
+          int f2 = max_flow(s, st, rest);
+
+          //assert(f1 == f2 &amp;&amp; f1 == rest &amp;&amp; f2 == rest);
+          flow -= rest;
+        }
+      }
+    }
+  }
+
+  void debug() {
+    for(int i=0; i&lt;n; ++i) {
+      for(int j=0; j&lt;n; ++j) {
+        if(i == j) continue;
+        if(edges.find(P(i, j)) != edges.end()) {
+          Edge &amp;e = g[i][edges[P(i, j)]];
+          cout &lt;&lt; i &lt;&lt; " " &lt;&lt; j &lt;&lt; " " &lt;&lt; e.cap &lt;&lt; endl;
+        }
+      }
+    }
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "2313: Box Witch": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1779017">source</a> (C++, 0.32sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>秋葉拓哉, 岩田陽一, and 北川宜稔. "プログラミングコンテストチャレンジブック." (2010).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

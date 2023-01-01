@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Dominator (Lengauer-Tarjan Algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Finding Dominators in Directed Graphs (Lengauer-Tarjan Algorithm) 概要 \(r\) を始点とする有向グラフ \(G = (V, A,...">
+<meta property="og:title" content="Dominator (Lengauer-Tarjan Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="Dominator (Lengauer-Tarjan Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/graph/dominator-lengauer-tarjan.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/graph/dominator-lengauer-tarjan.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Dominator (Lengauer-Tarjan Algorithm)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Finding Dominators in Directed Graphs (Lengauer-Tarjan Algorithm)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(r\) を始点とする有向グラフ \(G = (V, A, r)\) において、各頂点 \(v\) を直近で支配する頂点 (an immediate dominator) を求める。
+始点 \(r\) から頂点 \(v\) に到達する際に必ず頂点 \(u\) を通るとき、頂点 \(u\) は頂点 \(v\) の dominator となる。</p>
+</div>
+<div class="paragraph">
+<p>グラフ \(G\) の DFS Tree \(T\) を構築し \(T\) 上の行きがけ順を求め、そこから semidominator を求める。
+そして、この semidominator を元に各頂点の immediate dominator を求める。</p>
+</div>
+<div class="paragraph">
+<p>ここでは、頂点 \(v\) の semidominator \(sdom(v)\) は、 \(v\) への semidominator path が存在する頂点で、 (\(T\) 上の行きがけ順で) 最小となる頂点 \(u\) として定義する。<br>
+また、 semidominator path は (\(G\) 上の) path \(P = (u = v_0, v_1, ..., v_{k-1}, v_k = v)\) に対し (\(T\) 上の行きがけ順で) \(v_i &gt; v \; (1 \le i \le k-1)\) を満たす path として定義する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(N = |V|\), \(M = |A|\) とする</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>simple version の EVAL-LINK を用いた実装: \(O(M \log N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_simple_version_の_eval_link">実装 (simple version の EVAL-LINK)</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;vector&gt;
+using namespace std;
+
+#define N 100003
+
+int n;
+vector&lt;int&gt; g[N];
+
+vector&lt;int&gt; vs;
+int order[N];
+int prt[N];
+int doms[N], semi[N];
+int anc[N], label[N];
+vector&lt;int&gt; rg[N], bucket[N];
+
+inline void link(int v, int w) {
+  anc[w] = v;
+}
+
+int compress(int v, int w) {
+  if(w == anc[w]) {
+    return w;
+  }
+
+  anc[v] = compress(w, anc[w]);
+  if(semi[label[w]] &lt; semi[label[v]]) {
+    label[v] = label[w];
+  }
+  return anc[v];
+}
+
+inline int eval(int v) {
+  if(v == anc[v]) {
+    return v;
+  }
+
+  compress(v, anc[v]);
+  return label[v];
+}
+
+void dfs(int v) {
+  order[v] = vs.size();
+  vs.push_back(v);
+  for(int w : g[v]) {
+    if(order[w] != -1) continue;
+    prt[w] = v;
+    dfs(w);
+  }
+}
+
+void dominator(int s) {
+  for(int i=0; i&lt;n; ++i) order[i] = -1, prt[i] = -1;
+  vs.reserve(n);
+
+  dfs(s);
+
+  for(int i=0; i&lt;n; ++i) semi[i] = order[i], doms[i] = -1;
+  for(int i=0; i&lt;n; ++i) anc[i] = label[i] = i;
+
+  for(int v=0; v&lt;n; ++v) {
+    for(int w : g[v]) {
+      rg[w].push_back(v);
+    }
+  }
+
+  for(int i=n-1; i&gt;0; --i) {
+    int w = vs[i];
+    for(int v : bucket[w]) {
+      int u = eval(v);
+      doms[v] = (semi[u] &lt; semi[v] ? u : w);
+    }
+    for(int v : rg[w]) {
+      int u = eval(v);
+      if(semi[u] &lt; semi[w]) {
+        semi[w] = semi[u];
+      }
+    }
+    if(vs[semi[w]] != prt[w]) {
+      bucket[vs[semi[w]]].push_back(w);
+    } else {
+      doms[w] = prt[w];
+    }
+    link(prt[w], w);
+  }
+  for(int v : bucket[s]) doms[v] = s;
+
+  for(int i=1; i&lt;n; ++i) {
+    int w = vs[i];
+    if(doms[w] != vs[semi[w]]) {
+      doms[w] = doms[doms[w]];
+    }
+  }
+  doms[s] = s;
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "0294: Catch a Thief": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=6495424#1">source</a> (C++11, 0.17sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Lengauer, Thomas, and Robert Endre Tarjan. "A fast algorithm for finding dominators in a flowgraph." ACM Transactions on Programming Languages and Systems (TOPLAS) 1.1 (1979): 121-141.</p>
+</li>
+<li>
+<p>Georgiadis, Loukas, Robert E. Tarjan, and Renato F. Werneck. "Finding dominators in practice." Journal of Graph Algorithms and Applications 10.1 (2006): 69-94.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

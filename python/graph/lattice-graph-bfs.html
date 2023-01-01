@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>単一始点最短経路(BFS, 格子グラフ) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="BFS (Breadth First Search) on a lattice graph 概要 格子グラフ上の 単一始点最短経路問題(SSSP) を BFS で解く。 実装 (正方格子グラフ) \...">
+<meta property="og:title" content="単一始点最短経路(BFS, 格子グラフ) - yaketake08's 実装メモ">
+<meta property="og:description" content="単一始点最短経路(BFS, 格子グラフ)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/lattice-graph-bfs.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/graph/lattice-graph-bfs.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>単一始点最短経路(BFS, 格子グラフ)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>BFS (Breadth First Search) on a lattice graph</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>格子グラフ上の 単一始点最短経路問題(SSSP) を BFS で解く。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_正方格子グラフ">実装 (正方格子グラフ)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(H \times W\) の 正方格子グラフ (a square lattice graph)</p>
+</div>
+<div class="paragraph">
+<p>計算量は \(O(HW)\)</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># S[i][j] = '#' → (i, j) は 通り抜け不可
+# S[i][j] = '.' → (i, j) は 通り抜け可能
+
+from collections import deque
+dd = ((-1, 0), (0, -1), (1, 0), (0, 1))
+# 
+def bfs(S, H, W, r0, c0):
+    dist = [[-1]*W for i in range(H)]
+    que = deque([(r0, c0)])
+    dist[r0][c0] = 0
+    while que:
+        r, c = que.popleft()
+        cur = dist[r][c]
+        for dr, dc in dd:
+            nr = r + dr; nc = c + dc
+            if not 0 &lt;= nr &lt; H or not 0 &lt;= nc &lt; W or S[nr][nc] == '#':
+                continue
+            if dist[nr][nc] == -1:
+                dist[nr][nc] = cur+1
+                que.append((nr, nc))
+    return dist
+
+H = 4; W = 5
+S = [
+    "#....",
+    "#.##.",
+    "....#",
+    "#....",
+]
+dist = bfs(S, H, W, 1, 4)
+for line in dist:
+    print(" ".join(map("{:2d}".format, line)))
+# =&gt;
+# -1  4  3  2  1
+# -1  5 -1 -1  0
+#  7  6  7  8 -1
+# -1  7  8  9 10</code></pre>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

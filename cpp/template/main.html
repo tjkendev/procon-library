@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>C++実装テンプレート - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="C++でコード書くときのテンプレート #include&lt;iostream&gt; #include&lt;string&gt; #include&lt;vector&gt; #include&lt;queue&gt; #include&lt;st...">
+<meta property="og:title" content="C++実装テンプレート - yaketake08's 実装メモ">
+<meta property="og:description" content="C++実装テンプレート">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/template/main.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/template/main.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>C++実装テンプレート</h1>
+</div>
+<div id="content">
+<div class="paragraph">
+<p>C++でコード書くときのテンプレート</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;vector&gt;
+#include&lt;queue&gt;
+#include&lt;stack&gt;
+#include&lt;map&gt;
+#include&lt;set&gt;
+#include&lt;unordered_map&gt;
+#include&lt;unordered_set&gt;
+#include&lt;algorithm&gt;
+#include&lt;functional&gt;
+#include&lt;cstdio&gt;
+#include&lt;cstdlib&gt;
+#include&lt;cmath&gt;
+#include&lt;cassert&gt;
+#include&lt;ctime&gt;
+#include&lt;utility&gt;
+using namespace std;
+
+#define mind(a,b) ((a)&gt;(b)?(b):(a))
+#define maxd(a,b) ((a)&gt;(b)?(a):(b))
+#define absd(x) ((x)&lt;0?-(x):(x))
+#define pow2(x) ((x)*(x))
+#define rep(i,n) for(int i=0; i&lt;(n); ++i)
+#define repr(i,n) for(int i=(n)-1; i&gt;=0; --i)
+#define repl(i,s,n) for(int i=(s); i&lt;=(n); ++i)
+#define replr(i,s,n) for(int i=(n); i&gt;=(s); --i)
+#define repf(i,s,n,j) for(int i=(s); i&lt;=(n); i+=(j))
+#define repe(e,obj) for(auto e : obj)
+
+#define SP &lt;&lt; " " &lt;&lt;
+#define COL &lt;&lt; " : " &lt;&lt;
+#define COM &lt;&lt; ", " &lt;&lt;
+#define ARR &lt;&lt; " -&gt; " &lt;&lt;
+#define PNT(STR) cout &lt;&lt; STR &lt;&lt; endl
+#define POS(X,Y) "(" &lt;&lt; X &lt;&lt; ", " &lt;&lt; Y &lt;&lt; ")"
+#define DEB(A) " (" &lt;&lt; #A &lt;&lt; ") " &lt;&lt; A
+#define DEBREP(i,n,val) for(int i=0; i&lt;(n); ++i) cout &lt;&lt; (val) &lt;&lt; " "; cout &lt;&lt; endl;
+#define ALL(V) (V).begin(), (V).end()
+#define INF 1000000007
+#define INFLL 1000000000000000007LL
+#define EPS 1e-9
+
+typedef unsigned int uint;
+typedef unsigned long ulong;
+typedef unsigned long long ull;
+typedef long long ll;
+typedef long double ld;
+
+typedef int pairType;
+typedef pair&lt;pairType, pairType&gt; P;
+typedef pair&lt;P, pairType&gt; PI;
+typedef pair&lt;pairType, P&gt; IP;
+typedef pair&lt;P, P&gt; PP;
+typedef priority_queue&lt;P, vector&lt;P&gt;, greater&lt;P&gt; &gt; pvqueue;
+
+int main() {
+  return 0;
+}</code></pre>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

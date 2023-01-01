@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>強連結成分分解 (Kosaraju’s Algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="強連結成分分解(Strongly Connected Components) 概要 有向グラフ \(G = (V, E)\) における強連結の関係にある複数の頂点をひとまとまりにして分解する。 計算...">
+<meta property="og:title" content="強連結成分分解 (Kosaraju’s Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="強連結成分分解 (Kosaraju's Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/scc.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/graph/scc.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>強連結成分分解 (Kosaraju’s Algorithm)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>強連結成分分解(Strongly Connected Components)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>有向グラフ \(G = (V, E)\) における強連結の関係にある複数の頂点をひとまとまりにして分解する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(|V| + |E|)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># 強連結成分分解(SCC): グラフGに対するSCCを行う
+# 入力: &lt;N&gt;: 頂点サイズ, &lt;G&gt;: 順方向の有向グラフ, &lt;RG&gt;: 逆方向の有向グラフ
+# 出力: (&lt;ラベル数&gt;, &lt;各頂点のラベル番号&gt;)
+def scc(N, G, RG):
+    order = []
+    used = [0]*N
+    group = [None]*N
+    def dfs(s):
+        used[s] = 1
+        for t in G[s]:
+            if not used[t]:
+                dfs(t)
+        order.append(s)
+    def rdfs(s, col):
+        group[s] = col
+        used[s] = 1
+        for t in RG[s]:
+            if not used[t]:
+                rdfs(t, col)
+    for i in range(N):
+        if not used[i]:
+            dfs(i)
+    used = [0]*N
+    label = 0
+    for s in reversed(order):
+        if not used[s]:
+            rdfs(s, label)
+            label += 1
+    return label, group
+
+# 縮約後のグラフを構築
+def construct(N, G, label, group):
+    G0 = [set() for i in range(label)]
+    GP = [[] for i in range(label)]
+    for v in range(N):
+        lbs = group[v]
+        for w in G[v]:
+            lbt = group[w]
+            if lbs == lbt:
+                continue
+            G0[lbs].add(lbt)
+        GP[lbs].append(v)
+    return G0, GP</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 030 - C問題: 有向グラフ" <a href="https://atcoder.jp/contests/arc030/submissions/3914553">source</a> (Python3, 73ms)</p>
+</li>
+<li>
+<p>AOJ: "2598: Website Tour": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4759001#1">source</a> (Python3, 29.79sec)</p>
+</li>
+<li>
+<p>AOJ: "1653: Princess' Perfectionism": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=7033689#1">source</a> (Python3, 19.35sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>秋葉拓哉, 岩田陽一, and 北川宜稔. "プログラミングコンテストチャレンジブック." (2010).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

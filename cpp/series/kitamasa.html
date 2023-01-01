@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>きたまさ法 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="きたまさ法 (Kitamasa Method) 概要 線形漸化式 \(\displaystyle a_{i+K} = c_0 a_i + c_1 a_{i+1} + ... + c_{i+K-1}...">
+<meta property="og:title" content="きたまさ法 - yaketake08's 実装メモ">
+<meta property="og:description" content="きたまさ法">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/series/kitamasa.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/series/kitamasa.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>きたまさ法</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>きたまさ法 (Kitamasa Method)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>線形漸化式 \(\displaystyle a_{i+K} = c_0 a_i + c_1 a_{i+1} + ... + c_{i+K-1} a_{i+K-1}\) について \(a_N\) を求める。</p>
+</div>
+<div class="paragraph">
+<p>解説ブログ: <a href="https://smijake3.hatenablog.com/entry/2017/01/02/024712">Kitamasa法</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(K^2 \log N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">using ll = long long;
+
+#define K 1003
+#define MOD 1000000007
+ 
+// (0-indexed)
+// a[i] = a_i, c[i] = c_i
+// a_{i+k} = c_i*a_i + c_{i+1}*a_{i+1} + ... + c_{i+k-1}*a_{i+k-1}
+ll c[K], a[K];
+ 
+// C(N, *) -&gt; C(N+1, *)
+void nxt(int k, ll c0[K], ll c1[K]) {
+  c1[0] = (c0[k-1] * c[0]) % MOD;
+  for(int i=0; i&lt;k-1; ++i) {
+    c1[i+1] = (c0[i] + c0[k-1]*c[i+1]) % MOD;
+  }
+}
+ 
+// C(N, *) -&gt; C(2N, *)
+void dbl(int k, ll c0[K], ll c1[K]) {
+  ll cs[K][K];
+  for(int i=0; i&lt;k; ++i) cs[0][i] = c0[i];
+  for(int i=0; i&lt;k-1; ++i) {
+    nxt(k, cs[i], cs[i+1]);
+  }
+  for(int i=0; i&lt;k; ++i) {
+    c1[i] = 0;
+    for(int j=0; j&lt;k; ++j) {
+      c1[i] += cs[0][j] * cs[j][i];
+      c1[i] %= MOD;
+    }
+  }
+}
+ 
+// caluculate a_m
+ll solve(int m, int k) {
+  ll c0[K], c1[K];
+  if(m == 0) {
+    return a[0];
+  }
+  for(int i=0; i&lt;k; ++i) c0[i] = 0;
+  c0[1] = 1;
+ 
+  int p = 31;
+  while(((m &gt;&gt; --p) &amp; 1) == 0);
+  while(p-- &gt; 0) {
+    dbl(k, c0, c0);
+    if((m &gt;&gt; p) &amp; 1) {
+      nxt(k, c0, c1);
+      for(int j=0; j&lt;k; ++j) c0[j] = c1[j];
+    }
+  }
+ 
+  ll res = 0;
+  for(int i=0; i&lt;k; ++i) {
+    res += c0[i]*a[i];
+    res %= MOD;
+  }
+  return res;
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "Typical DP Contest - T問題: フィボナッチ": <a href="https://beta.atcoder.jp/contests/tdpc/submissions/3489610">source</a> (C++14, 212ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

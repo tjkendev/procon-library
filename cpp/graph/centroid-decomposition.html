@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>重心分解 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="重心分解(Centroid Decomposition) 概要 木の重心を求め、サイズが1/2以下になるような部分木に分解するのを繰り返す。 この分解した各部分木について、DFS等で解を求めるように...">
+<meta property="og:title" content="重心分解 - yaketake08's 実装メモ">
+<meta property="og:description" content="重心分解">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/graph/centroid-decomposition.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/graph/centroid-decomposition.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>重心分解</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>重心分解(Centroid Decomposition)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>木の重心を求め、サイズが1/2以下になるような部分木に分解するのを繰り返す。</p>
+</div>
+<div class="paragraph">
+<p>この分解した各部分木について、DFS等で解を求めるようにして使う。
+各部分木で \(O(N)\) の計算を行うと、全体で \(O(N \log N)\) の計算量になる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>構築: \(O(N \log N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_入力">入力:</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>n: 頂点数</p>
+</li>
+<li>
+<p>g: 重心分解する木</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_出力">出力:</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>root: 木gの重心頂点</p>
+</li>
+<li>
+<p>g0[v]: 重心頂点vの部分木を分解した後の各部分木の重心頂点を持つ根付き木</p>
+</li>
+<li>
+<p>parent[v] = w: 重心頂点vの部分木に分解される前の部分木の重心頂点</p>
+</li>
+<li>
+<p>level[v]: 各頂点vが重心となるlevel</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>重心が頂点vとなる部分木について、その木に含まれる頂点wとの間に <code>level[v] &lt; level[w]</code> が成り立つ</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">// dependent libraries
+#include&lt;vector&gt;
+#include&lt;queue&gt;
+using namespace std;
+
+
+#define LV 19
+#define N 100005
+ 
+// 入力: n, g
+int n;
+vector&lt;int&gt; g[N];
+ 
+// 出力: root, g0, parent, level
+int root;
+vector&lt;int&gt; g0[N];
+int parent[N], level[N];
+ 
+bool c_used[N];
+int sz[N];
+int count_dfs(int v, int p) {
+  int c = 1;
+  for(int w : g[v]) {
+    if(w == p || c_used[w]) continue;
+    c += count_dfs(w, v);
+  }
+  return sz[v] = c;
+}
+ 
+int search_centroid(int v, int p, int s) {
+  if((s - sz[v])*2 &gt; s) {
+    return -1;
+  }
+  bool ok = true;
+  for(int w : g[v]) {
+    if(w == p || c_used[w]) continue;
+ 
+    int x = search_centroid(w, v, s);
+    if(x != -1) {
+      return x;
+    }
+    if(sz[w]*2 &gt; s) {
+      ok = false;
+      break;
+    }
+  }
+  return ok ? v : -1;
+}
+ 
+void centroid() {
+  queue&lt;int&gt; que;
+ 
+  int s = count_dfs(0, -1);
+  int x = search_centroid(0, -1, s);
+  que.push(x);
+  c_used[x] = true;
+  root = x;
+  parent[x] = -1;
+  level[x] = 0;
+ 
+  while(!que.empty()) {
+    int v = que.front(); que.pop();
+    for(int w : g[v]) {
+      if(c_used[w]) {
+        continue;
+      }
+ 
+      int s = count_dfs(w, -1);
+      int x = search_centroid(w, -1, s);
+      g0[v].push_back(x);
+      parent[x] = v;
+      level[x] = level[v] + 1;
+ 
+      que.push(x);
+      c_used[x] = true;
+    }
+  }
+}
+
+
+// 重心分解の計算例: 各重心からの距離を計算
+// dist[lv][u]: levelがlvの時、頂点uが含まれる部分木の重心頂点と頂点uの距離
+int dist[LV][N];
+// used: 計算用
+int used[N];
+void solve() {
+  centroid();
+  for(int u=0; u&lt;n; u++) {
+    queue&lt;int&gt; que;
+    int lv = level[u];
+    que.push(u);
+    dist[lv][u] = 0;
+    used[u] = u+1;
+ 
+    while(!que.empty()) {
+      int v = que.front(); que.pop();
+      int dv = dist[lv][v];
+      for(int w : g[v]) {
+        if(level[w] &lt; lv || used[w] == u+1) {
+          continue;
+        }
+        dist[lv][w] = dv + 1;
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "全国統一プログラミング王決定戦本戦 - G問題: Greatest Journey": <a href="https://atcoder.jp/contests/nikkei2019-final/submissions/4352791">source</a> (C++14, 1485ms)</p>
+</li>
+<li>
+<p>CodeChef: "CodeChef February Challenge 2019: Yet Another Tree Problem": <a href="https://www.codechef.com/viewsolution/23017576">source</a> (C++14, 1.87sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

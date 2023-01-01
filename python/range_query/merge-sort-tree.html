@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Merge Sort Tree - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Merge Sort Tree 概要 前計算でセグメント木上にソートした要素の配列を持たせる。 その上で、以下のクエリを処理する。 区間 \([l, r)\) において \(a_i \le K\)...">
+<meta property="og:title" content="Merge Sort Tree - yaketake08's 実装メモ">
+<meta property="og:description" content="Merge Sort Tree">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/range_query/merge-sort-tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/range_query/merge-sort-tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Merge Sort Tree</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Merge Sort Tree</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>前計算でセグメント木上にソートした要素の配列を持たせる。</p>
+</div>
+<div class="paragraph">
+<p>その上で、以下のクエリを処理する。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>区間 \([l, r)\) において \(a_i \le K\) を満たす要素の数を求める</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>前計算: \(O(N \log N)\)</p>
+</li>
+<li>
+<p>クエリ: 1クエリ \(O(\log^2 N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>非再帰実装</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">from bisect import bisect
+from heapq import merge
+
+def construct(N, A):
+    N0 = 2**(N-1).bit_length()
+    data = [None]*(2*N0)
+    for i, a in enumerate(A):
+        data[N0-1+i] = [a]
+    for i in range(N, N0):
+        data[N0-1+i] = []
+    for i in range(N0-2, -1, -1):
+        *data[i], = merge(data[2*i+1], data[2*i+2])
+    return N0, data
+
+# count elements A_i s.t. A_i &lt;= k for i in [l, r)
+def query1(N0, data, l, r, k):
+    L = l + N0; R = r + N0
+    s = 0
+    while L &lt; R:
+        if R &amp; 1:
+            R -= 1
+            s += bisect(data[R-1], k-1)
+        if L &amp; 1:
+            s += bisect(data[L-1], k-1)
+            L += 1
+        L &gt;&gt;= 1; R &gt;&gt;= 1
+    return s
+
+# count elements A_i s.t. a &lt;= A_i &lt; b for i in [l, r)
+def query(N0, data, l, r, a, b):
+    L = l + N0; R = r + N0
+    s = 0
+    while L &lt; R:
+        if R &amp; 1:
+            R -= 1
+            s += bisect(data[R-1], b-1) - bisect(data[R-1], a-1)
+        if L &amp; 1:
+            s += bisect(data[L-1], b-1) - bisect(data[L-1], a-1)
+            L += 1
+        L &gt;&gt;= 1; R &gt;&gt;= 1
+    return s
+
+
+N = 6
+A = [6, 1, 4, 5, 3, 2]
+N0, data = construct(N, A)
+print(query1(N0, data, 2, 5, 4))
+# =&gt; "1"
+print(query(N0, data, 1, 4, 3, 5))
+# =&gt; "1"</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "2907: Prefix Suffix Search": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4535727#1">source</a> (Python3, 12.00sec)</p>
+</li>
+<li>
+<p>AOJ: "2426: Treasure Hunt": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4982281#1">source</a> (Python3, 7.79sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://discuss.codechef.com/t/merge-sort-tree-tutorial/14277/2">Merge Sort Tree - Tutorial</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

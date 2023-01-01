@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>kd-tree (2次元) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="kd-tree (k-dimensional tree) 概要 2次元平面上の頂点を木構造で管理する。 計算量 構築: \(O(N \log^2 N)\) 領域探索クエリ: \(O(\sqrt{N}...">
+<meta property="og:title" content="kd-tree (2次元) - yaketake08's 実装メモ">
+<meta property="og:description" content="kd-tree (2次元)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/range_query/kd-tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/range_query/kd-tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>kd-tree (2次元)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>kd-tree (k-dimensional tree)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>2次元平面上の頂点を木構造で管理する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>構築: \(O(N \log^2 N)\)</p>
+</li>
+<li>
+<p>領域探索クエリ: \(O(\sqrt{N} + K)\) (\(K\) は出力する点の数)</p>
+</li>
+<li>
+<p>(一様分布の点集合における)最近傍点クエリ: \(O(\log N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;vector&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+using ll = long long;
+
+#define N 500007
+
+struct Point {
+  ll x, y; int i;
+};
+
+int n;
+Point p[N];
+
+bool comp_x(const Point &amp;p1, const Point &amp;p2) { return p1.x &lt; p2.x; }
+bool comp_y(const Point &amp;p1, const Point &amp;p2) { return p1.y &lt; p2.y; }
+
+struct Node {
+  Node *left, *right;
+  Point p;
+
+  Node(Node *left, Node *right, Point p) : left(left), right(right), p(p) {}
+};
+
+Node *root;
+
+Node* make(int l, int r, int depth) {
+  if(!(l &lt; r)) {
+    return nullptr;
+  }
+
+  int mid = (l + r) &gt;&gt; 1;
+  if(depth % 2) {
+    sort(p + l, p + r, comp_x);
+  } else {
+    sort(p + l, p + r, comp_y);
+  }
+
+  return new Node(make(l, mid, depth+1), make(mid+1, r, depth+1), p[mid]);
+}
+
+// find nearest neighber
+ll find(Node *nd, ll x, ll y, int depth, ll r) {
+  if(nd == nullptr) return r;
+  Point &amp;p = nd-&gt;p;
+  ll d = (x - p.x)*(x - p.x) + (y - p.y)*(y - p.y);
+  if(r == -1 || d &lt; r) r = d;
+
+  if(depth % 2) {
+    if(nd-&gt;left != nullptr &amp;&amp; x - r &lt;= p.x) {
+      r = find(nd-&gt;left, x, y, depth+1, r);
+    }
+    if(nd-&gt;right != nullptr &amp;&amp; p.x &lt;= x + r) {
+      r = find(nd-&gt;right, x, y, depth+1, r);
+    }
+  } else {
+    if(nd-&gt;left != nullptr &amp;&amp; y - r &lt;= p.y) {
+      r = find(nd-&gt;left, x, y, depth+1, r);
+    }
+    if(nd-&gt;right != nullptr &amp;&amp; p.y &lt;= y + r) {
+      r = find(nd-&gt;right, x, y, depth+1, r);
+    }
+  }
+  return r;
+}
+
+// find nodes in [sx, tx]×[sy,ty] (Range Search)
+void find(Node *nd, vector&lt;int&gt; &amp;result, ll sx, ll tx, ll sy, ll ty, int depth) {
+  Point &amp;p = nd-&gt;p;
+  if(sx &lt;= p.x &amp;&amp; p.x &lt;= tx &amp;&amp; sy &lt;= p.y &amp;&amp; p.y &lt;= ty) {
+    result.push_back(p.i);
+  }
+
+  if(depth % 2) {
+    if(nd-&gt;left != nullptr &amp;&amp; sx &lt;= p.x) {
+      find(nd-&gt;left, result, sx, tx, sy, ty, depth+1);
+    }
+    if(nd-&gt;right != nullptr &amp;&amp; p.x &lt;= tx) {
+      find(nd-&gt;right, result, sx, tx, sy, ty, depth+1);
+    }
+  } else {
+    if(nd-&gt;left != nullptr &amp;&amp; sy &lt;= p.y) {
+      find(nd-&gt;left, result, sx, tx, sy, ty, depth+1);
+    }
+    if(nd-&gt;right != nullptr &amp;&amp; p.y &lt;= ty) {
+      find(nd-&gt;right, result, sx, tx, sy, ty, depth+1);
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "DSL_2_C: Range Query - Range Search (kD Tree)": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3232854">source</a> (C++14, 0.45sec)</p>
+</li>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 010 - D問題: 情報伝搬": <a href="https://beta.atcoder.jp/contests/arc010/submissions/3585181">source</a> (C++14, 3392ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/K-d_tree#Complexity">k-d tree - Wikipedia</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

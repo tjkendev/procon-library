@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>確率的素数判定 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="フェルマーテスト フェルマーテスト (Fermat primality test) 巨大な数が素数であるかを判定する。 カーマイケル数 を誤って素数と判定してしまう。 # フェルマーテスト impo...">
+<meta property="og:title" content="確率的素数判定 - yaketake08's 実装メモ">
+<meta property="og:description" content="確率的素数判定">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/prime/probabilistic.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/prime/probabilistic.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>確率的素数判定</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_フェルマーテスト">フェルマーテスト</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>フェルマーテスト (Fermat primality test)</p>
+</div>
+<div class="paragraph">
+<p>巨大な数が素数であるかを判定する。</p>
+</div>
+<div class="paragraph">
+<p><a href="https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%83%9E%E3%82%A4%E3%82%B1%E3%83%AB%E6%95%B0">カーマイケル数</a> を誤って素数と判定してしまう。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># フェルマーテスト
+import random
+def fermat(k):
+    for _ in range(1000):
+        a = random.randint(2, k-1)
+        if pow(a, k-1, k) != 1:
+            return 0
+    return 1</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>yukicoder: "No.308 素数は通れません": <a href="https://yukicoder.me/submissions/61897">source</a> (Python2, WA)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>カーマイケル数で落ちてWA</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ミラーラビン素数判定法">ミラーラビン素数判定法</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ミラーラビン素数判定法 (Miller-Rabin primality test)</p>
+</div>
+<div class="paragraph">
+<p>異なる \(k\) 個の乱数で素数判定を行った場合、誤って素数と判定してしまう確率は \(\frac{1}{4^k}\) 以下になる。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-1">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-1" data-lang="python"># ミラーラビン素数判定法
+import random
+def miller_rabin(n, t):
+    if n == 2:
+        return 1
+    if n == 1 or n &amp; 1 == 0:
+        return 0
+    d = n-1
+    d //= d &amp; -d
+    for _ in range(t):
+        a = random.randint(1, n-1)
+        t = d
+        y = pow(a, t, n)
+        while t != n-1 and y != 1 and y != n-1:
+            y = y**2 % n
+            t &lt;&lt;= 1
+        if y != n-1 and t &amp; 1 == 0:
+            return 0
+    return 1</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified_2">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>yukicoder: "No.308 素数は通れません": <a href="https://yukicoder.me/submissions/61936">source</a> (Python2, 45ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://ja.wikipedia.org/wiki/%E3%83%9F%E3%83%A9%E3%83%BC%E2%80%93%E3%83%A9%E3%83%93%E3%83%B3%E7%B4%A0%E6%95%B0%E5%88%A4%E5%AE%9A%E6%B3%95">ミラー-ラビン素数判定法 - Wikipedia</a></p>
+</li>
+<li>
+<p><a href="https://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html">Rabin-Miller Strong Pseudoprime Test - Wofram MathWorld</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

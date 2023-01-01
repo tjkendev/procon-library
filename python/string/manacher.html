@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>最長回文 (Manacher’s algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="最長回文 (Manacher’s algorithm) 概要 長さ \(N\) の文字列 \(S\) について、各 \(i\) に対し、 \(S[i-k+1:i+k-1]\) が回文となる最大の \...">
+<meta property="og:title" content="最長回文 (Manacher’s algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="最長回文 (Manacher's algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/string/manacher.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/string/manacher.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>最長回文 (Manacher’s algorithm)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>最長回文 (Manacher’s algorithm)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>長さ \(N\) の文字列 \(S\) について、各 \(i\) に対し、 \(S[i-k+1:i+k-1]\) が回文となる最大の \(k\) を求める。</p>
+</div>
+<div class="paragraph">
+<p>偶数長を求める場合は、文字と文字の間にダミーの文字を挟むと計算できる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># 偶数長含めた回文の長さを求める
+# R[2*i] = L: S[i]を中心とする奇数長の最大回文
+# R[2*i+1] = L: S[i:i+2]を中心とする偶数長の最大回文
+# ダミー文字を挟むが、各 R[i] は実際の回文の文字列長と一致する
+def manacher(S):
+    C = []
+    for a in S:
+        C.append(a)
+        C.append(0)
+    C.pop()
+
+    L = len(C)
+
+    R = [0]*L
+
+    i = j = 0
+    while i &lt; L:
+        while j &lt;= i &lt; L-j and C[i-j] == C[i+j]:
+            j += 1
+        R[i] = j
+        k = 1
+        while j-R[i-k] &gt; k &lt;= i &lt; L-k:
+            R[i+k] = R[i-k]
+            k += 1
+        i += k; j -= k
+
+    for i in range(L):
+        if i &amp; 1 == R[i] &amp; 1:
+            R[i] -= 1
+    return R</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "早稲田大学プログラミングコンテスト2019 - E問題: Artist": <a href="https://atcoder.jp/contests/wupc2019/submissions/4541727">source</a> (Python3, 232ms)</p>
+</li>
+<li>
+<p>AOJ: "2292 - Common Palindromes": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=7242764#1">source</a> (Python3, 1.65sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://snuke.hatenablog.com/entry/2014/12/02/235837">文字列の頭良い感じの線形アルゴリズムたち２ - あなたは嘘つきですかと聞かれたら「YES」と答えるブログ</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

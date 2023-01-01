@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>素数mod上の平方根 (Tonelli-Shanks algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="square roots modulo a prime 概要 ある奇素数 \(p\) と \(p\) の平方剰余(Quadratic residue) となる \(y\) について \(x^2 \e...">
+<meta property="og:title" content="素数mod上の平方根 (Tonelli-Shanks algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="素数mod上の平方根 (Tonelli-Shanks algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/math/tonelli-shanks.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/math/tonelli-shanks.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>素数mod上の平方根 (Tonelli-Shanks algorithm)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>square roots modulo a prime</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ある奇素数 \(p\) と \(p\) の平方剰余(Quadratic residue) となる \(y\) について \(x^2 \equiv y\) (mod \(p\)) となる \(x\) を求めるアルゴリズム。</p>
+</div>
+<div class="sect2">
+<h3 id="_具体的な計算">具体的な計算</h3>
+<div class="paragraph">
+<p>\(p-1 = 2^mQ\) とする。(\(m \ge 0\), \(Q\) は奇数)</p>
+</div>
+<div class="paragraph">
+<p>まず平方非剰余となる \(z\) を一つ見つける。 (平方非剰余となる数は1からp-1の間に半分は存在する)<br>
+この \(z\) は オイラーの規準(Euler’s criterion) より \(z^\frac{p-1}{2} \equiv z^{2^{m-1}Q} \equiv -1\) を満たす。</p>
+</div>
+<div class="paragraph">
+<p>\(t \equiv y^Q\) とする。この \(t\) はオイラーの規準 より \(t^{2^{m-1}} \equiv 1\) を満たす。</p>
+</div>
+<div class="paragraph">
+<p>\(i = m-2\) から 0 まで \(i\) を小さくしながら
+\(t^{2^i} \equiv -1\) を満たす \(i\) を見つけるたびに \(t\) に \(z^{2^{m-1-i}Q}\) を掛ける。<br>
+(この時、掛けたあとの \(t\) は \(t^{2^i} \equiv 1\) を満たす)</p>
+</div>
+<div class="paragraph">
+<p>最終的に \(t\) は \(\displaystyle t \equiv y^Q z^{2^{j_1}Q} z^{2^{j_2}Q} \cdots z^{2^{j_k}Q} \equiv 1\) \((1 \le j_1 &lt; j_2 &lt; ... &lt; j_k \le m-1)\) の形になるため、<br>
+\(\displaystyle x \equiv (ty)^\frac{1}{2} \equiv y^\frac{Q+1}{2} z^{2^{j_1-1}Q} z^{2^{j_2-1}Q} \cdots z^{2^{j_k-1}Q}\) を計算することで解が得られる。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">import random
+random.seed()
+def square_root(n, p):
+    n %= p
+    if pow(n, (p-1)&gt;&gt;1, p) != 1:
+        return -1
+    q = p-1; m = 0
+    while q &amp; 1 == 0:
+        q &gt;&gt;= 1
+        m += 1
+    z = random.randint(1, p-1)
+    while pow(z, (p-1)&gt;&gt;1, p) == 1:
+        z = random.randint(1, p-1)
+    c = pow(z, q, p)
+    t = pow(n, q, p)
+    r = pow(n, (q+1)&gt;&gt;1, p)
+    if t == 0:
+        return 0
+    m -= 2
+    while t != 1:
+        while pow(t, 2**m, p) == 1:
+            c = c * c % p
+            m -= 1
+        r = r * c % p
+        c = c * c % p
+        t = t * c % p
+        m -= 1
+    return r
+print(square_root(67, 73))
+# =&gt; "33" or "40"
+print(square_root(4, 37))
+# =&gt; "2" or "35"
+print(square_root(6, 37))
+# =&gt; "-1"
+# (12603242261242278713399181313 - 1) = 2^66 * 3 * 17 * 83 * 40351
+print(square_root(32189, 12603242261242278713399181313))
+# =&gt; "4979547606364809208986559660" or "7623694654877469504412621653"</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Tonelli%E2%80%93Shanks_algorithm">Tonelli-Shanks algorithm - Wikipedia</a></p>
+</li>
+<li>
+<p>和田秀男. 「コンピュータと素因数分解」. 遊星社, 1987.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

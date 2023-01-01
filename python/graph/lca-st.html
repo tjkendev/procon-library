@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>最小共通祖先 (Sparse Table) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 根付き木 \(T\) のある頂点 \(u, v\) について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。 Sparse Tableを使ったアルゴリズムでは、セグメント...">
+<meta property="og:title" content="最小共通祖先 (Sparse Table) - yaketake08's 実装メモ">
+<meta property="og:description" content="最小共通祖先 (Sparse Table)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/lca-st.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/graph/lca-st.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>最小共通祖先 (Sparse Table)</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>根付き木 \(T\) のある頂点 \(u, v\) について、共通の祖先であり、根頂点から最も遠い位置にあるLCAの頂点を求める。</p>
+</div>
+<div class="paragraph">
+<p>Sparse Tableを使ったアルゴリズムでは、セグメント木と同様にEuler tour techniqueを用いてLCAを計算する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>前計算: \(O(N \log N)\)</p>
+</li>
+<li>
+<p>クエリ処理: \(O(1)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># N: 頂点数
+# G[v]: 頂点vの子頂点
+N = ...
+G = [[...] for i in range(N)]
+
+# Euler Tour Technique
+S = []
+FS = [0]*N
+depth = [0]*N
+def dfs(v, p, d):
+    depth[v] = d
+    FS[v] = len(S)
+    S.append(v)
+    for w in G[v]:
+        if w == p:
+            continue
+        dfs(w, v, d+1)
+        S.append(v)
+dfs(0, -1, 0)
+ 
+# Sparse Table
+L = len(S)
+lg = [0]*(L + 1)
+for i in range(2, L+1):
+    lg[i] = lg[i &gt;&gt; 1] + 1
+st = [None]*(lg[L] + 1)
+st0 = st[0] = S
+b = 1
+for i in range(lg[L]):
+    st0 = st[i+1] = [p if depth[p] &lt;= depth[q] else q for p, q in zip(st0, st0[b:])]
+    b &lt;&lt;= 1
+ 
+# LCA O(1)
+def query(u, v):
+    x = FS[u]; y = FS[v]
+    if x &gt; y:
+        x, y = y, x
+    l = lg[y - x + 1]
+    px = st[l][x]; py = st[l][y - (1 &lt;&lt; l) + 1]
+    return px if depth[px] &lt;= depth[py] else py</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_5_C: Tree - Lowest Common Ancestor": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3868523#1">source</a> (Python3, 1.23sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

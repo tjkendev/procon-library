@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>単一始点最短経路 (D’Esopo-Pape Algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="D’Esopo-Pape Algorithm 概要 単一始点最短経路問題(SSSP)を解くアルゴリズム。dequeを用いて計算する。 負辺に対する計算はできるが、負閉路が含まれない必要がある。 大体...">
+<meta property="og:title" content="単一始点最短経路 (D’Esopo-Pape Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="単一始点最短経路 (D'Esopo-Pape Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/desopo-pape.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/graph/desopo-pape.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>単一始点最短経路 (D’Esopo-Pape Algorithm)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>D’Esopo-Pape Algorithm</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>単一始点最短経路問題(SSSP)を解くアルゴリズム。dequeを用いて計算する。</p>
+</div>
+<div class="paragraph">
+<p>負辺に対する計算はできるが、負閉路が含まれない必要がある。</p>
+</div>
+<div class="paragraph">
+<p>大体のケースにおいて、Dijkstra法やBellman-Ford法よりも高速になるらしいが、最悪ケースは指数オーダーになる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># used[v]: 頂点vの状態
+#  0: まだ未計算
+#  1: 計算中
+#  2: 計算完了 (再計算される可能性あり)
+
+from collections import deque
+
+INF = 10**18
+def pape(G, N, s):
+    dist = [INF]*N
+
+    used = [0]*N
+    used[s] = 1
+    dist[s] = 0
+    que = deque([s])
+    while que:
+        v = que.popleft()
+        c = dist[v]
+        for w, d in G[v]:
+            if dist[w] &lt;= c + d:
+                continue
+            dist[w] = c + d
+            if used[w] == 0:
+                que.append(w)
+                used[w] = 1
+            elif used[w] == 2:
+                que.appendleft(w)
+                used[w] = 1
+        used[v] = 2
+    return dist</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3770459#1">source</a> (Python3, 1.51sec)</p>
+</li>
+<li>
+<p>AOJ: "ALDS1_12_C: Graph II - Single Source Shortest Path II": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3770488#1">source</a> (Python3, 0.58sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://cp-algorithms.com/graph/desopo_pape.html">D’Esopo-Pape Algorithm - CP-Algorithms</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

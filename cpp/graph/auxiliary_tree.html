@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Auxiliary Tree (LCAベース) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Auxiliary Tree, Virtual Tree 概要 \(N\) 個の頂点を含む根付き木 \(T\) より、とある頂点集合 \(X = {v_1, v_2, ..., v_K}\) と そ...">
+<meta property="og:title" content="Auxiliary Tree (LCAベース) - yaketake08's 実装メモ">
+<meta property="og:description" content="Auxiliary Tree (LCAベース)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/graph/auxiliary_tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/graph/auxiliary_tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Auxiliary Tree (LCAベース)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Auxiliary Tree, Virtual Tree</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(N\) 個の頂点を含む根付き木 \(T\) より、とある頂点集合 \(X = {v_1, v_2, ..., v_K}\) と それらのLCAを含むような木を構築する。</p>
+</div>
+<div class="paragraph">
+<p>頂点集合 \(X\) に対し、以下の手順によって構築できる。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>頂点集合 \(X\) を、グラフ \(G\) をDFSした時のpre-orderの順序で並べる</p>
+<div class="ulist">
+<ul>
+<li>
+<p>このリストを \(A = v_{i_1}, v_{i_2}, ..., v_{i_K}\) とする</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>\(1 \le j &lt; K\) に対し、 \(w = lca(v_{i_j}, v_{i_{j+1}})\) を求める</p>
+</li>
+<li>
+<p>頂点集合 \(X\) と(2)のlcaの頂点から、Auxiliary Treeを構築する</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>ここでは、具体的に以下で構築する</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>(2)において、各 \(1 \le j &lt; K\) に対し求めたlca \(w\) をリスト \(A\) に追加する</p>
+</li>
+<li>
+<p>リスト \(A\) に含まれる頂点をもう一度pre-orderの順序で並べる</p>
+</li>
+<li>
+<p>リスト \(A\) に含まれる頂点 \(v_i\) を走査しながら、stackを用いてリスト \(A\) に含まれる直近の祖先 \(v_j\) を求める</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>頂点集合 \(X\) のサイズを \(K\) とすると、このAuxiliary Treeの頂点数は高々 \(2K-1\) になる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Euler Tour TechniqueとSparse Tableを用いた場合</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>前計算: \(O(N \log N)\)</p>
+</li>
+<li>
+<p>Auxiliary Treeの構築: \(O(K \log K)\)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Euler Tour TechniqueとSegment Treeを用いた場合</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>前計算: \(O(N)\)</p>
+</li>
+<li>
+<p>Auxiliary Treeの構築: \(O(K (\log K + \log N))\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_ett_sparse_table">実装 (ETT + Sparse Table)</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;vector&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+
+#define N 100000
+#define NL 18
+ 
+int fs[N], ls[N];
+int depth[N];
+int st[NL][3*N], lg[3*N];
+ 
+int cur;
+vector&lt;int&gt; g[N];
+vector&lt;int&gt; g0[N];
+ 
+void ett_dfs(int v, int p, int d) {
+  st[0][fs[v] = cur++] = v;
+  depth[v] = d;
+  for(int w : g[v]) {
+    if(w == p) continue;
+    ett_dfs(w, v, d+1);
+    st[0][cur++] = v;
+  }
+  ls[v] = cur-1;
+}
+ 
+void construct() {
+  cur = 0;
+  // Euler tour technique
+  ett_dfs(0, -1, 0);
+  lg[0] = lg[1] = 0;
+  for(int i=2; i&lt;=cur; ++i) lg[i] = lg[i &gt;&gt; 1] + 1;
+ 
+  // Sparse Table
+  for(int i=0, b=1; i&lt;lg[cur]; ++i, b&lt;&lt;=1) {
+    for(int j=0; j&lt;(cur - (b&lt;&lt;1) + 1); ++j) {
+      st[i+1][j] = (depth[st[i][j]] &lt;= depth[st[i][j+b]] ? st[i][j] : st[i][j+b]);
+    }
+  }
+}
+ 
+bool cmp_at(int x, int y) {
+  return fs[x] &lt; fs[y];
+}
+ 
+inline int lca(int u, int v) {
+  int x = fs[u], y = fs[v];
+  if(x &gt; y) swap(x, y);
+  int l = lg[y - x + 1];
+  return (depth[st[l][x]] &lt;= depth[st[l][y - (1 &lt;&lt; l) + 1]] ? st[l][x] : st[l][y - (1 &lt;&lt; l) + 1]);
+}
+
+// 頂点vsを含むAuxiliary Treeを構築する
+// 結果はg0に入る
+// 返り値はAuxiliary Treeの根頂点
+int stk[2*N];
+inline int auxiliary_tree(vector&lt;int&gt; &amp;vs, vector&lt;int&gt; g0[N]) {
+  sort(vs.begin(), vs.end(), cmp_at);
+  int k = vs.size();
+  for(int i=0; i&lt;k-1; ++i) {
+    vs.push_back(lca(vs[i], vs[i+1]));
+  }
+  sort(vs.begin(), vs.end(), cmp_at);
+  int prv = -1;
+  int cur = 0;
+  for(int i=0; i&lt;vs.size(); ++i) {
+    int v = vs[i];
+    if(prv == v) continue;
+    while(cur &gt; 0 &amp;&amp; ls[stk[cur-1]] &lt; fs[v]) --cur;
+    if(cur &gt; 0) {
+      g0[stk[cur-1]].push_back(v);
+    }
+    g0[v].clear();
+    stk[cur++] = v;
+    prv = v;
+  }
+  return stk[0];
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Codeforces: "613D: Kingdom and its Cities": <a href="https://codeforces.com/contest/613/submission/60606853">source</a> (C++14, 561ms)</p>
+</li>
+<li>
+<p>CodeChef: "ICL2017: Tree Obsession": <a href="https://www.codechef.com/viewsolution/26228328">source</a> (C++14, 0.66sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

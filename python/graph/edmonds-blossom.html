@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>最大マッチング (Edmonds' Algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Maximum Matching (Edmonds' Algorithm) 概要 無向グラフ \(G = (V, E)\) における最大マッチングを求める。 各ステップごとに augmenting...">
+<meta property="og:title" content="最大マッチング (Edmonds' Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="最大マッチング (Edmonds' Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/edmonds-blossom.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/graph/edmonds-blossom.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>最大マッチング (Edmonds' Algorithm)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Maximum Matching (Edmonds' Algorithm)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>無向グラフ \(G = (V, E)\) における最大マッチングを求める。</p>
+</div>
+<div class="paragraph">
+<p>各ステップごとに augmenting path を見つけ出し、この path を元にマッチングを一つずつ増やしていく。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(|V|^3)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">def maximum_matching(N, G):
+    def find_aug_path(N, G, M):
+        que = []
+        R = [-1]*N
+        nxt = [-1]*N
+        roots = [-1]*N
+        valid = [1]*N
+
+        for v in range(N):
+            if M[v] != -1:
+                continue
+            que.append(v)
+            roots[v] = v
+            R[v] = 0
+
+        for v in que:
+            for w in G[v]:
+                if w == M[v]:
+                    continue
+                if R[w] == -1:
+                    x = M[w]
+
+                    R[w] = 1
+                    R[x] = 0
+
+                    nxt[x] = v
+
+                    roots[w] = roots[x] = roots[v]
+
+                    que.append(x)
+                elif R[w] == 0:
+                    if roots[v] != roots[w]:
+                        # construct an augmenting path
+                        res = [v]
+                        x = v
+                        while M[x] != -1:
+                            res.append(M[x])
+                            x = nxt[x]
+                            res.append(x)
+                        res.reverse()
+                        res.append(w)
+                        x = w
+                        while M[x] != -1:
+                            res.append(M[x])
+                            x = nxt[x]
+                            res.append(x)
+                        return res
+
+                    # contract a blossom
+
+                    P1 = [v]
+                    x = v
+                    while M[x] != -1:
+                        x = nxt[x]
+                        P1.append(x)
+                    R1 = [x for x in reversed(P1) if valid[x]]
+
+                    P2 = [w]
+                    x = w
+                    while M[x] != -1:
+                        x = nxt[x]
+                        P2.append(x)
+                    R2 = [x for x in reversed(P2) if valid[x]]
+
+                    ln = min(len(R1), len(R2))
+                    k = 0
+                    while k &lt; ln and R1[k] == R2[k]:
+                        k += 1
+
+                    if k &lt; len(R1):
+                        u = R1[k]
+                        py = w
+                        for x in P1:
+                            y = M[x]
+
+                            if R[y] == 1:
+                                que.append(y)
+                                R[y] = 0
+                            nxt[y] = py
+                            valid[x] = valid[y] = 0
+
+                            if x == u:
+                                break
+                            py = y
+
+                    if k &lt; len(R2):
+                        u = R2[k]
+                        py = v
+                        for x in P2:
+                            y = M[x]
+
+                            if R[y] == 1:
+                                que.append(y)
+                                R[y] = 0
+                            nxt[y] = py
+                            valid[x] = valid[y] = 0
+
+                            if x == u:
+                                break
+                            py = y
+        return []
+    M = [-1]*N
+    while 1:
+        P = find_aug_path(N, G, M)
+        if not P:
+            break
+        for i in range(0, len(P), 2):
+            p0 = P[i]; p1 = P[i+1]
+            M[p0] = p1
+            M[p1] = p0
+    return M
+
+N = 5
+G = [[1], [0, 3, 4], [3], [1, 2, 4], [1, 3]]
+M = maximum_matching(N, G)
+print(M)
+# =&gt; "[1, 0, 3, 2, -1]"</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "JOI春合宿2016 マッチングコンテスト - A問題: 一般最大マッチング": <a href="https://atcoder.jp/contests/joisc2016matching/submissions/22306877">source</a> (PyPy3, 258ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://speakerdeck.com/yosupo/ban-gurahufalsezui-da-matutingu">一般グラフの最大マッチング - Speaker Deck</a></p>
+</li>
+<li>
+<p>B. Korte, J. Vygen. Combinatorial Optimization, 6th Edition. Springer, 2018.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Link-Cut Tree - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Link-Cut Tree 概要 動的木のデータ構造 Heavy-Light Decompositionを動的にしたイメージ。 分解したパスはSplay Tree上で管理する。 以下の操作ができる...">
+<meta property="og:title" content="Link-Cut Tree - yaketake08's 実装メモ">
+<meta property="og:description" content="Link-Cut Tree">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/range_query/link-cut-tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/range_query/link-cut-tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Link-Cut Tree</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Link-Cut Tree</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>動的木のデータ構造</p>
+</div>
+<div class="paragraph">
+<p>Heavy-Light Decompositionを動的にしたイメージ。
+分解したパスはSplay Tree上で管理する。</p>
+</div>
+<div class="paragraph">
+<p>以下の操作ができる</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>expose(i): 根頂点から頂点iまでのパスのみを繋げる (それ以外のパスをカット</p>
+</li>
+<li>
+<p>cut(i): 木を頂点iと頂点iの親頂点pの間の辺をカットして分割</p>
+</li>
+<li>
+<p>link(i, p): 2つの木について、頂点iと頂点pを接続して1つの木にする</p>
+</li>
+<li>
+<p>evert(i): 木の根頂点を頂点iに変更</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>各クエリ: \(O(\log N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各ノードの情報を別の配列で管理する実装。
+各頂点は1-indexedで番号付けして管理する。</p>
+</div>
+<div class="paragraph">
+<p>Python3が遅い。PyPy3はある程度高速。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># prt[i]: 頂点iの親頂点
+# left[i]: 頂点iの左部分木, right[i]: 頂点iの右部分木
+# sz[i]: 頂点iを根頂点とする部分木のサイズ
+# key[i]: 頂点iが持つ値
+# val[i]: 頂点i以下の部分木の持つ値の和
+# rev[i]: 木の反転遅延が行われているか
+N = 10**5
+prt = [0]*(N+1)
+left = [-1] + [0]*N
+right = [-1] + [0]*N
+sz = [0] + [1]*N
+key = [0]*(N+1)
+val = [0]*(N+1)
+rev = [0]*(N+1)
+
+def update(i, l, r):
+    #assert 1 &lt;= i &lt;= N
+    sz[i] = 1 + sz[l] + sz[r]
+    val[i] = key[i] + val[l] + val[r]
+
+def swap(i):
+    if i:
+        left[i], right[i] = right[i], left[i]
+        rev[i] ^= 1
+
+def prop(i):
+    swap(left[i])
+    swap(right[i])
+    rev[i] = 0
+    return 1
+
+def splay(i):
+    #assert 1 &lt;= i &lt;= N
+    x = prt[i]
+    rev[i] and prop(i)
+
+    li = left[i]; ri = right[i]
+    while x and not left[x] != i != right[x]:
+        y = prt[x]
+        if not y or left[y] != x != right[y]:
+            if rev[x] and prop(x):
+                li, ri = ri, li
+                swap(li); swap(ri)
+
+            if left[x] == i:
+                left[x] = ri
+                prt[ri] = x
+                update(x, ri, right[x])
+                ri = x
+            else:
+                right[x] = li
+                prt[li] = x
+                update(x, left[x], li)
+                li = x
+            x = y
+            break
+
+        rev[y] and prop(y)
+        if rev[x] and prop(x):
+            li, ri = ri, li
+            swap(li); swap(ri)
+
+        z = prt[y]
+        if left[y] == x:
+            if left[x] == i:
+                v = left[y] = right[x]
+                prt[v] = y
+                update(y, v, right[y])
+
+                left[x] = ri; right[x] = y
+                prt[ri] = x
+                update(x, ri, y)
+
+                prt[y] = ri = x
+            else:
+                left[y] = ri
+                prt[ri] = y
+                update(y, ri, right[y])
+
+                right[x] = li
+                prt[li] = x
+                update(x, left[x], li)
+
+                li = x; ri = y
+        else:
+            if right[x] == i:
+                v = right[y] = left[x]
+                prt[v] = y
+                update(y, left[y], v)
+
+                left[x] = y; right[x] = li
+                prt[li] = x
+                update(x, y, li)
+
+                prt[y] = li = x
+            else:
+                right[y] = li
+                prt[li] = y
+                update(y, left[y], li)
+
+                left[x] = ri
+                prt[ri] = x
+                update(x, ri, right[x])
+
+                li = y; ri = x
+
+        x = z
+        if left[z] == y:
+            left[z] = i
+            update(z, i, right[z])
+        elif right[z] == y:
+            right[z] = i
+            update(z, left[z], i)
+        else:
+            break
+
+    update(i, li, ri)
+    left[i] = li; right[i] = ri
+    prt[li] = prt[ri] = i
+    prt[i] = x
+
+    rev[i] = prt[0] = 0
+
+def expose(i):
+    p = 0
+    cur = i
+    while cur:
+        splay(cur)
+        right[cur] = p
+        update(cur, left[cur], p)
+        p = cur
+        cur = prt[cur]
+    splay(i)
+    return p
+
+def cut(i):
+    expose(i)
+    p = left[i]
+    left[i] = prt[p] = 0
+    return p
+
+def link(i, p):
+    expose(i)
+    expose(p)
+    prt[i] = p
+    right[p] = i
+
+def evert(i):
+    expose(i)
+    swap(i)
+    rev[i] and prop(i)
+
+def root(u):
+    expose(u)
+    while left[u]:
+        u = left[u]
+    splay(u)
+    return u
+ 
+def lca(u, v):
+    expose(u)
+    while left[u]:
+        u = left[u]
+    w = expose(v)
+    while left[v]:
+        v = left[v]
+    return w if u == v else None</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_5_D: Tree - Range Query on a Tree": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227821#1">source</a> (Python3, 9.37sec)</p>
+</li>
+<li>
+<p>AtCoder: "2013年 日本情報オリンピック春合宿 4日目: 3 - 宇宙船 (Spaceships)": <a href="https://beta.atcoder.jp/contests/joisc2013-day4/submissions/3650962">source</a> (PyPy3, 8114ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_その他の実装">その他の実装</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_1ノードを１つのlistで管理する実装">1ノードを１つのlistで管理する実装</h3>
+<div class="paragraph">
+<p>Python3だと高速化するが、PyPy3がPython3よりも遅くなる。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_5_D: Tree - Range Query on a Tree": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3227855#1">source</a> (Python3, 7.80sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.slideshare.net/iwiwi/2-12188845">プログラミングコンテストでのデータ構造 2　～動的木編～</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

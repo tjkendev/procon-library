@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Binary Indexed Tree - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Binary Indexed Tree, BIT, Fenwick Tree 概要 部分和と要素の更新のクエリを行う木構造。 配列 \(a_1, a_2, ..., a_N\) を管理するBITは以...">
+<meta property="og:title" content="Binary Indexed Tree - yaketake08's 実装メモ">
+<meta property="og:description" content="Binary Indexed Tree">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/range_query/bit.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/range_query/bit.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Binary Indexed Tree</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Binary Indexed Tree, BIT, Fenwick Tree</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>部分和と要素の更新のクエリを行う木構造。</p>
+</div>
+<div class="paragraph">
+<p>配列 \(a_1, a_2, ..., a_N\) を管理するBITは以下のクエリを1回 \(O(\log N)\) で処理できる。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>部分和 \(a_1 + a_2 + ... + a_i\) を求める</p>
+</li>
+<li>
+<p>\(a_i\) に \(x\) を加える</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>このBITは、以下の操作が行えるデータ構造とも見なすこともできる</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(a_i\) の値を求める</p>
+</li>
+<li>
+<p>\(a_i, a_{i+1}, ..., a_{N}\) に \(x\) を加える</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_bit_の初期化">BIT の初期化</h3>
+<div class="paragraph">
+<p>\(a_1, a_2, ..., a_N\) の初期値が 0 以外の場合を考える。</p>
+</div>
+<div class="paragraph">
+<p>\(a_1, a_2, ..., a_k\) の和を \(S_k\) と定義する時、以下により \(O(N)\) で初期化できる。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>各 \(i = 1, 2, ..., N\) について \(S_k \leftarrow a_k\) で初期化</p>
+</li>
+<li>
+<p>\(i = 1\) から \(N\) まで順に \(S_{i + (i\&amp;-i)} \leftarrow S_i + S_{i + (i\&amp;-i)}\) で更新</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_二分探索">二分探索</h3>
+<div class="paragraph">
+<p>\(a_1 + a_2 + ... + a_i \le x\) となる最大の \(i\) は \(O(\log N)\) で計算できる。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装1次元bit">実装(1次元BIT)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(Q\) 個のクエリを処理する場合の計算量は \(O(Q \log N)\)</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># Binary Indexed Tree (Fenwick Tree)
+class BIT:
+    def __init__(self, n):
+        self.n = n
+        self.n0 = 2**(n-1).bit_length()
+        self.data = [0]*(n+1)
+        self.el = [0]*(n+1)
+    def init(self, A):
+        self.data[1:] = A
+        for i in range(1, self.n):
+            if i + (i &amp; -i) &lt;= self.n:
+                self.data[i + (i &amp; -i)] += self.data[i]
+    def sum(self, i):
+        s = 0
+        while i &gt; 0:
+            s += self.data[i]
+            i -= i &amp; -i
+        return s
+    def add(self, i, x):
+        # assert i &gt; 0
+        self.el[i] += x
+        while i &lt;= self.n:
+            self.data[i] += x
+            i += i &amp; -i
+    def get(self, i, j=None):
+        if j is None:
+            return self.el[i]
+        return self.sum(j) - self.sum(i)
+    def lower_bound(self, x):
+        w = i = 0
+        k = self.n0
+        while k:
+            if i+k &lt;= self.n and w + self.data[i+k] &lt;= x:
+                w += self.data[i+k]
+                i += k
+            k &gt;&gt;= 1
+        # assert self.get(0, i) &lt;= x &lt; self.get(0, i+1)
+        return i+1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>クラスを使わない単純な実装</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-1">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-1" data-lang="python"># N: クエリ処理する列のサイズ
+N = ...
+
+data = [0]*(N+1)
+
+def init(A):
+    data[1:] = A
+    for i in range(1, N):
+        if i + (i &amp; -i) &lt;= N:
+            data[i + (i &amp; -i)] += data[i]
+
+def add(k, x):
+    while k &lt;= N:
+        data[k] += x
+        k += k &amp; -k
+ 
+def get(k):
+    s = 0
+    while k:
+        s += data[k]
+        k -= k &amp; -k
+    return s
+
+# 二分探索
+N0 = 2**(N-1).bit_length()
+def lower_bound(x):
+    w = i = 0
+    k = N0
+    while k:
+        if i+k &lt;= N and w + data[i+k] &lt;= x:
+            w += data[i+k]
+            i += k
+        k &gt;&gt;= 1
+    return i+1</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "DSL_2_E: Range Query - Range Add Query (RAQ)": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158466#1">source</a> (Python3, 0.77sec)</p>
+</li>
+<li>
+<p>AtCoder: "Japan Alumni Group Summer Camp 2017 Day 1 - B問題: リス": <a href="https://beta.atcoder.jp/contests/jag2017summer-day1/submissions/2559566">source</a> (PyPy3, 674ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_2次元bit">実装 (2次元BIT)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>BITは2次元以上に拡張することができる。</p>
+</div>
+<div class="paragraph">
+<p>\(H \times W\) の2次元BITにおいて、 \(Q\) 個のクエリを処理する場合の計算量は \(O(Q \log W \log H)\)</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-2">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-2" data-lang="python"># Binary Index Tree (2-dimension)
+class BIT2:
+    # H*W
+    def __init__(self, h, w):
+        self.w = w
+        self.h = h
+        self.data = [{} for i in range(h+1)]
+
+    # O(logH*logW)
+    def sum(self, i, j):
+        s = 0
+        data = self.data
+        while i &gt; 0:
+            el = data[i]
+            k = j
+            while k &gt; 0:
+                s += el.get(k, 0)
+                k -= k &amp; -k
+            i -= i &amp; -i
+        return s
+
+    # O(logH*logW)
+    def add(self, i, j, x):
+        w = self.w; h = self.h
+        data = self.data
+        while i &lt;= h:
+            el = data[i]
+            k = j
+            while k &lt;= w:
+                el[k] = el.get(k, 0) + x
+                k += k &amp; -k
+            i += i &amp; -i
+
+    # [x0, x1) x [y0, y1)
+    def range_sum(self, x0, x1, y0, y1):
+        return self.sum(x1, y1) - self.sum(x1, y0) - self.sum(x0, y1) + self.sum(x0, y0)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://hos.ac/slides/20140319_bit.pdf">Binary Indexed Tree のはなし</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

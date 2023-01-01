@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>直線同士の交点 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="the intersection point of two lines 概要 点 \((x_0, y_0)\) と点 \((x_1, y_1)\) を通る直線1と点 \((x_2, y_2)\) と...">
+<meta property="og:title" content="直線同士の交点 - yaketake08's 実装メモ">
+<meta property="og:description" content="直線同士の交点">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/geometry/line_cross_point.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/geometry/line_cross_point.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>直線同士の交点</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>the intersection point of two lines</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>点 \((x_0, y_0)\) と点 \((x_1, y_1)\) を通る直線1と点 \((x_2, y_2)\) と点 \((x_3, y_3)\) を通る直線2の交点を求める。</p>
+</div>
+<div class="sect2">
+<h3 id="_具体的計算">具体的計算</h3>
+<div class="paragraph">
+<p>\(a_0 = x_1 - x_0, b_0 = y_1 - y_0\)<br>
+\(a_2 = x_3 - x_2, b_2 = y_3 - y_2\)</p>
+</div>
+<div class="paragraph">
+<p>とする。</p>
+</div>
+<div class="paragraph">
+<p>2つの直線上の点 \((x, y)\) は</p>
+</div>
+<div class="paragraph">
+<p>\(\displaystyle \left( \begin{array}{c} x \\ y \end{array} \right) = \left( \begin{array}{c} x_0 \\ y_0 \end{array} \right) + s \left( \begin{array}{c} a_0 \\ b_0 \end{array} \right)\),
+\(\displaystyle \left( \begin{array}{c} x \\ y \end{array} \right) = \left( \begin{array}{c} x_2 \\ y_2 \end{array} \right) + t \left( \begin{array}{c} a_2 \\ b_2 \end{array} \right)\)</p>
+</div>
+<div class="paragraph">
+<p>と表すことができるため、この交点は</p>
+</div>
+<div class="paragraph">
+<p>\(\displaystyle \left( \begin{array}{c} x_0 \\ y_0 \end{array} \right) + s \left( \begin{array}{c} a_0 \\ b_0 \end{array} \right) = \left( \begin{array}{c} x_2 \\ y_2 \end{array} \right) + t \left( \begin{array}{c} a_2 \\ b_2 \end{array} \right)\)</p>
+</div>
+<div class="paragraph">
+<p>となる \(s, t\) を求めれば計算できる。</p>
+</div>
+<div class="paragraph">
+<p>この \(s, t\) は、以下を計算することで求められる。</p>
+</div>
+<div class="paragraph">
+<p>\(\displaystyle \left( \begin{array}{c} s \\ t \end{array} \right) = \frac{1}{a_0b_2 - a_2b_0} \left( \begin{array}{cc} b_2 &amp; -a_2 \\ b_0 &amp; -a_0 \end{array} \right) \left( \begin{array}{cc} x_2 - x_0 \\ y_2 - y_0 \end{array} \right)\)</p>
+</div>
+<div class="paragraph">
+<p>2つの直線は平行の場合、 \(a_0b_2 - a_2b_0 = 0\) となる。 (解なし、もしくは無数に解が存在する)</p>
+</div>
+<div class="paragraph">
+<p>また、 \(0 \le s \le 1\) や \(0 \le t \le 1\) に絞ることで線分上に点が存在するかを判定できる。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">def line_cross_point(P0, P1, Q0, Q1):
+    x0, y0 = P0; x1, y1 = P1
+    x2, y2 = Q0; x3, y3 = Q1
+    a0 = x1 - x0; b0 = y1 - y0
+    a2 = x3 - x2; b2 = y3 - y2
+
+    d = a0*b2 - a2*b0
+    if d == 0:
+        # two lines are parallel
+        return None
+
+    # s = sn/d
+    sn = b2 * (x2-x0) - a2 * (y2-y0)
+    # t = tn/d
+    #tn = b0 * (x2-x0) - a0 * (y2-y0)
+    return x0 + a0*sn/d, y0 + b0*sn/d
+print(line_cross_point((0, 0), (0, 3), (1, 10), (3, -1)))
+# =&gt; (0.0, 15.5)</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "CGL_2_C: Segments/Lines - Cross Point": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4859055#1">source</a> (Python3, 0.03sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>連立一次方程式 (掃き出し法) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="掃き出し法 (row reduction), ガウスの消去法 (Gaussian Elimination) 概要 連立方程式 \(A \boldsymbol{x} = \boldsymbol{b}\...">
+<meta property="og:title" content="連立一次方程式 (掃き出し法) - yaketake08's 実装メモ">
+<meta property="og:description" content="連立一次方程式 (掃き出し法)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/matrix/gaussian-elimination.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/matrix/gaussian-elimination.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>連立一次方程式 (掃き出し法)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>掃き出し法 (row reduction), ガウスの消去法 (Gaussian Elimination)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>連立方程式 \(A \boldsymbol{x} = \boldsymbol{b}\) を解くためのアルゴリズム。</p>
+</div>
+<div class="paragraph">
+<p>拡大係数行列を行基本変形で上三角の形に変形し、唯一解、解なし、いくつも解ありのいずれかかを判別する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(N^3)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">EPS = 1e-9
+def gaussian_elimination(N, A, bs):
+    M = [[0]*(N+1) for i in range(N)]
+    for i in range(N):
+        M[i][:N] = A[i]
+        M[i][N] = bs[i]
+    cur = 0
+    for i in range(N):
+        k = cur; ma = abs(M[cur][i])
+        for j in range(cur+1, N):
+            if ma &lt; abs(M[j][i]):
+                k = j
+                ma = abs(M[j][i])
+        if ma &lt; EPS:
+            continue
+        if k != cur:
+            M[cur], M[k] = M[k], M[cur]
+        Mc = M[cur]
+        for Mj in M[cur+1:]:
+            if abs(Mj[i]) &gt; EPS:
+                e = Mj[i] / Mc[i]
+                Mj[i] = 0
+                for k in range(i+1, N+1):
+                    Mj[k] -= e*Mc[k]
+        cur += 1
+    if cur == N:
+        xs = [Mi[N] for Mi in M]
+        for i in range(N-1, -1, -1):
+            Mi = M[i]
+            xs[i] -= sum(Mi[j] * xs[j] for j in range(i+1, N))
+            xs[i] /= Mi[i]
+        return 1, xs
+    if any(Mi[N] &gt; EPS for Mi in M[cur:]):
+        return 0, None
+    return 2, None</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "1232: Super Star": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=7057998#1">source</a> (Python3, 7.62sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_logical_matrix">実装 (logical matrix)</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-1">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-1" data-lang="python">from operator import xor
+# calculate a vector x s.t. Ax = b
+# - A is a N×N logical matrix
+# - x and b are N-dimensional logical vectors
+def gaussian_elimination(N, A, bs):
+    M = [[0]*(N+1) for i in range(N)]
+    for i in range(N):
+        M[i][:N] = A[i]
+        M[i][N] = bs[i]
+    cur = 0
+    for i in range(N):
+        if M[cur][i] == 0:
+            k = cur+1
+            while k &lt; N and M[k][i] == 0:
+                k += 1
+            if k == N:
+                continue
+            M[cur], M[k] = M[k], M[cur]
+        Mc = M[cur]
+        for Mj in (Mj for Mj in M[cur+1:] if Mj[i]):
+            Mj[i:] = map(xor, Mj[i:], Mc[i:])
+        cur += 1
+    if cur == N:
+        # an unique solution
+        xs = [Mi[N] for Mi in M]
+        for i in range(N-1, -1, -1):
+            Mi = M[i]
+            xs[i] ^= sum(Mi[j] &amp; xs[j] for j in range(i+1, N)) &amp; 1
+        return 1, xs
+    if any(Mi[N] for Mi in M[cur:]):
+        # no solution
+        return 0, None
+    # infinitely many solutions
+    return 2, None
+
+N = 3
+A = [[1, 0, 1], [0, 1, 1], [1, 0, 0]]
+bs = [1, 0, 1]
+print(gaussian_elimination(N, A, bs))
+# =&gt; "(1, [1, 0, 0])"</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified_2">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "2624: Graph Automata Player": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4886864#1">source</a> (Python3, 36.71sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Gaussian_elimination">Gaussian elimination - Wikipedia</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

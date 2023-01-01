@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Left-Leaning Red-Black Tree - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Left-Leaning Red-Black Tree, LLRB Tree 概要 平衝二分探索木の一つ。 従来の赤黒木に「赤ノードは常に親の左子ノード」という制約を加えたもの。 この制約により、想...">
+<meta property="og:title" content="Left-Leaning Red-Black Tree - yaketake08's 実装メモ">
+<meta property="og:description" content="Left-Leaning Red-Black Tree">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/binary_search_tree/ll-red-black-tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/binary_search_tree/ll-red-black-tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Left-Leaning Red-Black Tree</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Left-Leaning Red-Black Tree, LLRB Tree</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>平衝二分探索木の一つ。
+従来の赤黒木に「赤ノードは常に親の左子ノード」という制約を加えたもの。</p>
+</div>
+<div class="paragraph">
+<p>この制約により、想定する回転ケースは従来の赤黒木より少なくなる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各クエリ \(O(\log N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>非再帰版</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">template&lt;typename T&gt;
+class LeftLeaningRedBlackTree {
+  enum NODE_COLOR { BLACK, RED };
+  struct Node {
+    Node *left, *right, *prt;
+    T key;
+    int color;
+    int size;
+
+    Node(T x) {
+      left = right = prt = nullptr;
+      color = RED;
+      key = x;
+      size = 1;
+    }
+
+    inline bool is_left(Node *node) const {
+      return left == node;
+    }
+
+    inline void assign(Node *node) {
+      this-&gt;key = node-&gt;key;
+    }
+
+    inline Node* rotate_left() {
+      Node *r = this-&gt;right, *m = r-&gt;left, *p = this-&gt;prt;
+      if((r-&gt;prt = p)) {
+        if(p-&gt;left == this) p-&gt;left = r;
+        else p-&gt;right = r;
+      }
+      if((this-&gt;right = m)) m-&gt;prt = this;
+      r-&gt;left = this; this-&gt;prt = r;
+
+      int sz = this-&gt;size;
+      this-&gt;size += (m ? m-&gt;size : 0) - r-&gt;size;
+      r-&gt;size = sz;
+
+      r-&gt;color = this-&gt;color;
+      this-&gt;color = RED;
+      return r;
+    }
+
+    inline Node* rotate_right() {
+      Node *l = this-&gt;left, *m = l-&gt;right, *p = this-&gt;prt;
+      if((l-&gt;prt = p)) {
+        if(p-&gt;left == this) p-&gt;left = l;
+        else p-&gt;right = l;
+      }
+      if((this-&gt;left = m)) m-&gt;prt = this;
+      l-&gt;right = this; this-&gt;prt = l;
+
+      int sz = this-&gt;size;
+      this-&gt;size += (m ? m-&gt;size : 0) - l-&gt;size;
+      l-&gt;size = sz;
+
+      l-&gt;color = this-&gt;color;
+      this-&gt;color = RED;
+      return l;
+    }
+
+    inline void flip_color() {
+      this-&gt;color ^= 1;
+      this-&gt;left-&gt;color ^= 1;
+      this-&gt;right-&gt;color ^= 1;
+    }
+  };
+
+  Node *root;
+
+  inline Node* find_node(Node *node, T x) {
+    if(node == nullptr) return nullptr;
+    while(node-&gt;key != x) {
+      if(x &lt; node-&gt;key) {
+        if(!node-&gt;left) break;
+        node = node-&gt;left;
+      } else {
+        if(!node-&gt;right) break;
+        node = node-&gt;right;
+      }
+    }
+    return node;
+  }
+
+  inline static bool is_red(Node *node) {
+    return node &amp;&amp; node-&gt;color == RED;
+  }
+
+  inline static bool is_black(Node *node) {
+    return !node || node-&gt;color == BLACK;
+  }
+
+  inline Node* move_red_left(Node *node) {
+    node-&gt;flip_color();
+
+    Node *right = node-&gt;right;
+    if(is_red(right-&gt;left)) {
+      right-&gt;rotate_right();
+      node = node-&gt;rotate_left();
+      node-&gt;flip_color();
+      if(!node-&gt;prt) this-&gt;root = node;
+    }
+    return node;
+  }
+
+  inline Node* move_red_right(Node *node) {
+    node-&gt;flip_color();
+
+    Node *left = node-&gt;left;
+    if(is_red(left-&gt;left)) {
+      node = node-&gt;rotate_right();
+      node-&gt;flip_color();
+      if(!node-&gt;prt) this-&gt;root = node;
+    }
+    return node;
+  }
+
+  inline Node* fixup(Node *node) {
+    if(is_red(node-&gt;right) &amp;&amp; is_black(node-&gt;left)) {
+      node = node-&gt;rotate_left();
+      if(!node-&gt;prt) this-&gt;root = node;
+    }
+    if(is_red(node-&gt;left) &amp;&amp; is_red(node-&gt;left-&gt;left)) {
+      node = node-&gt;rotate_right();
+      if(!node-&gt;prt) this-&gt;root = node;
+    }
+    if(is_red(node-&gt;left) &amp;&amp; is_red(node-&gt;right)) {
+      node-&gt;flip_color();
+    }
+    return node;
+  }
+
+public:
+  LeftLeaningRedBlackTree() {
+    this-&gt;root = nullptr;
+  }
+
+  inline bool find(T x) {
+    if(!this-&gt;root) return false;
+
+    Node *node = find_node(this-&gt;root, x);
+    return (node-&gt;key == x);
+  }
+
+  inline T at(int k) {
+    if(!this-&gt;root) {
+      return 0;
+    }
+    // assert(0 &lt;= k &lt; size);
+
+    Node *node = this-&gt;root;
+    ++k;
+    while(1) {
+      int l_size = (node-&gt;left ? node-&gt;left-&gt;size : 0) + 1;
+      if(l_size == k) break;
+
+      if(k &lt; l_size) {
+        node = node-&gt;left;
+      } else {
+        node = node-&gt;right;
+        k -= l_size;
+      }
+    }
+    return node-&gt;key;
+  }
+
+  inline bool insert(T x) {
+    if(!this-&gt;root) {
+      Node *new_node = new Node(x);
+      this-&gt;root = new_node;
+      new_node-&gt;color = BLACK;
+      return true;
+    }
+
+    Node *node = find_node(this-&gt;root, x);
+    if(node-&gt;key == x) return false;
+
+    Node *new_node = new Node(x);
+    if(x &lt; node-&gt;key) {
+      node-&gt;left = new_node;
+    } else {
+      node-&gt;right = new_node;
+    }
+    new_node-&gt;prt = node;
+
+    while(node) {
+      ++node-&gt;size;
+      node = fixup(node)-&gt;prt;
+    }
+    this-&gt;root-&gt;color = BLACK;
+    return true;
+  }
+
+  inline bool remove(T x) {
+    Node *node = this-&gt;root;
+    bool deleted = false;
+    while(node) {
+      if(x &lt; node-&gt;key) {
+        if(!node-&gt;left) break;
+
+        if(is_black(node-&gt;left) &amp;&amp; is_black(node-&gt;left-&gt;left)) {
+          node = move_red_left(node);
+        }
+        node = node-&gt;left;
+        continue;
+      }
+
+      if(is_red(node-&gt;left)) {
+        node = node-&gt;rotate_right();
+        if(!node-&gt;prt) this-&gt;root = node;
+      }
+      if(!node-&gt;right) {
+        if(node-&gt;key == x) deleted = true;
+        break;
+      }
+      if(is_black(node-&gt;right) &amp;&amp; is_black(node-&gt;right-&gt;left)) {
+        node = move_red_right(node);
+      }
+      if(node-&gt;key == x) {
+        // delete_min(node-&gt;right);
+        Node *c_node = node-&gt;right;
+        while(c_node-&gt;left) {
+          if(is_black(c_node-&gt;left) &amp;&amp; is_black(c_node-&gt;left-&gt;left)) {
+            c_node = move_red_left(c_node);
+          }
+          c_node = c_node-&gt;left;
+        }
+        node-&gt;assign(c_node);
+        node = c_node;
+        deleted = true;
+        break;
+      }
+      node = node-&gt;right;
+    }
+
+    if(deleted) {
+      Node *prt = node-&gt;prt;
+      if(prt) {
+        if(prt-&gt;is_left(node)) {
+          prt-&gt;left = nullptr;
+        } else {
+          prt-&gt;right = nullptr;
+        }
+      } else {
+        this-&gt;root = nullptr;
+      }
+      node = prt;
+    }
+
+    if(node) {
+      while(node) {
+        if(deleted) --node-&gt;size;
+        node = fixup(node)-&gt;prt;
+      }
+      this-&gt;root-&gt;color = BLACK;
+    }
+    return true;
+  }
+
+  int size() {
+    return (this-&gt;root ? this-&gt;root-&gt;size : 0);
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": <a href="https://atcoder.jp/contests/arc033/submissions/9902998">source</a> (C++14, 147ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Left-leaning_red%E2%80%93black_tree">Left-leaning red-black tree - Wikipedia</a></p>
+</li>
+<li>
+<p>Sedgewick, Robert. "Left-leaning red-black trees." Dagstuhl Workshop on Data Structures. 2008.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

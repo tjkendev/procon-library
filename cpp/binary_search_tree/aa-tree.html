@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>AA Tree - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="AA Tree 概要 平衝二分探索木の一つ。 各ノードにlevelをもたせて管理し、各ノードは以下の制約を満たす。 葉ノードのlevelは 1 全てのノードのlevelはその左子ノードのlevelよ...">
+<meta property="og:title" content="AA Tree - yaketake08's 実装メモ">
+<meta property="og:description" content="AA Tree">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/binary_search_tree/aa-tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/binary_search_tree/aa-tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>AA Tree</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>AA Tree</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>平衝二分探索木の一つ。<br>
+各ノードにlevelをもたせて管理し、各ノードは以下の制約を満たす。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>葉ノードのlevelは 1</p>
+</li>
+<li>
+<p>全てのノードのlevelはその左子ノードのlevelより 1 大きい<br>
+(<code>node.level = node.left.level + 1</code>)</p>
+</li>
+<li>
+<p>全てのノードのlevelはその右子ノードのlevelと同じ、もしくは 1 大きい<br>
+(<code>node.level = node.right.level</code> or <code>node.level = node.right.level + 1</code>)</p>
+</li>
+<li>
+<p>全てのノードのlevelはその右孫ノードのlevelより大きい<br>
+(<code>node.level &gt; node.right.right.level</code>)</p>
+</li>
+<li>
+<p>levelが 1 より大きい全てのノードは左右の子ノードを持つ</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>平衝処理は skew と split の2つの操作で実現される。</p>
+</div>
+<div class="paragraph">
+<p>AA Tree は従来の赤黒木に「赤ノードは常に親の右子ノード」という制約を加えたものとみなせる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各クエリ \(O(\log N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各ノードに以下の情報を持たせている</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>左右の子ノード, 親ノード</p>
+</li>
+<li>
+<p>key, level</p>
+</li>
+<li>
+<p>そのノード以下の部分木のサイズ</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>rotateに関する最適化はなし</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;algorithm&gt;
+using namespace std;
+
+template&lt;typename T&gt;
+class AATree {
+  struct Node {
+    Node *left, *right, *prt;
+    T key;
+    int level, size;
+
+    Node(T x) {
+      left = right = prt = nullptr;
+      level = 1;
+      key = x;
+      size = 1;
+    }
+
+    inline Node* rotate_left() {
+      Node *r = this-&gt;right, *m = r-&gt;left, *p = this-&gt;prt;
+      if((r-&gt;prt = p)) {
+        if(p-&gt;left == this) p-&gt;left = r;
+        else p-&gt;right = r;
+      }
+      if((this-&gt;right = m)) m-&gt;prt = this;
+      r-&gt;left = this; this-&gt;prt = r;
+
+      int sz = this-&gt;size;
+      this-&gt;size += (m ? m-&gt;size : 0) - r-&gt;size;
+      r-&gt;size = sz;
+
+      return r;
+    }
+
+    inline Node* rotate_right() {
+      Node *l = this-&gt;left, *m = l-&gt;right, *p = this-&gt;prt;
+      if((l-&gt;prt = p)) {
+        if(p-&gt;left == this) p-&gt;left = l;
+        else p-&gt;right = l;
+      }
+      if((this-&gt;left = m)) m-&gt;prt = this;
+      l-&gt;right = this; this-&gt;prt = l;
+
+      int sz = this-&gt;size;
+      this-&gt;size += (m ? m-&gt;size : 0) - l-&gt;size;
+      l-&gt;size = sz;
+
+      return l;
+    }
+
+    inline bool is_left(Node *node) const {
+      return left == node;
+    }
+
+    inline void assign(Node *node) {
+      this-&gt;key = node-&gt;key;
+    }
+  };
+
+  Node *root;
+
+  inline Node* find_node(Node *node, T x) {
+    if(!node) return nullptr;
+
+    while(node-&gt;key != x) {
+      if(x &lt; node-&gt;key) {
+        if(!node-&gt;left) break;
+        node = node-&gt;left;
+      } else {
+        if(!node-&gt;right) break;
+        node = node-&gt;right;
+      }
+    }
+    return node;
+  }
+
+  inline static Node* skew(Node *node) {
+    if(!node) return nullptr;
+    Node *left = node-&gt;left;
+    if(left &amp;&amp; node-&gt;level == left-&gt;level) {
+      return node-&gt;rotate_right();
+    }
+    return node;
+  }
+
+  inline static Node* split(Node *node) {
+    if(!node) return nullptr;
+    Node *right = node-&gt;right;
+    if(right &amp;&amp; right-&gt;right &amp;&amp; node-&gt;level == right-&gt;right-&gt;level) {
+      Node* r = node-&gt;rotate_left();
+      r-&gt;level += 1;
+      return r;
+    }
+    return node;
+  }
+
+  inline static int get_level(Node *node) {
+    return (node ? node-&gt;level : 0);
+  }
+
+public:
+  AATree() {
+    root = nullptr;
+  }
+
+  inline bool find(T x) {
+    Node *node = find_node(this-&gt;root, x);
+    return (node-&gt;key == x);
+  }
+
+  inline T at(int k) {
+    if(!this-&gt;root) {
+      return 0;
+    }
+    // assert(0 &lt;= k &lt; size);
+
+    Node *node = this-&gt;root;
+    ++k;
+    while(1) {
+      int l_size = (node-&gt;left ? node-&gt;left-&gt;size : 0) + 1;
+      if(l_size == k) break;
+
+      if(k &lt; l_size) {
+        node = node-&gt;left;
+      } else {
+        node = node-&gt;right;
+        k -= l_size;
+      }
+    }
+    return node-&gt;key;
+  }
+
+  inline bool insert(T x) {
+    if(!this-&gt;root) {
+      Node *new_node = new Node(x);
+      this-&gt;root = new_node;
+      return true;
+    }
+
+    Node *node = find_node(this-&gt;root, x);
+    if(node-&gt;key == x) return false;
+
+    Node *new_node = new Node(x);
+    if(x &lt; node-&gt;key) {
+      node-&gt;left = new_node;
+    } else {
+      node-&gt;right = new_node;
+    }
+    new_node-&gt;prt = node;
+
+    node = new_node;
+    while(node) {
+      node = split(skew(node));
+      if(!node-&gt;prt) {
+        this-&gt;root = node;
+        break;
+      }
+      node = node-&gt;prt;
+      ++node-&gt;size;
+    }
+    return true;
+  }
+
+  inline bool remove(T x) {
+    if(!this-&gt;root) return false;
+
+    Node *node = find_node(this-&gt;root, x);
+    if(node-&gt;key != x) return false;
+
+    if(node-&gt;left || node-&gt;right) {
+      Node *c_node = find_node(!node-&gt;left ? node-&gt;right : node-&gt;left, x);
+      node-&gt;assign(c_node);
+      node = c_node;
+    }
+
+    Node *prt = node-&gt;prt;
+    if(prt) {
+      if(prt-&gt;is_left(node)) {
+        prt-&gt;left = nullptr;
+      } else {
+        prt-&gt;right = nullptr;
+      }
+    } else {
+      this-&gt;root = nullptr;
+    }
+    node = prt;
+
+    while(node) {
+      // decrease_key(node)
+      int new_level = min(get_level(node-&gt;left), get_level(node-&gt;right)) + 1;
+      if(new_level &lt; node-&gt;level) {
+        node-&gt;level = new_level;
+        if(new_level &lt; get_level(node-&gt;right)) {
+          node-&gt;right-&gt;level = new_level;
+        }
+      }
+
+      --node-&gt;size;
+      node = skew(node);
+      if(skew(node-&gt;right)) skew(node-&gt;right-&gt;right);
+
+      node = split(node);
+      split(node-&gt;right);
+
+      if(!node-&gt;prt) {
+        this-&gt;root = node;
+        break;
+      }
+      node = node-&gt;prt;
+    }
+
+    return true;
+  }
+
+  int size() {
+    return (this-&gt;root ? this-&gt;root-&gt;size : 0);
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": <a href="https://atcoder.jp/contests/arc033/submissions/9948878">source</a> (C++14, 131ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/AA_tree">AA tree - Wikipedia</a></p>
+</li>
+<li>
+<p>Andersson, Arne. "Balanced search trees made simple." Workshop on Algorithms and Data Structures. Springer, Berlin, Heidelberg, 1993.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Suffix Array (Manber and Myers Algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 ダブリングしながら Suffix Array を計算する。 計算量 \(O(N \log^2 N)\) 実装 #include&lt;string&gt; #include&lt;algorithm&gt; usin...">
+<meta property="og:title" content="Suffix Array (Manber and Myers Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="Suffix Array (Manber and Myers Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/string/sa_manber_and_myers.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/string/sa_manber_and_myers.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Suffix Array (Manber and Myers Algorithm)</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ダブリングしながら Suffix Array を計算する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(N \log^2 N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;string&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+
+#define L (1 &lt;&lt; 17)
+
+struct SuffixArray {
+  int tmp[L];
+  int rank[L], sa[L], lcp[L], n;
+  string s;
+
+  SuffixArray(string s) : s(s) {}
+
+  void construct_suffix() {
+    n = s.length();
+    for(int i=0; i&lt;=n; ++i) {
+      sa[i] = i;
+      rank[i] = (i &lt; n ? s[i] : -1);
+    }
+
+    int k = 1;
+    auto sa_cmp = [=](int i, int j) -&gt; bool {
+      if(rank[i] != rank[j]) {
+        return rank[i] &lt; rank[j];
+      }
+      int ri = (i+k &lt;= n ? rank[i+k] : -1);
+      int rj = (j+k &lt;= n ? rank[j+k] : -1);
+      return ri &lt; rj;
+    };
+    while(k &lt;= n) {
+      sort(sa, sa + n+1, sa_cmp);
+      tmp[sa[0]] = 0;
+      for(int i=1; i&lt;=n; ++i) {
+        tmp[sa[i]] = tmp[sa[i-1]] + sa_cmp(sa[i-1], sa[i]);
+      }
+      for(int i=0; i&lt;=n; ++i) rank[i] = tmp[i];
+      k &lt;&lt;= 1;
+    }
+  }
+
+  void construct_lcp() {
+    for(int i=0; i&lt;=n; ++i) lcp[i] = -1, rank[sa[i]] = i;
+
+    int h = 0;
+    lcp[0] = 0;
+    for(int i=0; i&lt;n; ++i) {
+      int j = sa[rank[i] - 1];
+
+      if(h &gt; 0) --h;
+      while(j + h &lt; n &amp;&amp; i + h &lt; n &amp;&amp; s[j+h] == s[i+h]) ++h;
+      lcp[rank[i] - 1] = h;
+    }
+  }
+};</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>秋葉拓哉, 岩田陽一, and 北川宜稔. "プログラミングコンテストチャレンジブック." (2010).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

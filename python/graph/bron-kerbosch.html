@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>最大クリーク問題 (Bron-Kerbosch Algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="最大クリーク問題 (maximum clique problem) 概要 グラフ上の最大クリークを求める。 Bron-Kerbosch Algorithm はバックトラックでグラフ上の極大クリーク(...">
+<meta property="og:title" content="最大クリーク問題 (Bron-Kerbosch Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="最大クリーク問題 (Bron-Kerbosch Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/bron-kerbosch.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/graph/bron-kerbosch.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>最大クリーク問題 (Bron-Kerbosch Algorithm)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>最大クリーク問題 (maximum clique problem)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>グラフ上の最大クリークを求める。</p>
+</div>
+<div class="paragraph">
+<p>Bron-Kerbosch Algorithm はバックトラックでグラフ上の極大クリーク(maximal clique)を全て列挙する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>頂点数を \(N\) とする時、 \(O(3^{N/3})\)</p>
+</div>
+<div class="paragraph">
+<p>特に疎グラフに関しては \(O(Nd 3^{d/3})\) (\(d\) は グラフの degeneracy)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>グラフ上の最大クリークを一つ返す実装例</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">def maximum_clique(N, G):
+    def dfs(V, P, X):
+        if not P and not X:
+            # V is a maximal clique
+            return V
+        u = next(iter(X or P)) # a pivot vertex
+        r = set()
+        for v in P - G[u]:
+            r0 = dfs(V | {v}, P &amp; G[v], X &amp; G[v])
+            if len(r) &lt; len(r0):
+                r = r0
+            P.remove(v)
+            X.add(v)
+        return r
+
+    # sort vertices in a degeneracy ordering
+    *I, = range(N)
+    I.sort(key = lambda x: len(G[x]), reverse=1)
+
+    ans = set()
+    P = set(range(N))
+    X = set()
+    for v in I:
+        res = dfs({v}, P &amp; G[v], X &amp; G[v])
+        if len(ans) &lt; len(res):
+            ans = res
+        P.remove(v)
+        X.add(v)
+    return ans
+
+# example
+G = [set() for i in range(6)]
+G[0] |= {1, 2, 3, 4}
+G[1] |= {0, 2, 5}
+G[2] |= {0, 1, 3, 4}
+G[3] |= {0, 2, 4}
+G[4] |= {0, 2, 3}
+G[5] |= {1}
+print(maximum_clique(6, G))
+# =&gt; "{0, 2, 3, 4}"</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>CodeChef: "CodeChef July Challenge 2018: Tom and Jerry": <a href="https://www.codechef.com/viewsolution/19209051">source</a> (PyPy2, 2.72sec)</p>
+</li>
+<li>
+<p>AOJ: "2306 - Rabbit Party": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4293211">source</a> (Python3, 0.35sec)</p>
+</li>
+<li>
+<p>AOJ: "2948 - Great Strategy for Bring Up Grade": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5908565#1">source</a> (Python3, 6.65sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Bron%E2%80%93Kerbosch_algorithm">Bron-Kerbosch algorithm - Wikipedia</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

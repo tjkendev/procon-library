@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>線分と頂点の最短距離 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 1本の線分と1点の頂点の間の最短距離を求める。 線分S \((x_0, y_0) - (x_1, y_1)\) と 頂点P \((x, y)\) の間の最短距離を求める時、以下のように求める...">
+<meta property="og:title" content="線分と頂点の最短距離 - yaketake08's 実装メモ">
+<meta property="og:description" content="線分と頂点の最短距離">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/geometry/segment_line_point_distance.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/geometry/segment_line_point_distance.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>線分と頂点の最短距離</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>1本の線分と1点の頂点の間の最短距離を求める。</p>
+</div>
+<div class="paragraph">
+<p>線分S \((x_0, y_0) - (x_1, y_1)\) と 頂点P \((x, y)\) の間の最短距離を求める時、以下のように求める</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>頂点P から 線分S に垂線が引ける場合は、点と直線の距離を解とする</p>
+</li>
+<li>
+<p>垂線が引けない場合は、線分Sの端点のうちのどちらかと頂点Pの間の距離を解とする</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>垂線が引けるかは \(\mathbf{a} = (x_1 - x_0, y_1 - y_0)\), \(\mathbf{b} = (x - x_0, y - y_0)\) とする時、
+\(0 \le \mathbf{a} \cdot \mathbf{b} \le \|\mathbf{a}\|^2\) を満たすことを確認すればよい。</p>
+</div>
+<div class="paragraph">
+<p>点と直線の距離は \(\displaystyle \frac{|\mathbf{a} \times \mathbf{b}|}{\|\mathbf{a}\|}\) で求められる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">def cross2(p, q):
+    return p[0]*q[1] - p[1]*q[0]
+def dot2(p, q):
+    return p[0]*q[0] + p[1]*q[1]
+def dist2(p):
+    return p[0]**2 + p[1]**2
+# Shortest distance between a line segment (p0-p1) and a point x
+def segment_line_dist(x, p0, p1):
+    z0 = (p1[0] - p0[0], p1[1] - p0[1])
+    z1 = (x[0] - p0[0], x[1] - p0[1])
+    if 0 &lt;= dot2(z0, z1) &lt;= dist2(z0):
+        return abs(cross2(z0, z1)) / dist2(z0)**.5
+    z2 = (x[0] - p1[0], x[1] - p1[1])
+    return min(dist2(z1), dist2(z2))**.5
+
+# example
+print(segment_line_dist((-1, -1), (0, 0), (1, 0)))
+# =&gt; "1.4142135623730951"
+print(segment_line_dist((0.5, 1), (0, 0), (1, 0)))
+# =&gt; "1.0"
+print(segment_line_dist((2, 2), (0, 0), (1, 0)))
+# =&gt; "2.23606797749979"</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "1283: Most Distant Point from the Sea": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4301434#1">source</a> (Python3, 21.95sec)</p>
+</li>
+<li>
+<p>AOJ: "2173: Wind Passages": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4693575#1">source</a> (Python3, 11.89sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

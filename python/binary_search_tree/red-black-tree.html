@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>赤黒木 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="赤黒木 (Red-black tree) 概要 ノードに赤・黒の情報の載せて平衡する平衡二分探索木。 ノードの追加や削除の際に以下の制約を満たすように木を回転する。 ノードは赤か黒の情報を持つ 根ノ...">
+<meta property="og:title" content="赤黒木 - yaketake08's 実装メモ">
+<meta property="og:description" content="赤黒木">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/binary_search_tree/red-black-tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/binary_search_tree/red-black-tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>赤黒木</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>赤黒木 (Red-black tree)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ノードに赤・黒の情報の載せて平衡する平衡二分探索木。</p>
+</div>
+<div class="paragraph">
+<p>ノードの追加や削除の際に以下の制約を満たすように木を回転する。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>ノードは赤か黒の情報を持つ</p>
+</li>
+<li>
+<p>根ノードは黒</p>
+</li>
+<li>
+<p>葉(NIL)は黒</p>
+</li>
+<li>
+<p>ノードが赤であれば、その子ノードは必ず黒</p>
+</li>
+<li>
+<p>根ノードから任意の葉までのパス上に含まれる黒ノードの個数は全てのパスで等しい</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各クエリ \(O(\log N)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>各ノードに以下の情報を持たせている</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>左右の子ノード</p>
+</li>
+<li>
+<p>key</p>
+</li>
+<li>
+<p>ノードの色</p>
+</li>
+<li>
+<p>そのノード以下の部分木のサイズ</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># rotate a tree nd
+# d = 0: right rotation
+# d = 1: left rotation
+def rotate(nd, d):
+    c = nd[d]
+    if d:
+        e = c[1]
+        nd[1] = c[0]
+        c[0] = nd
+    else:
+        e = c[0]
+        nd[0] = c[1]
+        c[1] = nd
+
+    r = c[3] = nd[3]
+    nd[3] = r - (e[3] if e else 0) - 1
+    return c
+
+# insert a node with key = val into a tree t
+def insert(t, val):
+    x = t
+    st = []; dr = []
+    y = None
+    while x:
+        y = x
+        st.append(x)
+        if x[2] == val:
+            return t
+        d = (x[2] &lt; val)
+        dr.append(d)
+        x = x[d]
+
+    # [&lt;left&gt;, &lt;right&gt;, &lt;key&gt;, &lt;count&gt;, &lt;color: [BLACK,RED]&gt;]
+    nd = [None, None, val, 1, 1]
+
+    if not y:
+        nd[4] = 0
+        return nd
+
+    y[d] = nd
+    for x in st:
+        x[3] += 1
+
+    while 1:
+        if not st:
+            # if nd is the root node
+            nd[4] = 0
+            return nd
+
+        # nd's parent
+        y = st.pop(); dy = dr.pop()
+        if not y[4]:
+            # if nd's parent is black
+            return t
+
+        # nd's grandparent
+        w = st.pop(); dw = dr.pop()
+        # nd's uncle
+        z = w[dw ^ 1]
+        if z and z[4]:
+            # the parent and the uncle is red
+            y[4] = z[4] = 0
+            w[4] = 1
+            nd = w
+            continue
+
+        if dw != dy:
+            w[dw] = rotate(y, dy)
+            nd, y = y, nd
+
+        rotate(w, dw)
+        y[4] = 0
+        w[4] = 1
+
+        if st:
+            st[-1][dr[-1]] = y
+            return t
+        return y
+
+# delete a node nd
+def __delete(st, dr, nd):
+    x = nd
+    if x[0]:
+        st.append(x); dr.append(0)
+        x = x[0]
+        while x:
+            st.append(x); dr.append(1)
+            x = x[1]
+
+        y = st.pop(); dr.pop()
+        # copy a value only
+        nd[2] = y[2]
+    elif x[1]:
+        st.append(x); dr.append(1)
+        x = x[1]
+        while x:
+            st.append(x); dr.append(0)
+            x = x[0]
+
+        y = st.pop(); dr.pop()
+        # copy a value only
+        nd[2] = y[2]
+    else:
+        y = nd
+
+    # delete the node (y) with at most one non-leaf child
+    for x in st:
+        x[3] -= 1
+
+    c = y[0] if y[0] else y[1]
+    if st:
+        st[-1][dr[-1]] = c
+
+    if y[4]:
+        # if nd is red
+        return st[0] if st else c
+
+    if c and c[4]:
+        # if nd is black and child is red
+        c[4] = 0
+        return st[0] if st else c
+
+    # nd and child is black: delete in each cases
+
+    n = c
+    while st:
+        p = st.pop(); dp = dr.pop()
+        # n's sibling
+        s = p[dp ^ 1]
+        #assert s
+        sc = s[dp]; sd = s[dp ^ 1]
+
+        if s[4]:
+            #assert sc and sd
+            p[4] = 1; s[4] = 0
+            if st:
+                st[-1][dr[-1]] = rotate(p, dp ^ 1)
+            else:
+                rotate(p, dp ^ 1)
+            st.append(s); dr.append(dp)
+            #assert p[dp ^ 1] is sc
+            s = sc
+            sc = s[dp]; sd = s[dp ^ 1]
+            break
+
+        if p[4] or (sc and sc[4]) or (sd and sd[4]):
+            break
+
+        s[4] = 1
+        n = p
+    else:
+        return n
+
+    if p[4] and not s[4] and not (sc and sc[4]) and not (sd and sd[4]):
+        p[4] = 0; s[4] = 1
+        return st[0] if st else p
+
+    sc = s[dp]; sd = s[dp ^ 1]
+    if not s[4] and (sc and sc[4]) and not (sd and sd[4]):
+        sc[4] = 0; s[4] = 1
+        sd = s
+        s = p[dp ^ 1] = rotate(s, dp)
+
+    #assert not s[4] and (sd and sd[4])
+    s[4] = p[4]
+    p[4] = 0
+    sd[4] = 0
+
+    if st:
+        st[-1][dr[-1]] = rotate(p, dp ^ 1)
+    else:
+        return rotate(p, dp ^ 1)
+
+    return st[0] if st else n
+
+# delete a node with key = val from a tree t
+def delete(t, val):
+    x = t
+
+    st = []; dr = []
+    while x and val != x[2]:
+        d = (x[2] &lt; val)
+        st.append(x); dr.append(d)
+        x = x[d]
+    if not x:
+        return t
+    # x is the node with key = val
+    return __delete(st, dr, x)</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 033 - C問題: データ構造": <a href="https://arc033.contest.atcoder.jp/submissions/3441934">source</a> (PyPy3, 1406ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Red%E2%80%93black_tree">Red-black tree - Wikipedia</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

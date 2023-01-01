@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>KMP法 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="KMP法 (KMP algorithm, Knuth-Morris-Pratt algorithm) 概要 文字列探索アルゴリズム。 ある文字列 \(T\) について、文字列 \(S\) にマッチン...">
+<meta property="og:title" content="KMP法 - yaketake08's 実装メモ">
+<meta property="og:description" content="KMP法">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/string/kmp.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/string/kmp.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>KMP法</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>KMP法 (KMP algorithm, Knuth-Morris-Pratt algorithm)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>文字列探索アルゴリズム。</p>
+</div>
+<div class="paragraph">
+<p>ある文字列 \(T\) について、文字列 \(S\) にマッチングする箇所を探索する。</p>
+</div>
+<div class="paragraph">
+<p>KMP法では、ミスマッチした時に次に探索を開始すべき位置を効率的に決定することで、線形に探索する。</p>
+</div>
+<div class="paragraph">
+<p>次に探索を開始すべき位置を決定するために、まずテーブルを構築する。</p>
+</div>
+<div class="paragraph">
+<p>そして、テーブルを元に 文字列 \(T\) の中から 文字列 \(S\) にマッチする箇所を探索する。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>部分マッチテーブルの構築: \(O(|S|)\)</p>
+</li>
+<li>
+<p>文字列探索: \(O(|T|)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">class KMP:
+    def __init__(self, W):
+        L = len(W)
+        T = [0] * (L+1)
+        T[0] = -1
+        c = 0
+        for p in range(1, L):
+            if W[p] == W[c]:
+                T[p] = T[c]
+            else:
+                T[p] = c
+                c = T[c]
+                while c &gt;= 0 and W[p] != W[c]:
+                    c = T[c]
+            c += 1
+        T[L] = c
+        self.T = T
+        self.W = W
+
+    def search(self, S):
+        W = self.W; T = self.T
+        R = []
+        LS = len(S); LW = len(W)
+        # S[i], W[j]
+        i = j = 0
+        while i &lt; LS:
+            if S[i] == W[j]:
+                i += 1; j += 1
+                if j == LW:
+                    R.append(i-j)
+                    j = T[j]
+            else:
+                j = T[j]
+                if j &lt; 0:
+                    i += 1
+                    j += 1
+        return R
+
+# construct MP-table
+def construct_mp(W):
+    L = len(W)
+    T = [0]*(L+1)
+    T[0] = j = -1
+    for i in range(L):
+        while j &gt;= 0 and W[i] != W[j]:
+            j = T[j]
+        j += 1
+        T[i+1] = j
+    return T
+
+s = "aabaabaaa"
+kmp = KMP(s)
+print(kmp.T)
+# =&gt; "[-1, -1, 1, -1, -1, 1, -1, -1, 5, 2]"
+print(construct_mp(s))
+# =&gt; "[-1, 0, 1, 0, 1, 2, 3, 4, 5, 2]"</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "ALDS1_14_B: String Search": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4623918#1">source</a> (Python3, 0.74sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm">Knuth–Morris–Pratt algorithm - Wikipedia</a></p>
+</li>
+<li>
+<p><a href="https://snuke.hatenablog.com/entry/2014/12/01/235807">文字列の頭良い感じの線形アルゴリズムたち - あなたは嘘つきですかと聞かれたら「YES」と答えるブログ</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>多角形の点包含判定 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Check if a point is inside a polygon 概要 多角形 \(P = (v_1, v_2, ..., v_N)\) に点 \(w\) が含まれているかを判定する。 Ra...">
+<meta property="og:title" content="多角形の点包含判定 - yaketake08's 実装メモ">
+<meta property="og:description" content="多角形の点包含判定">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/geometry/point_inside_polygon.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/geometry/point_inside_polygon.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>多角形の点包含判定</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Check if a point is inside a polygon</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>多角形 \(P = (v_1, v_2, ..., v_N)\) に点 \(w\) が含まれているかを判定する。</p>
+</div>
+<div class="sect2">
+<h3 id="_ray_casting_algorithm">Ray Casting Algorithm</h3>
+<div class="paragraph">
+<p>点 \(w\) から半直線を出し、多角形 \(P\) と何回交差するかで包含判定する。</p>
+</div>
+<div class="paragraph">
+<p>多角形 \(P\) と奇数回交差している場合に包含されていると判定する。</p>
+</div>
+<div class="paragraph">
+<p>計算量: \(O(N)\)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_winding_number_algorithm">Winding Number Algorithm</h3>
+<div class="paragraph">
+<p>点 \(w\) から見て、多角形 \(P\) 上を移動する時に何回転するかによって包含判定を行う。この時、回転しなければ包含されず、1回転以上すれば包含していることを意味する。</p>
+</div>
+<div class="paragraph">
+<p>半直線 \(wv_i\) と 半直線 \(wv_{i+1}\) のなす角 \(\theta_i\) を求め、その総和 \(\displaystyle \sum_{1 \le i \le N} \theta_i\) を確認する。</p>
+</div>
+<div class="paragraph">
+<p>この値が 0 以外 (この時は \(2 \pi\) またはその倍数) になれば包含され、0の場合は包含されないことが分かる。</p>
+</div>
+<div class="paragraph">
+<p>計算量: \(O(N)\)</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>多角形の頂点は反時計回りのリストとして持つとする。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">from math import atan2, pi
+
+# Ray casting algorithm
+def inside_polygon(p0, qs):
+    cnt = 0
+    L = len(qs)
+    x, y = p0
+    for i in range(L):
+        x0, y0 = qs[i-1]; x1, y1 = qs[i]
+        x0 -= x; y0 -= y
+        x1 -= x; y1 -= y
+
+        cv = x0*x1 + y0*y1
+        sv = x0*y1 - x1*y0
+        if sv == 0 and cv &lt;= 0:
+            # a point is on a segment
+            return True
+
+        if not y0 &lt; y1:
+            x0, x1 = x1, x0
+            y0, y1 = y1, y0
+
+        if y0 &lt;= 0 &lt; y1 and x0*(y1 - y0) &gt; y0*(x1 - x0):
+            cnt += 1
+    return (cnt % 2 == 1)
+
+# Winding number algorithm
+def inside_polygon1(p0, qs):
+    x, y = p0
+    L = len(qs)
+    theta = 0
+    for i in range(L):
+        x0, y0 = qs[i-1]; x1, y1 = qs[i]
+        x0 -= x; y0 -= y
+        x1 -= x; y1 -= y
+
+        cv = x0*x1 + y0*y1
+        sv = x0*y1 - x1*y0
+        if sv == 0 and cv &lt;= 0:
+            # a point is on a segment
+            return True
+
+        theta += atan2(sv, cv)
+    return abs(theta) &gt; 1</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="sect3">
+<h4 id="_ray_casting_algorithm_2">Ray Casting Algorithm</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "CGL_3_C: Polygon-Point Containment": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4375020#1">source</a> (Python3, 0.07sec)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_winding_number_algorithm_2">Winding Number Algorithm</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "CGL_3_C: Polygon-Point Containment": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4374688#1">source</a> (Python3, 0.11sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Point_in_polygon">Point in polygon - Wikipedia</a></p>
+</li>
+<li>
+<p>O’rourke, Joseph. Computational geometry in C. Cambridge university press, 1998.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

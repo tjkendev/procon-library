@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>最小シュタイナー木 (Dreyfus-Wagner Algorithm) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Minimum Steiner Tree in Graphs 概要 重み付き無向グラフ \(G = (V, E)\) を考える。 ある \(S \subseteq V\) に対するシュタイナー木は、...">
+<meta property="og:title" content="最小シュタイナー木 (Dreyfus-Wagner Algorithm) - yaketake08's 実装メモ">
+<meta property="og:description" content="最小シュタイナー木 (Dreyfus-Wagner Algorithm)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/graph/dreyfus-wagner.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/graph/dreyfus-wagner.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>最小シュタイナー木 (Dreyfus-Wagner Algorithm)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Minimum Steiner Tree in Graphs</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>重み付き無向グラフ \(G = (V, E)\) を考える。</p>
+</div>
+<div class="paragraph">
+<p>ある \(S \subseteq V\) に対するシュタイナー木は、頂点集合 \(S\) を含む木である。<br>
+このとき、 \(S\) に含まれる頂点は terminal と呼ぶ。</p>
+</div>
+<div class="paragraph">
+<p>最小シュタイナー木問題では、頂点集合 \(S\) に対するシュタイナー木のうち、辺の重みの総和が最小となる木を求める。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(|V|^3 + |V| 3^{|S|} + |V|^2 2^{|S|})\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">INF = 10**9
+def minimum_steiner_tree(N, G, L, V):
+    E = [[INF]*N for i in range(N)]
+    for v in range(N):
+        for w, d in G[v]:
+            E[v][w] = d
+        E[v][v] = 0
+
+    for k in range(N):
+        Ek = E[k]
+        for Ei in E:
+            v = Ei[k]
+            Ei[:] = (min(a, v + b) for a, b in zip(Ei, Ek))
+
+    S = [[INF]*(1 &lt;&lt; L) for i in range(N)]
+    for i in range(L):
+        state = (1 &lt;&lt; i)
+        for v in range(N):
+            S[v][state] = E[v][V[i]]
+        S[V[i]][state] = 0
+    for i in range(N):
+        S[i][0] = 0
+
+    def gen(state):
+        s0 = (state - 1) &amp; state
+        while s0 != state:
+            if s0 &lt; state:
+                yield s0
+            s0 = (s0 - 1) &amp; state
+
+    us = [INF]*N
+    infs = [INF]*N
+    for state in range(1, 1 &lt;&lt; L):
+        ss = list(gen(state))
+        us[:] = infs
+        for v in range(N):
+            Sv = S[v]
+            u = min(Sv[s0] + Sv[s0 ^ state] for s0 in ss)
+            us[:] = (min(a, b + u) for a, b in zip(us, E[v]))
+        for w in range(N):
+            S[w][state] = us[w]
+
+    ALL = (1 &lt;&lt; L) - 1
+    return min(S[v][ALL] for v in range(N))
+
+
+N = 5
+G = [
+    [(1, 1), (2, 2), (3, 7)],
+    [(0, 1), (3, 4)],
+    [(0, 2), (3, 2)],
+    [(0, 7), (1, 4), (2, 2), (4, 1)],
+    [(3, 1)],
+]
+L = 2
+V = [0, 3]
+
+print(minimum_steiner_tree(N, G, L, V))
+# =&gt; "4"</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "1040: Chocolate with Heart Marks": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5462483#1">source</a> (Python3, 12.76sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Steiner_tree_problem">Steiner tree problem - Wikipedia</a></p>
+</li>
+<li>
+<p>Dreyfus, Stuart E., and Robert A. Wagner. "The Steiner problem in graphs." Networks 1.3 (1971): 195-207.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>素集合データ構造 (Union-Find) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="素集合データ構造 (Union-Find data structure, Disjoint-set data structure) 概要 Union-Findでは以下の操作を行うことができる \(u...">
+<meta property="og:title" content="素集合データ構造 (Union-Find) - yaketake08's 実装メモ">
+<meta property="og:description" content="素集合データ構造 (Union-Find)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/union_find/union_find.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/union_find/union_find.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>素集合データ構造 (Union-Find)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>素集合データ構造 (Union-Find data structure, Disjoint-set data structure)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Union-Findでは以下の操作を行うことができる</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(union(u, v)\) : 要素uの属するグループと要素vが属するグループを１つにまとめる</p>
+</li>
+<li>
+<p>\(find(u)\) : 要素uが属するグループを求める</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>\(find(u) = find(v)\) であればuとvは同じグループに属することが分かる</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下を行うことにより \(O(\alpha(n))\) になる。 (\(\alpha\) はアッカーマン関数の逆関数)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>rankもしくはsizeによるマージ先の選択</p>
+</li>
+<li>
+<p>経路圧縮</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>片方のみだと \(O(\log n)\) になる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_union_by_rank">実装 (Union by rank)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>rankによってマージ先を選択する実装</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python">N = 10**5
+
+*p, = range(N)
+rank = [1]*N
+def root(x):
+    if x == p[x]:
+        return x
+    p[x] = y = root(p[x])
+    return y
+def unite(x, y):
+    px = root(x); py = root(y)
+    if px == py:
+        return 0
+    rx = rank[px]; ry = rank[py]
+    if ry &lt; rx:
+        p[py] = px
+    elif rx &lt; ry:
+        p[px] = py
+    else:
+        p[py] = px
+        rank[px] += 1
+    return 1</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_union_by_size">実装 (Union by size)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>size(集合のサイズ)によってマージ先を選択する実装</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-1">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-1" data-lang="python">N = 10**5
+
+*p, = range(N)
+size = [1]*N
+def root(x):
+    if x == p[x]:
+        return x
+    p[x] = y = root(p[x])
+    return y
+def unite(x, y):
+    px = root(x); py = root(y)
+    if px == py:
+        return 0
+    sx = size[px]; sy = size[py]
+    if sy &lt; sx:
+        p[py] = px
+        size[px] += sy
+    else:
+        p[px] = py
+        size[py] += sx
+    return 1</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_linking_by_index">実装 (Linking by index)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>シンプルなUnion-Find実装。</p>
+</div>
+<div class="paragraph">
+<p>インデックスの若い方を親にしてマージする実装<br>
+計算量的には "by size" と同じになることが示せる。しかし、実際の処理では少しだけ遅くなる(rootの呼ばれる回数が多くなる)。</p>
+</div>
+<div class="paragraph">
+<p>シンプルな実装であるため、Pythonではちょっと高速になることが多い。(PyPyではby rankの方が高速)</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-2">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-2" data-lang="python"># Union-Find data structure
+
+N = 10**5
+
+*p, = range(N)
+def root(x):
+    if x == p[x]:
+        return x
+    p[x] = y = root(p[x])
+    return y
+def unite(x, y):
+    px = root(x); py = root(y)
+    if px == py:
+        return 0
+    if px &lt; py:
+        p[py] = px
+    else:
+        p[px] = py
+    return 1</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://cp-algorithms.com/data_structures/disjoint_set_union.html">Disjoint Set Union - CP-Algorithms</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

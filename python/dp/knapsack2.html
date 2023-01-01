@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>ナップサック問題 (価値が小さいケース) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Knapsack Problem 概要 以下のような問題 \(N\) 種類の品物がある \(i\) 番目の品物の価値は \(v_i\), 容量は \(w_i\), 個数は \(c_i\) 重さの総和...">
+<meta property="og:title" content="ナップサック問題 (価値が小さいケース) - yaketake08's 実装メモ">
+<meta property="og:description" content="ナップサック問題 (価値が小さいケース)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/dp/knapsack2.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/dp/knapsack2.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>ナップサック問題 (価値が小さいケース)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Knapsack Problem</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下のような問題</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(N\) 種類の品物がある</p>
+</li>
+<li>
+<p>\(i\) 番目の品物の価値は \(v_i\), 容量は \(w_i\), 個数は \(c_i\)</p>
+</li>
+<li>
+<p>重さの総和 \(W\) まで入るナップサックに入れる</p>
+</li>
+<li>
+<p>ナップサックに入る品物の価値を最大化する</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_0_1ナップサック問題_on2_max_iv_i">0-1ナップサック問題: \(O(N^2 \max_i{v_i})\)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>制約の一例は以下</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>\(1 \le N \le 100\)</p>
+</li>
+<li>
+<p>\(1 \le W \le 10^9\)</p>
+</li>
+<li>
+<p>\(1 \le v_i \le 100\)</p>
+</li>
+<li>
+<p>\(1 \le w_i \le 10^9\)</p>
+</li>
+<li>
+<p>\(c_i = 1\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>各価値 \(v (\le \sum_i v_i)\) の最小の重みを求める</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># i番目の重みws[i], 価値vs[i]
+def solve(N, W, ws, vs):
+    # V = 全ての品物の価値の総和
+    V = sum(vs)
+    
+    # 初期値は価値0以外の重さを上限より大きく
+    dp = [W+1] * (V + 1)
+    dp[0] = 0
+    for i in range(N):
+        # 価値v, 重さw
+        v = vs[i]; w = ws[i]
+        for j in range(V, v-1, -1):
+            dp[j] = min(dp[j-v] + w, dp[j])
+
+    # 重さが上限以下の価値のうち、最大の価値が解
+    return max(i for i in range(V+1) if dp[i] &lt;= W)</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "DPL_1_F: Combinatorial - 0-1 Knapsack Problem II": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812240#1">source</a> (Python3, 0.58sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_個数制限付きナップサック問題_on2_max_iv_i_max_ic_i">個数制限付きナップサック問題: \(O(N^2 \max_i{v_i} \max_i{c_i})\)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>制約の一例は以下</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>\(1 \le N \le 50\)</p>
+</li>
+<li>
+<p>\(1 \le W \le 10^9\)</p>
+</li>
+<li>
+<p>\(1 \le v_i \le 50\)</p>
+</li>
+<li>
+<p>\(1 \le w_i \le 10^9\)</p>
+</li>
+<li>
+<p>\(1 \le c_i \le 50\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>dequeを用いたSliding Window Minimumを利用する</p>
+</div>
+<div class="paragraph">
+<p>各価値 \(v (\le \sum_i v_i \cdot c_i)\) の最小の重みを求める</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-1">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-1" data-lang="python">from collections import deque
+
+# i番目の重みws[i], 価値vs[i], 個数ms[i]
+def solve(N, W, vs, ws, ms):
+    V = sum(v * m for v, m in zip(vs, ms))
+
+    # Sliding Window Minimum を用いたdpを行う
+    dp = [W+1]*(V + 1)
+    dp[0] = 0
+    for i in range(N):
+        # 価値v, 重さw, 個数m
+        v = vs[i]; w = ws[i]; m = ms[i]
+        c = m
+        ms[i] -= c
+        for k in range(v):
+            que = deque()
+            push = que.append
+            popf = que.popleft; popb = que.pop
+
+            for j in range((V-k)//v+1):
+                a = dp[k + j*v] - j * w
+                while que and a &lt;= que[-1][1]:
+                    popb()
+                push((j, a))
+
+                p, b = que[0]
+
+                dp[k + j*v] = b + j * w
+                if que and p &lt;= j-c:
+                    popf()
+    return max(i for i in range(V+1) if dp[i] &lt;= W)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_個数制限付きナップサック問題_on2_max_iv_i2">個数制限付きナップサック問題: \(O(N^2 \max_i{v_i}^2)\)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>制約の一例は以下</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>\(1 \le N \le 50\)</p>
+</li>
+<li>
+<p>\(1 \le W \le 10^9\)</p>
+</li>
+<li>
+<p>\(1 \le v_i \le 50\)</p>
+</li>
+<li>
+<p>\(1 \le w_i \le 10^9\)</p>
+</li>
+<li>
+<p>\(1 \le c_i \le 10^9\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>各品物 \(m_i = \min(\max_j v_j, c_i)\) 個に絞った個数制限付きナップサック問題を解く</p>
+<div class="ulist">
+<ul>
+<li>
+<p>各価値 \(v (\le \sum_i v_i \cdot m_i)\) の最小の重みを求める</p>
+</li>
+<li>
+<p>dequeを用いたSliding Window Minimumを利用</p>
+</li>
+<li>
+<p>これらの最小重みを求めるのに全体で \(O(N^2 \max_i{v_i}^2)\)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>(1)で求めた各価値 \(v\) とその最小の重み \(w\) に対し \(W - w\) の容量に品物を貪欲に詰めていく</p>
+<div class="ulist">
+<ul>
+<li>
+<p>\(\frac{v_i}{w_i}\) (つまり、重み単位に対する価値) が大きい品物から最大 \((c_i - m_i)\) 個を順番に詰める</p>
+</li>
+<li>
+<p>貪欲に詰めれた商品の価値の総和 + 価値v が1つの解 (各価値ごとに \(O(N)\))</p>
+</li>
+<li>
+<p>各 \((v, w)\) に対しこれを求め、価値の最大を求める</p>
+</li>
+<li>
+<p>全ての価値 \(v\) に対する計算量は \(O(N^2 \max_i{v_i}^2)\)</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>全体の計算量は \(O(N^2 \max_i{v_i}^2)\)</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-2">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-2" data-lang="python">from collections import deque
+
+# i番目の重みws[i], 価値vs[i], 個数ms[i]
+def solve(N, W, ws, vs, ms):
+    V0 = max(vs)
+    V = sum(v * min(V0, m) for v, m in zip(vs, ms))
+
+    # 各品物 min(max_j{v_j}, m_i) 個までの個数制限付きナップザック問題を解く
+    dp = [W+1]*(V + 1)
+    dp[0] = 0
+    for i in range(N):
+        v = vs[i]; w = ws[i]; m = ms[i]
+        c = min(V0, m)
+        ms[i] -= c
+        for k in range(v):
+            que = deque()
+            push = que.append
+            popf = que.popleft; popb = que.pop
+
+            for j in range((V-k)//v+1):
+                a = dp[k + j*v] - j * w
+                while que and a &lt;= que[-1][1]:
+                    popb()
+                push((j, a))
+
+                p, b = que[0]
+
+                dp[k + j*v] = b + j * w
+                if que and p &lt;= j-c:
+                    popf()
+
+    # 重さ単位における価値が大きい方から品物を並べる
+    *I, = range(N)
+    I.sort(key=lambda x: ws[x]/vs[x])
+    *S, = [(vs[i], ws[i], ms[i]) for i in I]
+
+    # 各価値ごとに、(W - wに貪欲に詰めた時の価値) + 価値v を求める
+    def greedy():
+        yield 0
+        for i in range(V + 1):
+            if dp[i] &gt; W:
+                continue
+            rest = W - dp[i]
+            r = i
+            for v, w, m in S:
+                m = min(m, rest // w)
+                r += m * v
+                rest -= m * w
+            yield r
+    return max(greedy())</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified_2">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "DPL_1_I: Combinatorial - Knapsack Problem with Limitations II": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3812336#1">source</a> (Python3, 3.29sec)</p>
+</li>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 096 - F問題: Sweet Alchemy": <a href="https://atcoder.jp/contests/arc096/submissions/6948625">source</a> (PyPy3, 484ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

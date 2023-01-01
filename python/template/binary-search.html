@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>二分探索 - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="binary search 概要 二分探索まわりのメモ bisectモジュール import bisect A = [1, 1, 1, 3, 3, 3, 3, 5, 5, 5] # x 以下の最大の...">
+<meta property="og:title" content="二分探索 - yaketake08's 実装メモ">
+<meta property="og:description" content="二分探索">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/template/binary-search.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/template/binary-search.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>二分探索</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>binary search</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>二分探索まわりのメモ</p>
+</div>
+<div class="sect2">
+<h3 id="_bisectモジュール">bisectモジュール</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import bisect
+
+A = [1, 1, 1, 3, 3, 3, 3, 5, 5, 5]
+
+# x 以下の最大の要素位置
+def index_le(A, x):
+    return bisect.bisect_right(A, x)-1
+print([index_le(A, x) for x in range(0, 7)])
+# =&gt; "[-1, 2, 2, 6, 6, 9, 9]"
+
+# x 以上の最小の要素位置
+def index_ge(A, x):
+    return bisect.bisect_left(A, x)
+print([index_ge(A, x) for x in range(0, 7)])
+# =&gt; "[0, 0, 3, 3, 7, 7, 10]"</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_二分探索の実装">二分探索の実装</h3>
+<div class="sect3">
+<h4 id="_整数値に対する二分探索">整数値に対する二分探索</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">A = [1, 1, 1, 3, 3, 3, 3, 5, 5, 5]
+
+# x 以下の最大の要素位置
+def index_le(A, x):
+    def check(y):
+        return A[y] &lt;= x
+    left = -1; right = len(A)
+    while left+1 &lt; right:
+        mid = (left + right) &gt;&gt; 1
+        if check(mid):
+            # e &lt;= left は check(e) を満たす
+            left = mid
+        else:
+            # right &lt;= e は check(e) を満たさない
+            right = mid
+    return left
+print([index_le(A, x) for x in range(0, 7)])
+# =&gt; "[-1, 2, 2, 6, 6, 9, 9]"
+
+# x 以上の最小の要素位置
+def index_ge(A, x):
+    def check(y):
+        return x &lt;= A[y]
+    left = -1; right = len(A)
+    while left+1 &lt; right:
+        mid = (left + right) &gt;&gt; 1
+        if check(mid):
+            # right &lt;= e は check(e) を満たす
+            right = mid
+        else:
+            # e &lt;= left は check(e) を満たさない
+            left = mid
+    return right
+print([index_ge(A, x) for x in range(0, 7)])
+# =&gt; "[0, 0, 3, 3, 7, 7, 10]"</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_実数値に対する二分探索">実数値に対する二分探索</h4>
+<div class="paragraph">
+<p>巨大な値を扱う場合は精度より停止しなくなる可能性があるため <code>Decimal</code> 等の利用を考える。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">def sqrt(x):
+    def check(y):
+        return y*y &lt; x
+    EPS = 1e-9
+    left = 0; right = max(x, 1)
+    while right - left &gt; EPS:
+        mid = (left + right) / 2
+        if check(mid):
+            left = mid
+        else:
+            right = mid
+    return left
+
+print(sqrt(0.5))
+# =&gt; "0.7071067802608013"
+print(sqrt(5))
+# =&gt; "2.236067976919003"
+# print(sqrt(5**21)) =&gt; 停止しない
+
+
+from decimal import Decimal
+def sqrt_d(x):
+    def check(y):
+        return y*y &lt; x
+    EPS = 1e-9
+    left = Decimal(0); right = Decimal(max(x, 1))
+    while right - left &gt; EPS:
+        mid = (left + right) / 2
+        if check(mid):
+            left = mid
+        else:
+            right = mid
+    return left
+print(sqrt_d(5**21))
+# =&gt; "21836601.34277138317515660994"</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

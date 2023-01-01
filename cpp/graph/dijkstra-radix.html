@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>単一始点最短経路 (ダイクストラ法, Radix Heap) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Radix Heapによるダイクストラ法 (Dijkstra’s Algorithm with Radix Heap) 概要 単一始点最短経路問題(SSSP)を解くアルゴリズム。到達するまでのコスト...">
+<meta property="og:title" content="単一始点最短経路 (ダイクストラ法, Radix Heap) - yaketake08's 実装メモ">
+<meta property="og:description" content="単一始点最短経路 (ダイクストラ法, Radix Heap)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/graph/dijkstra-radix.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/graph/dijkstra-radix.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>単一始点最短経路 (ダイクストラ法, Radix Heap)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Radix Heapによるダイクストラ法 (Dijkstra’s Algorithm with Radix Heap)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>単一始点最短経路問題(SSSP)を解くアルゴリズム。到達するまでのコストが小さい方からコストを伝搬させていく。</p>
+</div>
+<div class="paragraph">
+<p>Radix Heapを用いた実装。負辺が含まれないグラフ上で利用可能。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>コストの最大が \(D\) とすると \(O((|E| + |V|) \log D)\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;vector&gt;
+using namespace std;
+
+#define B 33
+
+template&lt;typename T&gt;
+class RadixHeap {
+  struct Val {
+    int x; T key;
+
+    bool operator&lt;(const Val &amp;other) {
+      return x &lt; other.x;
+    }
+  };
+  vector&lt;Val&gt; data[B];
+  int last = 0, siz = 0;
+
+  inline int bsr(int x) {
+    if(x == 0) return -1;
+    return 31-__builtin_clz(x);
+  }
+
+public:
+  inline void push(T key, int x) {
+    //assert(last &lt;= x);
+    ++siz;
+    data[bsr(x^last)+1].emplace_back(Val{x, key});
+  }
+
+  inline Val pop() {
+    //assert(siz &gt; 0);
+    if(!data[0].size()) {
+      int i = 1;
+      while(!data[i].size()) ++i;
+      Val &amp;em = *min_element(data[i].begin(), data[i].end());
+      for(Val &amp;e : data[i]) {
+        if(e.key == em.key) {
+          --siz;
+          continue;
+        }
+        data[bsr(e.x^em.x)+1].emplace_back(e);
+      }
+      data[i].clear();
+      return em;
+    }
+    --siz;
+    Val &amp;em = data[0].back();
+    data[0].pop_back();
+    return em;
+  }
+
+  inline bool empty() {
+    return siz == 0;
+  }
+
+  inline int size() {
+    return siz;
+  }
+};
+
+struct Edge {
+  int to; int cost;
+};
+
+const int inf = 1e9+1;
+
+#define N 100004
+int n;
+vector&lt;Edge&gt; g[N];
+int dist[N];
+
+void dijkstra(int s) {
+  RadixHeap&lt;int&gt; que;
+  que.push(s, 0);
+  for(int i=0; i&lt;n; ++i) dist[i] = inf;
+  dist[s] = 0;
+
+  while(!que.empty()) {
+    auto p = que.pop();
+    int co = p.x; int v = p.key;
+    if(dist[v] &lt; co) continue;
+    for(auto &amp;e : g[v]) {
+      if(co + e.cost &lt; dist[e.to]) {
+        dist[e.to] = co + e.cost;
+        que.push(e.to, dist[e.to]);
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_1_A: Shortest Path - Single Source Shortest Path": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3826399#1">source</a> (C++14, 0.11hsec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.slideshare.net/yosupo/ss-46612984">色々なダイクストラ高速化 - slideshare</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

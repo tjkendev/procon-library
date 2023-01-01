@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Rolling Hash - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="概要 Rolling Hashは文字列のハッシュによって文字列比較を高速に行う。 ハッシュは衝突する可能性もある。衝突させにくくするには、複数のハッシュを計算して比較する等をすればよい。 実装 #...">
+<meta property="og:title" content="Rolling Hash - yaketake08's 実装メモ">
+<meta property="og:description" content="Rolling Hash">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/string/rolling_hash.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/string/rolling_hash.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Rolling Hash</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Rolling Hashは文字列のハッシュによって文字列比較を高速に行う。</p>
+</div>
+<div class="paragraph">
+<p>ハッシュは衝突する可能性もある。衝突させにくくするには、複数のハッシュを計算して比較する等をすればよい。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># 1-dimension Rolling Hash
+class RollingHash():
+    def __init__(self, s, base, mod):
+        self.mod = mod
+        self.pw = pw = [1]*(len(s)+1)
+
+        l = len(s)
+        self.h = h = [0]*(l+1)
+
+        v = 0
+        for i in range(l):
+            h[i+1] = v = (v * base + ord(s[i])) % mod
+        v = 1
+        for i in range(l):
+            pw[i+1] = v = v * base % mod
+    def get(self, l, r):
+        return (self.h[r] - self.h[l] * self.pw[r-l]) % self.mod
+
+# 非クラス版
+base = 37; mod = 10**9 + 9
+pw = None
+def rolling_hash(s):
+    l = len(s)
+    h = [0]*(l + 1)
+    v = 0
+    for i in range(l):
+        h[i+1] = v = (v * base + ord(s[i])) % mod
+    return h
+# RH前に、必要な長さの最大値分のpow-tableを計算しておく
+def setup_pw(l):
+    global pw
+    pw = [1]*(l + 1)
+    v = 1
+    for i in range(l):
+        pw[i+1] = v = v * base % mod
+def get(h, l, r):
+    return (h[r] - h[l] * pw[r-l]) % mod</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "ALDS1_14_B: String Search - String Search": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3818944#1">source</a> (Python3, 1.88sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_mod_の乱数化">実装 (mod の乱数化)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Rolling HashはHack可能なコンテストで使うと、ハッシュが衝突する入力で落とされる可能性がある。<br>
+これに対応するため、乱数を使って狙って衝突させにくくした実装。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-1">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-1" data-lang="python"># Random Rolling Hash
+import random, math
+random.seed()
+def gen(a, b, num):
+    result = set()
+    while 1:
+        while 1:
+            v = random.randint(a, b)//2*2+1
+            if v not in result:
+                break
+        for x in range(3, int(math.sqrt(v))+1, 2):
+            if v % x == 0:
+                break
+        else:
+            result.add(v)
+            if len(result) == num:
+                break
+    return result
+class RH():
+    def __init__(self, s, base, mod):
+        self.base = base
+        self.mod = mod
+        self.rev = pow(base, mod-2, mod)
+
+        l = len(s)
+        self.h = h = [0]*(l+1)
+        tmp = 0
+        for i in range(l):
+            num = ord(s[i])
+            tmp = (tmp*base + num) % mod
+            h[i+1] = tmp
+    def calc(self, l, r):
+        return (self.h[r] - self.h[l] + self.mod) * pow(self.rev, l, self.mod) % self.mod
+class RRH():
+    def __init__(self, s, num=10):
+        # 2 ~ 1000の間の乱数でnum個のハッシュをとる
+        param = (2, 10**3, num)
+        MOD = 10**9+7
+        self.rhs = [RH(s, p, MOD) for p in gen(*param)]
+    def calc(self, l, r):
+        return [rh.calc(l, r) for rh in self.rhs]
+
+# usage: RRH("abcd")</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装_2次元">実装 (2次元)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Rolling Hash を二次元配列上に拡張したもの</p>
+</div>
+<div class="paragraph">
+<p>特定の領域中の値が完全一致するかを判定できる。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-2">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-2" data-lang="python">mod = 10**9 + 9; p = 13; q = 19
+
+p_table = q_table = None
+def prepare(L):
+    global p_table, q_table
+    p_table = [1]*(L+1); q_table = [1]*(L+1)
+    for i in range(L):
+        p_table[i+1] = p_table[i] * p % mod
+        q_table[i+1] = q_table[i] * q % mod
+
+def rolling_hash(S, W, H):
+    D = [[0]*(W+1) for i in range(H+1)]
+    for i in range(H):
+        su = 0
+        dp = D[i]
+        di = D[i+1]
+        si = S[i]
+        for j in range(W):
+            v = si[j] # v = ord(si[j]) if si[j] is str
+            su = (su*p + v) % mod
+            di[j+1] = (su + dp[j+1]*q) % mod
+    return D
+def get(S, x0, y0, x1, y1):
+    P = p_table[x1 - x0]; Q = q_table[y1 - y0]
+    return (S[y1][x1] - S[y1][x0] * P - S[y0][x1] * Q + S[y0][x0] * (P * Q) % mod) % mod
+
+# example
+data1 = [
+    [1, 0, 1, 0, 1],
+    [1, 1, 1, 0, 1],
+    [0, 1, 1, 1, 1],
+]
+data2 = [
+    [1, 0, 1],
+    [1, 0, 1],
+]
+prepare(L = 5)
+rh1 = rolling_hash(data1, 5, 3)
+rh2 = rolling_hash(data2, 3, 2)
+print(get(rh1, 2, 0, 5, 2) == get(rh2, 0, 0, 3, 2))
+# =&gt; "True"</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified_2">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "ALDS1_14_C: Pattern Search": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4388923#1">source</a> (Python3, 1.98sec)</p>
+</li>
+<li>
+<p>AOJ: "1312: Where’s Wally": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4310474#1">source</a> (Python3, 16.64sec)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

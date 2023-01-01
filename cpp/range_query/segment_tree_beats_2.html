@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>区間chmin/chmaxクエリ, RMQ, RSQ, RAQ, RUQ (Segment tree beats) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Segment tree beats (range minimize/maximize query, RMQ, RSQ, RAQ, RUQ) 概要 以下のクエリを処理する \(a_l, a_{l+1...">
+<meta property="og:title" content="区間chmin/chmaxクエリ, RMQ, RSQ, RAQ, RUQ (Segment tree beats) - yaketake08's 実装メモ">
+<meta property="og:description" content="区間chmin/chmaxクエリ, RMQ, RSQ, RAQ, RUQ (Segment tree beats)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/range_query/segment_tree_beats_2.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/range_query/segment_tree_beats_2.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>区間chmin/chmaxクエリ, RMQ, RSQ, RAQ, RUQ (Segment tree beats)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Segment tree beats (range minimize/maximize query, RMQ, RSQ, RAQ, RUQ)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下のクエリを処理する</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の各 \(a_i\) について \(\min(a_i, x)\) に更新</p>
+</li>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の各 \(a_i\) について \(\max(a_i, x)\) に更新</p>
+</li>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の最大値を求める</p>
+</li>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の最小値を求める</p>
+</li>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の総和を求める</p>
+</li>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の各 \(a_i\) について \(x\) に更新</p>
+</li>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の各 \(a_i\) について \(a_i + x\) に更新</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>区間chminクエリ: \(N\) 個の要素に対し \(Q\) 回のクエリで \(O(N \log N + M \log^2 N)\) (ならし計算量)</p>
+</li>
+<li>
+<p>その他のクエリ: 各クエリ \(O(\log N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;algorithm&gt;
+using namespace std;
+using ll = long long;
+
+// Segment Tree Beats
+// - l&lt;=i&lt;r について、 A_i の値を min(A_i, x) に更新
+// - l&lt;=i&lt;r について、 A_i の値を max(A_i, x) に更新
+// - l&lt;=i&lt;r の中の A_i の最大値を求める
+// - l&lt;=i&lt;r の中の A_i の最小値を求める
+// - l&lt;=i&lt;r の A_i の和を求める
+// - l&lt;=i&lt;r について、 A_i の値に x を加える
+// - l&lt;=i&lt;r について、 A_i の値を x に更新
+
+#define N 10003
+
+class SegmentTree {
+  const ll inf = 1e18;
+  int n, n0;
+  ll max_v[4*N], smax_v[4*N], max_c[4*N];
+  ll min_v[4*N], smin_v[4*N], min_c[4*N];
+  ll sum[4*N];
+  ll len[4*N], ladd[4*N], lval[4*N];
+
+  void update_node_max(int k, ll x) {
+    sum[k] += (x - max_v[k]) * max_c[k];
+
+    if(max_v[k] == min_v[k]) {
+      max_v[k] = min_v[k] = x;
+    } else if(max_v[k] == smin_v[k]) {
+      max_v[k] = smin_v[k] = x;
+    } else {
+      max_v[k] = x;
+    }
+
+    if(lval[k] != inf &amp;&amp; x &lt; lval[k]) {
+      lval[k] = x;
+    }
+  }
+  void update_node_min(int k, ll x) {
+    sum[k] += (x - min_v[k]) * min_c[k];
+
+    if(max_v[k] == min_v[k]) {
+      max_v[k] = min_v[k] = x;
+    } else if(smax_v[k] == min_v[k]) {
+      min_v[k] = smax_v[k] = x;
+    } else {
+      min_v[k] = x;
+    }
+
+    if(lval[k] != inf &amp;&amp; lval[k] &lt; x) {
+      lval[k] = x;
+    }
+  }
+
+  void push(int k) {
+
+    if(n0-1 &lt;= k) return;
+
+    if(lval[k] != inf) {
+      updateall(2*k+1, lval[k]);
+      updateall(2*k+2, lval[k]);
+      lval[k] = inf;
+      return;
+    }
+
+    if(ladd[k] != 0) {
+      addall(2*k+1, ladd[k]);
+      addall(2*k+2, ladd[k]);
+      ladd[k] = 0;
+    }
+
+    if(max_v[k] &lt; max_v[2*k+1]) {
+      update_node_max(2*k+1, max_v[k]);
+    }
+    if(min_v[2*k+1] &lt; min_v[k]) {
+      update_node_min(2*k+1, min_v[k]);
+    }
+
+    if(max_v[k] &lt; max_v[2*k+2]) {
+      update_node_max(2*k+2, max_v[k]);
+    }
+    if(min_v[2*k+2] &lt; min_v[k]) {
+      update_node_min(2*k+2, min_v[k]);
+    }
+  }
+
+  void update(int k) {
+    sum[k] = sum[2*k+1] + sum[2*k+2];
+
+    if(max_v[2*k+1] &lt; max_v[2*k+2]) {
+      max_v[k] = max_v[2*k+2];
+      max_c[k] = max_c[2*k+2];
+      smax_v[k] = max(max_v[2*k+1], smax_v[2*k+2]);
+    } else if(max_v[2*k+1] &gt; max_v[2*k+2]) {
+      max_v[k] = max_v[2*k+1];
+      max_c[k] = max_c[2*k+1];
+      smax_v[k] = max(smax_v[2*k+1], max_v[2*k+2]);
+    } else {
+      max_v[k] = max_v[2*k+1];
+      max_c[k] = max_c[2*k+1] + max_c[2*k+2];
+      smax_v[k] = max(smax_v[2*k+1], smax_v[2*k+2]);
+    }
+
+    if(min_v[2*k+1] &lt; min_v[2*k+2]) {
+      min_v[k] = min_v[2*k+1];
+      min_c[k] = min_c[2*k+1];
+      smin_v[k] = min(smin_v[2*k+1], min_v[2*k+2]);
+    } else if(min_v[2*k+1] &gt; min_v[2*k+2]) {
+      min_v[k] = min_v[2*k+2];
+      min_c[k] = min_c[2*k+2];
+      smin_v[k] = min(min_v[2*k+1], smin_v[2*k+2]);
+    } else {
+      min_v[k] = min_v[2*k+1];
+      min_c[k] = min_c[2*k+1] + min_c[2*k+2];
+      smin_v[k] = min(smin_v[2*k+1], smin_v[2*k+2]);
+    }
+  }
+
+  void _update_min(ll x, int a, int b, int k, int l, int r) {
+    if(b &lt;= l || r &lt;= a || max_v[k] &lt;= x) {
+      return;
+    }
+    if(a &lt;= l &amp;&amp; r &lt;= b &amp;&amp; smax_v[k] &lt; x) {
+      update_node_max(k, x);
+      return;
+    }
+
+    push(k);
+    _update_min(x, a, b, 2*k+1, l, (l+r)/2);
+    _update_min(x, a, b, 2*k+2, (l+r)/2, r);
+    update(k);
+  }
+
+  void _update_max(ll x, int a, int b, int k, int l, int r) {
+    if(b &lt;= l || r &lt;= a || x &lt;= min_v[k]) {
+      return;
+    }
+    if(a &lt;= l &amp;&amp; r &lt;= b &amp;&amp; x &lt; smin_v[k]) {
+      update_node_min(k, x);
+      return;
+    }
+
+    push(k);
+    _update_max(x, a, b, 2*k+1, l, (l+r)/2);
+    _update_max(x, a, b, 2*k+2, (l+r)/2, r);
+    update(k);
+  }
+
+  void addall(int k, ll x) {
+    max_v[k] += x;
+    if(smax_v[k] != -inf) smax_v[k] += x;
+    min_v[k] += x;
+    if(smin_v[k] != inf) smin_v[k] += x;
+
+    sum[k] += len[k] * x;
+    if(lval[k] != inf) {
+      lval[k] += x;
+    } else {
+      ladd[k] += x;
+    }
+  }
+
+  void updateall(int k, ll x) {
+    max_v[k] = x; smax_v[k] = -inf;
+    min_v[k] = x; smin_v[k] = inf;
+    max_c[k] = min_c[k] = len[k];
+
+    sum[k] = x * len[k];
+    lval[k] = x; ladd[k] = 0;
+  }
+
+  void _add_val(ll x, int a, int b, int k, int l, int r) {
+    if(b &lt;= l || r &lt;= a) {
+      return;
+    }
+    if(a &lt;= l &amp;&amp; r &lt;= b) {
+      addall(k, x);
+      return;
+    }
+
+    push(k);
+    _add_val(x, a, b, 2*k+1, l, (l+r)/2);
+    _add_val(x, a, b, 2*k+2, (l+r)/2, r);
+    update(k);
+  }
+
+  void _update_val(ll x, int a, int b, int k, int l, int r) {
+    if(b &lt;= l || r &lt;= a) {
+      return;
+    }
+    if(a &lt;= l &amp;&amp; r &lt;= b) {
+      updateall(k, x);
+      return;
+    }
+
+    push(k);
+    _update_val(x, a, b, 2*k+1, l, (l+r)/2);
+    _update_val(x, a, b, 2*k+2, (l+r)/2, r);
+    update(k);
+  }
+
+  ll _query_max(int a, int b, int k, int l, int r) {
+    if(b &lt;= l || r &lt;= a) {
+      return -inf;
+    }
+    if(a &lt;= l &amp;&amp; r &lt;= b) {
+      return max_v[k];
+    }
+    push(k);
+    ll lv = _query_max(a, b, 2*k+1, l, (l+r)/2);
+    ll rv = _query_max(a, b, 2*k+2, (l+r)/2, r);
+    return max(lv, rv);
+  }
+
+  ll _query_min(int a, int b, int k, int l, int r) {
+    if(b &lt;= l || r &lt;= a) {
+      return inf;
+    }
+    if(a &lt;= l &amp;&amp; r &lt;= b) {
+      return min_v[k];
+    }
+    push(k);
+    ll lv = _query_min(a, b, 2*k+1, l, (l+r)/2);
+    ll rv = _query_min(a, b, 2*k+2, (l+r)/2, r);
+    return min(lv, rv);
+  }
+
+  ll _query_sum(int a, int b, int k, int l, int r) {
+    if(b &lt;= l || r &lt;= a) {
+      return 0;
+    }
+    if(a &lt;= l &amp;&amp; r &lt;= b) {
+      return sum[k];
+    }
+    push(k);
+    ll lv = _query_sum(a, b, 2*k+1, l, (l+r)/2);
+    ll rv = _query_sum(a, b, 2*k+2, (l+r)/2, r);
+    return lv + rv;
+  }
+
+public:
+  SegmentTree(int n) {
+    SegmentTree(n, nullptr);
+  }
+
+  SegmentTree(int n, ll *a) : n(n) {
+    n0 = 1;
+    while(n0 &lt; n) n0 &lt;&lt;= 1;
+
+    for(int i=0; i&lt;2*n0; ++i) ladd[i] = 0, lval[i] = inf;
+    len[0] = n0;
+    for(int i=0; i&lt;n0-1; ++i) len[2*i+1] = len[2*i+2] = (len[i] &gt;&gt; 1);
+
+    for(int i=0; i&lt;n; ++i) {
+      max_v[n0-1+i] = min_v[n0-1+i] = sum[n0-1+i] = (a != nullptr ? a[i] : 0);
+      smax_v[n0-1+i] = -inf;
+      smin_v[n0-1+i] = inf;
+      max_c[n0-1+i] = min_c[n0-1+i] = 1;
+    }
+
+    for(int i=n; i&lt;n0; ++i) {
+      max_v[n0-1+i] = smax_v[n0-1+i] = -inf;
+      min_v[n0-1+i] = smin_v[n0-1+i] = inf;
+      max_c[n0-1+i] = min_c[n0-1+i] = 0;
+    }
+    for(int i=n0-2; i&gt;=0; i--) {
+      update(i);
+    }
+  }
+
+  // range minimize query
+  void update_min(int a, int b, ll x) {
+    _update_min(x, a, b, 0, 0, n0);
+  }
+
+  // range maximize query
+  void update_max(int a, int b, ll x) {
+    _update_max(x, a, b, 0, 0, n0);
+  }
+
+  // range add query
+  void add_val(int a, int b, ll x) {
+    _add_val(x, a, b, 0, 0, n0);
+  }
+
+  // range update query
+  void update_val(int a, int b, ll x) {
+    _update_val(x, a, b, 0, 0, n0);
+  }
+
+  // range minimum query
+  ll query_max(int a, int b) {
+    return _query_max(a, b, 0, 0, n0);
+  }
+
+  // range maximum query
+  ll query_min(int a, int b) {
+    return _query_min(a, b, 0, 0, n0);
+  }
+
+  // range sum query
+  ll query_sum(int a, int b) {
+    return _query_sum(a, b, 0, 0, n0);
+  }
+};</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://codeforces.com/blog/entry/57319">A simple introduction to "Segment tree beats"</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

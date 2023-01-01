@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>最大フロー (Push-Relabel Algorithm, highest selection) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Push-Relabel Algorithm, Goldberg-Tarjan Algorithm 概要 最大流問題は、有向グラフ \(G = (V, E)\) の各辺 \(e \in E\) に容...">
+<meta property="og:title" content="最大フロー (Push-Relabel Algorithm, highest selection) - yaketake08's 実装メモ">
+<meta property="og:description" content="最大フロー (Push-Relabel Algorithm, highest selection)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/cpp/max_flow/push-relabel-highest.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/cpp/max_flow/push-relabel-highest.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>最大フロー (Push-Relabel Algorithm, highest selection)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Push-Relabel Algorithm, Goldberg-Tarjan Algorithm</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>最大流問題は、有向グラフ \(G = (V, E)\) の各辺 \(e \in E\) に容量 \(c(u, v)\) がついており、このグラフ上のsourceからsinkへ流せる流量を求める問題である。</p>
+</div>
+<div class="paragraph">
+<p>最大フロー最小カット定理が成り立つため、最小カット問題も解くことができる。</p>
+</div>
+<div class="sect2">
+<h3 id="_push_relabel_algorithm">Push-Relabel Algorithm</h3>
+<div class="paragraph">
+<p>Push-Relabel Algorithm では、超過量のフロー(excess flow)を流し、すりきるような感じでsourceからsinkに流す。<br>
+このアルゴリズムではactiveな頂点(excess flowを持つ頂点)を選び、以下の二種類の操作を行う。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Push操作: capacityが残っている辺を通して、距離ラベルが小さい頂点にexcess flow分を流す</p>
+</li>
+<li>
+<p>Relabel操作: activeな頂点の距離ラベルを貼り直す</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>highest selection では、距離ラベル分のbucketを用意してラベルが最大の頂点を常に選択してpush, relabelを行う。</p>
+</div>
+<div class="paragraph">
+<p>このアルゴリズムはいくつかのヒューリスティックを入れることで高速化できる。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\(O(|V|^2 \sqrt{|E|})\)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下のヒューリスティックを入れた実装</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Global Labeling</p>
+</li>
+<li>
+<p>Gap-Relabeling (たぶん正しいはず)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>状態をfreezeしてるため、フローを流した後のグラフ全体の正しい状態を得るには、frozenした頂点のexcess flowをsourceに戻す必要がある</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs code-idx-0" data-lang="cpp">#include&lt;vector&gt;
+using namespace std;
+using ll = long long;
+
+
+#define N 2000
+
+class PushRelabel {
+  const ll inf = 1e18;
+  int n;
+  struct Edge {
+    int to;
+    ll cap;
+    int rev;
+  };
+  vector&lt;Edge&gt; g[N];
+
+  int qs[N];
+  // height, distance label, excess flow
+  int hs[N], ds[N];
+  ll fs[N];
+  // active node
+  bool active[N];
+  // bucket
+  vector&lt;int&gt; bs[N];
+  int cur;
+
+public:
+  PushRelabel() {}
+  PushRelabel(int n) { init(n); }
+  inline void init(int n) { this-&gt;n = n; }
+
+  inline void add_edge(int fr, int to, ll cap) {
+    g[fr].emplace_back(Edge{to, cap, (int) g[to].size()});
+    g[to].emplace_back(Edge{fr, 0, (int) g[fr].size()-1});
+  }
+
+  // Global labeling
+  inline int bfs(int t) {
+    int a = 0, b = 1;
+    for(int i=0; i&lt;n; ++i) hs[i] = n, ds[i] = 0, bs[i].clear();
+    qs[0] = t;
+    hs[t] = 0; ds[0] = 1;
+    cur = 0;
+    int d = 0;
+    while(a &lt; b) {
+      int v = qs[a++];
+      d = hs[v];
+      for(Edge &amp;e : g[v]) {
+        int w = e.to;
+        if(hs[w] &lt;= d + 1 || g[w][e.rev].cap == 0) continue;
+        hs[w] = d + 1;
+        if(active[w] &amp;&amp; d+1 &lt; n) {
+          bs[d+1].push_back(w);
+          cur = d+1;
+        }
+        if(d+1 &lt; n) ++ds[d+1];
+        qs[b++] = w;
+      }
+    }
+    return d+1;
+  }
+
+  inline ll flow(int s, int t) {
+    for(int i=0; i&lt;n; ++i) fs[i] = 0, active[i] = false;
+
+    fs[s] = inf;
+    active[s] = true;
+
+    // initialize hs, bs, ds
+    int gap = bfs(t);
+    bs[cur].push_back(s);
+
+    int cnt = 0;
+    while(1) {
+      while(cur &gt;= 0 &amp;&amp; bs[cur].size() == 0) --cur;
+      if(cur &lt; 0) break;
+
+      int v = bs[cur].back(); bs[cur].pop_back();
+      if(v == t) continue;
+
+      int hv = hs[v];
+      // Gap-relabeling
+      if(hv &gt; gap) {
+        if(hv &lt; n) --ds[hv];
+        hs[v] = n;
+        continue;
+      }
+
+
+      // push
+      ll rest = fs[v];
+      for(Edge &amp;e : g[v]) {
+        int w = e.to;
+        if(e.cap &gt; 0 &amp;&amp; hv &gt; hs[w] &amp;&amp; hs[w] &lt; gap) {
+          ll d = min(rest, e.cap);
+          e.cap -= d;
+          g[w][e.rev].cap += d;
+          rest -= d;
+          fs[w] += d;
+          if(!active[w]) {
+            int hw = hs[w];
+            bs[hw].push_back(w);
+            if(cur &lt; hw) cur = hw;
+            active[w] = true;
+          }
+          if(rest == 0) break;
+        }
+      }
+      fs[v] = rest;
+
+      if(rest == 0) {
+        active[v] = false;
+        continue;
+      }
+
+      // relabel
+      int h0 = hs[v];
+      hv = n;
+      for(Edge &amp;e : g[v]) {
+        int w = e.to;
+        if(e.cap &gt; 0 &amp;&amp; hv &gt; hs[w] + 1 &amp;&amp; hs[w] &lt; gap) {
+          hv = hs[w] + 1;
+        }
+      }
+      if(h0 != hv) {
+        --ds[h0];
+        if(ds[h0] == 0 &amp;&amp; h0 &lt; gap) {
+          gap = h0;
+          hv = n;
+        } else if(hv == gap) {
+          ++gap;
+        }
+        if(hv &lt; n) ++ds[hv];
+      }
+
+      hs[v] = hv;
+      if(hv &lt; n) {
+        bs[hv].push_back(v);
+        if(cur &lt; hv) cur = hv;
+      } else {
+        active[v] = false;
+      }
+
+      if((++cnt) % n == 0) {
+        gap = bfs(t);
+      }
+    }
+    return fs[t];
+  }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "GRL_6_A: Network Flow - Maximum Flow": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3842777#1">source</a> (C++14, 0.00sec)</p>
+</li>
+<li>
+<p>AtCoder: "早稲田大学プログラミングコンテスト2019 - F問題: RPG": <a href="https://atcoder.jp/contests/wupc2019/submissions/7298482">source</a> (C++14, 2ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Push%E2%80%93relabel_maximum_flow_algorithm">Push–relabel maximum flow algorithm - Wikipedia</a></p>
+</li>
+<li>
+<p><a href="http://www.prefield.com/algorithm/graph/goldberg_tarjan.html">最大流 (Goldberg-Tarjan) - Spaghetti Source</a></p>
+</li>
+<li>
+<p><a href="https://qiita.com/nariaki3551/items/65baee3c6ef0a6ffa136">Preflow Push-Relabel (プリフロープッシュリラベル) アルゴリズム 改良 - Qiita</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>

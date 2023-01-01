@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Range Minimum Query (セグメント木) - yaketake08's 実装メモ</title>
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/github.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<meta name="description" content="Range Minimum Query (RMQ) 概要 以下のクエリが処理できるセグメント木の実装 \(a_i\) の値を \(x\) に更新 \(a_l, a_{l+1}, ..., a_{r-...">
+<meta property="og:title" content="Range Minimum Query (セグメント木) - yaketake08's 実装メモ">
+<meta property="og:description" content="Range Minimum Query (セグメント木)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tjkendev.github.io/procon-library/python/range_query/rmq_segment_tree.html">
+<meta property="og:image" content="https://github.com/tjkendev.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@jken_ull">
+<meta name="google-site-verification" content="vnMr3y5llPKrjPUEjJ0t9Q1RF6WzZoiwKjeL2VUyDhM">
+<link rel="stylesheet" href="https://tjkendev.github.io/procon-library/static/stylesheet/custom.css">
+<link rel="canonical" href="https://tjkendev.github.io/procon-library/python/range_query/rmq_segment_tree.html">
+</head>
+<body class="article">
+<div id="header">
+<h1>Range Minimum Query (セグメント木)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Range Minimum Query (RMQ)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_概要">概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下のクエリが処理できるセグメント木の実装</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(a_i\) の値を \(x\) に更新</p>
+</li>
+<li>
+<p>\(a_l, a_{l+1}, ..., a_{r-1}\) の最小値を求める</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>セグメント木の最も基本的な形。</p>
+</div>
+<div class="sect2">
+<h3 id="_特殊ケース高速化">特殊ケース高速化</h3>
+<div class="paragraph">
+<p>以下のケースについては定数倍高速化ができる。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(a_i\) の値を求める</p>
+</li>
+<li>
+<p>prefix minimum: \(a_0, a_1, ..., a_{r-1}\) の最小値を求める</p>
+</li>
+<li>
+<p>suffix minimum: \(a_l, a_{l+1}, ..., a_{N-1}\) の最小値を求める</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>prefix/suffixの最小値は、BITベースで計算することで高速化できる。</p>
+</div>
+<div class="paragraph">
+<p>前計算では、 <a href="https://oeis.org/A000265">OEIS - A000265</a> と <a href="https://oeis.org/A322250">OEIS - A322250</a> をベースに計算する。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_計算量">計算量</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>更新: \(O(\log N)\)</p>
+</li>
+<li>
+<p>区間最小値: \(O(\log N)\)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実装">実装</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>再帰的なセグメント木計算は、Pythonでは遅い(場合によってはTLEする)ので、再帰しない形で計算している。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-0">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-0" data-lang="python"># N: 処理する区間の長さ
+N = ...
+
+N0 = 2**(N-1).bit_length()
+INF = 2**31-1
+data = [INF]*(2*N0)
+# a_k の値を x に更新
+def update(k, x):
+    k += N0-1
+    data[k] = x
+    while k &gt;= 0:
+        k = (k - 1) // 2
+        data[k] = min(data[2*k+1], data[2*k+2])
+# 区間[l, r)の最小値
+def query(l, r):
+    L = l + N0; R = r + N0
+    s = INF
+    while L &lt; R:
+        if R &amp; 1:
+            R -= 1
+            s = min(s, data[R-1])
+
+        if L &amp; 1:
+            s = min(s, data[L-1])
+            L += 1
+        L &gt;&gt;= 1; R &gt;&gt;= 1
+    return s</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_特殊ケース高速化_2">特殊ケース高速化</h3>
+<div class="paragraph">
+<p>前計算として \(O(N)\) の処理を行う。</p>
+</div>
+<div class="listingblock">
+<button type="button" class="copy-btn" data-clipboard-target=".code-idx-1">Copy to clipboard</button>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs code-idx-1" data-lang="python">N0 = 2**(N-1).bit_length()
+INF = 2**31-1
+data = [INF]*(2*N0)
+
+# 前計算
+I = []; J = []
+for x in range(N0, 2*N0+1):
+    y = (x // (x &amp; -x)) &gt;&gt; 1
+    I.append((y &lt;&lt; 1)-1 if y else 0)
+    J.append(y &lt;&lt; 1)
+J.reverse()
+
+# 従来のupdateと同じ
+def update(k, x):
+    k += N0
+    data[k-1] = x
+    while k &gt; 1:
+        k &gt;&gt;= 1
+        data[k-1] = min(data[2*k-1], data[2*k])
+
+# query [0, r)
+def lquery(r):
+    return min(map(data.__getitem__, __lquery(r)))
+def __lquery(r):
+    while r:
+        yield I[r]
+        r -= (r &amp; -r)
+
+# query [l, N0)
+def rquery(l):
+    return min(map(data.__getitem__, __rquery(l)))
+def __rquery(l):
+    r = N0 - l
+    while r:
+        yield J[r]
+        r -= (r &amp; -r)
+
+# query [k, k+1)
+def query1(k):
+    return data[k+N0-1]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verified">Verified</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AOJ: "DSL_2_A: Range Query - Range Minimum Query (RMQ)": <a href="https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3158592#1">source</a> (Python3, 1.22sec)</p>
+</li>
+<li>
+<p>AtCoder: "AtCoder Regular Contest 026 - C問題: 蛍光灯": <a href="https://atcoder.jp/contests/arc026/submissions/3917069">source</a> (Python3, 1914ms)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">参考</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://komiyam.hatenadiary.org/entry/20131202/1385992406">Segment Treeをちょっと高速化したい - komiyamの日記</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect1"><p><a href="../index.html">戻る</a></p></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script type="text/javascript" src="https://tjkendev.github.io/procon-library/static/js/main.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+</body>
+</html>
