@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: tjkendev/procon-library
-          ref: add-gh-action
+          ref: master
           fetch-depth: 0
           ssh-key: ${{ secrets.REPO_SSH_KEY_TO_DEPLOY }}
 
