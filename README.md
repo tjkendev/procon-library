@@ -10,7 +10,7 @@
 
 ### 依存
 
-* Ruby 2.7.3
+* Ruby 3.2.1
 * [Asciidoctor](https://github.com/asciidoctor/asciidoctor)
 
 ### 準備
