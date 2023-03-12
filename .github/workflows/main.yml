@@ -19,7 +19,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         with:
+          repository: tjkendev/procon-library
+          ref: add-gh-action
           fetch-depth: 0
+          ssh-key: ${{ secrets.REPO_SSH_KEY_TO_DEPLOY }}
 
       # Setup Ruby
       - uses: ruby/setup-ruby@v1
