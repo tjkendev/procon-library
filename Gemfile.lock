@@ -1,18 +1,18 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.8.4)
-      public_suffix (>= 2.0.2, < 6.0)
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
     asciidoctor (2.0.17)
-    mini_portile2 (2.8.1)
-    nokogiri (1.14.3)
-      mini_portile2 (~> 2.8.0)
+    mini_portile2 (2.8.7)
+    nokogiri (1.16.6)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     opengraph_parser (0.2.5)
       addressable
       nokogiri
-    public_suffix (5.0.1)
-    racc (1.6.2)
+    public_suffix (6.0.0)
+    racc (1.8.0)
 
 PLATFORMS
   ruby

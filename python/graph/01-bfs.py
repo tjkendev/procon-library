@@ -8,7 +8,7 @@ def bfs01(N, G, s):
     S = deque([s])
     T = deque()
     dist[s] = 0
-    
+
     d = 0
     while S:
         while S:
